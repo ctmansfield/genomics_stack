@@ -1,11 +1,10 @@
 #!/usr/bin/env bash
-# shellcheck shell=bash
+# Pair-aware Top-N report (risk_hits first, VEP fallback)
 set -euo pipefail
 
-# Usage: genomicsctl.sh report-top <upload_id> [N]
 cmd_report_top() {
   local u="${1:-}"; local n="${2:-10}"
-  [[ -n "$u" ]] || { echo "usage: genomicsctl.sh report-top <upload_id> [N]"; exit 2; }
+  [[ -n "$u" ]] || { echo "usage: report-top <upload_id> [N]"; exit 2; }
 
   local ROOT=${ROOT:-/root/genomics-stack}
   local COMPOSE_FILE="$ROOT/compose.yml"; [[ -f "$ROOT/docker-compose.yml" ]] && COMPOSE_FILE="$ROOT/docker-compose.yml"
@@ -16,6 +15,7 @@ cmd_report_top() {
 
   mkdir -p "$DIR"
 
+  # Compose the SQL (variables ${u} and ${n} expand here in bash)
   read -r -d '' SQL <<SQL
 WITH
 risk AS (
@@ -25,6 +25,7 @@ risk AS (
     g.symbol,
     r.short_title AS title,
     h.zygosity,
+    NULL::text AS consequence,
     NULL::text AS impact,
     r.weight::text AS weight,
     h.score::text  AS score,
@@ -43,6 +44,7 @@ vep_pick AS (
          NULLIF(j.symbol,'') AS symbol,
          j.consequence AS title,
          NULL::text AS zygosity,
+         j.consequence,
          j.impact,
          NULL::text AS weight,
          NULL::text AS score,
@@ -65,17 +67,26 @@ ranked AS (
   SELECT u.*, ROW_NUMBER() OVER (ORDER BY rank_score DESC NULLS LAST, symbol NULLS LAST, rsid) AS rn
   FROM unioned u
 ),
-topn AS ( SELECT * FROM ranked WHERE rn <= ${n} ),
-present_syms AS ( SELECT DISTINCT symbol FROM topn WHERE symbol IS NOT NULL AND symbol <> '' ),
+topn AS (
+  SELECT * FROM ranked WHERE rn <= ${n}
+),
+present_syms AS (
+  SELECT DISTINCT symbol FROM topn WHERE symbol IS NOT NULL AND symbol <> ''
+),
+sym2gene AS (
+  SELECT g.gene_id, g.symbol FROM public.genes g
+),
+t_with_gid AS (
+  SELECT t.*, s2g.gene_id
+  FROM topn t
+  LEFT JOIN sym2gene s2g ON s2g.symbol = t.symbol
+),
 row_pairs AS (
   SELECT
     t.rn,
     t.symbol,
-    string_agg(
-      DISTINCT CASE WHEN gp.symbol_a = t.symbol THEN gp.symbol_b ELSE gp.symbol_a END,
-      ', ' ORDER BY CASE WHEN gp.symbol_a = t.symbol THEN gp.symbol_b ELSE gp.symbol_a END
-    ) AS paired_with
-  FROM topn t
+    string_agg(DISTINCT CASE WHEN gp.symbol_a = t.symbol THEN gp.symbol_b ELSE gp.symbol_a END, ', ' ORDER BY CASE WHEN gp.symbol_a = t.symbol THEN gp.symbol_b ELSE gp.symbol_a END) AS paired_with
+  FROM t_with_gid t
   JOIN public.gene_pairs_named gp
     ON (gp.symbol_a = t.symbol OR gp.symbol_b = t.symbol)
   JOIN present_syms ps
@@ -91,10 +102,9 @@ clustered AS (
       t.rsid
     ) AS cluster_key,
     p.paired_with
-  FROM topn t
+  FROM t_with_gid t
   LEFT JOIN row_pairs p ON p.rn = t.rn
 )
-
 SELECT
   src,
   COALESCE(rsid,'-')        AS rsid,
@@ -113,13 +123,13 @@ SQL
   echo "[+] Building Top-${n} for upload_id=${u}"
   {
     echo -e "src\trsid\tsymbol\ttitle\tzygosity\timpact\tscore\tweight\tpaired_with\tnotes"
-    docker compose -f "$COMPOSE_FILE" exec -T db \
-      psql -U genouser -d genomics -At -F $'\t' -v ON_ERROR_STOP=1 -c "$SQL"
+    docker compose -f "$COMPOSE_FILE" exec -T db           psql -U genouser -d genomics -At -F $'\t' -v ON_ERROR_STOP=1 -c "$SQL"
   } > "$TSV"
 
+  # HTML render
   awk -v title="Top ${n} (upload ${u})" 'BEGIN{
     print "<!doctype html><meta charset=utf-8><title>" title "</title>";
-    print "<style>body{font:14px system-ui,Segoe UI,Roboto,Arial;margin:20px} table{border-collapse:collapse;width:100%} th,td{border:1px solid #ccc;padding:6px;} th{background:#f6f6f6;text-align:left} td:nth-child(4){max-width:420px} code{background:#f0f0f0;padding:1px 3px;border-radius:3px}</style>";
+    print "<style>body{font:14px sans-serif;margin:20px} table{border-collapse:collapse;width:100%} th,td{border:1px solid #ccc;padding:6px;} th{background:#f6f6f6;text-align:left}</style>";
     print "<h2>" title "</h2><table><thead><tr>"
   }
   NR==1{
@@ -136,4 +146,13 @@ SQL
   echo "[ok] HTML: $HTML"
 }
 
-register_task "report-top" "Build Top-N report (risk-first; VEP fallback; pair-aware)" "cmd_report_top"
+# If executed directly, allow standalone run:
+if [[ "${BASH_SOURCE[0]}" == "$0" ]]; then
+  cmd_report_top "${1:-}" "${2:-10}"
+  exit $?
+fi
+
+# If sourced by a task runner that provides register_task, register the command
+if declare -F register_task >/dev/null 2>&1; then
+  register_task "report-top" "Build Top-N report (risk-first; VEP fallback; pair-aware)" "cmd_report_top"
+fi

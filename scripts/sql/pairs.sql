@@ -1,6 +1,5 @@
 BEGIN;
 
--- Base tables (create if missing)
 CREATE TABLE IF NOT EXISTS public.gene_pairs (
   pair_id   serial PRIMARY KEY,
   gene_id_a int NOT NULL REFERENCES public.genes(gene_id),
@@ -19,38 +18,27 @@ CREATE TABLE IF NOT EXISTS public.variant_pairs (
   CONSTRAINT vp_distinct CHECK (variant_id_a <> variant_id_b)
 );
 
--- Add normalized generated columns + true UNIQUE constraints (idempotent)
+-- normalized generated columns for stable uniqueness
 ALTER TABLE public.gene_pairs
   ADD COLUMN IF NOT EXISTS pair_lo int GENERATED ALWAYS AS (LEAST(gene_id_a,gene_id_b)) STORED,
   ADD COLUMN IF NOT EXISTS pair_hi int GENERATED ALWAYS AS (GREATEST(gene_id_a,gene_id_b)) STORED;
-
-DO $$BEGIN
-  IF NOT EXISTS (
-    SELECT 1 FROM pg_constraint
-    WHERE conname='uq_gene_pairs_pair'
-      AND conrelid='public.gene_pairs'::regclass
-  ) THEN
-    ALTER TABLE public.gene_pairs
-      ADD CONSTRAINT uq_gene_pairs_pair UNIQUE (pair_lo, pair_hi);
-  END IF;
-END$$;
 
 ALTER TABLE public.variant_pairs
   ADD COLUMN IF NOT EXISTS vpair_lo int GENERATED ALWAYS AS (LEAST(variant_id_a,variant_id_b)) STORED,
   ADD COLUMN IF NOT EXISTS vpair_hi int GENERATED ALWAYS AS (GREATEST(variant_id_a,variant_id_b)) STORED;
 
-DO $$BEGIN
-  IF NOT EXISTS (
-    SELECT 1 FROM pg_constraint
-    WHERE conname='uq_variant_pairs_pair'
-      AND conrelid='public.variant_pairs'::regclass
-  ) THEN
-    ALTER TABLE public.variant_pairs
-      ADD CONSTRAINT uq_variant_pairs_pair UNIQUE (vpair_lo, vpair_hi);
+-- unique indexes if missing
+DO $$
+BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_indexes WHERE schemaname='public' AND indexname='uq_gene_pairs_set') THEN
+    EXECUTE 'CREATE UNIQUE INDEX uq_gene_pairs_set ON public.gene_pairs(pair_lo, pair_hi)';
+  END IF;
+  IF NOT EXISTS (SELECT 1 FROM pg_indexes WHERE schemaname='public' AND indexname='uq_variant_pairs_set') THEN
+    EXECUTE 'CREATE UNIQUE INDEX uq_variant_pairs_set ON public.variant_pairs(vpair_lo, vpair_hi)';
   END IF;
 END$$;
 
--- Named helper views (safe recreate)
+-- helper views
 CREATE OR REPLACE VIEW public.gene_pairs_named AS
 SELECT
   gp.pair_id, gp.link_type, gp.note,
