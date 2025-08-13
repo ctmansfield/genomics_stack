@@ -29,14 +29,27 @@ SQL
   dc exec -T "$(pg_svc)" psql -U "$(pg_user)" -d "$(pg_db)" \
     -c "DELETE FROM anno.vep_tsv WHERE upload_id=$upload_id" >/dev/null
 
-  say "[+] Loading TSV → anno.vep_tsv"
-  # Strip CR, drop comments (##), skip the single header row, and prepend upload_id
-  sed 's/\r$//' "$tsv" | \
-  awk -v id="$upload_id" 'BEGIN{FS=OFS="\t"} /^#/ {next} header==0 {header=1; next} {print id, $0}' | \
-  dc exec -T "$(pg_svc)" psql -U "$(pg_user)" -d "$(pg_db)" -v ON_ERROR_STOP=1 -c \
-    "COPY anno.vep_tsv(upload_id,location,allele,gene,symbol,feature,consequence,impact,biotype,existing_variation,clin_sig,af,gnomadg_af,polyphen,sift,hgvsc,hgvsp) FROM STDIN WITH (FORMAT text, DELIMITER E'\t')"
+  local cleaned="$reports/upload_${upload_id}/anno/upload_${upload_id}.vep.cleaned.tsv"
+  say "[+] Preparing cleaned rows → $cleaned"
+  # Drop all '#' lines (comments + header), strip CR, prepend upload_id
+  grep -v '^#' "$tsv" \
+  | sed 's/\r$//' \
+  | awk -v id="$upload_id" 'BEGIN{FS=OFS="\t"} NF{print id, $0}' \
+  | tee "$cleaned" >/dev/null
 
-  ok "Imported VEP rows for upload_id=$upload_id"
+  local nrows; nrows=$(wc -l < "$cleaned" | tr -d ' ')
+  ok "Cleaned rows: $nrows"
+  if [[ "$nrows" -eq 0 ]]; then
+    warn "No data rows found in VEP TSV after dropping header/comments. Nothing to import."
+    return 0
+  fi
+
+  say "[+] COPY → anno.vep_tsv"
+  dc exec -T "$(pg_svc)" psql -U "$(pg_user)" -d "$(pg_db)" -v ON_ERROR_STOP=1 -c \
+    "COPY anno.vep_tsv(upload_id,location,allele,gene,symbol,feature,consequence,impact,biotype,existing_variation,clin_sig,af,gnomadg_af,polyphen,sift,hgvsc,hgvsp) FROM STDIN WITH (FORMAT text, DELIMITER E'\t')" \
+    < "$cleaned"
+
+  ok "Imported $nrows rows for upload_id=$upload_id"
 }
 
 register_task "anno-vep-import" "Import VEP TSV into Postgres (anno.vep_tsv)" "cmd_anno_vep_import"

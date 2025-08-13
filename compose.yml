@@ -102,6 +102,21 @@ services:
     ports:
       - "5050:80"
 
+  ollama:
+    image: ollama/ollama:latest
+    container_name: genomics-ollama
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:11434:11434"
+    volumes:
+      - /mnt/nas_storage/genomics-stack/ollama:/root/.ollama
+    # GPU (optional): uncomment if you have NVIDIA drivers + nvidia-container-runtime
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - capabilities: [gpu]
+
 networks:
   default:
     name: genomics-stack_default
