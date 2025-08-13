@@ -25,7 +25,6 @@ risk AS (
     g.symbol,
     r.short_title AS title,
     h.zygosity,
-    NULL::text AS consequence,
     NULL::text AS impact,
     r.weight::text AS weight,
     h.score::text  AS score,
@@ -44,7 +43,6 @@ vep_pick AS (
          NULLIF(j.symbol,'') AS symbol,
          j.consequence AS title,
          NULL::text AS zygosity,
-         j.consequence,
          j.impact,
          NULL::text AS weight,
          NULL::text AS score,
@@ -63,44 +61,27 @@ unioned AS (
   UNION ALL
   SELECT * FROM vep_pick
 ),
--- Take the top N by rank first; we'll compute pairing info against the whole union for this upload
 ranked AS (
   SELECT u.*, ROW_NUMBER() OVER (ORDER BY rank_score DESC NULLS LAST, symbol NULLS LAST, rsid) AS rn
   FROM unioned u
 ),
-topn AS (
-  SELECT * FROM ranked WHERE rn <= ${n}
-),
--- Symbols present anywhere in union (to detect if partner also appears in this Top-N result)
-present_syms AS (
-  SELECT DISTINCT symbol FROM topn WHERE symbol IS NOT NULL AND symbol <> ''
-),
--- Map symbols to gene_ids for pairing joins
-sym2gene AS (
-  SELECT g.gene_id, g.symbol FROM public.genes g
-),
--- For each top row, find its gene_id (if any)
-t_with_gid AS (
-  SELECT t.*, s2g.gene_id
-  FROM topn t
-  LEFT JOIN sym2gene s2g ON s2g.symbol = t.symbol
-),
--- Find partner symbols for those rows using gene_pairs, but only if the partner symbol is also present in the Top-N set
+topn AS ( SELECT * FROM ranked WHERE rn <= ${n} ),
+present_syms AS ( SELECT DISTINCT symbol FROM topn WHERE symbol IS NOT NULL AND symbol <> '' ),
 row_pairs AS (
   SELECT
     t.rn,
     t.symbol,
-    string_agg(DISTINCT CASE WHEN gp.symbol_a = t.symbol THEN gp.symbol_b ELSE gp.symbol_a END, ', ' ORDER BY CASE WHEN gp.symbol_a = t.symbol THEN gp.symbol_b ELSE gp.symbol_a END) AS paired_with
-  FROM t_with_gid t
+    string_agg(
+      DISTINCT CASE WHEN gp.symbol_a = t.symbol THEN gp.symbol_b ELSE gp.symbol_a END,
+      ', ' ORDER BY CASE WHEN gp.symbol_a = t.symbol THEN gp.symbol_b ELSE gp.symbol_a END
+    ) AS paired_with
+  FROM topn t
   JOIN public.gene_pairs_named gp
     ON (gp.symbol_a = t.symbol OR gp.symbol_b = t.symbol)
   JOIN present_syms ps
     ON ps.symbol = CASE WHEN gp.symbol_a = t.symbol THEN gp.symbol_b ELSE gp.symbol_a END
   GROUP BY t.rn, t.symbol
 ),
--- Choose a cluster key to group partnered genes adjacent:
--- if a row has a partner in Top-N, cluster by the alphabetically-first of (self,partner);
--- else use its own symbol/rsid.
 clustered AS (
   SELECT
     t.*,
@@ -110,20 +91,21 @@ clustered AS (
       t.rsid
     ) AS cluster_key,
     p.paired_with
-  FROM t_with_gid t
+  FROM topn t
   LEFT JOIN row_pairs p ON p.rn = t.rn
 )
+
 SELECT
   src,
-  COALESCE(rsid,'-')       AS rsid,
-  COALESCE(symbol,'-')     AS symbol,
-  COALESCE(title,'-')      AS title,
-  COALESCE(zygosity,'-')   AS zygosity,
-  COALESCE(impact,'-')     AS impact,
-  COALESCE(score,'-')      AS score,
-  COALESCE(weight,'-')     AS weight,
+  COALESCE(rsid,'-')        AS rsid,
+  COALESCE(symbol,'-')      AS symbol,
+  COALESCE(title,'-')       AS title,
+  COALESCE(zygosity,'-')    AS zygosity,
+  COALESCE(impact,'-')      AS impact,
+  COALESCE(score,'-')       AS score,
+  COALESCE(weight,'-')      AS weight,
   COALESCE(paired_with,'-') AS paired_with,
-  COALESCE(notes,'-')      AS notes
+  COALESCE(notes,'-')       AS notes
 FROM clustered
 ORDER BY cluster_key NULLS LAST, rank_score DESC NULLS LAST, symbol NULLS LAST, rsid;
 SQL
@@ -135,10 +117,9 @@ SQL
       psql -U genouser -d genomics -At -F $'\t' -v ON_ERROR_STOP=1 -c "$SQL"
   } > "$TSV"
 
-  # HTML
   awk -v title="Top ${n} (upload ${u})" 'BEGIN{
     print "<!doctype html><meta charset=utf-8><title>" title "</title>";
-    print "<style>body{font:14px sans-serif;margin:20px} table{border-collapse:collapse;width:100%} th,td{border:1px solid #ccc;padding:6px;} th{background:#f6f6f6;text-align:left}</style>";
+    print "<style>body{font:14px system-ui,Segoe UI,Roboto,Arial;margin:20px} table{border-collapse:collapse;width:100%} th,td{border:1px solid #ccc;padding:6px;} th{background:#f6f6f6;text-align:left} td:nth-child(4){max-width:420px} code{background:#f0f0f0;padding:1px 3px;border-radius:3px}</style>";
     print "<h2>" title "</h2><table><thead><tr>"
   }
   NR==1{
