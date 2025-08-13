@@ -1,0 +1,28 @@
+# env & secrets
+.env
+.env.local
+*.env
+
+# runtime artifacts
+/mnt/*
+/tmp/*
+reports/
+/mnt/nas_storage/genomics-stack/uploads/
+/mnt/nas_storage/genomics-stack/reports/
+/mnt/nas_storage/genomics-stack/backups/
+/mnt/nas_storage/genomics-stack/vep_cache/
+
+# docker + build
+*.log
+*.pid
+node_modules/
+dist/
+build/
+*.cache
+__pycache__/
+*.pyc
+
+# editor/OS
+.DS_Store
+.idea/
+.vscode/
