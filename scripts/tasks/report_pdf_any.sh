@@ -2,42 +2,26 @@
 # shellcheck shell=bash
 set -euo pipefail
 
-ROOT=${ROOT:-/root/genomics-stack}
-REPORTS_DIR=${REPORTS_DIR:-/mnt/nas_storage/genomics-stack/reports}
-
-die(){ echo "[error] $*" >&2; exit 1; }
-
 cmd_report_pdf_any(){
-  local upload="${1:-}"; local html="${2:-}"
-  [[ -n "$upload" ]] || die "usage: genomicsctl.sh report-pdf-any <upload_id> [html_path]"
-  local dir="$REPORTS_DIR/upload_${upload}"
-  [[ -d "$dir" ]] || die "no report dir: $dir"
+  local upload="${1:-}"; [[ -n "$upload" ]] || { echo "usage: genomicsctl.sh report-pdf-any <upload_id>"; exit 2; }
+  local ROOT=${ROOT:-/root/genomics-stack}
+  local REPORTS_DIR=${REPORTS_DIR:-/mnt/nas_storage/genomics-stack/reports}
+  local DIR="$REPORTS_DIR/upload_${upload}"
 
+  # pick the highest-N top*.html if not provided env FILE
+  local html="${FILE:-}"
   if [[ -z "$html" ]]; then
-    html=$(ls -1t "$dir"/top*.html 2>/dev/null | head -n1 || true)
-    [[ -n "$html" ]] || die "no top*.html found in $dir"
+    html=$(ls -1t "$DIR"/top*.html 2>/dev/null | sort -V | tail -n1 || true)
   fi
-  [[ -f "$html" ]] || die "not found: $html"
+  [[ -n "$html" && -f "$html" ]] || { echo "[error] no top*.html found in $DIR"; exit 3; }
 
-  local base="$(basename "$html" .html)"
-  local pdf="$dir/${base}.pdf"
+  local pdf="${html%.html}.pdf"
 
   echo "[+] Rendering $html → $pdf"
-  docker run --rm -v "$dir":/data --shm-size=256m \
-    zenika/alpine-chrome:125 \
-    --no-sandbox --headless --disable-gpu --print-to-pdf="/data/$(basename "$pdf")" \
-    "file:///data/$(basename "$html")" >/dev/null 2>&1 || true
+  docker run --rm -v "$DIR":/data zenika/alpine-chrome:124 \
+     --no-sandbox --headless --disable-gpu --print-to-pdf=/data/$(basename "$pdf") file:///data/$(basename "$html")
 
-  if [[ -s "$pdf" ]]; then
-    echo "[ok] PDF: $pdf"
-  else
-    echo "[warn] Chrome print produced empty file; trying wkhtmltopdf fallback"
-    docker run --rm -v "$dir":/data sosign/wkhtmltopdf wkhtmltopdf \
-      "/data/$(basename "$html")" "/data/$(basename "$pdf")"
-    [[ -s "$pdf" ]] && echo "[ok] PDF (wkhtmltopdf): $pdf" || die "PDF failed"
-  fi
+  echo "[ok] PDF: $pdf"
 }
 
-register_task "report-pdf-any" "Render a specific report HTML to PDF" "cmd_report_pdf_any" \
-"Usage: genomicsctl.sh report-pdf-any <upload_id> [html_path]
-If html_path omitted, uses newest top*.html in the upload folder."
+register_task "report-pdf-any" "Render latest top*.html to PDF" "cmd_report_pdf_any"
