@@ -1,0 +1,165 @@
+name: genomics-stack
+services:
+  db:
+    environment:
+      POSTGRES_DB: genomics
+      POSTGRES_PASSWORD: a257272733aa65612215928f75083ae9621e9e3876b15f5e
+      POSTGRES_USER: genouser
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - pg_isready -U genouser -d genomics
+      timeout: 5s
+      interval: 10s
+      retries: 10
+    image: postgres:16
+    networks:
+      default: null
+    ports:
+      - mode: ingress
+        target: 5432
+        published: "5433"
+        protocol: tcp
+    restart: unless-stopped
+    volumes:
+      - type: bind
+        source: /mnt/nas_storage/genomics-stack/db_data
+        target: /var/lib/postgresql/data
+        bind:
+          create_host_path: true
+      - type: bind
+        source: /mnt/nas_storage/genomics-stack/init
+        target: /docker-entrypoint-initdb.d
+        read_only: true
+        bind:
+          create_host_path: true
+  hasura:
+    depends_on:
+      db:
+        condition: service_healthy
+        required: true
+    environment:
+      HASURA_GRAPHQL_ADMIN_SECRET: 43cbe604478f431c858691e4e990ac77d88cf828ed0d7789743af5d3c0cfc19e
+      HASURA_GRAPHQL_DATABASE_URL: postgres://genouser:a257272733aa65612215928f75083ae9621e9e3876b15f5e@db:5432/genomics
+      HASURA_GRAPHQL_ENABLE_CONSOLE: "true"
+      HASURA_GRAPHQL_JWT_SECRET: '{"type":"HS256","key":"63895fa42a2c7dabf39e423ac99be6ee280f1a44755f267d4e6fbf309e58e8912c9c59f9496b7e7d13b2bceab0d81a71a5fa936e7f4de74fe667b392c5d0147b"}'
+      HASURA_GRAPHQL_UNAUTHORIZED_ROLE: public
+    image: hasura/graphql-engine:v2.40.0
+    networks:
+      default: null
+    ports:
+      - mode: ingress
+        target: 8080
+        published: "8080"
+        protocol: tcp
+    restart: unless-stopped
+    volumes:
+      - type: bind
+        source: /mnt/nas_storage/genomics-stack/hasura_metadata
+        target: /hasura-metadata
+        bind:
+          create_host_path: true
+  ingest:
+    build:
+      context: /root/genomics-stack/ingest
+      dockerfile: Dockerfile
+    depends_on:
+      db:
+        condition: service_healthy
+        required: true
+    environment:
+      DATA_DIR: /data
+      MAX_UPLOAD_BYTES: "2147483648"
+      PGDATABASE: genomics
+      PGHOST: db
+      PGPASSWORD: a257272733aa65612215928f75083ae9621e9e3876b15f5e
+      PGPORT: "5432"
+      PGUSER: genouser
+      UPLOAD_TOKEN: d318d87d7904e2228ac837ce15f4bc912e32d4124f78a9b1
+    networks:
+      default: null
+    ports:
+      - mode: ingress
+        target: 8090
+        published: "8090"
+        protocol: tcp
+    restart: unless-stopped
+    volumes:
+      - type: bind
+        source: /mnt/nas_storage/genomics-stack/uploads
+        target: /data
+        bind:
+          create_host_path: true
+  ingest_worker:
+    build:
+      context: /root/genomics-stack/ingest_worker
+      dockerfile: Dockerfile
+    depends_on:
+      db:
+        condition: service_healthy
+        required: true
+    environment:
+      DATA_DIR: /data
+      PGDATABASE: genomics
+      PGHOST: db
+      PGPASSWORD: a257272733aa65612215928f75083ae9621e9e3876b15f5e
+      PGPORT: "5432"
+      PGUSER: genouser
+      POLL_SEC: "3"
+    networks:
+      default: null
+    restart: unless-stopped
+    volumes:
+      - type: bind
+        source: /mnt/nas_storage/genomics-stack/uploads
+        target: /data
+        bind:
+          create_host_path: true
+  metabase:
+    depends_on:
+      db:
+        condition: service_healthy
+        required: true
+    environment:
+      MB_DB_FILE: /metabase-data/metabase.db
+    image: metabase/metabase:latest
+    networks:
+      default: null
+    ports:
+      - mode: ingress
+        target: 3000
+        published: "3000"
+        protocol: tcp
+    restart: unless-stopped
+    volumes:
+      - type: bind
+        source: /mnt/nas_storage/genomics-stack/metabase_data
+        target: /metabase-data
+        bind:
+          create_host_path: true
+  pgadmin:
+    depends_on:
+      db:
+        condition: service_healthy
+        required: true
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@example.com
+      PGADMIN_DEFAULT_PASSWORD: 46320c64978c54511526d2ad
+    image: dpage/pgadmin4:8
+    networks:
+      default: null
+    ports:
+      - mode: ingress
+        target: 80
+        published: "5050"
+        protocol: tcp
+    restart: unless-stopped
+    volumes:
+      - type: bind
+        source: /mnt/nas_storage/genomics-stack/pgadmin_data
+        target: /var/lib/pgadmin
+        bind:
+          create_host_path: true
+networks:
+  default:
+    name: genomics-stack_default

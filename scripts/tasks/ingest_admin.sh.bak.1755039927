@@ -1,0 +1,81 @@
+# Ensure common helpers are loaded even if invoked standalone
+# shellcheck disable=SC1090
+COMMON="$(cd "$(dirname "${BASH_SOURCE[0]}")"/.. && pwd)/lib/common.sh"
+[ -r "$COMMON" ] && . "$COMMON"
+
+psql_db() {
+  # Wrapper for psql inside db container, with ON_ERROR_STOP
+  dc exec -T db psql -v ON_ERROR_STOP=1 -U "$PGUSER" -d "$PGDB" "$@"
+}
+
+task_upload_soft_delete() {
+  local id="${1:-}"
+  if [ -z "$id" ]; then
+    read -r -p "Upload ID to SOFT delete: " id
+  fi
+  [ -n "$id" ] || { err "No ID provided"; return 2; }
+
+  # Show a quick preview
+  say "Preview:"
+  psql_db -v "id=$id" -c "select id, original_name, user_email, status, left(coalesce(notes,''),120) notes from uploads where id = :'id';"
+
+  confirm_or_exit "Soft delete upload $id (clear staged rows, keep uploads row)?"
+
+  say "Deleting staged rows and marking uploads.status='deleted'..."
+  psql_db -v "id=$id" -c "
+    begin;
+      delete from staging_array_calls where upload_id = :'id';
+      update uploads
+         set status = 'deleted',
+             notes  = coalesce(notes,'') || format(' soft_deleted_at=%s;', now())
+       where id = :'id';
+    commit;
+  "
+
+  ok "Soft delete done."
+  psql_db -v "id=$id" -c "
+    select u.id, u.original_name, u.status,
+           left(coalesce(u.notes,''),120) notes,
+           (select count(*) from staging_array_calls where upload_id=:'id') as staged_rows
+      from uploads u
+     where u.id = :'id';
+  "
+}
+
+task_upload_hard_delete() {
+  local id="${1:-}"
+  if [ -z "$id" ]; then
+    read -r -p "Upload ID to HARD delete: " id
+  fi
+  [ -n "$id" ] || { err "No ID provided"; return 2; }
+
+  # Capture stored path (if the column exists in your schema)
+  local stored
+  stored="$(psql_db -At -v "id=$id" -c "select stored from uploads where id = :'id';" 2>/dev/null || true)"
+
+  say "Preview:"
+  psql_db -v "id=$id" -c "select id, original_name, user_email, status, left(coalesce(notes,''),120) notes from uploads where id = :'id';"
+  [ -n "$stored" ] && say "Stored file (container path): ${stored}"
+
+  confirm_or_exit "HARD delete upload $id (DB row + staged rows + file if known)?"
+
+  say "Removing staged rows + uploads row in one transaction..."
+  psql_db -v "id=$id" -c "
+    begin;
+      delete from staging_array_calls where upload_id = :'id';
+      delete from uploads where id = :'id';
+    commit;
+  "
+
+  if [ -n "$stored" ]; then
+    # Stored path is container path (/data/...), remove it from inside ingest container
+    say "Removing file inside ingest container: $stored"
+    dc exec -T ingest bash -lc "rm -f -- \"$stored\" || true"
+  fi
+
+  ok "Hard delete completed for ID=$id."
+}
+
+# Register tasks
+register_task "upload-soft-delete" "Soft delete a single upload" task_upload_soft_delete "Clears staging rows and marks upload as deleted."
+register_task "upload-hard-delete" "Hard delete a single upload (DB + file)" task_upload_hard_delete "Deletes staging rows, the upload row, and the stored file if tracked."

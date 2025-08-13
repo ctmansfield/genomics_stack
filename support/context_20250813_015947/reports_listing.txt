@@ -1,0 +1,4 @@
+/mnt/nas_storage/genomics-stack/reports/upload_2/hits.tsv	1 KB
+/mnt/nas_storage/genomics-stack/reports/upload_2/top5.html	5 KB
+/mnt/nas_storage/genomics-stack/reports/upload_2/top5.pdf	17 KB
+/mnt/nas_storage/genomics-stack/reports/upload_2/top5.tsv	5 KB

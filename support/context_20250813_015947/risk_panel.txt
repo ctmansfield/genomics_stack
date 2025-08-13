@@ -1,0 +1,11 @@
+  gene   |   rsid    | zygosity | risk_allele | weight 
+---------+-----------+----------+-------------+--------
+ F2      | rs1799963 | any      | A           |      2
+ F5      | rs6025    | any      | A           |      2
+ MTHFR   | rs1801131 | hom      | C           |      1
+ MTHFR   | rs1801131 | het      | C           |      1
+ MTHFR   | rs1801133 | het      | T           |      1
+ MTHFR   | rs1801133 | hom      | T           |      2
+ SLCO1B1 | rs4149056 | any      | C           |      1
+(7 rows)
+
