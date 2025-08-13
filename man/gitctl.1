@@ -1,0 +1,76 @@
+.TH gitctl 1 "August 2025" "genomics-stack" "User Commands"
+.SH NAME
+gitctl \- helper for git + release/backup/rollback tasks
+.SH SYNOPSIS
+.B bash scripts/dev/gitctl.sh
+[\fIcommand\fR] [options]
+.SH DESCRIPTION
+gitctl wraps common Git and archival tasks for the genomics-stack.
+It creates tagged release archives under the NAS backups directory,
+pushes/pulls to your local bare remote, and provides safe rollback helpers.
+.SH COMMANDS
+.TP
+.B status
+Show branch, ahead/behind, and working tree summary.
+.TP
+.B save
+Add and commit all changes. Use \fB-m\fR for a message.
+.TP
+.B push [REMOTE] [BRANCH]
+Push current branch (defaults: origin, current branch).
+.TP
+.B pull [REMOTE] [BRANCH]
+Pull with rebase (defaults: origin, current branch).
+.TP
+.B set-identity NAME EMAIL
+Set repo-local user.name and user.email.
+.TP
+.B set-remote URL|PATH
+Set origin to the given URL or local path.
+.TP
+.B release
+Create an annotated tag and archive to backups. Options:
+\fB-t\fR TAG, \fB-m\fR MSG, \fB-k\fR N (retain newest N),
+\fB--include-untracked\fR, \fB--dry-run\fR.
+.TP
+.B list-releases
+List archives newest first.
+.TP
+.B verify-release FILE.tgz
+Verify SHA256 checksum.
+.TP
+.B backup [NAME]
+Quick tar of working tree (no tag).
+.TP
+.B worktree TAG DIR
+Create a detached worktree at DIR to inspect a tag safely.
+.TP
+.B checkout TAG
+Checkout tag in-place (detached).
+.TP
+.B rollback REF
+Hard reset current branch to REF (asks for confirmation; makes safety tag).
+.TP
+.B extract FILE.tgz DIR
+Extract an archive to DIR (no .git).
+.TP
+.B doctor
+Normalize LF endings and perform basic script checks.
+.SH FILES
+.TP
+scripts/dev/gitctl.sh
+Main helper script.
+.TP
+docs/gitctl_guide.md
+Human-friendly guide.
+.TP
+/mnt/nas_storage/genomics-stack/backups
+Release/backup archive storage.
+.SH EXAMPLES
+.nf
+bash scripts/dev/gitctl.sh release -m "checkpoint" -k 10
+git push --tags origin
+bash scripts/dev/gitctl.sh worktree v0.1 /tmp/gstack_v0.1
+.fi
+.SH SEE ALSO
+git(1), tar(1), sha256sum(1)
