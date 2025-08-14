@@ -1,0 +1,58 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Wrapper to produce JSON (or HTML with --as-html) for report_render.py from a simple risk model.
+# It also writes a PDF alongside, using risk_reports/generate_risk_report.py (reportlab).
+
+REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")"/../../.. && pwd)"
+RR_DIR="$REPO_ROOT/risk_reports"
+MODEL="$RR_DIR/config/models/example_model.csv"
+GENO="$RR_DIR/samples/example_sample_genotypes.csv"
+OUT_DIR="${RR_DIR}/out"
+SAMPLE_ID="${SAMPLE_ID:-SAMPLE123}"
+PHENOTYPE="${PHENOTYPE_NAME:-Example Disease}"
+OUT_PDF="${OUT_DIR}/${SAMPLE_ID}_genetic_risk.pdf"
+
+mkdir -p "$OUT_DIR"
+
+# Ensure venv if present
+if [[ -d "$REPO_ROOT/.venv" ]]; then
+  source "$REPO_ROOT/.venv/bin/activate"
+fi
+
+# Generate PDF (direct) to ensure something verifiable exists
+python "$RR_DIR/generate_risk_report.py"   --sample-id "$SAMPLE_ID"   --genotypes-csv "$GENO"   --model-csv "$MODEL"   --phenotype-name "$PHENOTYPE"   --out-pdf "$OUT_PDF" >/dev/null
+
+# Minimal HTML body for renderer; keep self-contained
+HTML_BODY=$(cat <<'HTML'
+<h2>Genetic Risk — Research Use Only</h2>
+<p>This HTML is a light summary emitted by <code>GeneticRiskReport</code>. A full PDF has been generated separately.</p>
+<ul>
+<li><strong>Sample:</strong> ${SAMPLE_ID}</li>
+<li><strong>Phenotype:</strong> ${PHENOTYPE}</li>
+<li><strong>PDF:</strong> ${OUT_PDF}</li>
+</ul>
+<p>You can replace this template with a phenotype-specific one at <code>tools/report_templates/genetic_risk_template.html</code>.</p>
+HTML
+)
+
+# If the caller wants raw HTML (to bypass JSON), support --as-html
+if [[ "${1:-}" == "--as-html" ]]; then
+  # Expand env vars in HTML
+  eval "echo "$HTML_BODY""
+  exit 0
+fi
+
+# Otherwise emit JSON envelope expected by our shim (key: html)
+# NOTE: If your /mnt/nas_storage/tools/report_render.py expects a different JSON schema,
+# you can modify this envelope accordingly.
+JSON_PAYLOAD=$(python - <<'PY'
+import json, os
+html = os.environ["HTML_BODY"]
+for k in ("SAMPLE_ID","PHENOTYPE","OUT_PDF"):
+    html = html.replace("${%s}"%k, os.environ.get(k,""))
+print(json.dumps({"html": html}, ensure_ascii=False))
+PY
+)
+
+echo "$JSON_PAYLOAD"
