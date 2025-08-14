@@ -1,0 +1,6 @@
+rsid,effect_allele,weight
+rs1111,A,0.8
+rs2222,G,-0.5
+rs3333,T,0.3
+rs4444,C,1.2
+rs5555,A,-0.9
