@@ -4,3 +4,5 @@
 /root/genomics-stack/.github/workflows/release-docker.yml
 /root/genomics-stack/.github/workflows/ci.yml
 /root/genomics-stack/.github/workflows/release-docker.yml
+/root/genomics-stack/.github/workflows/ci.yml
+/root/genomics-stack/.github/workflows/release-docker.yml
