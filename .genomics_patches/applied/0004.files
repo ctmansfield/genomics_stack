@@ -1,0 +1,3 @@
+/root/genomics-stack/Dockerfile.app
+/root/genomics-stack/.dockerignore
+/root/genomics-stack/compose.override.yml
