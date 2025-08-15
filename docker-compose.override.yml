@@ -1,0 +1,12 @@
+services:
+  ingest_worker:
+    environment:
+      PGHOST: ${DB_HOST_SVC}
+      PGPORT: "${DB_PORT}"
+      PGDATABASE: ${DB_NAME}
+      PGUSER: ${DB_USER}
+      PGPASSWORD: ${DB_PASS}
+      DATABASE_URL: postgres://${DB_USER}:${DB_PASS}@${DB_HOST_SVC}:${DB_PORT}/${DB_NAME}
+    depends_on:
+      db:
+        condition: service_started
