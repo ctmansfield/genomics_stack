@@ -1,155 +1,49 @@
 #!/usr/bin/env bash
-# genomicsctl.sh — helper for ingestion & DB ops
-# minimal deps: bash, psql, docker, docker compose
-
 set -euo pipefail
 
-# --------- CONFIG (edit to taste or set via env) ---------
+# ---------- Config ----------
+# Default DB URL; override with HDB env var if you like
+DB_URL_DEFAULT="postgresql://genouser:${PGPASSWORD:-a257272733aa65612215928f75083ae9621e9e3876b15f5e}@localhost:5433/genomics"
+HDB="${HDB:-${HASURA_DB_URL_HOST:-$DB_URL_DEFAULT}}"
+
+# Container names (override via env if different)
 STACK_DIR="${STACK_DIR:-/root/genomics-stack}"
-COMPOSE_FILE="${COMPOSE_FILE:-$STACK_DIR/compose.yml}"
-OVERRIDE_FILE="${OVERRIDE_FILE:-$STACK_DIR/docker-compose.override.yml}"
+WORKER_NAME="${WORKER_NAME:-genomics-stack-ingest_worker-1}"
+DB_SERVICE="${DB_SERVICE:-genomics-stack-db-1}"
 
-# Portal DB (Hasura/ingest use this)
-DB_HOST_SVC="${DB_HOST_SVC:-db}"
-DB_PORT="${DB_PORT:-5432}"
-DB_USER="${DB_USER:-genouser}"
-DB_PASS="${DB_PASS:-a257272733aa65612215928f75083ae9621e9e3876b15f5e}"
-DB_NAME="${DB_NAME:-genomics}"
+# ---------- Helpers ----------
+_pa() { psql "$HDB" -v ON_ERROR_STOP=1 "$@"; }
+prompt() { local p="$1"; read -rp "$p" REPLY || true; echo "${REPLY:-}"; }
 
-# Host URL for psql (5433 on host published to container’s 5432)
-HDB="${HDB:-postgresql://${DB_USER}:${DB_PASS}@localhost:5433/${DB_NAME}}"
+die() { echo "ERROR: $*" >&2; exit 1; }
 
-# Container names (auto-detect if not set)
-HASURA_CTN="${HASURA_CTN:-genomics-stack-hasura-1}"
-WORKER_CTN="${WORKER_CTN:-genomics-stack-ingest_worker-1}"
-DB_CTN="${DB_CTN:-genomics-stack-db-1}"
-
-# ---------------------------------------------------------
-
-confirm() {
-  read -rp "$1 [y/N]: " _ans
-  [[ "${_ans:-}" =~ ^[Yy]$ ]]
+need_psql() {
+  command -v psql >/dev/null 2>&1 || die "psql not found on host"
 }
 
-need() {
-  command -v "$1" >/dev/null 2>&1 || { echo "missing dependency: $1"; exit 1; }
-}
-
-psqlh() { PGPASSWORD="$DB_PASS" psql -X -v ON_ERROR_STOP=1 "$HDB" "$@"; }
-
-detect_worker() {
-  if docker ps --format '{{.Names}}' | grep -q ingest_worker; then
-    WORKER_CTN="$(docker ps --format '{{.Names}}' | grep -m1 ingest_worker || true)"
-  fi
-}
-
-write_override() {
-  mkdir -p "$STACK_DIR"
-  cat >"$OVERRIDE_FILE" <<YAML
-services:
-  ingest_worker:
-    environment:
-      PGHOST: ${DB_HOST_SVC}
-      PGPORT: "${DB_PORT}"
-      PGDATABASE: ${DB_NAME}
-      PGUSER: ${DB_USER}
-      PGPASSWORD: ${DB_PASS}
-      DATABASE_URL: postgres://${DB_USER}:${DB_PASS}@${DB_HOST_SVC}:${DB_PORT}/${DB_NAME}
-    depends_on:
-      db:
-        condition: service_started
-YAML
-  echo "wrote ${OVERRIDE_FILE}"
-}
-
-compose_up_worker() {
-  detect_worker
-  docker compose -f "$COMPOSE_FILE" -f "$OVERRIDE_FILE" up -d --force-recreate ingest_worker
-  detect_worker
-  echo "worker: $WORKER_CTN"
-}
-
-install_psql_in_worker() {
-  detect_worker
-  echo "installing postgresql-client inside ${WORKER_CTN} (Debian-based)…"
-  docker exec -it "$WORKER_CTN" bash -lc 'apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y postgresql-client && psql --version'
-}
-
-worker_env() {
-  detect_worker
-  docker exec -it "$WORKER_CTN" env | egrep -i 'PG(HOST|PORT|DATABASE|USER|PASSWORD)|DATABASE_URL'
-}
-
-tail_worker_logs() {
-  detect_worker
-  local filter="${1:-}"
-  if [[ -n "$filter" ]]; then
-    docker logs -f "$WORKER_CTN" 2>&1 | egrep -i --line-buffered "$filter"
-  else
-    docker logs -f "$WORKER_CTN"
-  fi
-}
-
-show_uploads() {
-  psqlh -F $'\t' -Atc "
-    SELECT id, sample_label, original_name, stored_path, status, received_at
-    FROM public.uploads
-    ORDER BY id DESC
-    LIMIT 10;"
-}
-
-counts_for_upload() {
-  local UPLOAD_ID="$1"
-  psqlh -Atc "
-WITH u AS (SELECT sample_label FROM public.uploads WHERE id = ${UPLOAD_ID}),
-     s AS (SELECT sample_id FROM public.samples WHERE external_id=(SELECT sample_label FROM u))
-SELECT (SELECT sample_id FROM s) AS sample_id,
-       (SELECT COUNT(*) FROM public.genotypes WHERE sample_id IN (SELECT sample_id FROM s)) AS genotypes,
-       (SELECT COUNT(DISTINCT variant_id) FROM public.genotypes WHERE sample_id IN (SELECT sample_id FROM s)) AS distinct_variants;"
-}
-
-watch_counts() {
-  local UPLOAD_ID="$1"
-  watch -n 2 "
-PGPASSWORD='${DB_PASS}' psql -X -Atc \"
-WITH u AS (SELECT sample_label FROM public.uploads WHERE id = ${UPLOAD_ID}),
-     s AS (SELECT sample_id FROM public.samples WHERE external_id=(SELECT sample_label FROM u))
-SELECT 'genotypes', COUNT(*) FROM public.genotypes WHERE sample_id IN (SELECT sample_id FROM s);
-\" '${HDB}'"
-}
-
-safe_backfill_rsids() {
-  local UPLOAD_ID="$1"
-  psqlh <<SQL
-WITH r AS (
-  SELECT DISTINCT chrom::text, pos::bigint, allele1::text AS ref, allele2::text AS alt, rsid::text
-  FROM public.staging_array_calls
-  WHERE upload_id = ${UPLOAD_ID}
-    AND rsid IS NOT NULL AND rsid <> ''
-    AND chrom <> '' AND allele1 <> '' AND allele2 <> '' AND pos IS NOT NULL
-)
-UPDATE public.variants v
-SET rsid = r.rsid
-FROM r
-WHERE v.chrom = r.chrom AND v.pos = r.pos AND v.ref = r.ref AND v.alt = r.alt
-  AND (v.rsid IS NULL OR v.rsid = '')
-  AND NOT EXISTS (
-        SELECT 1 FROM public.variants vx
-        WHERE vx.rsid = r.rsid
-          AND (vx.chrom, vx.pos, vx.ref, vx.alt)
-              IS DISTINCT FROM (v.chrom, v.pos, v.ref, v.alt)
-      );
-SQL
+# ---------- Actions ----------
+latest_uploads() {
+  need_psql
+  _pa -F $'\t' -Atc "SELECT id, sample_label, original_name, stored_path, status, received_at
+                     FROM public.uploads ORDER BY id DESC LIMIT 10;"
 }
 
 promote_upload() {
-  local UPLOAD_ID="$1"
-  # create temp set & promote (variants by locus → backfill rsids → sample → genotypes)
-  psqlh <<SQL
-\\set ON_ERROR_STOP on
+  need_psql
+  local upid; upid="$(prompt 'Upload ID: ' )"
+  [[ -n "$upid" ]] || { echo "no upload id"; return; }
+
+  _pa -v upload_id="$upid" <<'SQL'
+\set ON_ERROR_STOP on
 BEGIN;
 
--- materialize distinct, valid rows for this upload
+-- 1) Ensure a sample exists for this upload (external_id == sample_label)
+WITH u AS (SELECT sample_label FROM public.uploads WHERE id = :upload_id)
+INSERT INTO public.samples (external_id)
+SELECT sample_label FROM u
+ON CONFLICT (external_id) DO NOTHING;
+
+-- 2) Materialize distinct, valid rows for this upload
 DROP TABLE IF EXISTS tmp_promote_rows;
 CREATE TEMP TABLE tmp_promote_rows AS
 SELECT DISTINCT
@@ -158,148 +52,217 @@ SELECT DISTINCT
        NULLIF(allele1,'')      AS ref,
        NULLIF(allele2,'')      AS alt,
        NULLIF(rsid,'')         AS rsid,
-       genotype                AS gt,
-       sample_label
+       genotype                AS gt
 FROM public.staging_array_calls
-WHERE upload_id = ${UPLOAD_ID}
+WHERE upload_id = :upload_id
   AND chrom <> '' AND allele1 <> '' AND allele2 <> '' AND pos IS NOT NULL;
 
--- variants by locus (idempotent via uq_variant)
+-- 3) Insert variants by locus (idempotent on uq_variant)
 INSERT INTO public.variants (chrom,pos,ref,alt)
-SELECT chrom,pos,ref,alt FROM tmp_promote_rows
+SELECT chrom,pos,ref,alt
+FROM tmp_promote_rows
 ON CONFLICT ON CONSTRAINT uq_variant DO NOTHING;
 
--- safe rsid backfill (don’t overwrite; avoid collisions)
-WITH r AS (
-  SELECT DISTINCT chrom, pos, ref, alt, rsid FROM tmp_promote_rows
-  WHERE rsid IS NOT NULL AND rsid <> ''
-)
+-- 4) Backfill RSIDs where missing (do not clobber existing rsid)
 UPDATE public.variants v
 SET rsid = r.rsid
-FROM r
+FROM (
+  SELECT DISTINCT chrom,pos,ref,alt,rsid
+  FROM tmp_promote_rows
+  WHERE rsid IS NOT NULL AND rsid <> ''
+) r
 WHERE v.chrom=r.chrom AND v.pos=r.pos AND v.ref=r.ref AND v.alt=r.alt
-  AND (v.rsid IS NULL OR v.rsid='')
-  AND NOT EXISTS (
-    SELECT 1 FROM public.variants vx
-    WHERE vx.rsid = r.rsid
-      AND (vx.chrom, vx.pos, vx.ref, vx.alt)
-          IS DISTINCT FROM (v.chrom, v.pos, v.ref, v.alt)
-  );
+  AND v.rsid IS NULL;
 
--- ensure sample exists
-WITH u AS (SELECT sample_label FROM public.uploads WHERE id = ${UPLOAD_ID})
-INSERT INTO public.samples (external_id)
-SELECT sample_label FROM u
-ON CONFLICT (external_id) DO NOTHING;
-
--- resolve sample_id
-WITH u AS (SELECT sample_label FROM public.uploads WHERE id = ${UPLOAD_ID}),
-     s AS (SELECT sample_id FROM public.samples WHERE external_id=(SELECT sample_label FROM u))
--- insert genotypes by locus join; skip existing
+-- 5) Insert genotypes for this upload's sample
+WITH u AS (SELECT sample_label FROM public.uploads WHERE id = :upload_id),
+s AS (SELECT sample_id FROM public.samples WHERE external_id=(SELECT sample_label FROM u))
 INSERT INTO public.genotypes (sample_id, variant_id, gt)
-SELECT (SELECT sample_id FROM s) AS sample_id, v.variant_id, r.gt
+SELECT (SELECT sample_id FROM s) AS sample_id,
+       v.variant_id,
+       r.gt
 FROM tmp_promote_rows r
 JOIN public.variants v
-  ON v.chrom=r.chrom AND v.pos=r.pos AND v.ref=r.ref AND v.alt=r.alt
-WHERE NOT EXISTS (
-  SELECT 1 FROM public.genotypes g
-  WHERE g.sample_id=(SELECT sample_id FROM s)
-    AND g.variant_id=v.variant_id
-);
+  ON (v.chrom,r.chrom) IS NOT DISTINCT FROM (v.chrom,r.chrom)
+ AND  v.pos   = r.pos
+ AND (v.ref,r.ref)   IS NOT DISTINCT FROM (v.ref,r.ref)
+ AND (v.alt,r.alt)   IS NOT DISTINCT FROM (v.alt,r.alt)
+WHERE r.gt IS NOT NULL AND r.gt <> ''
+  AND NOT EXISTS (
+        SELECT 1 FROM public.genotypes g
+        WHERE g.sample_id=(SELECT sample_id FROM s)
+          AND g.variant_id=v.variant_id
+  );
 
--- mark upload
+-- 6) Mark upload
 UPDATE public.uploads
 SET status='imported',
-    notes=COALESCE(notes,'') || ' | promote complete ' || now()
-WHERE id=${UPLOAD_ID};
+    notes = COALESCE(notes,'') || ' | promote@' || now()
+WHERE id=:upload_id;
 
 COMMIT;
 SQL
 
-  echo "done. counts:"
-  counts_for_upload "$UPLOAD_ID"
+  echo "Done."
 }
 
-pg_activity() {
-  psqlh -Atc "
-SELECT pid, state, wait_event_type, wait_event,
-       now()-xact_start AS xact_age,
-       left(query,120)  AS query
-FROM pg_stat_activity
-WHERE datname = '${DB_NAME}'
-ORDER BY xact_start;"
+rsid_backfill_only() {
+  need_psql
+  local upid; upid="$(prompt 'Upload ID (for RSID backfill source): ' )"
+  [[ -n "$upid" ]] || { echo "no upload id"; return; }
+
+  _pa -v upload_id="$upid" <<'SQL'
+\set ON_ERROR_STOP on
+BEGIN;
+
+DROP TABLE IF EXISTS tmp_promote_rows;
+CREATE TEMP TABLE tmp_promote_rows AS
+SELECT DISTINCT
+       NULLIF(chrom,'')   AS chrom,
+       pos::bigint        AS pos,
+       NULLIF(allele1,'') AS ref,
+       NULLIF(allele2,'') AS alt,
+       NULLIF(rsid,'')    AS rsid
+FROM public.staging_array_calls
+WHERE upload_id = :upload_id
+  AND rsid IS NOT NULL AND rsid <> ''
+  AND chrom <> '' AND allele1 <> '' AND allele2 <> '' AND pos IS NOT NULL;
+
+UPDATE public.variants v
+SET rsid = r.rsid
+FROM tmp_promote_rows r
+WHERE v.chrom=r.chrom AND v.pos=r.pos AND v.ref=r.ref AND v.alt=r.alt
+  AND v.rsid IS NULL;
+
+COMMIT;
+SQL
+  echo "Backfill complete."
+}
+
+counts_for_upload() {
+  need_psql
+  local upid; upid="$(prompt 'Upload ID: ' )"
+  [[ -n "$upid" ]] || { echo "no upload id"; return; }
+
+  _pa -Atc "
+WITH u AS (SELECT sample_label FROM public.uploads WHERE id = $upid),
+     s AS (SELECT sample_id FROM public.samples WHERE external_id=(SELECT sample_label FROM u))
+SELECT (SELECT sample_id FROM s) AS sample_id,
+       (SELECT COUNT(*) FROM public.genotypes WHERE sample_id IN (SELECT sample_id FROM s)) AS genotypes,
+       (SELECT COUNT(DISTINCT variant_id) FROM public.genotypes WHERE sample_id IN (SELECT sample_id FROM s)) AS distinct_variants;"
+}
+
+watch_genotypes() {
+  need_psql
+  local upid; upid="$(prompt 'Upload ID: ' )"
+  [[ -z "$upid" ]] && { echo "no upload id"; return; }
+  watch -n 2 "psql \"$HDB\" -Atc \"WITH u AS (SELECT sample_label FROM public.uploads WHERE id=$upid), s AS (SELECT sample_id FROM public.samples WHERE external_id=(SELECT sample_label FROM u)) SELECT 'genotypes', COUNT(*) FROM public.genotypes WHERE sample_id IN (SELECT sample_id FROM s);\""
+}
+
+tail_worker_logs() {
+  local f; f="$(prompt 'Optional grep filter (blank for all): ' )"
+  if [[ -n "$f" ]]; then
+    docker logs -f "$WORKER_NAME" 2>&1 | grep -i --line-buffered "$f"
+  else
+    docker logs -f "$WORKER_NAME"
+  fi
+}
+
+show_worker_db_env() {
+  docker exec -it "$WORKER_NAME" env | egrep -i 'PGHOST|PGPORT|PGDATABASE|PGUSER|PGPASSWORD|DATABASE_URL'
+}
+
+install_psql_in_worker() {
+  docker exec -it "$WORKER_NAME" bash -lc 'apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y postgresql-client && psql --version'
+}
+
+override_and_restart_worker() {
+  # Uses current DB creds from HDB parsed into parts
+  local proto user pass host port db
+  proto="${HDB%%://*}"
+  local rest="${HDB#*://}"
+  user="${rest%%:*}"; rest="${rest#*:}"
+  pass="${rest%%@*}"; rest="${rest#*@}"
+  host="${rest%%:*}"; rest="${rest#*:}"
+  port="${rest%%/*}"; db="${rest#*/}"
+
+  mkdir -p "$STACK_DIR"
+  cat > "$STACK_DIR/docker-compose.override.yml" <<YML
+services:
+  ingest_worker:
+    environment:
+      PGHOST: ${host}
+      PGPORT: "${port}"
+      PGDATABASE: ${db}
+      PGUSER: ${user}
+      PGPASSWORD: ${pass}
+      DATABASE_URL: ${proto}://${user}:${pass}@${host}:${port}/${db}
+    depends_on:
+      db:
+        condition: service_started
+YML
+
+  docker compose -f "$STACK_DIR/compose.yml" -f "$STACK_DIR/docker-compose.override.yml" up -d --force-recreate ingest_worker
+}
+
+pg_stat_activity_menu() {
+  need_psql
+  _pa -Atc "SELECT pid, state, wait_event_type, wait_event, now()-xact_start AS xact_age, left(query,120) AS query
+            FROM pg_stat_activity WHERE datname = current_database()
+            ORDER BY xact_start;"
 }
 
 cancel_pid() {
-  local PID="$1"
-  psqlh -Atc "SELECT pg_cancel_backend(${PID});"
+  need_psql
+  local pid; pid="$(prompt 'PID to pg_cancel_backend(): ' )"
+  [[ -z "$pid" ]] && { echo "no pid"; return; }
+  _pa -Atc "SELECT pg_cancel_backend($pid);"
 }
 
 terminate_pid() {
-  local PID="$1"
-  psqlh -Atc "SELECT pg_terminate_backend(${PID});"
+  need_psql
+  local pid; pid="$(prompt 'PID to pg_terminate_backend(): ' )"
+  [[ -z "$pid" ]] && { echo "no pid"; return; }
+  _pa -Atc "SELECT pg_terminate_backend($pid);"
 }
 
-git_update_repo() {
-  # add this script + override & commit
-  pushd "$STACK_DIR" >/dev/null || { echo "STACK_DIR not found"; return 1; }
-  git add -A
-  git commit -m "genomicsctl: menu tool + ingest_worker override + promote upload workflow
-- writes docker-compose.override.yml for worker DB env
-- promote_upload (variants by locus, safe rsid backfill, genotypes)
-- helper: counts, watch, logs, worker env/install psql
-- pg_stat_activity helpers" || true
-  git status --short
-  popd >/dev/null
-  echo "repo updated."
+git_commit_repo_changes() {
+  ( cd "$STACK_DIR"
+    git add scripts/genomicsctl.sh docker-compose.override.yml || true
+    git commit -m "ops: update genomicsctl (promote upload, rsid backfill, logs, counts, overrides)" || true
+    git push -u origin HEAD || true
+  )
 }
 
-menu() {
-  PS3=$'\n''Choose an action: '
-  select opt in \
-    "Show latest uploads" \
-    "Promote an upload (ID → variants/genotypes)" \
-    "Safe RSID backfill only" \
-    "Counts for an upload" \
-    "Watch genotypes count (every 2s)" \
-    "Tail ingest_worker logs (optional filter)" \
-    "Show ingest_worker DB env" \
-    "Install psql inside ingest_worker" \
-    "Write override and restart ingest_worker" \
-    "pg_stat_activity (current DB)" \
-    "Cancel backend PID" \
-    "Terminate backend PID" \
-    "Commit repo changes" \
-    "Quit"
-  do
-    case "$REPLY" in
-      1) show_uploads ;;
-      2) read -rp "Upload ID: " u; promote_upload "$u" ;;
-      3) read -rp "Upload ID: " u; safe_backfill_rsids "$u" ;;
-      4) read -rp "Upload ID: " u; counts_for_upload "$u" ;;
-      5) read -rp "Upload ID: " u; watch_counts "$u" ;;
-      6) read -rp "Filter (regex, blank=all): " f; tail_worker_logs "$f" ;;
-      7) worker_env ;;
+# ---------- Menu ----------
+main_menu() {
+  while true; do
+    cat <<'MENU'
+1) Show latest uploads                            6) Tail ingest_worker logs (optional filter)    11) Cancel backend PID
+2) Promote an upload (ID → variants/genotypes)    7) Show ingest_worker DB env                    12) Terminate backend PID
+3) Safe RSID backfill only                        8) Install psql inside ingest_worker            13) Commit repo changes
+4) Counts for an upload                           9) Write override and restart ingest_worker     14) Quit
+5) Watch genotypes count (every 2s)              10) pg_stat_activity (current DB)
+MENU
+    read -rp "Choose an action: " choice || true
+    case "${choice,,}" in
+      1) latest_uploads ;;
+      2) promote_upload ;;
+      3) rsid_backfill_only ;;
+      4) counts_for_upload ;;
+      5) watch_genotypes ;;
+      6) tail_worker_logs ;;
+      7) show_worker_db_env ;;
       8) install_psql_in_worker ;;
-      9) write_override; compose_up_worker ;;
-      10) pg_activity ;;
-      11) read -rp "PID to cancel: " p; cancel_pid "$p" ;;
-      12) read -rp "PID to terminate: " p; terminate_pid "$p" ;;
-      13) git_update_repo ;;
-      14) break ;;
-      *) echo "invalid";;
+      9) override_and_restart_worker ;;
+     10) pg_stat_activity_menu ;;
+     11) cancel_pid ;;
+     12) terminate_pid ;;
+     13) git_commit_repo_changes ;;
+     14|q|quit|exit) exit 0 ;;
+      *) echo "invalid" ;;
     esac
   done
 }
 
-# --------- entry ---------
-need psql
-need docker
-need bash
-
-if [[ "${1:-}" == "--noninteractive" ]]; then
-  echo "use the menu by running: $0"
-else
-  menu
-fi
-
+main_menu
