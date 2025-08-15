@@ -14,3 +14,7 @@
 /root/genomics-stack/mypy.ini
 /root/genomics-stack/.pre-commit-config.yaml
 /root/genomics-stack/.editorconfig
+/root/genomics-stack/pyproject.toml
+/root/genomics-stack/mypy.ini
+/root/genomics-stack/.pre-commit-config.yaml
+/root/genomics-stack/.editorconfig
