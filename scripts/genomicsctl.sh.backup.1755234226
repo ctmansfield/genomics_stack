@@ -1,0 +1,73 @@
+#!/usr/bin/env bash
+set -euo pipefail
+LC_ALL=C
+# normalize CRLF if any
+sed -i 's/\r$//' "$0" 2>/dev/null || true
+
+# Resolve repo root relative to this file
+_SCRIPT_DIR="$(cd -- "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+ROOT="${ROOT:-$(cd -- "$_SCRIPT_DIR/.." && pwd)}"
+SCRIPTS="$ROOT/scripts"
+
+# Load common helpers/env
+. "$SCRIPTS/lib/common.sh" || { echo "[err] missing $SCRIPTS/lib/common.sh" >&2; exit 1; }
+type load_env >/dev/null 2>&1 || { echo "[err] load_env missing in common.sh" >&2; exit 1; }
+load_env
+
+# Compose helpers
+compose_file() {
+  local root="${ROOT:-$PWD}"
+  [[ -f "$root/compose.yml" ]] && { echo "$root/compose.yml"; return; }
+  [[ -f "$root/docker-compose.yml" ]] && { echo "$root/docker-compose.yml"; return; }
+  die "compose file not found under $root"
+}
+pg_svc()  { echo "${PG_SVC:-db}"; }
+pg_user() { echo "${PGUSER:-genouser}"; }
+pg_db()   { echo "${PGDB:-genomics}"; }
+dc()      { sudo docker compose -f "$(compose_file)" "$@"; }
+
+# -------- Task registry (define BEFORE sourcing tasks) --------
+declare -A TASK_FN TASK_DESC TASK_HELP
+TASK_ORDER=()
+
+register_task() {
+  local name="$1" desc="${2:-}" fn="${3:-}" help="${4:-}"
+  [[ -n "$name" && -n "$fn" ]] || die "register_task: need <name> <desc> <fn>"
+  TASK_FN["$name"]="$fn"
+  TASK_DESC["$name"]="$desc"
+  TASK_HELP["$name"]="$help"
+  TASK_ORDER+=("$name")
+}
+# backward-compat: some old files may call register <name> <fn> <desc>
+register() { local n="$1" f="$2" d="${3:-}"; register_task "$n" "$d" "$f"; }
+
+run_task(){
+  local name="${1:-}"; shift || true
+  [[ -n "$name" ]] || die "Usage: $0 <task> [args]  (try: $0 list)"
+  [[ -n "${TASK_FN[$name]+x}" ]] || die "Unknown task: $name (try: $0 list)"
+  "${TASK_FN[$name]}" "$@"
+}
+
+# Built-ins
+cmd_list(){ echo "Tasks:"; for n in "${TASK_ORDER[@]}"; do printf "  %-24s %s\n" "$n" "${TASK_DESC[$n]}"; done; }
+register_task list "List tasks" cmd_list
+
+cmd_db_apply_risk_panel(){
+  local sql="$ROOT/scripts/sql/risk_panel.sql"
+  require_readable "$sql"
+  say "Applying risk panel schema to $(pg_db) on service $(pg_svc)..."
+  dc exec -T "$(pg_svc)" psql -U "$(pg_user)" -d "$(pg_db)" -v ON_ERROR_STOP=1 < "$sql"
+  ok "Risk panel schema applied."
+}
+register_task db-apply-risk-panel "Apply/update risk panel schema" cmd_db_apply_risk_panel
+
+# Source external task files (report-top5, report-pdf, etc.)
+shopt -s nullglob
+for f in "$SCRIPTS/tasks/"*.sh; do
+  # shellcheck disable=SC1090
+  . "$f"
+done
+shopt -u nullglob
+
+# Dispatch
+run_task "$@"
