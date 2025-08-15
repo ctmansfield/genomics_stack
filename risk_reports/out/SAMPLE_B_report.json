@@ -1,0 +1,14 @@
+[
+    {
+        "af": 0.00001,
+        "alt": "T",
+        "pos": 140453136,
+        "ref": "A",
+        "gene": "GENE3",
+        "chrom": "7",
+        "impact": "HIGH",
+        "clin_sig": "pathogenic",
+        "sample_id": "SAMPLE_B",
+        "consequence": "stop_gained"
+    }
+]
