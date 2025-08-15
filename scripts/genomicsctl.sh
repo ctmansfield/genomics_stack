@@ -2,11 +2,9 @@
 set -euo pipefail
 
 # ---------- Config ----------
-# Default DB URL; override with HDB env var if you like
 DB_URL_DEFAULT="postgresql://genouser:${PGPASSWORD:-a257272733aa65612215928f75083ae9621e9e3876b15f5e}@localhost:5433/genomics"
 HDB="${HDB:-${HASURA_DB_URL_HOST:-$DB_URL_DEFAULT}}"
 
-# Container names (override via env if different)
 STACK_DIR="${STACK_DIR:-/root/genomics-stack}"
 WORKER_NAME="${WORKER_NAME:-genomics-stack-ingest_worker-1}"
 DB_SERVICE="${DB_SERVICE:-genomics-stack-db-1}"
@@ -14,12 +12,8 @@ DB_SERVICE="${DB_SERVICE:-genomics-stack-db-1}"
 # ---------- Helpers ----------
 _pa() { psql "$HDB" -v ON_ERROR_STOP=1 "$@"; }
 prompt() { local p="$1"; read -rp "$p" REPLY || true; echo "${REPLY:-}"; }
-
 die() { echo "ERROR: $*" >&2; exit 1; }
-
-need_psql() {
-  command -v psql >/dev/null 2>&1 || die "psql not found on host"
-}
+need_psql() { command -v psql >/dev/null 2>&1 || die "psql not found on host"; }
 
 # ---------- Actions ----------
 latest_uploads() {
@@ -30,20 +24,17 @@ latest_uploads() {
 
 promote_upload() {
   need_psql
-  local upid; upid="$(prompt 'Upload ID: ' )"
+  local upid="${1:-}"; [[ -z "$upid" ]] && upid="$(prompt 'Upload ID: ')"
   [[ -n "$upid" ]] || { echo "no upload id"; return; }
-
   _pa -v upload_id="$upid" <<'SQL'
 \set ON_ERROR_STOP on
 BEGIN;
 
--- 1) Ensure a sample exists for this upload (external_id == sample_label)
 WITH u AS (SELECT sample_label FROM public.uploads WHERE id = :upload_id)
 INSERT INTO public.samples (external_id)
 SELECT sample_label FROM u
 ON CONFLICT (external_id) DO NOTHING;
 
--- 2) Materialize distinct, valid rows for this upload
 DROP TABLE IF EXISTS tmp_promote_rows;
 CREATE TEMP TABLE tmp_promote_rows AS
 SELECT DISTINCT
@@ -57,13 +48,11 @@ FROM public.staging_array_calls
 WHERE upload_id = :upload_id
   AND chrom <> '' AND allele1 <> '' AND allele2 <> '' AND pos IS NOT NULL;
 
--- 3) Insert variants by locus (idempotent on uq_variant)
 INSERT INTO public.variants (chrom,pos,ref,alt)
 SELECT chrom,pos,ref,alt
 FROM tmp_promote_rows
 ON CONFLICT ON CONSTRAINT uq_variant DO NOTHING;
 
--- 4) Backfill RSIDs where missing (do not clobber existing rsid)
 UPDATE public.variants v
 SET rsid = r.rsid
 FROM (
@@ -74,7 +63,6 @@ FROM (
 WHERE v.chrom=r.chrom AND v.pos=r.pos AND v.ref=r.ref AND v.alt=r.alt
   AND v.rsid IS NULL;
 
--- 5) Insert genotypes for this upload's sample
 WITH u AS (SELECT sample_label FROM public.uploads WHERE id = :upload_id),
 s AS (SELECT sample_id FROM public.samples WHERE external_id=(SELECT sample_label FROM u))
 INSERT INTO public.genotypes (sample_id, variant_id, gt)
@@ -94,7 +82,6 @@ WHERE r.gt IS NOT NULL AND r.gt <> ''
           AND g.variant_id=v.variant_id
   );
 
--- 6) Mark upload
 UPDATE public.uploads
 SET status='imported',
     notes = COALESCE(notes,'') || ' | promote@' || now()
@@ -102,19 +89,16 @@ WHERE id=:upload_id;
 
 COMMIT;
 SQL
-
   echo "Done."
 }
 
 rsid_backfill_only() {
   need_psql
-  local upid; upid="$(prompt 'Upload ID (for RSID backfill source): ' )"
+  local upid="${1:-}"; [[ -z "$upid" ]] && upid="$(prompt 'Upload ID (source for RSIDs): ')"
   [[ -n "$upid" ]] || { echo "no upload id"; return; }
-
   _pa -v upload_id="$upid" <<'SQL'
 \set ON_ERROR_STOP on
 BEGIN;
-
 DROP TABLE IF EXISTS tmp_promote_rows;
 CREATE TEMP TABLE tmp_promote_rows AS
 SELECT DISTINCT
@@ -133,7 +117,6 @@ SET rsid = r.rsid
 FROM tmp_promote_rows r
 WHERE v.chrom=r.chrom AND v.pos=r.pos AND v.ref=r.ref AND v.alt=r.alt
   AND v.rsid IS NULL;
-
 COMMIT;
 SQL
   echo "Backfill complete."
@@ -141,9 +124,8 @@ SQL
 
 counts_for_upload() {
   need_psql
-  local upid; upid="$(prompt 'Upload ID: ' )"
+  local upid="${1:-}"; [[ -z "$upid" ]] && upid="$(prompt 'Upload ID: ')"
   [[ -n "$upid" ]] || { echo "no upload id"; return; }
-
   _pa -Atc "
 WITH u AS (SELECT sample_label FROM public.uploads WHERE id = $upid),
      s AS (SELECT sample_id FROM public.samples WHERE external_id=(SELECT sample_label FROM u))
@@ -154,13 +136,13 @@ SELECT (SELECT sample_id FROM s) AS sample_id,
 
 watch_genotypes() {
   need_psql
-  local upid; upid="$(prompt 'Upload ID: ' )"
+  local upid="${1:-}"; [[ -z "$upid" ]] && upid="$(prompt 'Upload ID: ')"
   [[ -z "$upid" ]] && { echo "no upload id"; return; }
   watch -n 2 "psql \"$HDB\" -Atc \"WITH u AS (SELECT sample_label FROM public.uploads WHERE id=$upid), s AS (SELECT sample_id FROM public.samples WHERE external_id=(SELECT sample_label FROM u)) SELECT 'genotypes', COUNT(*) FROM public.genotypes WHERE sample_id IN (SELECT sample_id FROM s);\""
 }
 
 tail_worker_logs() {
-  local f; f="$(prompt 'Optional grep filter (blank for all): ' )"
+  local f="${1:-}"
   if [[ -n "$f" ]]; then
     docker logs -f "$WORKER_NAME" 2>&1 | grep -i --line-buffered "$f"
   else
@@ -177,10 +159,9 @@ install_psql_in_worker() {
 }
 
 override_and_restart_worker() {
-  # Uses current DB creds from HDB parsed into parts
-  local proto user pass host port db
+  local proto user pass host port db rest
   proto="${HDB%%://*}"
-  local rest="${HDB#*://}"
+  rest="${HDB#*://}"
   user="${rest%%:*}"; rest="${rest#*:}"
   pass="${rest%%@*}"; rest="${rest#*@}"
   host="${rest%%:*}"; rest="${rest#*:}"
@@ -214,14 +195,14 @@ pg_stat_activity_menu() {
 
 cancel_pid() {
   need_psql
-  local pid; pid="$(prompt 'PID to pg_cancel_backend(): ' )"
+  local pid="${1:-}"; [[ -z "$pid" ]] && pid="$(prompt 'PID to pg_cancel_backend(): ')"
   [[ -z "$pid" ]] && { echo "no pid"; return; }
   _pa -Atc "SELECT pg_cancel_backend($pid);"
 }
 
 terminate_pid() {
   need_psql
-  local pid; pid="$(prompt 'PID to pg_terminate_backend(): ' )"
+  local pid="${1:-}"; [[ -z "$pid" ]] && pid="$(prompt 'PID to pg_terminate_backend(): ')"
   [[ -z "$pid" ]] && { echo "no pid"; return; }
   _pa -Atc "SELECT pg_terminate_backend($pid);"
 }
@@ -229,9 +210,32 @@ terminate_pid() {
 git_commit_repo_changes() {
   ( cd "$STACK_DIR"
     git add scripts/genomicsctl.sh docker-compose.override.yml || true
-    git commit -m "ops: update genomicsctl (promote upload, rsid backfill, logs, counts, overrides)" || true
+    git commit -m "ops: update genomicsctl (menu + noninteractive CLI: promote/backfill/counts/etc.)" || true
     git push -u origin HEAD || true
   )
+}
+
+usage() {
+cat <<'HELP'
+genomicsctl [command] [args]
+
+Commands:
+  latest
+  promote         --upload-id N
+  backfill        --upload-id N
+  counts          --upload-id N
+  watch           --upload-id N
+  logs            [filter]
+  env
+  psql-install
+  override-restart
+  pgstat
+  cancel          --pid PID
+  terminate       --pid PID
+  help
+
+If no command is given, an interactive menu is shown.
+HELP
 }
 
 # ---------- Menu ----------
@@ -265,4 +269,25 @@ MENU
   done
 }
 
-main_menu
+# ---------- CLI dispatcher ----------
+if [[ $# -gt 0 ]]; then
+  cmd="$1"; shift || true
+  case "$cmd" in
+    latest) latest_uploads ;;
+    promote)       [[ "${1:-}" == "--upload-id" ]] && shift; promote_upload "${1:-}";;
+    backfill)      [[ "${1:-}" == "--upload-id" ]] && shift; rsid_backfill_only "${1:-}";;
+    counts)        [[ "${1:-}" == "--upload-id" ]] && shift; counts_for_upload "${1:-}";;
+    watch)         [[ "${1:-}" == "--upload-id" ]] && shift; watch_genotypes "${1:-}";;
+    logs)          tail_worker_logs "${1:-}";;
+    env)           show_worker_db_env ;;
+    psql-install)  install_psql_in_worker ;;
+    override-restart) override_and_restart_worker ;;
+    pgstat)        pg_stat_activity_menu ;;
+    cancel)        [[ "${1:-}" == "--pid" ]] && shift; cancel_pid "${1:-}";;
+    terminate)     [[ "${1:-}" == "--pid" ]] && shift; terminate_pid "${1:-}";;
+    help|-h|--help) usage ;;
+    *) echo "Unknown command: $cmd"; usage; exit 2 ;;
+  esac
+else
+  main_menu
+fi
