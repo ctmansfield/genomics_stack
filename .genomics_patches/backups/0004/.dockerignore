@@ -1,0 +1,7 @@
+.venv
+__pycache__/
+*.pyc
+metabase_data/
+db_data/
+risk_reports/
+.genomics_patches/
