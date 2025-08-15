@@ -1,0 +1,26 @@
+[
+    {
+        "af": 0.00042,
+        "alt": "A",
+        "pos": 55516888,
+        "ref": "G",
+        "gene": "GENE1",
+        "chrom": "1",
+        "impact": "MODERATE",
+        "clin_sig": "likely_pathogenic",
+        "sample_id": "SAMPLE_A",
+        "consequence": "missense_variant"
+    },
+    {
+        "af": 0.0123,
+        "alt": "T",
+        "pos": 20103244,
+        "ref": "C",
+        "gene": "GENE2",
+        "chrom": "2",
+        "impact": "MODIFIER",
+        "clin_sig": "benign",
+        "sample_id": "SAMPLE_A",
+        "consequence": "intron_variant"
+    }
+]
