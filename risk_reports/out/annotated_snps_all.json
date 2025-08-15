@@ -1,0 +1,49 @@
+[
+    {
+        "af": 0.15,
+        "alt": "C",
+        "pos": 45411941,
+        "ref": "T",
+        "gene": "APOE",
+        "rsid": "rs429358",
+        "chrom": "19",
+        "impact": "MODERATE",
+        "clin_sig": "risk_factor",
+        "annotations": {
+            "note": "APOE ε4",
+            "source": "demo"
+        },
+        "consequence": "missense_variant"
+    },
+    {
+        "af": 0.08,
+        "alt": "T",
+        "pos": 45412079,
+        "ref": "C",
+        "gene": "APOE",
+        "rsid": "rs7412",
+        "chrom": "19",
+        "impact": "MODERATE",
+        "clin_sig": "risk_factor",
+        "annotations": {
+            "note": "APOE ε2",
+            "source": "demo"
+        },
+        "consequence": "missense_variant"
+    },
+    {
+        "af": 0.3,
+        "alt": "T",
+        "pos": 114758349,
+        "ref": "C",
+        "gene": "TCF7L2",
+        "rsid": "rs7903146",
+        "chrom": "10",
+        "impact": "MODIFIER",
+        "clin_sig": "risk_factor",
+        "annotations": {
+            "source": "demo"
+        },
+        "consequence": "intron_variant"
+    }
+]
