@@ -302,4 +302,3 @@ if [[ "${1:-}" == "--noninteractive" ]]; then
 else
   menu
 fi
-

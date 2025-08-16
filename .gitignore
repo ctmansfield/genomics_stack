@@ -32,3 +32,6 @@ __pycache__/
 .genomics_patches/
 .venv/
 .genomics_patches/
+!scripts/
+!scripts/reports/
+!scripts/reports/**

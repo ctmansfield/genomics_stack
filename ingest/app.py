@@ -1,31 +1,43 @@
-import os, io, re, hmac, hashlib, base64, secrets, pathlib, zipfile, time
-from typing import Optional
-from fastapi import FastAPI, UploadFile, File, Form, Header, HTTPException
-from fastapi.responses import PlainTextResponse, JSONResponse
+import base64
+import hashlib
+import hmac
+import os
+import pathlib
+import re
+import secrets
+import time
+import zipfile
+
 import aiofiles
 import psycopg
+from fastapi import FastAPI, File, Form, Header, HTTPException, UploadFile
+from fastapi.responses import JSONResponse, PlainTextResponse
 
-PGHOST = os.getenv("PGHOST","db")
-PGPORT = int(os.getenv("PGPORT","5432"))
-PGUSER = os.getenv("PGUSER","genouser")
-PGPASSWORD = os.getenv("PGPASSWORD","")
-PGDATABASE = os.getenv("PGDATABASE","genomics")
-DATA_DIR = pathlib.Path(os.getenv("DATA_DIR","/data"))
-MAX_UPLOAD_BYTES = int(os.getenv("MAX_UPLOAD_BYTES","2147483648"))  # 2GB
-GLOBAL_UPLOAD_TOKEN = os.getenv("UPLOAD_TOKEN","")  # optional
-TOKEN_SECRET = os.getenv("TOKEN_SECRET","")         # required for email tokens
+PGHOST = os.getenv("PGHOST", "db")
+PGPORT = int(os.getenv("PGPORT", "5432"))
+PGUSER = os.getenv("PGUSER", "genouser")
+PGPASSWORD = os.getenv("PGPASSWORD", "")
+PGDATABASE = os.getenv("PGDATABASE", "genomics")
+DATA_DIR = pathlib.Path(os.getenv("DATA_DIR", "/data"))
+MAX_UPLOAD_BYTES = int(os.getenv("MAX_UPLOAD_BYTES", "2147483648"))  # 2GB
+GLOBAL_UPLOAD_TOKEN = os.getenv("UPLOAD_TOKEN", "")  # optional
+TOKEN_SECRET = os.getenv("TOKEN_SECRET", "")  # required for email tokens
 
 app = FastAPI()
+
 
 def b64u(s: bytes) -> str:
     return base64.urlsafe_b64encode(s).decode().rstrip("=")
 
+
 def b64u_dec(s: str) -> bytes:
-    pad = '=' * (-len(s) % 4)
+    pad = "=" * (-len(s) % 4)
     return base64.urlsafe_b64decode(s + pad)
+
 
 def norm_email(e: str) -> str:
     return e.strip().lower()
+
 
 def issue_token(email: str) -> str:
     if not TOKEN_SECRET:
@@ -34,7 +46,8 @@ def issue_token(email: str) -> str:
     mac = hmac.new(TOKEN_SECRET.encode(), e, hashlib.sha256).digest()
     return f"{b64u(e)}.{b64u(mac)}"
 
-def verify_token(token: str) -> Optional[str]:
+
+def verify_token(token: str) -> str | None:
     try:
         email_b64, mac_b64 = token.split(".", 1)
         e = b64u_dec(email_b64)
@@ -48,8 +61,12 @@ def verify_token(token: str) -> Optional[str]:
         return None
     return None
 
+
 def get_con():
-    return psycopg.connect(host=PGHOST, port=PGPORT, user=PGUSER, password=PGPASSWORD, dbname=PGDATABASE)
+    return psycopg.connect(
+        host=PGHOST, port=PGPORT, user=PGUSER, password=PGPASSWORD, dbname=PGDATABASE
+    )
+
 
 # DB bootstrap: add columns we need
 DDL = """
@@ -74,11 +91,13 @@ create index if not exists uploads_user_email_idx on uploads(user_email);
 with get_con() as con:
     con.execute(DDL)
 
+
 @app.get("/healthz", response_class=PlainTextResponse)
 def healthz():
     return "ok"
 
-def auth_email_from_header(authorization: Optional[str]) -> Optional[str]:
+
+def auth_email_from_header(authorization: str | None) -> str | None:
     """
     Accept either:
       - Global token (UPLOAD_TOKEN) → returns None (admin/system)
@@ -88,7 +107,7 @@ def auth_email_from_header(authorization: Optional[str]) -> Optional[str]:
         return None
     if not authorization.lower().startswith("bearer "):
         raise HTTPException(401, "Bad Authorization header")
-    token = authorization.split(None,1)[1]
+    token = authorization.split(None, 1)[1]
     if GLOBAL_UPLOAD_TOKEN and token == GLOBAL_UPLOAD_TOKEN:
         return None
     email = verify_token(token)
@@ -96,16 +115,18 @@ def auth_email_from_header(authorization: Optional[str]) -> Optional[str]:
         raise HTTPException(401, "Invalid token")
     return email
 
+
 def short_code(n=8) -> str:
     alphabet = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789"
     return "".join(secrets.choice(alphabet) for _ in range(n))
 
+
 @app.post("/upload")
 async def upload_file(
     file: UploadFile = File(...),
-    sample_label: Optional[str] = Form(None),
-    authorization: Optional[str] = Header(None),
-    email: Optional[str] = Form(None)
+    sample_label: str | None = Form(None),
+    authorization: str | None = Header(None),
+    email: str | None = Form(None),
 ):
     # auth (optional). If token is present and valid, we get user_email;
     # otherwise allow anonymous upload that must be claimed later.
@@ -119,14 +140,16 @@ async def upload_file(
     sha = hashlib.sha256()
     async with aiofiles.open(tmp, "wb") as out:
         while True:
-            chunk = await file.read(1<<20)
+            chunk = await file.read(1 << 20)
             if not chunk:
                 break
             size += len(chunk)
             if size > MAX_UPLOAD_BYTES:
                 await out.close()
-                try: tmp.unlink(missing_ok=True)
-                except Exception: pass
+                try:
+                    tmp.unlink(missing_ok=True)
+                except Exception:
+                    pass
                 raise HTTPException(413, f"File too large; limit is {MAX_UPLOAD_BYTES} bytes")
             sha.update(chunk)
             await out.write(chunk)
@@ -143,7 +166,7 @@ async def upload_file(
         kind = "zip"
         extracted_to = dest.with_suffix("")  # folder next to file
         extracted_to.mkdir(exist_ok=True)
-        with zipfile.ZipFile(dest, 'r') as z:
+        with zipfile.ZipFile(dest, "r") as z:
             z.extractall(extracted_to)
 
     claim = short_code()
@@ -163,7 +186,7 @@ async def upload_file(
                 sample_label,
                 claim,
                 norm_email(user_email) if user_email else (norm_email(email) if email else None),
-            )
+            ),
         ).fetchone()
         upload_id = row[0]
 
@@ -175,9 +198,10 @@ async def upload_file(
         "bytes": size,
         "sha256": sha.hexdigest(),
         "kind": kind,
-        "unzipped_to": str(extracted_to) if extracted_to else None
+        "unzipped_to": str(extracted_to) if extracted_to else None,
     }
     return JSONResponse(msg)
+
 
 @app.post("/claim")
 def claim_upload(payload: dict):
@@ -187,8 +211,8 @@ def claim_upload(payload: dict):
     """
     try:
         upload_id = int(payload.get("upload_id"))
-        email = norm_email(payload.get("email",""))
-        code = payload.get("claim_code","").strip().upper()
+        email = norm_email(payload.get("email", ""))
+        code = payload.get("claim_code", "").strip().upper()
     except Exception:
         raise HTTPException(400, "Bad payload")
 
@@ -198,7 +222,9 @@ def claim_upload(payload: dict):
         raise HTTPException(400, "Invalid claim_code")
 
     with get_con() as con:
-        row = con.execute("select id, claim_code, user_email from uploads where id=%s", (upload_id,)).fetchone()
+        row = con.execute(
+            "select id, claim_code, user_email from uploads where id=%s", (upload_id,)
+        ).fetchone()
         if not row:
             raise HTTPException(404, "upload not found")
         if row[1] != code:
@@ -210,14 +236,15 @@ def claim_upload(payload: dict):
     tok = issue_token(email)
     return {"token": tok, "email": email, "upload_id": upload_id}
 
+
 @app.post("/recover")
 def recover_token(payload: dict):
     """
     Recover a token using any prior claim_code for your email.
     Body: { "email": "...", "claim_code": "..." }
     """
-    email = norm_email(payload.get("email",""))
-    code = payload.get("claim_code","").strip().upper()
+    email = norm_email(payload.get("email", ""))
+    code = payload.get("claim_code", "").strip().upper()
     if not re.match(r"[^@]+@[^@]+\.[^@]+", email):
         raise HTTPException(400, "Invalid email")
     if not re.match(r"^[A-Z0-9]{6,}$", code):
@@ -226,17 +253,21 @@ def recover_token(payload: dict):
     with get_con() as con:
         row = con.execute(
             "select 1 from uploads where claim_code=%s and (user_email=%s or user_email is null) limit 1",
-            (code, email)
+            (code, email),
         ).fetchone()
         if not row:
             raise HTTPException(403, "no matching upload+claim_code")
         # ensure the upload is marked with this email (so future recovers work)
-        con.execute("update uploads set user_email=%s where claim_code=%s and user_email is null", (email, code))
+        con.execute(
+            "update uploads set user_email=%s where claim_code=%s and user_email is null",
+            (email, code),
+        )
 
     return {"token": issue_token(email), "email": email}
 
+
 @app.get("/whoami")
-def whoami(authorization: Optional[str] = Header(None)):
+def whoami(authorization: str | None = Header(None)):
     email = auth_email_from_header(authorization)
     if email is None and authorization:
         # global token
@@ -245,7 +276,9 @@ def whoami(authorization: Optional[str] = Header(None)):
         raise HTTPException(401, "no token")
     return {"email": email}
 
+
 from fastapi.responses import HTMLResponse
+
 
 @app.get("/", response_class=HTMLResponse)
 def home():
@@ -266,17 +299,23 @@ def home():
   </body>
 </html>"""
 
+
 # --- Reports download endpoints (requires valid token) ---
 from fastapi.responses import FileResponse
-REPORTS_DIR = os.getenv("REPORTS_DIR","/reports")
+
+REPORTS_DIR = os.getenv("REPORTS_DIR", "/reports")
+
 
 def _report_path(upload_id: int, kind: str) -> str:
     # kind in {"html","tsv","pdf"}
     return os.path.join(REPORTS_DIR, f"upload_{upload_id}", f"top5.{kind}")
 
+
 @app.get("/reports/{upload_id}/top5.{ext}")
-async def get_top5_report(upload_id: int, ext: str, request: Request, auth: Optional[str] = Header(None)):
-    if ext not in {"html","tsv","pdf"}:
+async def get_top5_report(
+    upload_id: int, ext: str, request: Request, auth: str | None = Header(None)
+):
+    if ext not in {"html", "tsv", "pdf"}:
         raise HTTPException(status_code=404, detail="Unsupported format")
 
     email = require_auth(auth)
@@ -292,5 +331,5 @@ async def get_top5_report(upload_id: int, ext: str, request: Request, auth: Opti
     path = _report_path(upload_id, ext)
     if not os.path.isfile(path):
         raise HTTPException(status_code=404, detail=f"Report not found: {ext}")
-    media = {"html":"text/html","tsv":"text/tab-separated-values","pdf":"application/pdf"}[ext]
+    media = {"html": "text/html", "tsv": "text/tab-separated-values", "pdf": "application/pdf"}[ext]
     return FileResponse(path, media_type=media, filename=f"upload_{upload_id}_top5.{ext}")
