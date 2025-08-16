@@ -38,3 +38,9 @@ __pycache__/
 .local_backups/
 *.bak
 *.bak-*
+env.d/*.env
+# --- runtime / local data ---
+.pgdata-*/
+tmp/
+risk_reports/out/**
+!risk_reports/out/.gitkeep

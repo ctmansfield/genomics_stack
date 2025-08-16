@@ -5,15 +5,9 @@ import hashlib
 import hmac
 import os
 import pathlib
-import re
-import secrets
-import time
-import zipfile
 
-import aiofiles
 import psycopg
-from fastapi import FastAPI, File, Form, Header, HTTPException, UploadFile
-from fastapi.responses import JSONResponse, PlainTextResponse
+from fastapi import FastAPI, HTTPException
 
 PGHOST = os.getenv("PGHOST", "db")
 PGPORT = int(os.getenv("PGPORT", "5432"))
@@ -76,9 +70,9 @@ def get_con():
     if not dsn:
         host = os.environ.get("PGHOST", "127.0.0.1")
         port = os.environ.get("PGPORT", "55432")
-        db   = os.environ.get("PGDATABASE", os.environ.get("POSTGRES_DB", "genomics"))
-        usr  = os.environ.get("PGUSER",     os.environ.get("POSTGRES_USER", "postgres"))
-        pwd  = os.environ.get("PGPASSWORD", os.environ.get("POSTGRES_PASSWORD", "genomics"))
+        db = os.environ.get("PGDATABASE", os.environ.get("POSTGRES_DB", "genomics"))
+        usr = os.environ.get("PGUSER", os.environ.get("POSTGRES_USER", "postgres"))
+        pwd = os.environ.get("PGPASSWORD", os.environ.get("POSTGRES_PASSWORD", "genomics"))
         parts = [f"host={host}", f"port={port}", f"dbname={db}", f"user={usr}"]
         if pwd:
             parts.append(f"password={pwd}")
@@ -90,4 +84,3 @@ def get_con():
 
     # psycopg v3 connect with short timeout & app name
     return psycopg.connect(dsn, application_name="ingest_api", connect_timeout=5)
-
