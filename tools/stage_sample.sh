@@ -2,7 +2,7 @@
 set -euo pipefail
 
 CSV="${1:-}"
-FILE_ID="${2:-}"    # optional; if blank we will derive from filename
+FILE_ID="${2:-}"    # optional; derive from filename if blank
 DB_DSN=${DB_DSN:-"host=127.0.0.1 port=55432 dbname=genomics user=postgres password=genomics"}
 
 if [[ -z "$CSV" || ! -f "$CSV" ]]; then
@@ -10,7 +10,7 @@ if [[ -z "$CSV" || ! -f "$CSV" ]]; then
   exit 1
 fi
 
-# Derive file_id from ..._123.csv if not provided
+# Derive file_id like ..._123.csv -> 123 (fallback 0)
 if [[ -z "${FILE_ID}" ]]; then
   b="$(basename "$CSV")"
   FILE_ID="$(sed -n 's/.*_\([0-9]\+\)\.csv/\1/p' <<<"$b")"
@@ -19,11 +19,11 @@ fi
 
 PSQL(){ psql "$DB_DSN" -v ON_ERROR_STOP=1 "$@"; }
 
-# Header & column count
+# Header & column count (simple CSV; assumes no commas inside headers)
 HDR="$(head -n1 "$CSV")"
 NCOLS="$(awk -F',' 'NR==1{print NF}' "$CSV")"
 
-# find index (1-based) of a header name, case-insensitive
+# Find index (1-based) of a header name, case-insensitive
 idx_of () {
   awk -v t="$(tr '[:upper:]' '[:lower:]' <<<"$1")" -F',' '
     NR==1{
@@ -40,35 +40,35 @@ A2_IDX="$(idx_of allele2 || true)"
 SAMPLE_IDX="$(idx_of sample_label || true)"
 
 if [[ -z "$RSID_IDX" ]]; then
-  echo "CSV must include an 'rsid' column. Got header: $HDR" >&2
+  echo "CSV must include an 'rsid' column. Got: $HDR" >&2
   exit 1
 fi
 
-# Build c1..cN column defs
-COLS_DEF=""
+# Build dynamic columns c1..cN and the column-name list for \copy
+COLS_DEF=""; COLS_NAMES=""
 for i in $(seq 1 "$NCOLS"); do
   COLS_DEF+="${COLS_DEF:+, }c${i} text"
+  COLS_NAMES+="${COLS_NAMES:+,}c${i}"
 done
 
-# selectors (fallbacks if the column is missing)
+# Selectors with sensible fallbacks
 [[ -n "$A1_IDX" ]] && A1SEL="COALESCE(NULLIF(c${A1_IDX},''),'NA')" || A1SEL="'NA'"
 [[ -n "$A2_IDX" ]] && A2SEL="COALESCE(NULLIF(c${A2_IDX},''),'NA')" || A2SEL="'NA'"
 [[ -n "$SAMPLE_IDX" ]] && SAMPLESEL="COALESCE(NULLIF(c${SAMPLE_IDX},''),'NA')" || SAMPLESEL="'NA'"
 
+# All in ONE session so TEMP tables survive
 PSQL <<SQL
 \\set ON_ERROR_STOP on
 BEGIN;
 
-CREATE EXTENSION IF NOT EXISTS file_fdw;
-DROP SERVER IF EXISTS csv_server CASCADE;
-CREATE SERVER csv_server FOREIGN DATA WRAPPER file_fdw;
+-- TEMP landing table sized to this CSV
+DROP TABLE IF EXISTS tmp_csv;
+CREATE TEMP TABLE tmp_csv(${COLS_DEF});
 
-DROP FOREIGN TABLE IF EXISTS ft_generic;
-CREATE FOREIGN TABLE ft_generic(
-  ${COLS_DEF}
-) SERVER csv_server
-OPTIONS (filename :'csv_path', format 'csv', header 'true');
+-- Client-side load (host path OK)
+\\copy tmp_csv (${COLS_NAMES}) FROM '${CSV}' WITH (FORMAT csv, HEADER true)
 
+-- Staging table
 CREATE TABLE IF NOT EXISTS staging_array_calls (
   upload_id    int    NOT NULL,
   sample_label text   NOT NULL,
@@ -77,14 +77,15 @@ CREATE TABLE IF NOT EXISTS staging_array_calls (
   allele2      text   NOT NULL
 );
 
+-- Replace rows for this file_id
 DELETE FROM staging_array_calls WHERE upload_id = ${FILE_ID};
 
 INSERT INTO staging_array_calls (upload_id, sample_label, rsid, allele1, allele2)
 SELECT ${FILE_ID}, ${SAMPLESEL}, c${RSID_IDX}, ${A1SEL}, ${A2SEL}
-FROM ft_generic
+FROM tmp_csv
 WHERE c${RSID_IDX} IS NOT NULL AND c${RSID_IDX} <> '';
 
--- per-sample curated view (idempotent)
+-- Per-sample curated view
 DROP VIEW IF EXISTS report_sample_curated;
 CREATE VIEW report_sample_curated AS
 SELECT
