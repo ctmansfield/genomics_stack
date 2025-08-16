@@ -179,9 +179,7 @@ class NAType:
 
         if method != "__call__":
             raise ValueError(f"ufunc method '{method}' not supported for NA")
-        result = maybe_dispatch_ufunc_to_dunder_op(
-            self, ufunc, method, *inputs, **kwargs
-        )
+        result = maybe_dispatch_ufunc_to_dunder_op(self, ufunc, method, *inputs, **kwargs)
         if result is NotImplemented:
             # For a NumPy ufunc that's not a binop, like np.logaddexp
             index = next(i for i, x in enumerate(inputs) if x is pd_NA)

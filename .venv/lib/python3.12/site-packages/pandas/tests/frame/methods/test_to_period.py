@@ -37,13 +37,9 @@ class TestToPeriod:
     def test_to_period_without_freq(self, frame_or_series):
         # GH#7606 without freq
         idx = DatetimeIndex(["2011-01-01", "2011-01-02", "2011-01-03", "2011-01-04"])
-        exp_idx = PeriodIndex(
-            ["2011-01-01", "2011-01-02", "2011-01-03", "2011-01-04"], freq="D"
-        )
+        exp_idx = PeriodIndex(["2011-01-01", "2011-01-02", "2011-01-03", "2011-01-04"], freq="D")
 
-        obj = DataFrame(
-            np.random.default_rng(2).standard_normal((4, 4)), index=idx, columns=idx
-        )
+        obj = DataFrame(np.random.default_rng(2).standard_normal((4, 4)), index=idx, columns=idx)
         obj = tm.get_obj(obj, frame_or_series)
         expected = obj.copy()
         expected.index = exp_idx

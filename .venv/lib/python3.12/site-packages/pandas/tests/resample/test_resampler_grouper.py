@@ -136,9 +136,7 @@ def test_getitem_multiple():
 
 def test_groupby_resample_on_api_with_getitem():
     # GH 17813
-    df = DataFrame(
-        {"id": list("aabbb"), "date": date_range("1-1-2016", periods=5), "data": 1}
-    )
+    df = DataFrame({"id": list("aabbb"), "date": date_range("1-1-2016", periods=5), "data": 1})
     exp = df.set_index("date").groupby("id").resample("2D")["data"].sum()
     result = df.groupby("id").resample("2D", on="date")["data"].sum()
     tm.assert_series_equal(result, exp)
@@ -296,9 +294,7 @@ def test_apply(test_frame):
 def test_apply_with_mutated_index():
     # GH 15169
     index = date_range("1-1-2015", "12-31-15", freq="D")
-    df = DataFrame(
-        data={"col1": np.random.default_rng(2).random(len(index))}, index=index
-    )
+    df = DataFrame(data={"col1": np.random.default_rng(2).random(len(index))}, index=index)
 
     def f(x):
         s = Series([1, 2], index=["a", "b"])
@@ -325,9 +321,7 @@ def test_apply_columns_multilevel():
     expected = DataFrame(
         2 * [[0, 0.0]],
         index=date_range(start="2017-01-01", freq="1h", periods=2),
-        columns=pd.MultiIndex.from_tuples(
-            [("A", "a", "", "one"), ("B", "b", "i", "two")]
-        ),
+        columns=pd.MultiIndex.from_tuples([("A", "a", "", "one"), ("B", "b", "i", "two")]),
     )
     tm.assert_frame_equal(result, expected)
 
@@ -344,9 +338,7 @@ def test_apply_non_naive_index():
     weights = Series([160.0, 91, 65, 43, 24, 10, 1, 0], index=times)
 
     result = data.resample("D").apply(weighted_quantile, weights=weights, q=0.5)
-    ind = date_range(
-        "2017-06-23 00:00:00+00:00", "2017-06-23 00:00:00+00:00", freq="D", tz="UTC"
-    )
+    ind = date_range("2017-06-23 00:00:00+00:00", "2017-06-23 00:00:00+00:00", freq="D", tz="UTC")
     expected = Series([1.0], index=ind)
     tm.assert_series_equal(result, expected)
 
@@ -367,9 +359,7 @@ def test_resample_groupby_with_label(unit):
         ),
     ]
     mindex = pd.MultiIndex.from_arrays(mi, names=["col0", None])
-    expected = DataFrame(
-        data={"col0": [0, 0, 2, 2], "col1": [1, 1, 2, 1]}, index=mindex
-    )
+    expected = DataFrame(data={"col0": [0, 0, 2, 2], "col1": [1, 1, 2, 1]}, index=mindex)
 
     tm.assert_frame_equal(result, expected)
 
@@ -414,9 +404,7 @@ def test_apply_to_one_column_of_df():
 
     # access "col" via getattr -> make sure we handle AttributeError
     result = df.resample("h").apply(lambda group: group.col.sum())
-    expected = Series(
-        [3, 12, 21, 9], index=date_range("2012-01-01", periods=4, freq="h")
-    )
+    expected = Series([3, 12, 21, 9], index=date_range("2012-01-01", periods=4, freq="h"))
     tm.assert_series_equal(result, expected)
 
     # access "col" via _getitem__ -> make sure we handle KeyErrpr
@@ -509,9 +497,7 @@ def test_resample_groupby_agg_object_dtype_all_nan(consolidate):
     idx = pd.MultiIndex.from_arrays(
         [
             ["A"] * 3 + ["B"] * 3,
-            pd.to_datetime(["2020-01-05", "2020-01-12", "2020-01-19"] * 2).as_unit(
-                "ns"
-            ),
+            pd.to_datetime(["2020-01-05", "2020-01-12", "2020-01-19"] * 2).as_unit("ns"),
         ],
         names=["key", "date"],
     )
@@ -527,9 +513,7 @@ def test_resample_groupby_agg_object_dtype_all_nan(consolidate):
 
 
 @pytest.mark.parametrize("min_count", [0, 1])
-def test_groupby_resample_empty_sum_string(
-    string_dtype_no_object, test_frame, min_count
-):
+def test_groupby_resample_empty_sum_string(string_dtype_no_object, test_frame, min_count):
     # https://github.com/pandas-dev/pandas/issues/60229
     dtype = string_dtype_no_object
     test_frame = test_frame.assign(B=pd.array([pd.NA] * len(test_frame), dtype=dtype))
@@ -591,9 +575,7 @@ def test_resample_no_columns():
     # GH#52484
     df = DataFrame(
         index=Index(
-            pd.to_datetime(
-                ["2018-01-01 00:00:00", "2018-01-01 12:00:00", "2018-01-02 00:00:00"]
-            ),
+            pd.to_datetime(["2018-01-01 00:00:00", "2018-01-01 12:00:00", "2018-01-02 00:00:00"]),
             name="date",
         )
     )
@@ -653,9 +635,7 @@ def test_groupby_resample_on_index_with_list_of_keys():
     )
     result = df.groupby("group").resample("2D")[["val"]].mean()
 
-    mi_exp = pd.MultiIndex.from_arrays(
-        [[0, 0, 1, 1], df.index[::2]], names=["group", "date"]
-    )
+    mi_exp = pd.MultiIndex.from_arrays([[0, 0, 1, 1], df.index[::2]], names=["group", "date"])
     expected = DataFrame(
         data={
             "val": [2.0, 2.5, 7.0, 4.0],
@@ -678,9 +658,7 @@ def test_groupby_resample_on_index_with_list_of_keys_multi_columns():
     )
     result = df.groupby("group").resample("2D")[["first_val", "second_val"]].mean()
 
-    mi_exp = pd.MultiIndex.from_arrays(
-        [[0, 0, 1, 1], df.index[::2]], names=["group", "date"]
-    )
+    mi_exp = pd.MultiIndex.from_arrays([[0, 0, 1, 1], df.index[::2]], names=["group", "date"])
     expected = DataFrame(
         data={
             "first_val": [2.0, 2.5, 7.0, 4.0],

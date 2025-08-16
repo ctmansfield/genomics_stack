@@ -131,9 +131,7 @@ def test_window_with_args(step):
 
 def test_win_type_with_method_invalid():
     pytest.importorskip("scipy")
-    with pytest.raises(
-        NotImplementedError, match="'single' is the only supported method type."
-    ):
+    with pytest.raises(NotImplementedError, match="'single' is the only supported method type."):
         Series(range(1)).rolling(1, win_type="triang", method="table")
 
 
@@ -327,9 +325,7 @@ def test_cmov_window_na_min_periods(step, min_periods):
     vals[8] = np.nan
 
     xp = vals.rolling(5, min_periods=min_periods, center=True, step=step).mean()
-    rs = vals.rolling(
-        5, win_type="boxcar", min_periods=min_periods, center=True, step=step
-    ).mean()
+    rs = vals.rolling(5, win_type="boxcar", min_periods=min_periods, center=True, step=step).mean()
     tm.assert_series_equal(xp, rs)
 
 
@@ -457,9 +453,7 @@ def test_cmov_window_regular_linear_range(win_types, step):
 def test_cmov_window_regular_missing_data(win_types, step):
     # GH 8238
     pytest.importorskip("scipy")
-    vals = np.array(
-        [6.95, 15.21, 4.72, 9.12, 13.81, 13.49, 16.68, np.nan, 10.63, 14.48]
-    )
+    vals = np.array([6.95, 15.21, 4.72, 9.12, 13.81, 13.49, 16.68, np.nan, 10.63, 14.48])
     xps = {
         "bartlett": [
             np.nan,
@@ -673,9 +667,7 @@ def test_weighted_var_big_window_no_segfault(win_types, center):
 
 def test_rolling_center_axis_1():
     pytest.importorskip("scipy")
-    df = DataFrame(
-        {"a": [1, 1, 0, 0, 0, 1], "b": [1, 0, 0, 1, 0, 0], "c": [1, 0, 0, 1, 0, 1]}
-    )
+    df = DataFrame({"a": [1, 1, 0, 0, 0, 1], "b": [1, 0, 0, 1, 0, 0], "c": [1, 0, 0, 1, 0, 1]})
 
     msg = "Support for axis=1 in DataFrame.rolling is deprecated"
     with tm.assert_produces_warning(FutureWarning, match=msg):

@@ -94,9 +94,7 @@ class TestDataFrameToStringFormatters:
         assert result.strip() == expected
 
     def test_to_string_with_datetime64_hourformatter(self):
-        x = DataFrame(
-            {"hod": to_datetime(["10:10:10.100", "12:12:12.120"], format="%H:%M:%S.%f")}
-        )
+        x = DataFrame({"hod": to_datetime(["10:10:10.100", "12:12:12.120"], format="%H:%M:%S.%f")})
 
         def format_func(x):
             return x.strftime("%H:%M")
@@ -151,14 +149,9 @@ class TestDataFrameToStringFormatters:
 
 class TestDataFrameToStringColSpace:
     def test_to_string_with_column_specific_col_space_raises(self):
-        df = DataFrame(
-            np.random.default_rng(2).random(size=(3, 3)), columns=["a", "b", "c"]
-        )
+        df = DataFrame(np.random.default_rng(2).random(size=(3, 3)), columns=["a", "b", "c"])
 
-        msg = (
-            "Col_space length\\(\\d+\\) should match "
-            "DataFrame number of columns\\(\\d+\\)"
-        )
+        msg = "Col_space length\\(\\d+\\) should match " "DataFrame number of columns\\(\\d+\\)"
         with pytest.raises(ValueError, match=msg):
             df.to_string(col_space=[30, 40])
 
@@ -170,9 +163,7 @@ class TestDataFrameToStringColSpace:
             df.to_string(col_space={"a": "foo", "b": 23, "d": 34})
 
     def test_to_string_with_column_specific_col_space(self):
-        df = DataFrame(
-            np.random.default_rng(2).random(size=(3, 3)), columns=["a", "b", "c"]
-        )
+        df = DataFrame(np.random.default_rng(2).random(size=(3, 3)), columns=["a", "b", "c"])
 
         result = df.to_string(col_space={"a": 10, "b": 11, "c": 12})
         # 3 separating space + each col_space for (id, a, b, c)
@@ -303,27 +294,21 @@ class TestDataFrameToStringLineWidth:
         df = DataFrame({"x": [1, 2, 3], "y": [4, 5, 6]})
 
         df_s = df.to_string(line_width=1)
-        expected = (
-            "   x  \\\n0  1   \n1  2   \n2  3   \n\n   y  \n0  4  \n1  5  \n2  6  "
-        )
+        expected = "   x  \\\n0  1   \n1  2   \n2  3   \n\n   y  \n0  4  \n1  5  \n2  6  "
 
         assert df_s == expected
 
         df = DataFrame({"x": [11, 22, 33], "y": [4, 5, 6]})
 
         df_s = df.to_string(line_width=1)
-        expected = (
-            "    x  \\\n0  11   \n1  22   \n2  33   \n\n   y  \n0  4  \n1  5  \n2  6  "
-        )
+        expected = "    x  \\\n0  11   \n1  22   \n2  33   \n\n   y  \n0  4  \n1  5  \n2  6  "
 
         assert df_s == expected
 
         df = DataFrame({"x": [11, 22, -33], "y": [4, 5, -6]})
 
         df_s = df.to_string(line_width=1)
-        expected = (
-            "    x  \\\n0  11   \n1  22   \n2 -33   \n\n   y  \n0  4  \n1  5  \n2 -6  "
-        )
+        expected = "    x  \\\n0  11   \n1  22   \n2 -33   \n\n   y  \n0  4  \n1  5  \n2 -6  "
 
         assert df_s == expected
 
@@ -370,18 +355,10 @@ class TestToStringNumericFormatting:
         # sadness per above
         if _three_digit_exp():
             expected = (
-                "               a\n"
-                "0  1.500000e+000\n"
-                "1  1.000000e-017\n"
-                "2 -5.500000e-007"
+                "               a\n" "0  1.500000e+000\n" "1  1.000000e-017\n" "2 -5.500000e-007"
             )
         else:
-            expected = (
-                "              a\n"
-                "0  1.500000e+00\n"
-                "1  1.000000e-17\n"
-                "2 -5.500000e-07"
-            )
+            expected = "              a\n" "0  1.500000e+00\n" "1  1.000000e-17\n" "2 -5.500000e-07"
         assert result == expected
 
         # but not all exactly zero
@@ -467,9 +444,7 @@ class TestToStringNumericFormatting:
             "display.notebook_repr_html",
             False,
         ):
-            df = DataFrame(
-                {"x": [0, 0.25, 3456.000, 12e45, 1.64e6, 1.7e8, 1.253456, np.pi, -1e6]}
-            )
+            df = DataFrame({"x": [0, 0.25, 3456.000, 12e45, 1.64e6, 1.7e8, 1.253456, np.pi, -1e6]})
 
             df_s = df.to_string()
 
@@ -702,9 +677,7 @@ class TestDataFrameToString:
     )
     def test_truncation_no_index(self, max_cols, max_rows, expected):
         df = DataFrame([[0] * 11] * 4)
-        assert (
-            df.to_string(index=False, max_cols=max_cols, max_rows=max_rows) == expected
-        )
+        assert df.to_string(index=False, max_cols=max_cols, max_rows=max_rows) == expected
 
     def test_to_string_no_index(self):
         # GH#16839, GH#13032
@@ -749,12 +722,8 @@ class TestDataFrameToString:
     def test_to_string_string_dtype(self):
         # GH#50099
         pytest.importorskip("pyarrow")
-        df = DataFrame(
-            {"x": ["foo", "bar", "baz"], "y": ["a", "b", "c"], "z": [1, 2, 3]}
-        )
-        df = df.astype(
-            {"x": "string[pyarrow]", "y": "string[python]", "z": "int64[pyarrow]"}
-        )
+        df = DataFrame({"x": ["foo", "bar", "baz"], "y": ["a", "b", "c"], "z": [1, 2, 3]})
+        df = df.astype({"x": "string[pyarrow]", "y": "string[python]", "z": "int64[pyarrow]"})
         result = df.dtypes.to_string()
         expected = dedent(
             """\
@@ -822,9 +791,7 @@ class TestDataFrameToString:
         assert isinstance(s, str)
 
         # print in right order
-        result = biggie.to_string(
-            columns=["B", "A"], col_space=17, float_format="%.5f".__mod__
-        )
+        result = biggie.to_string(columns=["B", "A"], col_space=17, float_format="%.5f".__mod__)
         lines = result.split("\n")
         header = lines[0].strip().split()
         joined = "\n".join([re.sub(r"\s+", " ", x).strip() for x in lines[1:]])
@@ -867,8 +834,7 @@ class TestDataFrameToString:
         y = df.set_index(["id1", "id2", "id3"])
         result = y.to_string()
         expected = (
-            "             value\nid1 id2 id3       \n"
-            "1a3 NaN 78d    123\n9h4 d67 79d     64"
+            "             value\nid1 id2 id3       \n" "1a3 NaN 78d    123\n9h4 d67 79d     64"
         )
         assert result == expected
 
@@ -885,8 +851,7 @@ class TestDataFrameToString:
         y = df.set_index(["id1", "id2"]).set_index("id3", append=True)
         result = y.to_string()
         expected = (
-            "             value\nid1 id2 id3       \n"
-            "1a3 NaN 78d    123\n9h4 d67 79d     64"
+            "             value\nid1 id2 id3       \n" "1a3 NaN 78d    123\n9h4 d67 79d     64"
         )
         assert result == expected
 
@@ -907,8 +872,7 @@ class TestDataFrameToString:
         y = df2.set_index(["id2", "id3"])
         result = y.to_string()
         expected = (
-            "         id1  value\nid2 id3            \n"
-            "NaN 78d  1a3    123\n    79d  9h4     64"
+            "         id1  value\nid2 id3            \n" "NaN 78d  1a3    123\n    79d  9h4     64"
         )
         assert result == expected
 
@@ -924,8 +888,7 @@ class TestDataFrameToString:
         y = df.set_index(["id1", "id2", "id3"])
         result = y.to_string()
         expected = (
-            "             value\nid1 id2 id3       \n"
-            "NaN NaN NaN    123\n9h4 d67 79d     64"
+            "             value\nid1 id2 id3       \n" "NaN NaN NaN    123\n9h4 d67 79d     64"
         )
         assert result == expected
 
@@ -1190,13 +1153,7 @@ class TestSeriesToString:
         ser[::2] = np.nan
 
         result = ser.to_string()
-        expected = (
-            "0       NaN\n"
-            "1    1.5678\n"
-            "2       NaN\n"
-            "3   -3.0000\n"
-            "4       NaN"
-        )
+        expected = "0       NaN\n" "1    1.5678\n" "2       NaN\n" "3   -3.0000\n" "4       NaN"
         assert result == expected
 
     def test_to_string_with_datetimeindex(self):

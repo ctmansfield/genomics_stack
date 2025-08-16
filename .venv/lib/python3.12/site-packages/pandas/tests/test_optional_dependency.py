@@ -54,14 +54,10 @@ def test_bad_version(monkeypatch):
         import_optional_dependency("fakemodule", min_version="1.1.0")
 
     with tm.assert_produces_warning(UserWarning):
-        result = import_optional_dependency(
-            "fakemodule", errors="warn", min_version="1.1.0"
-        )
+        result = import_optional_dependency("fakemodule", errors="warn", min_version="1.1.0")
     assert result is None
 
-    result = import_optional_dependency(
-        "fakemodule", errors="ignore", min_version="1.1.0"
-    )
+    result = import_optional_dependency("fakemodule", errors="ignore", min_version="1.1.0")
     assert result is None
 
 

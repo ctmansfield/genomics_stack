@@ -136,18 +136,12 @@ class TestDataFrameDrop:
 
         # errors = 'ignore'
         tm.assert_frame_equal(simple.drop(5, errors="ignore"), simple)
-        tm.assert_frame_equal(
-            simple.drop([0, 5], errors="ignore"), simple.loc[[1, 2, 3], :]
-        )
+        tm.assert_frame_equal(simple.drop([0, 5], errors="ignore"), simple.loc[[1, 2, 3], :])
         tm.assert_frame_equal(simple.drop("C", axis=1, errors="ignore"), simple)
-        tm.assert_frame_equal(
-            simple.drop(["A", "C"], axis=1, errors="ignore"), simple[["B"]]
-        )
+        tm.assert_frame_equal(simple.drop(["A", "C"], axis=1, errors="ignore"), simple[["B"]])
 
         # non-unique - wheee!
-        nu_df = DataFrame(
-            list(zip(range(3), range(-3, 1), list("abc"))), columns=["a", "a", "b"]
-        )
+        nu_df = DataFrame(list(zip(range(3), range(-3, 1), list("abc"))), columns=["a", "a", "b"])
         tm.assert_frame_equal(nu_df.drop("a", axis=1), nu_df[["b"]])
         tm.assert_frame_equal(nu_df.drop("b", axis="columns"), nu_df["a"])
         tm.assert_frame_equal(nu_df.drop([]), nu_df)  # GH 16398
@@ -159,9 +153,7 @@ class TestDataFrameDrop:
 
         # inplace cache issue
         # GH#5628
-        df = DataFrame(
-            np.random.default_rng(2).standard_normal((10, 3)), columns=list("abc")
-        )
+        df = DataFrame(np.random.default_rng(2).standard_normal((10, 3)), columns=list("abc"))
         expected = df[~(df.b > 0)]
         return_value = df.drop(labels=df[df.b > 0].index, inplace=True)
         assert return_value is None
@@ -181,9 +173,7 @@ class TestDataFrameDrop:
         not_lexsorted_df = DataFrame(
             columns=["a", "b", "c", "d"], data=[[1, "b1", "c1", 3], [1, "b2", "c2", 4]]
         )
-        not_lexsorted_df = not_lexsorted_df.pivot_table(
-            index="a", columns=["b", "c"], values="d"
-        )
+        not_lexsorted_df = not_lexsorted_df.pivot_table(index="a", columns=["b", "c"], values="d")
         not_lexsorted_df = not_lexsorted_df.reset_index()
         assert not not_lexsorted_df.columns._is_lexsorted()
 
@@ -321,9 +311,7 @@ class TestDataFrameDrop:
         expected = df.drop("top", axis=1)
 
         result = df.drop("result1", level=1, axis=1)
-        expected = df.drop(
-            [("routine1", "result1", ""), ("routine2", "result1", "")], axis=1
-        )
+        expected = df.drop([("routine1", "result1", ""), ("routine2", "result1", "")], axis=1)
         tm.assert_frame_equal(expected, result)
 
     def test_drop_multiindex_other_level_nan(self):
@@ -442,9 +430,7 @@ class TestDataFrameDrop:
         result = df.drop([(0, 2)])
         assert result.index.names == ("one", "two")
 
-    @pytest.mark.parametrize(
-        "operation", ["__iadd__", "__isub__", "__imul__", "__ipow__"]
-    )
+    @pytest.mark.parametrize("operation", ["__iadd__", "__isub__", "__imul__", "__ipow__"])
     @pytest.mark.parametrize("inplace", [False, True])
     def test_inplace_drop_and_operation(self, operation, inplace):
         # GH#30484
@@ -477,15 +463,11 @@ class TestDataFrameDrop:
         idx = MultiIndex.from_product([["a", "b"], ["a", "a"]])
         df = DataFrame({"x": range(len(idx))}, index=idx)
         result = df.drop(index=[("a", "a")])
-        expected = DataFrame(
-            {"x": [2, 3]}, index=MultiIndex.from_tuples([("b", "a"), ("b", "a")])
-        )
+        expected = DataFrame({"x": [2, 3]}, index=MultiIndex.from_tuples([("b", "a"), ("b", "a")]))
         tm.assert_frame_equal(result, expected)
 
     def test_drop_with_duplicate_columns(self):
-        df = DataFrame(
-            [[1, 5, 7.0], [1, 5, 7.0], [1, 5, 7.0]], columns=["bar", "a", "a"]
-        )
+        df = DataFrame([[1, 5, 7.0], [1, 5, 7.0], [1, 5, 7.0]], columns=["bar", "a", "a"])
         result = df.drop(["a"], axis=1)
         expected = DataFrame([[1], [1], [1]], columns=["bar"])
         tm.assert_frame_equal(result, expected)
@@ -526,13 +508,9 @@ class TestDataFrameDrop:
     @pytest.mark.parametrize("idx, level", [(["a", "b"], 0), (["a"], None)])
     def test_drop_index_ea_dtype(self, any_numeric_ea_dtype, idx, level):
         # GH#45860
-        df = DataFrame(
-            {"a": [1, 2, 2, pd.NA], "b": 100}, dtype=any_numeric_ea_dtype
-        ).set_index(idx)
+        df = DataFrame({"a": [1, 2, 2, pd.NA], "b": 100}, dtype=any_numeric_ea_dtype).set_index(idx)
         result = df.drop(Index([2, pd.NA]), level=level)
-        expected = DataFrame(
-            {"a": [1], "b": 100}, dtype=any_numeric_ea_dtype
-        ).set_index(idx)
+        expected = DataFrame({"a": [1], "b": 100}, dtype=any_numeric_ea_dtype).set_index(idx)
         tm.assert_frame_equal(result, expected)
 
     def test_drop_parse_strings_datetime_index(self):

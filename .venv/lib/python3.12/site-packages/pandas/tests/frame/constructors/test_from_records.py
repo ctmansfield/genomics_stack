@@ -62,21 +62,13 @@ class TestFromRecords:
     def test_from_records_sequencelike(self):
         df = DataFrame(
             {
-                "A": np.array(
-                    np.random.default_rng(2).standard_normal(6), dtype=np.float64
-                ),
-                "A1": np.array(
-                    np.random.default_rng(2).standard_normal(6), dtype=np.float64
-                ),
+                "A": np.array(np.random.default_rng(2).standard_normal(6), dtype=np.float64),
+                "A1": np.array(np.random.default_rng(2).standard_normal(6), dtype=np.float64),
                 "B": np.array(np.arange(6), dtype=np.int64),
                 "C": ["foo"] * 6,
                 "D": np.array([True, False] * 3, dtype=bool),
-                "E": np.array(
-                    np.random.default_rng(2).standard_normal(6), dtype=np.float32
-                ),
-                "E1": np.array(
-                    np.random.default_rng(2).standard_normal(6), dtype=np.float32
-                ),
+                "E": np.array(np.random.default_rng(2).standard_normal(6), dtype=np.float32),
+                "E1": np.array(np.random.default_rng(2).standard_normal(6), dtype=np.float32),
                 "F": np.array(np.arange(6), dtype=np.int32),
             }
         )
@@ -101,22 +93,14 @@ class TestFromRecords:
         lists = [list(x) for x in tuples]
 
         # tuples (lose the dtype info)
-        result = DataFrame.from_records(tuples, columns=columns).reindex(
-            columns=df.columns
-        )
+        result = DataFrame.from_records(tuples, columns=columns).reindex(columns=df.columns)
 
         # created recarray and with to_records recarray (have dtype info)
-        result2 = DataFrame.from_records(recarray, columns=columns).reindex(
-            columns=df.columns
-        )
-        result3 = DataFrame.from_records(recarray2, columns=columns).reindex(
-            columns=df.columns
-        )
+        result2 = DataFrame.from_records(recarray, columns=columns).reindex(columns=df.columns)
+        result3 = DataFrame.from_records(recarray2, columns=columns).reindex(columns=df.columns)
 
         # list of tuples (no dtype info)
-        result4 = DataFrame.from_records(lists, columns=columns).reindex(
-            columns=df.columns
-        )
+        result4 = DataFrame.from_records(lists, columns=columns).reindex(columns=df.columns)
 
         tm.assert_frame_equal(result, df, check_dtype=False)
         tm.assert_frame_equal(result2, df)
@@ -151,21 +135,13 @@ class TestFromRecords:
         # test the dict methods
         df = DataFrame(
             {
-                "A": np.array(
-                    np.random.default_rng(2).standard_normal(6), dtype=np.float64
-                ),
-                "A1": np.array(
-                    np.random.default_rng(2).standard_normal(6), dtype=np.float64
-                ),
+                "A": np.array(np.random.default_rng(2).standard_normal(6), dtype=np.float64),
+                "A1": np.array(np.random.default_rng(2).standard_normal(6), dtype=np.float64),
                 "B": np.array(np.arange(6), dtype=np.int64),
                 "C": ["foo"] * 6,
                 "D": np.array([True, False] * 3, dtype=bool),
-                "E": np.array(
-                    np.random.default_rng(2).standard_normal(6), dtype=np.float32
-                ),
-                "E1": np.array(
-                    np.random.default_rng(2).standard_normal(6), dtype=np.float32
-                ),
+                "E": np.array(np.random.default_rng(2).standard_normal(6), dtype=np.float32),
+                "E1": np.array(np.random.default_rng(2).standard_normal(6), dtype=np.float32),
                 "F": np.array(np.arange(6), dtype=np.int32),
             }
         )
@@ -183,20 +159,14 @@ class TestFromRecords:
         # dict of series & dict of ndarrays (have dtype info)
         results = []
         results.append(DataFrame.from_records(asdict).reindex(columns=df.columns))
-        results.append(
-            DataFrame.from_records(asdict, columns=columns).reindex(columns=df.columns)
-        )
-        results.append(
-            DataFrame.from_records(asdict2, columns=columns).reindex(columns=df.columns)
-        )
+        results.append(DataFrame.from_records(asdict, columns=columns).reindex(columns=df.columns))
+        results.append(DataFrame.from_records(asdict2, columns=columns).reindex(columns=df.columns))
 
         for r in results:
             tm.assert_frame_equal(r, df)
 
     def test_from_records_with_index_data(self):
-        df = DataFrame(
-            np.random.default_rng(2).standard_normal((10, 3)), columns=["A", "B", "C"]
-        )
+        df = DataFrame(np.random.default_rng(2).standard_normal((10, 3)), columns=["A", "B", "C"])
 
         data = np.random.default_rng(2).standard_normal(10)
         with tm.assert_produces_warning(FutureWarning):
@@ -204,9 +174,7 @@ class TestFromRecords:
         tm.assert_index_equal(df1.index, Index(data))
 
     def test_from_records_bad_index_column(self):
-        df = DataFrame(
-            np.random.default_rng(2).standard_normal((10, 3)), columns=["A", "B", "C"]
-        )
+        df = DataFrame(np.random.default_rng(2).standard_normal((10, 3)), columns=["A", "B", "C"])
 
         # should pass
         with tm.assert_produces_warning(FutureWarning):
@@ -266,14 +234,10 @@ class TestFromRecords:
 
     def test_from_records_series_categorical_index(self):
         # GH#32805
-        index = CategoricalIndex(
-            [Interval(-20, -10), Interval(-10, 0), Interval(0, 10)]
-        )
+        index = CategoricalIndex([Interval(-20, -10), Interval(-10, 0), Interval(0, 10)])
         series_of_dicts = Series([{"a": 1}, {"a": 2}, {"b": 3}], index=index)
         frame = DataFrame.from_records(series_of_dicts, index=index)
-        expected = DataFrame(
-            {"a": [1, 2, np.nan], "b": [np.nan, np.nan, 3]}, index=index
-        )
+        expected = DataFrame({"a": [1, 2, np.nan], "b": [np.nan, np.nan, 3]}, index=index)
         tm.assert_frame_equal(frame, expected)
 
     def test_frame_from_records_utc(self):
@@ -355,9 +319,7 @@ class TestFromRecords:
                 yield (i, letters[i % len(letters)], i / length)
 
         columns_names = ["Integer", "String", "Float"]
-        columns = [
-            [i[j] for i in tuple_generator(10)] for j in range(len(columns_names))
-        ]
+        columns = [[i[j] for i in tuple_generator(10)] for j in range(len(columns_names))]
         data = {"Integer": columns[0], "String": columns[1], "Float": columns[2]}
         expected = DataFrame(data, columns=columns_names)
 
@@ -372,9 +334,7 @@ class TestFromRecords:
                 yield [i, letters[i % len(letters)], i / length]
 
         columns_names = ["Integer", "String", "Float"]
-        columns = [
-            [i[j] for i in list_generator(10)] for j in range(len(columns_names))
-        ]
+        columns = [[i[j] for i in list_generator(10)] for j in range(len(columns_names))]
         data = {"Integer": columns[0], "String": columns[1], "Float": columns[2]}
         expected = DataFrame(data, columns=columns_names)
 
@@ -451,9 +411,7 @@ class TestFromRecords:
         rows.append([datetime(2010, 1, 1), 1])
         rows.append([datetime(2010, 1, 2), "hi"])  # test col upconverts to obj
         result = DataFrame.from_records(rows, columns=["date", "test"])
-        expected = DataFrame(
-            {"date": [row[0] for row in rows], "test": [row[1] for row in rows]}
-        )
+        expected = DataFrame({"date": [row[0] for row in rows], "test": [row[1] for row in rows]})
         tm.assert_frame_equal(result, expected)
         assert result.dtypes["test"] == np.dtype(object)
 
@@ -462,9 +420,7 @@ class TestFromRecords:
         rows.append([datetime(2010, 1, 1), 1])
         rows.append([datetime(2010, 1, 2), 1])
         result = DataFrame.from_records(rows, columns=["date", "test"])
-        expected = DataFrame(
-            {"date": [row[0] for row in rows], "test": [row[1] for row in rows]}
-        )
+        expected = DataFrame({"date": [row[0] for row in rows], "test": [row[1] for row in rows]})
         tm.assert_frame_equal(result, expected)
 
     def test_from_records_empty(self):

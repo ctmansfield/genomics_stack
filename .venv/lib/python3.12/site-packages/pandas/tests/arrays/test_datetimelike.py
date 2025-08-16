@@ -49,9 +49,7 @@ def period_index(freqstr):
     # TODO: non-monotone indexes; NaTs, different start dates
     with warnings.catch_warnings():
         # suppress deprecation of Period[B]
-        warnings.filterwarnings(
-            "ignore", message="Period with BDay freq", category=FutureWarning
-        )
+        warnings.filterwarnings("ignore", message="Period with BDay freq", category=FutureWarning)
         freqstr = freq_to_period_freqstr(1, freqstr)
         pi = pd.period_range(start=Timestamp("2000-01-01"), periods=100, freq=freqstr)
     return pi
@@ -198,9 +196,7 @@ class SharedTests:
         result = arr.take([-1, 1], allow_fill=True, fill_value=NaT)
         assert result[0] is NaT
 
-    @pytest.mark.filterwarnings(
-        "ignore:Period with BDay freq is deprecated:FutureWarning"
-    )
+    @pytest.mark.filterwarnings("ignore:Period with BDay freq is deprecated:FutureWarning")
     def test_take_fill_str(self, arr1d):
         # Cast str fill_value matching other fill_value-taking methods
         result = arr1d.take([-1, 1], allow_fill=True, fill_value=str(arr1d[-1]))
@@ -354,9 +350,7 @@ class SharedTests:
 
     def test_getitem_2d(self, arr1d):
         # 2d slicing on a 1D array
-        expected = type(arr1d)._simple_new(
-            arr1d._ndarray[:, np.newaxis], dtype=arr1d.dtype
-        )
+        expected = type(arr1d)._simple_new(arr1d._ndarray[:, np.newaxis], dtype=arr1d.dtype)
         result = arr1d[:, np.newaxis]
         tm.assert_equal(result, expected)
 
@@ -514,10 +508,7 @@ class SharedTests:
     def test_setitem_numeric_raises(self, arr1d, box):
         # We dont case e.g. int64 to our own dtype for setitem
 
-        msg = (
-            f"value should be a '{arr1d._scalar_type.__name__}', "
-            "'NaT', or array of those. Got"
-        )
+        msg = f"value should be a '{arr1d._scalar_type.__name__}', " "'NaT', or array of those. Got"
         with pytest.raises(TypeError, match=msg):
             arr1d[:2] = box([0, 1])
 

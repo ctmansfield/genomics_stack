@@ -403,9 +403,9 @@ class TestDataFrameToRecords:
         [
             # MultiIndex in the index.
             (
-                DataFrame(
-                    [[1, 2, 3], [4, 5, 6], [7, 8, 9]], columns=list("abc")
-                ).set_index(["a", "b"]),
+                DataFrame([[1, 2, 3], [4, 5, 6], [7, 8, 9]], columns=list("abc")).set_index(
+                    ["a", "b"]
+                ),
                 {"column_dtypes": "float64", "index_dtypes": {0: "int32", 1: "int8"}},
                 np.rec.array(
                     [(1, 2, 3.0), (4, 5, 6.0), (7, 8, 9.0)],
@@ -420,9 +420,7 @@ class TestDataFrameToRecords:
             (
                 DataFrame(
                     [[1, 2, 3], [4, 5, 6], [7, 8, 9]],
-                    columns=MultiIndex.from_tuples(
-                        [("a", "d"), ("b", "e"), ("c", "f")]
-                    ),
+                    columns=MultiIndex.from_tuples([("a", "d"), ("b", "e"), ("c", "f")]),
                 ),
                 {
                     "column_dtypes": {0: f"{tm.ENDIAN}U1", 2: "float32"},

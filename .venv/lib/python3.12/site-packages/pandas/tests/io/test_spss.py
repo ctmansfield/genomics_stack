@@ -116,10 +116,7 @@ def test_spss_umlauts_dtype_backend(datapath, dtype_backend):
 
 
 def test_invalid_dtype_backend():
-    msg = (
-        "dtype_backend numpy is invalid, only 'numpy_nullable' and "
-        "'pyarrow' are allowed."
-    )
+    msg = "dtype_backend numpy is invalid, only 'numpy_nullable' and " "'pyarrow' are allowed."
     with pytest.raises(ValueError, match=msg):
         pd.read_spss("test", dtype_backend="numpy")
 

@@ -120,9 +120,7 @@ def test_copy_shallow(using_copy_on_write, warn_copy_on_write):
         "set_flags",
     ],
 )
-def test_methods_copy_keyword(
-    request, method, copy, using_copy_on_write, using_array_manager
-):
+def test_methods_copy_keyword(request, method, copy, using_copy_on_write, using_array_manager):
     index = None
     if "to_timestamp" in request.node.callspec.id:
         index = period_range("2012-01-01", freq="D", periods=3)
@@ -247,9 +245,7 @@ def test_transpose_copy_keyword(using_copy_on_write, copy, using_array_manager):
 def test_reset_index(using_copy_on_write):
     # Case: resetting the index (i.e. adding a new column) + mutating the
     # resulting dataframe
-    df = DataFrame(
-        {"a": [1, 2, 3], "b": [4, 5, 6], "c": [0.1, 0.2, 0.3]}, index=[10, 11, 12]
-    )
+    df = DataFrame({"a": [1, 2, 3], "b": [4, 5, 6], "c": [0.1, 0.2, 0.3]}, index=[10, 11, 12])
     df_orig = df.copy()
     df2 = df.reset_index()
     df2._mgr._verify_integrity()
@@ -282,9 +278,7 @@ def test_reset_index_series_drop(using_copy_on_write, index):
 
 
 def test_groupby_column_index_in_references():
-    df = DataFrame(
-        {"A": ["a", "b", "c", "d"], "B": [1, 2, 3, 4], "C": ["a", "a", "b", "b"]}
-    )
+    df = DataFrame({"A": ["a", "b", "c", "d"], "B": [1, 2, 3, 4], "C": ["a", "a", "b", "b"]})
     df = df.set_index("A")
     key = df["C"]
     result = df.groupby(key, observed=True).sum()
@@ -466,9 +460,7 @@ def test_select_dtypes(using_copy_on_write):
     tm.assert_frame_equal(df, df_orig)
 
 
-@pytest.mark.parametrize(
-    "filter_kwargs", [{"items": ["a"]}, {"like": "a"}, {"regex": "a"}]
-)
+@pytest.mark.parametrize("filter_kwargs", [{"items": ["a"]}, {"like": "a"}, {"regex": "a"}])
 def test_filter(using_copy_on_write, filter_kwargs):
     # Case: selecting columns using `filter()` returns a new dataframe
     # + afterwards modifying the result
@@ -541,18 +533,14 @@ def test_shift_rows_freq(using_copy_on_write):
 
 
 def test_shift_columns(using_copy_on_write, warn_copy_on_write):
-    df = DataFrame(
-        [[1, 2], [3, 4], [5, 6]], columns=date_range("2020-01-01", "2020-01-02")
-    )
+    df = DataFrame([[1, 2], [3, 4], [5, 6]], columns=date_range("2020-01-01", "2020-01-02"))
     df2 = df.shift(periods=1, axis=1)
 
     assert np.shares_memory(get_array(df2, "2020-01-02"), get_array(df, "2020-01-01"))
     with tm.assert_cow_warning(warn_copy_on_write):
         df.iloc[0, 0] = 0
     if using_copy_on_write:
-        assert not np.shares_memory(
-            get_array(df2, "2020-01-02"), get_array(df, "2020-01-01")
-        )
+        assert not np.shares_memory(get_array(df2, "2020-01-02"), get_array(df, "2020-01-01"))
         expected = DataFrame(
             [[np.nan, 1], [np.nan, 3], [np.nan, 5]],
             columns=date_range("2020-01-01", "2020-01-02"),
@@ -857,9 +845,7 @@ def test_add_prefix(using_copy_on_write):
 
     if using_copy_on_write:
         assert np.shares_memory(get_array(df2, "CoW_c"), get_array(df, "c"))
-    expected = DataFrame(
-        {"CoW_a": [0, 2, 3], "CoW_b": [4, 5, 6], "CoW_c": [0.1, 0.2, 0.3]}
-    )
+    expected = DataFrame({"CoW_a": [0, 2, 3], "CoW_b": [4, 5, 6], "CoW_c": [0.1, 0.2, 0.3]})
     tm.assert_frame_equal(df2, expected)
     tm.assert_frame_equal(df, df_orig)
 
@@ -875,9 +861,7 @@ def test_add_suffix(using_copy_on_write):
     assert not np.shares_memory(get_array(df2, "a_CoW"), get_array(df, "a"))
     if using_copy_on_write:
         assert np.shares_memory(get_array(df2, "c_CoW"), get_array(df, "c"))
-    expected = DataFrame(
-        {"a_CoW": [0, 2, 3], "b_CoW": [4, 5, 6], "c_CoW": [0.1, 0.2, 0.3]}
-    )
+    expected = DataFrame({"a_CoW": [0, 2, 3], "b_CoW": [4, 5, 6], "c_CoW": [0.1, 0.2, 0.3]})
     tm.assert_frame_equal(df2, expected)
     tm.assert_frame_equal(df, df_orig)
 
@@ -952,9 +936,7 @@ def test_head_tail(method, using_copy_on_write, warn_copy_on_write):
 
 
 def test_infer_objects(using_copy_on_write, using_infer_string):
-    df = DataFrame(
-        {"a": [1, 2], "b": Series(["x", "y"], dtype=object), "c": 1, "d": "x"}
-    )
+    df = DataFrame({"a": [1, 2], "b": Series(["x", "y"], dtype=object), "c": 1, "d": "x"})
     df_orig = df.copy()
     df2 = df.infer_objects()
 
@@ -983,9 +965,7 @@ def test_infer_objects_no_reference(using_copy_on_write, using_infer_string):
             "a": [1, 2],
             "b": Series(["x", "y"], dtype=object),
             "c": 1,
-            "d": Series(
-                [Timestamp("2019-12-31"), Timestamp("2020-12-31")], dtype="object"
-            ),
+            "d": Series([Timestamp("2019-12-31"), Timestamp("2020-12-31")], dtype="object"),
             "e": Series(["z", "w"], dtype=object),
         }
     )
@@ -1017,9 +997,7 @@ def test_infer_objects_reference(using_copy_on_write, using_infer_string):
             "a": [1, 2],
             "b": Series(["x", "y"], dtype=object),
             "c": 1,
-            "d": Series(
-                [Timestamp("2019-12-31"), Timestamp("2020-12-31")], dtype="object"
-            ),
+            "d": Series([Timestamp("2019-12-31"), Timestamp("2020-12-31")], dtype="object"),
         }
     )
     view = df[:]  # noqa: F841
@@ -1217,9 +1195,7 @@ def test_round(using_copy_on_write, warn_copy_on_write, decimals):
 
 
 def test_reorder_levels(using_copy_on_write):
-    index = MultiIndex.from_tuples(
-        [(1, 1), (1, 2), (2, 1), (2, 2)], names=["one", "two"]
-    )
+    index = MultiIndex.from_tuples([(1, 1), (1, 2), (2, 1), (2, 2)], names=["one", "two"])
     df = DataFrame({"a": [1, 2, 3, 4]}, index=index)
     df_orig = df.copy()
     df2 = df.reorder_levels(order=["two", "one"])
@@ -1236,9 +1212,7 @@ def test_reorder_levels(using_copy_on_write):
 
 
 def test_series_reorder_levels(using_copy_on_write):
-    index = MultiIndex.from_tuples(
-        [(1, 1), (1, 2), (2, 1), (2, 2)], names=["one", "two"]
-    )
+    index = MultiIndex.from_tuples([(1, 1), (1, 2), (2, 1), (2, 2)], names=["one", "two"])
     ser = Series([1, 2, 3, 4], index=index)
     ser_orig = ser.copy()
     ser2 = ser.reorder_levels(order=["two", "one"])
@@ -1342,14 +1316,10 @@ def test_rename_axis(using_copy_on_write, kwargs):
     tm.assert_frame_equal(df, df_orig)
 
 
-@pytest.mark.parametrize(
-    "func, tz", [("tz_convert", "Europe/Berlin"), ("tz_localize", None)]
-)
+@pytest.mark.parametrize("func, tz", [("tz_convert", "Europe/Berlin"), ("tz_localize", None)])
 def test_tz_convert_localize(using_copy_on_write, func, tz):
     # GH 49473
-    ser = Series(
-        [1, 2], index=date_range(start="2014-08-01 09:00", freq="h", periods=2, tz=tz)
-    )
+    ser = Series([1, 2], index=date_range(start="2014-08-01 09:00", freq="h", periods=2, tz=tz))
     ser_orig = ser.copy()
     ser2 = getattr(ser, func)("US/Central")
 
@@ -1467,18 +1437,12 @@ def test_putmask_aligns_rhs_no_reference(using_copy_on_write, dtype):
         assert np.shares_memory(arr_a, get_array(df, "a"))
 
 
-@pytest.mark.parametrize(
-    "val, exp, warn", [(5.5, True, FutureWarning), (5, False, None)]
-)
-def test_putmask_dont_copy_some_blocks(
-    using_copy_on_write, val, exp, warn, warn_copy_on_write
-):
+@pytest.mark.parametrize("val, exp, warn", [(5.5, True, FutureWarning), (5, False, None)])
+def test_putmask_dont_copy_some_blocks(using_copy_on_write, val, exp, warn, warn_copy_on_write):
     df = DataFrame({"a": [1, 2], "b": 1, "c": 1.5})
     view = df[:]
     df_orig = df.copy()
-    indexer = DataFrame(
-        [[True, False, False], [True, False, False]], columns=list("abc")
-    )
+    indexer = DataFrame([[True, False, False], [True, False, False]], columns=list("abc"))
     if warn_copy_on_write:
         with tm.assert_cow_warning():
             df[indexer] = val
@@ -1665,9 +1629,7 @@ def test_isetitem(using_copy_on_write):
         assert not np.shares_memory(get_array(df, "c"), get_array(df2, "c"))
 
 
-@pytest.mark.parametrize(
-    "dtype", ["int64", "float64"], ids=["single-block", "mixed-block"]
-)
+@pytest.mark.parametrize("dtype", ["int64", "float64"], ids=["single-block", "mixed-block"])
 def test_isetitem_series(using_copy_on_write, dtype):
     df = DataFrame({"a": [1, 2, 3], "b": np.array([4, 5, 6], dtype=dtype)})
     ser = Series([7, 8, 9])
@@ -1739,17 +1701,11 @@ def test_get(using_copy_on_write, warn_copy_on_write, key):
 
 
 @pytest.mark.parametrize("axis, key", [(0, 0), (1, "a")])
-@pytest.mark.parametrize(
-    "dtype", ["int64", "float64"], ids=["single-block", "mixed-block"]
-)
-def test_xs(
-    using_copy_on_write, warn_copy_on_write, using_array_manager, axis, key, dtype
-):
+@pytest.mark.parametrize("dtype", ["int64", "float64"], ids=["single-block", "mixed-block"])
+def test_xs(using_copy_on_write, warn_copy_on_write, using_array_manager, axis, key, dtype):
     single_block = (dtype == "int64") and not using_array_manager
     is_view = single_block or (using_array_manager and axis == 1)
-    df = DataFrame(
-        {"a": [1, 2, 3], "b": [4, 5, 6], "c": np.array([7, 8, 9], dtype=dtype)}
-    )
+    df = DataFrame({"a": [1, 2, 3], "b": [4, 5, 6], "c": np.array([7, 8, 9], dtype=dtype)})
     df_orig = df.copy()
 
     result = df.xs(key, axis=axis)
@@ -1790,9 +1746,7 @@ def test_xs_multiindex(
     result = df.xs(key, level=level, axis=axis)
 
     if level == 0:
-        assert np.shares_memory(
-            get_array(df, df.columns[0]), get_array(result, result.columns[0])
-        )
+        assert np.shares_memory(get_array(df, df.columns[0]), get_array(result, result.columns[0]))
 
     if warn_copy_on_write:
         warn = FutureWarning if level == 0 else None
@@ -1892,9 +1846,7 @@ def test_inplace_arithmetic_series(using_copy_on_write):
         tm.assert_numpy_array_equal(data, get_array(ser))
 
 
-def test_inplace_arithmetic_series_with_reference(
-    using_copy_on_write, warn_copy_on_write
-):
+def test_inplace_arithmetic_series_with_reference(using_copy_on_write, warn_copy_on_write):
     ser = Series([1, 2, 3])
     ser_orig = ser.copy()
     view = ser[:]

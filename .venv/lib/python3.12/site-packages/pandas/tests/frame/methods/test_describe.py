@@ -81,9 +81,7 @@ class TestDataFrameDescribe:
         )
         tm.assert_frame_equal(result, expected)
 
-        df = DataFrame(
-            {"bool_data": [False, False, True, True], "str_data": ["a", "b", "c", "a"]}
-        )
+        df = DataFrame({"bool_data": [False, False, True, True], "str_data": ["a", "b", "c", "a"]})
         result = df.describe()
         expected = DataFrame(
             {"bool_data": [4, 2, False, 2], "str_data": [4, 3, "a", 2]},
@@ -97,9 +95,7 @@ class TestDataFrameDescribe:
         cat_labels = Categorical(labels, labels)
 
         df = df.sort_values(by=["value"], ascending=True)
-        df["value_group"] = pd.cut(
-            df.value, range(0, 10500, 500), right=False, labels=cat_labels
-        )
+        df["value_group"] = pd.cut(df.value, range(0, 10500, 500), right=False, labels=cat_labels)
         cat = df
 
         # Categoricals should not show up together with numerical columns
@@ -109,9 +105,7 @@ class TestDataFrameDescribe:
         # In a frame, describe() for the cat should be the same as for string
         # arrays (count, unique, top, freq)
 
-        cat = Categorical(
-            ["a", "b", "b", "b"], categories=["a", "b", "c"], ordered=True
-        )
+        cat = Categorical(["a", "b", "b", "b"], categories=["a", "b", "c"], ordered=True)
         s = Series(cat)
         result = s.describe()
         expected = Series([4, 2, "b", 3], index=["count", "unique", "top", "freq"])
@@ -318,9 +312,7 @@ class TestDataFrameDescribe:
             "max",
             "std",
         ]
-        expected = pd.concat([s1_, s2_], axis=1, keys=["s1", "s2"]).reindex(
-            idx, copy=False
-        )
+        expected = pd.concat([s1_, s2_], axis=1, keys=["s1", "s2"]).reindex(idx, copy=False)
 
         result = df.describe(include="all")
         tm.assert_frame_equal(result, expected)
@@ -406,9 +398,7 @@ class TestDataFrameDescribe:
                 "c": Series([1, 2, 3], dtype=pd.ArrowDtype(pa.int32())),
             }
         )
-        result = df.describe(
-            include=pd.ArrowDtype(pa.int8()), exclude=pd.ArrowDtype(pa.int32())
-        )
+        result = df.describe(include=pd.ArrowDtype(pa.int8()), exclude=pd.ArrowDtype(pa.int32()))
         expected = DataFrame(
             {"a": [3, 2, 1, 1, 1.5, 2, 2.5, 3]},
             index=["count", "mean", "std", "min", "25%", "50%", "75%", "max"],

@@ -278,29 +278,17 @@ class TestDataFrameToCSV:
         if r_dtype:
             if r_dtype == "u":  # unicode
                 r_dtype = "O"
-                recons.index = np.array(
-                    [_to_uni(label) for label in recons.index], dtype=r_dtype
-                )
-                df.index = np.array(
-                    [_to_uni(label) for label in df.index], dtype=r_dtype
-                )
+                recons.index = np.array([_to_uni(label) for label in recons.index], dtype=r_dtype)
+                df.index = np.array([_to_uni(label) for label in df.index], dtype=r_dtype)
             elif r_dtype == "dt":  # unicode
                 r_dtype = "O"
-                recons.index = np.array(
-                    [Timestamp(label) for label in recons.index], dtype=r_dtype
-                )
-                df.index = np.array(
-                    [Timestamp(label) for label in df.index], dtype=r_dtype
-                )
+                recons.index = np.array([Timestamp(label) for label in recons.index], dtype=r_dtype)
+                df.index = np.array([Timestamp(label) for label in df.index], dtype=r_dtype)
             elif r_dtype == "p":
                 r_dtype = "O"
                 idx_list = to_datetime(recons.index)
-                recons.index = np.array(
-                    [Timestamp(label) for label in idx_list], dtype=r_dtype
-                )
-                df.index = np.array(
-                    list(map(Timestamp, df.index.to_timestamp())), dtype=r_dtype
-                )
+                recons.index = np.array([Timestamp(label) for label in idx_list], dtype=r_dtype)
+                df.index = np.array(list(map(Timestamp, df.index.to_timestamp())), dtype=r_dtype)
             else:
                 r_dtype = type_map.get(r_dtype)
                 recons.index = np.array(recons.index, dtype=r_dtype)
@@ -311,27 +299,19 @@ class TestDataFrameToCSV:
                 recons.columns = np.array(
                     [_to_uni(label) for label in recons.columns], dtype=c_dtype
                 )
-                df.columns = np.array(
-                    [_to_uni(label) for label in df.columns], dtype=c_dtype
-                )
+                df.columns = np.array([_to_uni(label) for label in df.columns], dtype=c_dtype)
             elif c_dtype == "dt":
                 c_dtype = "O"
                 recons.columns = np.array(
                     [Timestamp(label) for label in recons.columns], dtype=c_dtype
                 )
-                df.columns = np.array(
-                    [Timestamp(label) for label in df.columns], dtype=c_dtype
-                )
+                df.columns = np.array([Timestamp(label) for label in df.columns], dtype=c_dtype)
             elif c_dtype == "p":
                 c_dtype = "O"
                 col_list = to_datetime(recons.columns)
-                recons.columns = np.array(
-                    [Timestamp(label) for label in col_list], dtype=c_dtype
-                )
+                recons.columns = np.array([Timestamp(label) for label in col_list], dtype=c_dtype)
                 col_list = df.columns.to_timestamp()
-                df.columns = np.array(
-                    [Timestamp(label) for label in col_list], dtype=c_dtype
-                )
+                df.columns = np.array([Timestamp(label) for label in col_list], dtype=c_dtype)
             else:
                 c_dtype = type_map.get(c_dtype)
                 recons.columns = np.array(recons.columns, dtype=c_dtype)
@@ -448,16 +428,14 @@ class TestDataFrameToCSV:
     def test_to_csv_params(self, nrows, df_params, func_params, ncols):
         if df_params.get("r_idx_nlevels"):
             index = MultiIndex.from_arrays(
-                [f"i-{i}" for i in range(nrows)]
-                for _ in range(df_params["r_idx_nlevels"])
+                [f"i-{i}" for i in range(nrows)] for _ in range(df_params["r_idx_nlevels"])
             )
         else:
             index = None
 
         if df_params.get("c_idx_nlevels"):
             columns = MultiIndex.from_arrays(
-                [f"i-{i}" for i in range(ncols)]
-                for _ in range(df_params["c_idx_nlevels"])
+                [f"i-{i}" for i in range(ncols)] for _ in range(df_params["c_idx_nlevels"])
             )
         else:
             columns = Index([f"i-{i}" for i in range(ncols)])
@@ -558,9 +536,7 @@ class TestDataFrameToCSV:
             tsframe.index = MultiIndex.from_arrays(new_index)
 
             tsframe.to_csv(path, index_label=["time", "foo"])
-            with tm.assert_produces_warning(
-                UserWarning, match="Could not infer format"
-            ):
+            with tm.assert_produces_warning(UserWarning, match="Could not infer format"):
                 recons = self.read_csv(path, index_col=[0, 1], parse_dates=True)
 
             # TODO to_csv drops column name
@@ -697,9 +673,7 @@ class TestDataFrameToCSV:
             tm.assert_frame_equal(result, expected)
 
     def test_to_csv_float32_nanrep(self):
-        df = DataFrame(
-            np.random.default_rng(2).standard_normal((1, 4)).astype(np.float32)
-        )
+        df = DataFrame(np.random.default_rng(2).standard_normal((1, 4)).astype(np.float32))
         df[1] = np.nan
 
         with tm.ensure_clean("__tmp_to_csv_float32_nanrep__.csv") as path:
@@ -761,9 +735,7 @@ class TestDataFrameToCSV:
 
         with tm.ensure_clean() as filename:
             df.to_csv(filename)
-            rs = read_csv(
-                filename, index_col=0, dtype=dtypes, parse_dates=create_cols("date")
-            )
+            rs = read_csv(filename, index_col=0, dtype=dtypes, parse_dates=create_cols("date"))
             tm.assert_frame_equal(rs, df)
 
     def test_to_csv_dups_cols(self):
@@ -779,20 +751,14 @@ class TestDataFrameToCSV:
             result.columns = df.columns
             tm.assert_frame_equal(result, df)
 
-        df_float = DataFrame(
-            np.random.default_rng(2).standard_normal((1000, 3)), dtype="float64"
-        )
-        df_int = DataFrame(np.random.default_rng(2).standard_normal((1000, 3))).astype(
-            "int64"
-        )
+        df_float = DataFrame(np.random.default_rng(2).standard_normal((1000, 3)), dtype="float64")
+        df_int = DataFrame(np.random.default_rng(2).standard_normal((1000, 3))).astype("int64")
         df_bool = DataFrame(True, index=df_float.index, columns=range(3))
         df_object = DataFrame("foo", index=df_float.index, columns=range(3))
         df_dt = DataFrame(
             Timestamp("20010101").as_unit("ns"), index=df_float.index, columns=range(3)
         )
-        df = pd.concat(
-            [df_float, df_int, df_bool, df_object, df_dt], axis=1, ignore_index=True
-        )
+        df = pd.concat([df_float, df_int, df_bool, df_object, df_dt], axis=1, ignore_index=True)
 
         df.columns = [0, 1, 2] * 5
 
@@ -1056,15 +1022,11 @@ class TestDataFrameToCSV:
         with tm.ensure_clean() as filename:
             df.to_csv(filename, compression=compression, encoding=encoding)
             # test the round trip - to_csv -> read_csv
-            result = read_csv(
-                filename, compression=compression, index_col=0, encoding=encoding
-            )
+            result = read_csv(filename, compression=compression, index_col=0, encoding=encoding)
             tm.assert_frame_equal(df, result)
 
             # test the round trip using file handle - to_csv -> read_csv
-            with get_handle(
-                filename, "w", compression=compression, encoding=encoding
-            ) as handles:
+            with get_handle(filename, "w", compression=compression, encoding=encoding) as handles:
                 df.to_csv(handles.handle, encoding=encoding)
                 assert not handles.handle.closed
 
@@ -1088,9 +1050,7 @@ class TestDataFrameToCSV:
     def test_to_csv_date_format(self, datetime_frame):
         with tm.ensure_clean("__tmp_to_csv_date_format__") as path:
             dt_index = datetime_frame.index
-            datetime_frame = DataFrame(
-                {"A": dt_index, "B": dt_index.shift(1)}, index=dt_index
-            )
+            datetime_frame = DataFrame({"A": dt_index, "B": dt_index.shift(1)}, index=dt_index)
             datetime_frame.to_csv(path, date_format="%Y%m%d")
 
             # Check that the data was put in the specified format
@@ -1120,9 +1080,7 @@ class TestDataFrameToCSV:
 
             test = read_csv(path, index_col=0)
 
-            datetime_frame_columns = datetime_frame_columns.map(
-                lambda x: int(x.strftime("%Y%m%d"))
-            )
+            datetime_frame_columns = datetime_frame_columns.map(lambda x: int(x.strftime("%Y%m%d")))
             # Columns don't get converted to ints by read_csv
             datetime_frame_columns.columns = datetime_frame_columns.columns.map(
                 lambda x: x.strftime("%Y%m%d")
@@ -1131,9 +1089,7 @@ class TestDataFrameToCSV:
             tm.assert_frame_equal(test, datetime_frame_columns)
 
             # test NaTs
-            nat_index = to_datetime(
-                ["NaT"] * 10 + ["2000-01-01", "2000-01-01", "2000-01-01"]
-            )
+            nat_index = to_datetime(["NaT"] * 10 + ["2000-01-01", "2000-01-01", "2000-01-01"])
             nat_frame = DataFrame({"A": nat_index}, index=nat_index)
             nat_frame.to_csv(path, date_format="%Y-%m-%d")
 
@@ -1160,9 +1116,7 @@ class TestDataFrameToCSV:
             # we have to reconvert the index as we
             # don't parse the tz's
             result = read_csv(path, index_col=0)
-            result.index = to_datetime(result.index, utc=True).tz_convert(
-                "Europe/London"
-            )
+            result.index = to_datetime(result.index, utc=True).tz_convert("Europe/London")
             tm.assert_frame_equal(result, df)
 
     def test_to_csv_with_dst_transitions_with_pickle(self):
@@ -1174,9 +1128,7 @@ class TestDataFrameToCSV:
         with tm.ensure_clean("csv_date_format_with_dst") as path:
             df.to_csv(path, index=True)
             result = read_csv(path, index_col=0)
-            result.index = to_datetime(result.index, utc=True).tz_convert(
-                "Europe/Paris"
-            )
+            result.index = to_datetime(result.index, utc=True).tz_convert("Europe/Paris")
             result["idx"] = to_datetime(result["idx"], utc=True).astype(
                 "datetime64[ns, Europe/Paris]"
             )

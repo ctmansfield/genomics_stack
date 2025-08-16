@@ -41,9 +41,7 @@ def test_infer_dtype_from_float_scalar(float_numpy_dtype):
     assert dtype == float_numpy_dtype
 
 
-@pytest.mark.parametrize(
-    "data,exp_dtype", [(12, np.int64), (np.float64(12), np.float64)]
-)
+@pytest.mark.parametrize("data,exp_dtype", [(12, np.int64), (np.float64(12), np.float64)])
 def test_infer_dtype_from_python_scalar(data, exp_dtype):
     dtype, val = infer_dtype_from_scalar(data)
     assert dtype == exp_dtype
@@ -193,11 +191,7 @@ def test_infer_dtype_from_scalar(value, expected, using_infer_string):
 )
 def test_infer_dtype_from_array(arr, expected, using_infer_string):
     dtype, _ = infer_dtype_from_array(arr)
-    if (
-        using_infer_string
-        and isinstance(arr, Series)
-        and arr.tolist() == ["a", "b", "c"]
-    ):
+    if using_infer_string and isinstance(arr, Series) and arr.tolist() == ["a", "b", "c"]:
         expected = "string"
     assert is_dtype_equal(dtype, expected)
 

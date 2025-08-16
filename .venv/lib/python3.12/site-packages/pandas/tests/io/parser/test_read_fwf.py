@@ -420,9 +420,7 @@ def test_fwf_thousands(thousands):
     colspecs = [(0, 3), (3, 11), (12, 16)]
     expected = DataFrame([[1, 2334.0, 5], [10, 13, 10.0]])
 
-    result = read_fwf(
-        StringIO(data), header=None, colspecs=colspecs, thousands=thousands
-    )
+    result = read_fwf(StringIO(data), header=None, colspecs=colspecs, thousands=thousands)
     tm.assert_almost_equal(result, expected)
 
 
@@ -562,9 +560,7 @@ def test_variable_width_unicode():
     encoding = "utf8"
     kwargs = {"header": None, "encoding": encoding}
 
-    expected = read_fwf(
-        BytesIO(data.encode(encoding)), colspecs=[(0, 4), (5, 9)], **kwargs
-    )
+    expected = read_fwf(BytesIO(data.encode(encoding)), colspecs=[(0, 4), (5, 9)], **kwargs)
     result = read_fwf(BytesIO(data.encode(encoding)), **kwargs)
     tm.assert_frame_equal(result, expected)
 
@@ -578,9 +574,7 @@ def test_dtype(dtype):
     colspecs = [(0, 5), (5, 10), (10, None)]
     result = read_fwf(StringIO(data), colspecs=colspecs, dtype=dtype)
 
-    expected = DataFrame(
-        {"a": [1, 3], "b": [2, 4], "c": [3.2, 5.2]}, columns=["a", "b", "c"]
-    )
+    expected = DataFrame({"a": [1, 3], "b": [2, 4], "c": [3.2, 5.2]}, columns=["a", "b", "c"])
 
     for col, dt in dtype.items():
         expected[col] = expected[col].astype(dt)
@@ -700,9 +694,7 @@ def test_binary_mode():
     """
     data = """aaa aaa aaa
 bba bab b a"""
-    df_reference = DataFrame(
-        [["bba", "bab", "b a"]], columns=["aaa", "aaa.1", "aaa.2"], index=[0]
-    )
+    df_reference = DataFrame([["bba", "bab", "b a"]], columns=["aaa", "aaa.1", "aaa.2"], index=[0])
     with tm.ensure_clean() as path:
         Path(path).write_text(data, encoding="utf-8")
         with open(path, "rb") as file:
@@ -859,9 +851,7 @@ def test_len_colspecs_len_names(colspecs, names, widths, index_col):
         ),
     ],
 )
-def test_len_colspecs_len_names_with_index_col(
-    colspecs, names, widths, index_col, expected
-):
+def test_len_colspecs_len_names_with_index_col(colspecs, names, widths, index_col, expected):
     # GH#40830
     data = """col1  col2  col3  col4
     bab   ba    2"""
@@ -877,9 +867,7 @@ def test_len_colspecs_len_names_with_index_col(
 
 def test_colspecs_with_comment():
     # GH 14135
-    result = read_fwf(
-        StringIO("#\nA1K\n"), colspecs=[(1, 2), (2, 3)], comment="#", header=None
-    )
+    result = read_fwf(StringIO("#\nA1K\n"), colspecs=[(1, 2), (2, 3)], comment="#", header=None)
     expected = DataFrame([[1, "K"]], columns=[0, 1])
     tm.assert_frame_equal(result, expected)
 
@@ -1007,10 +995,7 @@ def test_dtype_backend(string_storage, dtype_backend):
 
 
 def test_invalid_dtype_backend():
-    msg = (
-        "dtype_backend numpy is invalid, only 'numpy_nullable' and "
-        "'pyarrow' are allowed."
-    )
+    msg = "dtype_backend numpy is invalid, only 'numpy_nullable' and " "'pyarrow' are allowed."
     with pytest.raises(ValueError, match=msg):
         read_fwf("test", dtype_backend="numpy")
 

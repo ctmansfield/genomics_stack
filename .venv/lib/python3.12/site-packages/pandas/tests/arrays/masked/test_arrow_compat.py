@@ -73,9 +73,7 @@ def test_arrow_load_from_zero_chunks(data):
     df = pd.DataFrame({"a": data[0:0]})
     table = pa.table(df)
     assert table.field("a").type == str(data.dtype.numpy_dtype)
-    table = pa.table(
-        [pa.chunked_array([], type=table.field("a").type)], schema=table.schema
-    )
+    table = pa.table([pa.chunked_array([], type=table.field("a").type)], schema=table.schema)
     result = table.to_pandas()
     assert result["a"].dtype == data.dtype
     tm.assert_frame_equal(result, df)
@@ -190,9 +188,7 @@ def test_pyarrow_array_to_numpy_and_mask(np_dtype_to_arrays):
     tm.assert_numpy_array_equal(mask, mask_expected_empty)
 
 
-@pytest.mark.parametrize(
-    "arr", [pa.nulls(10), pa.chunked_array([pa.nulls(4), pa.nulls(6)])]
-)
+@pytest.mark.parametrize("arr", [pa.nulls(10), pa.chunked_array([pa.nulls(4), pa.nulls(6)])])
 def test_from_arrow_null(data, arr):
     res = data.dtype.__from_arrow__(arr)
     assert res.isna().all()

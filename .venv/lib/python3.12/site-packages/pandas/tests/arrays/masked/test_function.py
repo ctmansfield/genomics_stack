@@ -8,9 +8,7 @@ import pandas._testing as tm
 from pandas.core.arrays import BaseMaskedArray
 
 arrays = [pd.array([1, 2, 3, None], dtype=dtype) for dtype in tm.ALL_INT_EA_DTYPES]
-arrays += [
-    pd.array([0.141, -0.268, 5.895, None], dtype=dtype) for dtype in tm.FLOAT_EA_DTYPES
-]
+arrays += [pd.array([0.141, -0.268, 5.895, None], dtype=dtype) for dtype in tm.FLOAT_EA_DTYPES]
 
 
 @pytest.fixture(params=arrays, ids=[a.dtype.name for a in arrays])
@@ -38,9 +36,7 @@ def numpy_dtype(data):
 def test_round(data, numpy_dtype):
     # No arguments
     result = data.round()
-    expected = pd.array(
-        np.round(data.to_numpy(dtype=numpy_dtype, na_value=None)), dtype=data.dtype
-    )
+    expected = pd.array(np.round(data.to_numpy(dtype=numpy_dtype, na_value=None)), dtype=data.dtype)
     tm.assert_extension_array_equal(result, expected)
 
     # Decimals argument
@@ -66,9 +62,7 @@ def test_to_numpy():
         _dtype_cls = pd.StringDtype
         _internal_fill_value = pd.NA
 
-    arr = MyStringArray(
-        values=np.array(["a", "b", "c"]), mask=np.array([False, True, False])
-    )
+    arr = MyStringArray(values=np.array(["a", "b", "c"]), mask=np.array([False, True, False]))
     result = arr.to_numpy()
     expected = np.array(["a", pd.NA, "c"])
     tm.assert_numpy_array_equal(result, expected)

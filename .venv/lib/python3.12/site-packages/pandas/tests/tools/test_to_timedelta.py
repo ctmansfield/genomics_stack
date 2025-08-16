@@ -60,9 +60,7 @@ class TestTimedeltas:
 
     def test_to_timedelta_units(self):
         # with units
-        result = TimedeltaIndex(
-            [np.timedelta64(0, "ns"), np.timedelta64(10, "s").astype("m8[ns]")]
-        )
+        result = TimedeltaIndex([np.timedelta64(0, "ns"), np.timedelta64(10, "s").astype("m8[ns]")])
         expected = to_timedelta([0, 10], unit="s")
         tm.assert_index_equal(result, expected)
 
@@ -87,10 +85,7 @@ class TestTimedeltas:
     def test_to_timedelta_oob_non_nano(self):
         arr = np.array([pd.NaT._value + 1], dtype="timedelta64[m]")
 
-        msg = (
-            "Cannot convert -9223372036854775807 minutes to "
-            r"timedelta64\[s\] without overflow"
-        )
+        msg = "Cannot convert -9223372036854775807 minutes to " r"timedelta64\[s\] without overflow"
         with pytest.raises(OutOfBoundsTimedelta, match=msg):
             to_timedelta(arr)
 
@@ -125,9 +120,7 @@ class TestTimedeltas:
 
     def test_to_timedelta_time(self):
         # time not supported ATM
-        msg = (
-            "Value must be Timedelta, string, integer, float, timedelta or convertible"
-        )
+        msg = "Value must be Timedelta, string, integer, float, timedelta or convertible"
         with pytest.raises(ValueError, match=msg):
             to_timedelta(time(second=1))
         assert to_timedelta(time(second=1), errors="coerce") is pd.NaT
@@ -265,9 +258,7 @@ class TestTimedeltas:
             result = to_timedelta(arr, unit="ns", errors="ignore")
         tm.assert_numpy_array_equal(result, arr)
 
-    @pytest.mark.parametrize(
-        "expected_val, result_val", [[timedelta(days=2), 2], [None, None]]
-    )
+    @pytest.mark.parametrize("expected_val, result_val", [[timedelta(days=2), 2], [None, None]])
     def test_to_timedelta_nullable_int64_dtype(self, expected_val, result_val):
         # GH 35574
         expected = Series([timedelta(days=1), expected_val])

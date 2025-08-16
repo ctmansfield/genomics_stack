@@ -50,36 +50,36 @@ If the bare remote isn’t created yet:
 
 ## Day-to-day
 
-- **Check status**  
+- **Check status**
   `bash scripts/dev/gitctl.sh status`
 
-- **Save changes**  
+- **Save changes**
   `bash scripts/dev/gitctl.sh save -m "what changed"`
 
-- **Push / Pull**  
-  `bash scripts/dev/gitctl.sh push`  
+- **Push / Pull**
+  `bash scripts/dev/gitctl.sh push`
   `bash scripts/dev/gitctl.sh pull`
 
-- **Quick backup (not tagged)**  
-  `bash scripts/dev/gitctl.sh backup`  
+- **Quick backup (not tagged)**
+  `bash scripts/dev/gitctl.sh backup`
   → writes to `/mnt/nas_storage/genomics-stack/backups/…`
 
 ---
 
 ## Making a release
 
-1) Tag + archive HEAD into NAS backups:  
+1) Tag + archive HEAD into NAS backups:
    `bash scripts/dev/gitctl.sh release -m "why this release" -k 10`
 
-2) Push the tag to the remote repo:  
+2) Push the tag to the remote repo:
    `git push --tags origin`
 
-3) Verify checksum (optional):  
-   `bash scripts/dev/gitctl.sh list-releases`  
+3) Verify checksum (optional):
+   `bash scripts/dev/gitctl.sh list-releases`
    `bash scripts/dev/gitctl.sh verify-release /mnt/nas_storage/genomics-stack/backups/<file>.tgz`
 
-**Where it goes:**  
-`/mnt/nas_storage/genomics-stack/backups/genomics-stack_<tag>_<shortsha>.tgz`  
+**Where it goes:**
+`/mnt/nas_storage/genomics-stack/backups/genomics-stack_<tag>_<shortsha>.tgz`
 `/mnt/nas_storage/genomics-stack/backups/genomics-stack_<tag>_<shortsha>.tgz.sha256`
 
 ---
@@ -117,9 +117,9 @@ If the bare remote isn’t created yet:
 
 ## Troubleshooting
 
-- **“Command not found”**: always run with `bash …` (works even on `noexec` mounts).  
-- **“Author identity unknown”**: run `set-identity`.  
-- **CRLF/line endings**: `bash scripts/dev/gitctl.sh doctor`.  
+- **“Command not found”**: always run with `bash …` (works even on `noexec` mounts).
+- **“Author identity unknown”**: run `set-identity`.
+- **CRLF/line endings**: `bash scripts/dev/gitctl.sh doctor`.
 - **Merge conflicts**: `bash scripts/dev/gitctl.sh pull` (rebase), resolve, then `save` and `push`.
 
 ---

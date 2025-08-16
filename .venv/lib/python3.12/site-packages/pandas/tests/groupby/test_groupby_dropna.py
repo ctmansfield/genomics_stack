@@ -417,9 +417,7 @@ def test_groupby_drop_nan_with_multi_index():
         "string",
         pytest.param(
             "string[pyarrow]",
-            marks=pytest.mark.skipif(
-                pa_version_under10p1, reason="pyarrow is not installed"
-            ),
+            marks=pytest.mark.skipif(pa_version_under10p1, reason="pyarrow is not installed"),
         ),
         "datetime64[ns]",
         "period[d]",
@@ -432,9 +430,7 @@ def test_no_sort_keep_na(sequence_index, dtype, test_series, as_index):
 
     # Convert sequence_index into a string sequence, e.g. 5 becomes "xxyz"
     # This sequence is used for the grouper.
-    sequence = "".join(
-        [{0: "x", 1: "y", 2: "z"}[sequence_index // (3**k) % 3] for k in range(4)]
-    )
+    sequence = "".join([{0: "x", 1: "y", 2: "z"}[sequence_index // (3**k) % 3] for k in range(4)])
 
     # Unique values to use for grouper, depends on dtype
     if dtype in ("string", "string[pyarrow]"):
@@ -467,9 +463,7 @@ def test_no_sort_keep_na(sequence_index, dtype, test_series, as_index):
             name="key",
         )
     elif isinstance(dtype, str) and dtype.startswith("Sparse"):
-        index = pd.Index(
-            pd.array([uniques[label] for label in summed], dtype=dtype), name="key"
-        )
+        index = pd.Index(pd.array([uniques[label] for label in summed], dtype=dtype), name="key")
     else:
         index = pd.Index([uniques[label] for label in summed], dtype=dtype, name="key")
     expected = pd.Series(summed.values(), index=index, name="a", dtype=None)
@@ -485,9 +479,7 @@ def test_no_sort_keep_na(sequence_index, dtype, test_series, as_index):
 
 @pytest.mark.parametrize("test_series", [True, False])
 @pytest.mark.parametrize("dtype", [object, None])
-def test_null_is_null_for_dtype(
-    sort, dtype, nulls_fixture, nulls_fixture2, test_series
-):
+def test_null_is_null_for_dtype(sort, dtype, nulls_fixture, nulls_fixture2, test_series):
     # GH#48506 - groups should always result in using the null for the dtype
     df = pd.DataFrame({"a": [1, 2]})
     groups = pd.Series([nulls_fixture, nulls_fixture2], dtype=dtype)
@@ -506,9 +498,7 @@ def test_null_is_null_for_dtype(
 def test_categorical_reducers(reduction_func, observed, sort, as_index, index_kind):
     # Ensure there is at least one null value by appending to the end
     values = np.append(np.random.default_rng(2).choice([1, 2, None], size=19), None)
-    df = pd.DataFrame(
-        {"x": pd.Categorical(values, categories=[1, 2, 3]), "y": range(20)}
-    )
+    df = pd.DataFrame({"x": pd.Categorical(values, categories=[1, 2, 3]), "y": range(20)})
 
     # Strategy: Compare to dropna=True by filling null values with a new code
     df_filled = df.copy()
@@ -533,14 +523,10 @@ def test_categorical_reducers(reduction_func, observed, sort, as_index, index_ki
         args = (args[0].drop(columns=keys),)
         args_filled = (args_filled[0].drop(columns=keys),)
 
-    gb_keepna = df.groupby(
-        keys, dropna=False, observed=observed, sort=sort, as_index=as_index
-    )
+    gb_keepna = df.groupby(keys, dropna=False, observed=observed, sort=sort, as_index=as_index)
 
     if not observed and reduction_func in ["idxmin", "idxmax"]:
-        with pytest.raises(
-            ValueError, match="empty group due to unobserved categories"
-        ):
+        with pytest.raises(ValueError, match="empty group due to unobserved categories"):
             getattr(gb_keepna, reduction_func)(*args)
         return
 
@@ -586,18 +572,14 @@ def test_categorical_reducers(reduction_func, observed, sort, as_index, index_ki
     tm.assert_equal(result, expected)
 
 
-def test_categorical_transformers(
-    request, transformation_func, observed, sort, as_index
-):
+def test_categorical_transformers(request, transformation_func, observed, sort, as_index):
     # GH#36327
     if transformation_func == "fillna":
         msg = "GH#49651 fillna may incorrectly reorders results when dropna=False"
         request.applymarker(pytest.mark.xfail(reason=msg, strict=False))
 
     values = np.append(np.random.default_rng(2).choice([1, 2, None], size=19), None)
-    df = pd.DataFrame(
-        {"x": pd.Categorical(values, categories=[1, 2, 3]), "y": range(20)}
-    )
+    df = pd.DataFrame({"x": pd.Categorical(values, categories=[1, 2, 3]), "y": range(20)})
     args = get_groupby_method_args(transformation_func, df)
 
     # Compute result for null group
@@ -618,9 +600,7 @@ def test_categorical_transformers(
         null_group_data = getattr(null_group_values, transformation_func)(*args)
     null_group_result = pd.DataFrame({"y": null_group_data})
 
-    gb_keepna = df.groupby(
-        "x", dropna=False, observed=observed, sort=sort, as_index=as_index
-    )
+    gb_keepna = df.groupby("x", dropna=False, observed=observed, sort=sort, as_index=as_index)
     gb_dropna = df.groupby("x", dropna=True, observed=observed, sort=sort)
 
     msg = "The default fill_method='ffill' in DataFrameGroupBy.pct_change is deprecated"
@@ -631,9 +611,7 @@ def test_categorical_transformers(
         result = getattr(gb_keepna, transformation_func)(*args)
     expected = getattr(gb_dropna, transformation_func)(*args)
 
-    for iloc, value in zip(
-        df[df["x"].isnull()].index.tolist(), null_group_result.values.ravel()
-    ):
+    for iloc, value in zip(df[df["x"].isnull()].index.tolist(), null_group_result.values.ravel()):
         if expected.ndim == 1:
             expected.iloc[iloc] = value
         else:
@@ -650,9 +628,7 @@ def test_categorical_transformers(
 def test_categorical_head_tail(method, observed, sort, as_index):
     # GH#36327
     values = np.random.default_rng(2).choice([1, 2, None], 30)
-    df = pd.DataFrame(
-        {"x": pd.Categorical(values, categories=[1, 2, 3]), "y": range(len(values))}
-    )
+    df = pd.DataFrame({"x": pd.Categorical(values, categories=[1, 2, 3]), "y": range(len(values))})
     gb = df.groupby("x", dropna=False, observed=observed, sort=sort, as_index=as_index)
     result = getattr(gb, method)()
 
@@ -675,9 +651,7 @@ def test_categorical_head_tail(method, observed, sort, as_index):
 def test_categorical_agg():
     # GH#36327
     values = np.random.default_rng(2).choice([1, 2, None], 30)
-    df = pd.DataFrame(
-        {"x": pd.Categorical(values, categories=[1, 2, 3]), "y": range(len(values))}
-    )
+    df = pd.DataFrame({"x": pd.Categorical(values, categories=[1, 2, 3]), "y": range(len(values))})
     gb = df.groupby("x", dropna=False, observed=False)
     result = gb.agg(lambda x: x.sum())
     expected = gb.sum()
@@ -687,9 +661,7 @@ def test_categorical_agg():
 def test_categorical_transform():
     # GH#36327
     values = np.random.default_rng(2).choice([1, 2, None], 30)
-    df = pd.DataFrame(
-        {"x": pd.Categorical(values, categories=[1, 2, 3]), "y": range(len(values))}
-    )
+    df = pd.DataFrame({"x": pd.Categorical(values, categories=[1, 2, 3]), "y": range(len(values))})
     gb = df.groupby("x", dropna=False, observed=False)
     result = gb.transform(lambda x: x.sum())
     expected = gb.transform("sum")

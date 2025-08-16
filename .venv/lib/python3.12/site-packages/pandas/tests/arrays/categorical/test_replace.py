@@ -31,9 +31,7 @@ import pandas._testing as tm
         ([1, 2, "3"], "5", ["5", "5", 3], True),
     ],
 )
-@pytest.mark.filterwarnings(
-    "ignore:.*with CategoricalDtype is deprecated:FutureWarning"
-)
+@pytest.mark.filterwarnings("ignore:.*with CategoricalDtype is deprecated:FutureWarning")
 def test_replace_categorical_series(to_replace, value, expected, flip_categories):
     # GH 31720
 
@@ -63,10 +61,7 @@ def test_replace_categorical(to_replace, value, result, expected_error_msg):
     # GH#26988
     cat = Categorical(["a", "b"])
     expected = Categorical(result)
-    msg = (
-        r"The behavior of Series\.replace \(and DataFrame.replace\) "
-        "with CategoricalDtype"
-    )
+    msg = r"The behavior of Series\.replace \(and DataFrame.replace\) " "with CategoricalDtype"
     warn = FutureWarning if expected_error_msg is not None else None
     with tm.assert_produces_warning(warn, match=msg):
         result = pd.Series(cat, copy=False).replace(to_replace, value)._values
@@ -86,10 +81,7 @@ def test_replace_categorical(to_replace, value, result, expected_error_msg):
 def test_replace_categorical_ea_dtype():
     # GH49404
     cat = Categorical(pd.array(["a", "b"], dtype="string"))
-    msg = (
-        r"The behavior of Series\.replace \(and DataFrame.replace\) "
-        "with CategoricalDtype"
-    )
+    msg = r"The behavior of Series\.replace \(and DataFrame.replace\) " "with CategoricalDtype"
     with tm.assert_produces_warning(FutureWarning, match=msg):
         result = pd.Series(cat).replace(["a", "b"], ["c", pd.NA])._values
     expected = Categorical(pd.array(["c", pd.NA], dtype="string"))
@@ -100,10 +92,7 @@ def test_replace_maintain_ordering():
     # GH51016
     dtype = pd.CategoricalDtype([0, 1, 2], ordered=True)
     ser = pd.Series([0, 1, 2], dtype=dtype)
-    msg = (
-        r"The behavior of Series\.replace \(and DataFrame.replace\) "
-        "with CategoricalDtype"
-    )
+    msg = r"The behavior of Series\.replace \(and DataFrame.replace\) " "with CategoricalDtype"
     with tm.assert_produces_warning(FutureWarning, match=msg):
         result = ser.replace(0, 2)
     expected_dtype = pd.CategoricalDtype([1, 2], ordered=True)

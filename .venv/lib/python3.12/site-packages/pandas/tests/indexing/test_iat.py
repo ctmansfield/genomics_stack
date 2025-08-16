@@ -31,9 +31,7 @@ def test_iat_getitem_series_with_period_index():
     assert expected == result
 
 
-def test_iat_setitem_item_cache_cleared(
-    indexer_ial, using_copy_on_write, warn_copy_on_write
-):
+def test_iat_setitem_item_cache_cleared(indexer_ial, using_copy_on_write, warn_copy_on_write):
     # GH#45684
     data = {"x": np.arange(8, dtype=np.int64), "y": np.int64(0)}
     df = DataFrame(data).copy()

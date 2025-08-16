@@ -174,9 +174,7 @@ class TestTranspose:
         # GH#51546
         df = DataFrame(
             {
-                "a": Series(
-                    [Timestamp("2019-12-31"), Timestamp("2019-12-31")], dtype=object
-                ),
+                "a": Series([Timestamp("2019-12-31"), Timestamp("2019-12-31")], dtype=object),
                 "b": [Timestamp("2019-12-31"), Timestamp("2019-12-31")],
             }
         )

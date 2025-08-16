@@ -90,9 +90,7 @@ class TestToIterable:
         ],
         ids=["tolist", "to_list", "list", "iter"],
     )
-    def test_iterable_object_and_category(
-        self, index_or_series, method, dtype, rdtype, obj
-    ):
+    def test_iterable_object_and_category(self, index_or_series, method, dtype, rdtype, obj):
         # gh-10904
         # gh-13258
         # coerce iteration to underlying python / pandas types
@@ -113,9 +111,7 @@ class TestToIterable:
         _, result = next(iter(s.items()))
         assert isinstance(result, rdtype)
 
-    @pytest.mark.parametrize(
-        "dtype, rdtype", dtypes + [("object", int), ("category", int)]
-    )
+    @pytest.mark.parametrize("dtype, rdtype", dtypes + [("object", int), ("category", int)])
     def test_iterable_map(self, index_or_series, dtype, rdtype):
         # gh-13236
         # coerce iteration to underlying python / pandas types
@@ -222,9 +218,7 @@ class TestToIterable:
 )
 def test_values_consistent(arr, expected_type, dtype, using_infer_string):
     if using_infer_string and dtype == "object":
-        expected_type = (
-            ArrowStringArrayNumpySemantics if HAS_PYARROW else StringArrayNumpySemantics
-        )
+        expected_type = ArrowStringArrayNumpySemantics if HAS_PYARROW else StringArrayNumpySemantics
     l_values = Series(arr)._values
     r_values = pd.Index(arr)._values
     assert type(l_values) is expected_type
@@ -267,9 +261,7 @@ def test_numpy_array_all_dtypes(any_numpy_dtype):
         # tz-aware Datetime
         (
             DatetimeArray._from_sequence(
-                np.array(
-                    ["2000-01-01T12:00:00", "2000-01-02T12:00:00"], dtype="M8[ns]"
-                ),
+                np.array(["2000-01-01T12:00:00", "2000-01-02T12:00:00"], dtype="M8[ns]"),
                 dtype=DatetimeTZDtype(tz="US/Central"),
             ),
             "_ndarray",
@@ -335,9 +327,7 @@ def test_array_multiindex_raises():
         ),
         # Timedelta
         (
-            TimedeltaArray._from_sequence(
-                np.array([0, 3600000000000], dtype="i8").view("m8[ns]")
-            ),
+            TimedeltaArray._from_sequence(np.array([0, 3600000000000], dtype="i8").view("m8[ns]")),
             np.array([0, 3600000000000], dtype="m8[ns]"),
             True,
         ),
@@ -425,9 +415,7 @@ def test_to_numpy_dtype(as_series, unit):
 
     # preserve tz by default
     result = obj.to_numpy()
-    expected = np.array(
-        [Timestamp("2000", tz=tz), Timestamp("2001", tz=tz)], dtype=object
-    )
+    expected = np.array([Timestamp("2000", tz=tz), Timestamp("2001", tz=tz)], dtype=object)
     tm.assert_numpy_array_equal(result, expected)
 
     result = obj.to_numpy(dtype="object")
@@ -450,9 +438,7 @@ def test_to_numpy_dtype(as_series, unit):
         ),
     ],
 )
-def test_to_numpy_na_value_numpy_dtype(
-    index_or_series, values, dtype, na_value, expected
-):
+def test_to_numpy_na_value_numpy_dtype(index_or_series, values, dtype, na_value, expected):
     obj = index_or_series(values)
     result = obj.to_numpy(dtype=dtype, na_value=na_value)
     expected = np.array(expected)
@@ -492,9 +478,7 @@ def test_to_numpy_na_value_numpy_dtype(
         ),
     ],
 )
-def test_to_numpy_multiindex_series_na_value(
-    data, multiindex, dtype, na_value, expected
-):
+def test_to_numpy_multiindex_series_na_value(data, multiindex, dtype, na_value, expected):
     index = pd.MultiIndex.from_tuples(multiindex)
     series = Series(data, index=index)
     result = series.to_numpy(dtype=dtype, na_value=na_value)
@@ -569,9 +553,7 @@ class TestAsArray:
             # Future behavior (for tzaware case) with no warning
             result = np.asarray(ser, dtype=object)
 
-        expected = np.array(
-            [Timestamp("2000-01-01", tz=tz), Timestamp("2000-01-02", tz=tz)]
-        )
+        expected = np.array([Timestamp("2000-01-01", tz=tz), Timestamp("2000-01-02", tz=tz)])
         tm.assert_numpy_array_equal(result, expected)
 
     def test_asarray_tz_naive(self):

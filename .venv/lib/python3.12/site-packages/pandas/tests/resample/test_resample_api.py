@@ -71,10 +71,7 @@ def test_groupby_resample_api():
     ).set_index("date")
 
     # replication step
-    i = (
-        date_range("2016-01-03", periods=8).tolist()
-        + date_range("2016-01-17", periods=8).tolist()
-    )
+    i = date_range("2016-01-03", periods=8).tolist() + date_range("2016-01-17", periods=8).tolist()
     index = pd.MultiIndex.from_arrays([[1] * 8 + [2] * 8, i], names=["group", "date"])
     expected = DataFrame({"val": [5] * 7 + [6] + [7] * 7 + [8]}, index=index)
     msg = "DataFrameGroupBy.apply operated on the grouping columns"
@@ -285,9 +282,7 @@ def test_transform_frame(on):
     # GH#47079
     index = date_range(datetime(2005, 1, 1), datetime(2005, 1, 10), freq="D")
     index.name = "date"
-    df = DataFrame(
-        np.random.default_rng(2).random((10, 2)), columns=list("AB"), index=index
-    )
+    df = DataFrame(np.random.default_rng(2).random((10, 2)), columns=list("AB"), index=index)
     expected = df.groupby(pd.Grouper(freq="20min")).transform("mean")
     if on == "date":
         # Move date to being a column; result will then have a RangeIndex
@@ -317,8 +312,7 @@ def test_fillna():
     tm.assert_series_equal(result, expected)
 
     msg2 = (
-        r"Invalid fill method\. Expecting pad \(ffill\), backfill "
-        r"\(bfill\) or nearest\. Got 0"
+        r"Invalid fill method\. Expecting pad \(ffill\), backfill " r"\(bfill\) or nearest\. Got 0"
     )
     with pytest.raises(ValueError, match=msg2):
         with tm.assert_produces_warning(FutureWarning, match=msg):
@@ -390,9 +384,7 @@ def index():
 
 @pytest.fixture
 def df(index):
-    frame = DataFrame(
-        np.random.default_rng(2).random((10, 2)), columns=list("AB"), index=index
-    )
+    frame = DataFrame(np.random.default_rng(2).random((10, 2)), columns=list("AB"), index=index)
     return frame
 
 
@@ -404,9 +396,7 @@ def df_col(df):
 @pytest.fixture
 def df_mult(df_col, index):
     df_mult = df_col.copy()
-    df_mult.index = pd.MultiIndex.from_arrays(
-        [range(10), index], names=["index", "date"]
-    )
+    df_mult.index = pd.MultiIndex.from_arrays([range(10), index], names=["index", "date"])
     return df_mult
 
 
@@ -476,9 +466,7 @@ def test_agg_mixed_column_aggregation(cases, a_mean, a_std, b_mean, b_std, reque
         date_mean = cases["date"].mean()
         date_std = cases["date"].std()
         expected = pd.concat([date_mean, date_std, expected], axis=1)
-        expected.columns = pd.MultiIndex.from_product(
-            [["date", "A", "B"], ["mean", "std"]]
-        )
+        expected.columns = pd.MultiIndex.from_product([["date", "A", "B"], ["mean", "std"]])
     with tm.assert_produces_warning(FutureWarning, match=msg):
         result = cases.aggregate([np.mean, np.std])
     tm.assert_frame_equal(result, expected)
@@ -507,9 +495,7 @@ def test_agg_both_mean_std_dict_of_list(cases, a_mean, a_std):
     tm.assert_frame_equal(result, expected)
 
 
-@pytest.mark.parametrize(
-    "agg", [{"func": ["mean", "sum"]}, {"mean": "mean", "sum": "sum"}]
-)
+@pytest.mark.parametrize("agg", [{"func": ["mean", "sum"]}, {"mean": "mean", "sum": "sum"}])
 def test_agg_both_mean_sum(cases, a_mean, a_sum, agg):
     expected = pd.concat([a_mean, a_sum], axis=1)
     expected.columns = ["mean", "sum"]
@@ -630,29 +616,21 @@ def test_multi_agg_axis_1_raises(func):
 
     index = date_range(datetime(2005, 1, 1), datetime(2005, 1, 10), freq="D")
     index.name = "date"
-    df = DataFrame(
-        np.random.default_rng(2).random((10, 2)), columns=list("AB"), index=index
-    ).T
+    df = DataFrame(np.random.default_rng(2).random((10, 2)), columns=list("AB"), index=index).T
     warning_msg = "DataFrame.resample with axis=1 is deprecated."
     with tm.assert_produces_warning(FutureWarning, match=warning_msg):
         res = df.resample("ME", axis=1)
-        with pytest.raises(
-            NotImplementedError, match="axis other than 0 is not supported"
-        ):
+        with pytest.raises(NotImplementedError, match="axis other than 0 is not supported"):
             res.agg(func)
 
 
 def test_agg_nested_dicts():
     index = date_range(datetime(2005, 1, 1), datetime(2005, 1, 10), freq="D")
     index.name = "date"
-    df = DataFrame(
-        np.random.default_rng(2).random((10, 2)), columns=list("AB"), index=index
-    )
+    df = DataFrame(np.random.default_rng(2).random((10, 2)), columns=list("AB"), index=index)
     df_col = df.reset_index()
     df_mult = df_col.copy()
-    df_mult.index = pd.MultiIndex.from_arrays(
-        [range(10), df.index], names=["index", "date"]
-    )
+    df_mult.index = pd.MultiIndex.from_arrays([range(10), df.index], names=["index", "date"])
     r = df.resample("2D")
     cases = [
         r,
@@ -668,9 +646,7 @@ def test_agg_nested_dicts():
 
     for t in cases:
         with pytest.raises(pd.errors.SpecificationError, match=msg):
-            t[["A", "B"]].agg(
-                {"A": {"ra": ["mean", "std"]}, "B": {"rb": ["mean", "std"]}}
-            )
+            t[["A", "B"]].agg({"A": {"ra": ["mean", "std"]}, "B": {"rb": ["mean", "std"]}})
 
         with pytest.raises(pd.errors.SpecificationError, match=msg):
             t.agg({"A": {"ra": ["mean", "std"]}, "B": {"rb": ["mean", "std"]}})
@@ -693,9 +669,7 @@ def test_try_aggregate_non_existing_column():
 
 def test_agg_list_like_func_with_args():
     # 50624
-    df = DataFrame(
-        {"x": [1, 2, 3]}, index=date_range("2020-01-01", periods=3, freq="D")
-    )
+    df = DataFrame({"x": [1, 2, 3]}, index=date_range("2020-01-01", periods=3, freq="D"))
 
     def foo1(x, a=1, c=0):
         return x + a + c
@@ -769,9 +743,7 @@ def test_selection_api_validation():
     tm.assert_frame_equal(exp, result)
 
 
-@pytest.mark.parametrize(
-    "col_name", ["t2", "t2x", "t2q", "T_2M", "t2p", "t2m", "t2m1", "T2M"]
-)
+@pytest.mark.parametrize("col_name", ["t2", "t2x", "t2q", "T_2M", "t2p", "t2m", "t2m1", "T2M"])
 def test_agg_with_datetime_index_list_agg_func(col_name):
     # GH 22660
     # The parametrized column names would get converted to dates by our
@@ -780,9 +752,7 @@ def test_agg_with_datetime_index_list_agg_func(col_name):
     # We catch these errors and move on to the correct branch.
     df = DataFrame(
         list(range(200)),
-        index=date_range(
-            start="2017-01-01", freq="15min", periods=200, tz="Europe/Berlin"
-        ),
+        index=date_range(start="2017-01-01", freq="15min", periods=200, tz="Europe/Berlin"),
         columns=[col_name],
     )
     result = df.resample("1d").aggregate(["mean"])
@@ -934,9 +904,7 @@ def test_end_and_end_day_origin(
         ("sem", lib.no_default, "could not convert string to float"),
     ],
 )
-def test_frame_downsample_method(
-    method, numeric_only, expected_data, using_infer_string
-):
+def test_frame_downsample_method(method, numeric_only, expected_data, using_infer_string):
     # GH#46442 test if `numeric_only` behave as expected for DataFrameGroupBy
 
     index = date_range("2018-01-01", periods=2, freq="D")
@@ -992,9 +960,7 @@ def test_frame_downsample_method(
         ("last", lib.no_default, ["cat_2"]),
     ],
 )
-def test_series_downsample_method(
-    method, numeric_only, expected_data, using_infer_string
-):
+def test_series_downsample_method(method, numeric_only, expected_data, using_infer_string):
     # GH#46442 test if `numeric_only` behave as expected for SeriesGroupBy
 
     index = date_range("2018-01-01", periods=2, freq="D")
@@ -1064,9 +1030,7 @@ def test_args_kwargs_depr(method, raises):
 def test_df_axis_param_depr():
     index = date_range(datetime(2005, 1, 1), datetime(2005, 1, 10), freq="D")
     index.name = "date"
-    df = DataFrame(
-        np.random.default_rng(2).random((10, 2)), columns=list("AB"), index=index
-    ).T
+    df = DataFrame(np.random.default_rng(2).random((10, 2)), columns=list("AB"), index=index).T
 
     # Deprecation error when axis=1 is explicitly passed
     warning_msg = "DataFrame.resample with axis=1 is deprecated."
@@ -1095,9 +1059,7 @@ def test_series_axis_param_depr(_test_series):
 def test_resample_empty():
     # GH#52484
     df = DataFrame(
-        index=pd.to_datetime(
-            ["2018-01-01 00:00:00", "2018-01-01 12:00:00", "2018-01-02 00:00:00"]
-        )
+        index=pd.to_datetime(["2018-01-01 00:00:00", "2018-01-01 12:00:00", "2018-01-02 00:00:00"])
     )
     expected = DataFrame(
         index=pd.to_datetime(

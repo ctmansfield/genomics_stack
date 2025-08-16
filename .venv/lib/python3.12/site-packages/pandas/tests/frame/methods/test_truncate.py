@@ -62,9 +62,7 @@ class TestDataFrameTruncate:
 
         msg = "Truncate: 2000-01-06 00:00:00 must be after 2000-05-16 00:00:00"
         with pytest.raises(ValueError, match=msg):
-            ts.truncate(
-                before=ts.index[-1] - ts.index.freq, after=ts.index[0] + ts.index.freq
-            )
+            ts.truncate(before=ts.index[-1] - ts.index.freq, after=ts.index[0] + ts.index.freq)
 
     def test_truncate_nonsortedindex(self, frame_or_series):
         # GH#17935
@@ -113,9 +111,7 @@ class TestDataFrameTruncate:
         [(1, 2, [2, 1]), (None, 2, [2, 1, 0]), (1, None, [3, 2, 1])],
     )
     @pytest.mark.parametrize("dtyp", [*tm.ALL_REAL_NUMPY_DTYPES, "datetime64[ns]"])
-    def test_truncate_decreasing_index(
-        self, before, after, indices, dtyp, frame_or_series
-    ):
+    def test_truncate_decreasing_index(self, before, after, indices, dtyp, frame_or_series):
         # https://github.com/pandas-dev/pandas/issues/33756
         idx = Index([3, 2, 1, 0], dtype=dtyp)
         if isinstance(idx, DatetimeIndex):

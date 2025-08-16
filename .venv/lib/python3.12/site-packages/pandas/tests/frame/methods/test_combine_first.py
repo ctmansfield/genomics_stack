@@ -147,9 +147,7 @@ class TestDataFrameCombineFirst:
     def test_combine_first_return_obj_type_with_bools(self):
         # GH3552
 
-        df1 = DataFrame(
-            [[np.nan, 3.0, True], [-4.6, np.nan, True], [np.nan, 7.0, False]]
-        )
+        df1 = DataFrame([[np.nan, 3.0, True], [-4.6, np.nan, True], [np.nan, 7.0, False]])
         df2 = DataFrame([[-42.6, np.nan, True], [-5.0, 1.6, False]], index=[1, 2])
 
         expected = Series([True, True, False], name=2, dtype=bool)
@@ -185,9 +183,7 @@ class TestDataFrameCombineFirst:
             ),
         ),
     )
-    def test_combine_first_convert_datatime_correctly(
-        self, data1, data2, data_expected
-    ):
+    def test_combine_first_convert_datatime_correctly(self, data1, data2, data_expected):
         # GH 3593
 
         df1, df2 = DataFrame({"a": data1}), DataFrame({"a": data2})
@@ -324,9 +320,7 @@ class TestDataFrameCombineFirst:
         df2 = DataFrame({"TD": data2}, index=[2, 4, 5])
 
         res = df1.combine_first(df2)
-        exp_dts = pd.TimedeltaIndex(
-            ["1 day", "10 day", "NaT", "11 day", "3 day", "4 day"]
-        )
+        exp_dts = pd.TimedeltaIndex(["1 day", "10 day", "NaT", "11 day", "3 day", "4 day"])
         exp = DataFrame({"TD": exp_dts}, index=[1, 2, 3, 4, 5, 7])
         tm.assert_frame_equal(res, exp)
         assert res["TD"].dtype == "timedelta64[ns]"
@@ -389,9 +383,7 @@ class TestDataFrameCombineFirst:
 
     def test_combine_first_string_dtype_only_na(self, nullable_string_dtype):
         # GH: 37519
-        df = DataFrame(
-            {"a": ["962", "85"], "b": [pd.NA] * 2}, dtype=nullable_string_dtype
-        )
+        df = DataFrame({"a": ["962", "85"], "b": [pd.NA] * 2}, dtype=nullable_string_dtype)
         df2 = DataFrame({"a": ["85"], "b": [pd.NA]}, dtype=nullable_string_dtype)
         df.set_index(["a", "b"], inplace=True)
         df2.set_index(["a", "b"], inplace=True)
@@ -437,9 +429,7 @@ def test_combine_first_timestamp_bug(scalar1, scalar2, nulls_fixture):
 def test_combine_first_timestamp_bug_NaT():
     # GH28481
     frame = DataFrame([[pd.NaT, pd.NaT]], columns=["a", "b"])
-    other = DataFrame(
-        [[datetime(2020, 1, 1), datetime(2020, 1, 2)]], columns=["b", "c"]
-    )
+    other = DataFrame([[datetime(2020, 1, 1), datetime(2020, 1, 2)]], columns=["b", "c"])
 
     result = frame.combine_first(other)
     expected = DataFrame(
@@ -517,9 +507,7 @@ def test_combine_first_duplicates_rows_for_nan_index_values():
             "x": [9.0, 10.0, 11.0, np.nan],
             "y": [12.0, 13.0, np.nan, 14.0],
         },
-        index=MultiIndex.from_arrays(
-            [[1, 2, 3, 4], [np.nan, 5, 6, 7]], names=["a", "b"]
-        ),
+        index=MultiIndex.from_arrays([[1, 2, 3, 4], [np.nan, 5, 6, 7]], names=["a", "b"]),
     )
     combined = df1.combine_first(df2)
     tm.assert_frame_equal(combined, expected)
@@ -541,9 +529,7 @@ def test_midx_losing_dtype():
     df1 = DataFrame({"a": [None, 4]}, index=midx)
     df2 = DataFrame({"a": [3, 3]}, index=midx2)
     result = df1.combine_first(df2)
-    expected_midx = MultiIndex.from_arrays(
-        [[0, 0, 1, 1], [np.nan, np.nan, np.nan, np.nan]]
-    )
+    expected_midx = MultiIndex.from_arrays([[0, 0, 1, 1], [np.nan, np.nan, np.nan, np.nan]])
     expected = DataFrame({"a": [np.nan, 4, 3, 3]}, index=expected_midx)
     tm.assert_frame_equal(result, expected)
 

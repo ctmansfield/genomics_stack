@@ -103,9 +103,7 @@ class TestTimestampProperties:
         with pytest.raises(AttributeError, match=msg):
             ts.millisecond
 
-    @pytest.mark.parametrize(
-        "start", ["is_month_start", "is_quarter_start", "is_year_start"]
-    )
+    @pytest.mark.parametrize("start", ["is_month_start", "is_quarter_start", "is_year_start"])
     @pytest.mark.parametrize("tz", [None, "US/Eastern"])
     def test_is_start(self, start, tz):
         ts = Timestamp("2014-01-01 00:00:00", tz=tz)
@@ -123,9 +121,7 @@ class TestTimestampProperties:
         [Timestamp("2017-08-28 23:00:00"), Timestamp("2017-08-28 23:00:00", tz="EST")],
     )
     # error: Unsupported operand types for + ("List[None]" and "List[str]")
-    @pytest.mark.parametrize(
-        "time_locale", [None] + tm.get_locales()  # type: ignore[operator]
-    )
+    @pytest.mark.parametrize("time_locale", [None] + tm.get_locales())  # type: ignore[operator]
     def test_names(self, data, time_locale):
         # GH 17354
         # Test .day_name(), .month_name
@@ -160,9 +156,7 @@ class TestTimestampProperties:
         tz = tz_naive_fixture
         if not IS64 and tz == tzlocal():
             # https://github.com/dateutil/dateutil/issues/197
-            pytest.skip(
-                "tzlocal() on a 32 bit platform causes internal overflow errors"
-            )
+            pytest.skip("tzlocal() on a 32 bit platform causes internal overflow errors")
         # GH 13727
         dt = Timestamp("2000-01-01 00:00:00", tz=tz)
         assert dt.is_leap_year
@@ -248,14 +242,10 @@ class TestTimestampProperties:
     def test_dow_parametric(self, ts, sign):
         # GH 53738
         ts = (
-            f"{sign}{str(ts.year).zfill(4)}"
-            f"-{str(ts.month).zfill(2)}"
-            f"-{str(ts.day).zfill(2)}"
+            f"{sign}{str(ts.year).zfill(4)}" f"-{str(ts.month).zfill(2)}" f"-{str(ts.day).zfill(2)}"
         )
         result = Timestamp(ts).weekday()
-        expected = (
-            (np.datetime64(ts) - np.datetime64("1970-01-01")).astype("int64") - 4
-        ) % 7
+        expected = ((np.datetime64(ts) - np.datetime64("1970-01-01")).astype("int64") - 4) % 7
         assert result == expected
 
 
@@ -299,9 +289,7 @@ class TestTimestamp:
         ns = [Timestamp.min._value, Timestamp.max._value, 1000]
 
         for n in ns:
-            assert (
-                Timestamp(n).asm8.view("i8") == np.datetime64(n, "ns").view("i8") == n
-            )
+            assert Timestamp(n).asm8.view("i8") == np.datetime64(n, "ns").view("i8") == n
 
         assert Timestamp("nat").asm8.view("i8") == np.datetime64("nat", "ns").view("i8")
 
@@ -318,9 +306,7 @@ class TestTimestamp:
 
         ts_utc = Timestamp.utcfromtimestamp(current_time)
         assert ts_utc.timestamp() == current_time
-        compare(
-            Timestamp.fromtimestamp(current_time), datetime.fromtimestamp(current_time)
-        )
+        compare(Timestamp.fromtimestamp(current_time), datetime.fromtimestamp(current_time))
         compare(
             # Support tz kwarg in Timestamp.fromtimestamp
             Timestamp.fromtimestamp(current_time, "UTC"),
@@ -689,9 +675,7 @@ class TestNonNano:
         alt = Timestamp(dt64)
         assert ts.to_period("D") == alt.to_period("D")
 
-    @pytest.mark.parametrize(
-        "td", [timedelta(days=4), Timedelta(days=4), np.timedelta64(4, "D")]
-    )
+    @pytest.mark.parametrize("td", [timedelta(days=4), Timedelta(days=4), np.timedelta64(4, "D")])
     def test_addsub_timedeltalike_non_nano(self, dt64, ts, td):
         exp_reso = max(ts._creso, Timedelta(td)._creso)
 

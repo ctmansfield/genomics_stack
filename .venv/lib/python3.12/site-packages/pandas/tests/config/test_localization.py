@@ -55,9 +55,7 @@ def test_can_set_locale_valid_set(lc_var):
         locale.LC_CTYPE,
         pytest.param(
             locale.LC_TIME,
-            marks=pytest.mark.skipif(
-                ISMUSL, reason="MUSL allows setting invalid LC_TIME."
-            ),
+            marks=pytest.mark.skipif(ISMUSL, reason="MUSL allows setting invalid LC_TIME."),
         ),
     ),
 )
@@ -150,7 +148,4 @@ def test_encoding_detected():
     system_locale = os.environ.get("LC_ALL")
     system_encoding = system_locale.split(".")[-1] if system_locale else "utf-8"
 
-    assert (
-        codecs.lookup(pd.options.display.encoding).name
-        == codecs.lookup(system_encoding).name
-    )
+    assert codecs.lookup(pd.options.display.encoding).name == codecs.lookup(system_encoding).name

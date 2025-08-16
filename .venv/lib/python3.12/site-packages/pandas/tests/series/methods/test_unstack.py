@@ -61,9 +61,7 @@ def test_unstack():
     idx = MultiIndex.from_arrays([[101, 102], [3.5, np.nan]])
     ts = Series([1, 2], index=idx)
     left = ts.unstack()
-    right = DataFrame(
-        [[np.nan, 1], [2, np.nan]], index=[101, 102], columns=[np.nan, 3.5]
-    )
+    right = DataFrame([[np.nan, 1], [2, np.nan]], index=[101, 102], columns=[np.nan, 3.5])
     tm.assert_frame_equal(left, right)
 
     idx = MultiIndex.from_arrays(
@@ -85,9 +83,7 @@ def test_unstack():
 
 def test_unstack_tuplename_in_multiindex():
     # GH 19966
-    idx = MultiIndex.from_product(
-        [["a", "b", "c"], [1, 2, 3]], names=[("A", "a"), ("B", "b")]
-    )
+    idx = MultiIndex.from_product([["a", "b", "c"], [1, 2, 3]], names=[("A", "a"), ("B", "b")])
     ser = Series(1, index=idx)
     result = ser.unstack(("A", "a"))
 
@@ -122,15 +118,11 @@ def test_unstack_mixed_type_name_in_multiindex(
     unstack_idx, expected_values, expected_index, expected_columns
 ):
     # GH 19966
-    idx = MultiIndex.from_product(
-        [["a", "b"], [1, 2], [3, 4]], names=[("A", "a"), "B", "C"]
-    )
+    idx = MultiIndex.from_product([["a", "b"], [1, 2], [3, 4]], names=[("A", "a"), "B", "C"])
     ser = Series(1, index=idx)
     result = ser.unstack(unstack_idx)
 
-    expected = DataFrame(
-        expected_values, columns=expected_columns, index=expected_index
-    )
+    expected = DataFrame(expected_values, columns=expected_columns, index=expected_index)
     tm.assert_frame_equal(result, expected)
 
 

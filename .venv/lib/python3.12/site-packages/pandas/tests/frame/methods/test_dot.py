@@ -83,9 +83,7 @@ class DotSharedTests:
 class TestSeriesDot(DotSharedTests):
     @pytest.fixture
     def obj(self):
-        return Series(
-            np.random.default_rng(2).standard_normal(4), index=["p", "q", "r", "s"]
-        )
+        return Series(np.random.default_rng(2).standard_normal(4), index=["p", "q", "r", "s"])
 
     @pytest.fixture
     def other(self):
@@ -126,9 +124,7 @@ class TestDataFrameDot(DotSharedTests):
 
     @pytest.fixture
     def expected(self, obj, other):
-        return DataFrame(
-            np.dot(obj.values, other.values), index=obj.index, columns=other.columns
-        )
+        return DataFrame(np.dot(obj.values, other.values), index=obj.index, columns=other.columns)
 
     @classmethod
     def reduced_dim_assert(cls, result, expected):

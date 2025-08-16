@@ -170,9 +170,7 @@ class TestBase:
         assert not isinstance(idx, MultiIndex)
         if type(idx) is Index:
             pytest.skip("Not applicable for Index")
-        if is_numeric_dtype(simple_index.dtype) or isinstance(
-            simple_index, TimedeltaIndex
-        ):
+        if is_numeric_dtype(simple_index.dtype) or isinstance(simple_index, TimedeltaIndex):
             pytest.skip("Tested elsewhere.")
 
         typ = type(idx._data).__name__
@@ -294,17 +292,12 @@ class TestBase:
                 tm.assert_numpy_array_equal(
                     index._values._mask, result._values._mask, check_same="same"
                 )
-            elif (
-                isinstance(index.dtype, StringDtype) and index.dtype.storage == "python"
-            ):
+            elif isinstance(index.dtype, StringDtype) and index.dtype.storage == "python":
                 assert np.shares_memory(index._values._ndarray, result._values._ndarray)
                 tm.assert_numpy_array_equal(
                     index._values._ndarray, result._values._ndarray, check_same="same"
                 )
-            elif (
-                isinstance(index.dtype, StringDtype)
-                and index.dtype.storage == "pyarrow"
-            ):
+            elif isinstance(index.dtype, StringDtype) and index.dtype.storage == "pyarrow":
                 assert tm.shares_memory(result._values, index._values)
             else:
                 raise NotImplementedError(index.dtype)
@@ -578,9 +571,7 @@ class TestBase:
 
     def test_format(self, simple_index):
         # GH35439
-        if is_numeric_dtype(simple_index.dtype) or isinstance(
-            simple_index, DatetimeIndex
-        ):
+        if is_numeric_dtype(simple_index.dtype) or isinstance(simple_index, DatetimeIndex):
             pytest.skip("Tested elsewhere.")
         idx = simple_index
         expected = [str(x) for x in idx]
@@ -823,9 +814,7 @@ class TestBase:
     def test_index_groupby(self, simple_index):
         idx = simple_index[:5]
         to_groupby = np.array([1, 2, np.nan, 2, 1])
-        tm.assert_dict_equal(
-            idx.groupby(to_groupby), {1.0: idx[[0, 4]], 2.0: idx[[1, 3]]}
-        )
+        tm.assert_dict_equal(idx.groupby(to_groupby), {1.0: idx[[0, 4]], 2.0: idx[[1, 3]]})
 
         to_groupby = DatetimeIndex(
             [

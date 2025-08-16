@@ -39,9 +39,7 @@ class TestCounting:
         tm.assert_series_equal(e, se.cumcount())
 
     def test_cumcount_dupe_index(self):
-        df = DataFrame(
-            [["a"], ["a"], ["a"], ["b"], ["a"]], columns=["A"], index=[0] * 5
-        )
+        df = DataFrame([["a"], ["a"], ["a"], ["b"], ["a"]], columns=["A"], index=[0] * 5)
         g = df.groupby("A")
         sg = g.A
 
@@ -62,9 +60,7 @@ class TestCounting:
         tm.assert_series_equal(expected, sg.cumcount())
 
     def test_cumcount_groupby_not_col(self):
-        df = DataFrame(
-            [["a"], ["a"], ["a"], ["b"], ["a"]], columns=["A"], index=[0] * 5
-        )
+        df = DataFrame([["a"], ["a"], ["a"], ["b"], ["a"]], columns=["A"], index=[0] * 5)
         g = df.groupby([0, 0, 0, 1, 0])
         sg = g.A
 
@@ -234,9 +230,7 @@ class TestCounting:
         # https://github.com/pandas-dev/pandas/issues/32841
         df = DataFrame({"A": [1, 1, 1, 1, 1], "B": [5, 4, np.nan, 3, 0]})
         res = df.groupby(["B"]).count()
-        expected = DataFrame(
-            index=Index([0.0, 3.0, 4.0, 5.0], name="B"), data={"A": [1, 1, 1, 1]}
-        )
+        expected = DataFrame(index=Index([0.0, 3.0, 4.0, 5.0], name="B"), data={"A": [1, 1, 1, 1]})
         tm.assert_frame_equal(expected, res)
 
     def test_groupby_count_dateparseerror(self):
@@ -255,9 +249,7 @@ class TestCounting:
 
 
 def test_groupby_timedelta_cython_count():
-    df = DataFrame(
-        {"g": list("ab" * 2), "delta": np.arange(4).astype("timedelta64[ns]")}
-    )
+    df = DataFrame({"g": list("ab" * 2), "delta": np.arange(4).astype("timedelta64[ns]")})
     expected = Series([2, 2], index=Index(["a", "b"], name="g"), name="delta")
     result = df.groupby("g").delta.count()
     tm.assert_series_equal(expected, result)
@@ -276,8 +268,7 @@ def test_count():
             "5th": np.random.default_rng(2).choice(dr, n),
             "6th": np.random.default_rng(2).standard_normal(n).round(3),
             "7th": np.random.default_rng(2).standard_normal(n).round(3),
-            "8th": np.random.default_rng(2).choice(dr, n)
-            - np.random.default_rng(2).choice(dr, 1),
+            "8th": np.random.default_rng(2).choice(dr, n) - np.random.default_rng(2).choice(dr, 1),
             "9th": np.random.default_rng(2).choice(list(ascii_lowercase), n),
         }
     )
@@ -386,9 +377,7 @@ def test_count_uses_size_on_exception():
 def test_count_arrow_string_array(any_string_dtype):
     # GH#54751
     pytest.importorskip("pyarrow")
-    df = DataFrame(
-        {"a": [1, 2, 3], "b": Series(["a", "b", "a"], dtype=any_string_dtype)}
-    )
+    df = DataFrame({"a": [1, 2, 3], "b": Series(["a", "b", "a"], dtype=any_string_dtype)})
     result = df.groupby("a").count()
     expected = DataFrame({"b": 1}, index=Index([1, 2, 3], name="a"))
     tm.assert_frame_equal(result, expected)

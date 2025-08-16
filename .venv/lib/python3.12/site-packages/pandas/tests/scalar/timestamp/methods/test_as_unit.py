@@ -76,11 +76,4 @@ class TestTimestampAsUnit:
         assert res.year == 1970
         assert res.month == 1
         assert res.day == 2
-        assert (
-            res.hour
-            == res.minute
-            == res.second
-            == res.microsecond
-            == res.nanosecond
-            == 0
-        )
+        assert res.hour == res.minute == res.second == res.microsecond == res.nanosecond == 0

@@ -50,9 +50,7 @@ class TestSeriesConcat:
         tm.assert_series_equal(result, expected)
 
     def test_concat_series_axis1(self):
-        ts = Series(
-            np.arange(10, dtype=np.float64), index=date_range("2020-01-01", periods=10)
-        )
+        ts = Series(np.arange(10, dtype=np.float64), index=date_range("2020-01-01", periods=10))
 
         pieces = [ts[:-2], ts[2:], ts[2:-2]]
 
@@ -79,9 +77,7 @@ class TestSeriesConcat:
 
     def test_concat_series_axis1_with_reindex(self, sort):
         # must reindex, #2603
-        s = Series(
-            np.random.default_rng(2).standard_normal(3), index=["c", "a", "b"], name="A"
-        )
+        s = Series(np.random.default_rng(2).standard_normal(3), index=["c", "a", "b"], name="A")
         s2 = Series(
             np.random.default_rng(2).standard_normal(4),
             index=["d", "a", "b", "c"],
@@ -98,9 +94,7 @@ class TestSeriesConcat:
         s = Series([1, 2, 3])
         s2 = Series([4, 5, 6])
         result = concat([s, s2], axis=1, keys=["a", "b"], names=["A"])
-        expected = DataFrame(
-            [[1, 4], [2, 5], [3, 6]], columns=Index(["a", "b"], name="A")
-        )
+        expected = DataFrame([[1, 4], [2, 5], [3, 6]], columns=Index(["a", "b"], name="A"))
         tm.assert_frame_equal(result, expected)
 
         result = concat([s, s2], axis=1, keys=[("a", 1), ("b", 2)], names=["A", "B"])
@@ -128,9 +122,7 @@ class TestSeriesConcat:
 
         tm.assert_index_equal(result.columns, expected, exact=True)
 
-    @pytest.mark.parametrize(
-        "s1name,s2name", [(np.int64(190), (43, 0)), (190, (43, 0))]
-    )
+    @pytest.mark.parametrize("s1name,s2name", [(np.int64(190), (43, 0)), (190, (43, 0))])
     def test_concat_series_name_npscalar_tuple(self, s1name, s2name):
         # GH21015
         s1 = Series({"a": 1, "b": 2}, name=s1name)
@@ -146,9 +138,7 @@ class TestSeriesConcat:
         unnamed_series2 = Series([4, 5])
 
         result = concat([named_series, unnamed_series1, unnamed_series2], axis=1)
-        expected = DataFrame(
-            {"foo": [1, 2], 0: [1, 2], 1: [4, 5]}, columns=["foo", 0, 1]
-        )
+        expected = DataFrame({"foo": [1, 2], 0: [1, 2], 1: [4, 5]}, columns=["foo", 0, 1])
         tm.assert_frame_equal(result, expected)
 
         result = concat(
@@ -162,9 +152,7 @@ class TestSeriesConcat:
         )
         tm.assert_frame_equal(result, expected)
 
-        result = concat(
-            [named_series, unnamed_series1, unnamed_series2], axis=1, ignore_index=True
-        )
+        result = concat([named_series, unnamed_series1, unnamed_series2], axis=1, ignore_index=True)
         expected = DataFrame({0: [1, 2], 1: [1, 2], 2: [4, 5]})
         tm.assert_frame_equal(result, expected)
 

@@ -60,9 +60,7 @@ def df(request):
             {"a": ["\U0001f44d\U0001f44d", "\U0001f44d\U0001f44d"], "b": ["abc", "def"]}
         )
     elif data_type == "string":
-        return DataFrame(
-            np.array([f"i-{i}" for i in range(15)]).reshape(5, 3), columns=list("abc")
-        )
+        return DataFrame(np.array([f"i-{i}" for i in range(15)]).reshape(5, 3), columns=list("abc"))
     elif data_type == "long":
         max_rows = get_option("display.max_rows")
         return DataFrame(
@@ -87,9 +85,7 @@ def df(request):
     elif data_type == "float":
         return DataFrame(np.random.default_rng(2).random((5, 3)), columns=list("abc"))
     elif data_type == "int":
-        return DataFrame(
-            np.random.default_rng(2).integers(0, 10, (5, 3)), columns=list("abc")
-        )
+        return DataFrame(np.random.default_rng(2).integers(0, 10, (5, 3)), columns=list("abc"))
     else:
         raise ValueError
 
@@ -285,9 +281,7 @@ class TestClipboard:
 
         clipboard.setText(text)
         df = read_clipboard()
-        df_expected = DataFrame(
-            data={"col1": [1, None, 2], "col2": ["red", "blue", "green"]}
-        )
+        df_expected = DataFrame(data={"col1": [1, None, 2], "col2": ["red", "blue", "green"]})
 
         # excel data is parsed correctly
         tm.assert_frame_equal(df, df_expected)
@@ -307,9 +301,7 @@ class TestClipboard:
                 [["A", "A", "B"], [0, 1, 0], [True, True, False]],
             ),
             (
-                "\n".join(
-                    ["\t\tcol1\tcol2", "A\t0\t1\tred", "A\t1\t\tblue", "B\t0\t2\tgreen"]
-                ),
+                "\n".join(["\t\tcol1\tcol2", "A\t0\t1\tred", "A\t1\t\tblue", "B\t0\t2\tgreen"]),
                 [["A", "A", "B"], [0, 1, 0]],
             ),
         ],
@@ -398,10 +390,7 @@ y,2,5.0,,,,,False,"""
         tm.assert_frame_equal(result, expected)
 
     def test_invalid_dtype_backend(self):
-        msg = (
-            "dtype_backend numpy is invalid, only 'numpy_nullable' and "
-            "'pyarrow' are allowed."
-        )
+        msg = "dtype_backend numpy is invalid, only 'numpy_nullable' and " "'pyarrow' are allowed."
         with pytest.raises(ValueError, match=msg):
             read_clipboard(dtype_backend="numpy")
 

@@ -1,6 +1,7 @@
 """
 Tests for the pandas custom headers in http(s) requests
 """
+
 from functools import partial
 import gzip
 from io import BytesIO
@@ -17,9 +18,7 @@ import pandas._testing as tm
 pytestmark = [
     pytest.mark.single_cpu,
     pytest.mark.network,
-    pytest.mark.filterwarnings(
-        "ignore:Passing a BlockManager to DataFrame:DeprecationWarning"
-    ),
+    pytest.mark.filterwarnings("ignore:Passing a BlockManager to DataFrame:DeprecationWarning"),
 ]
 
 
@@ -135,9 +134,7 @@ def test_request_headers(responder, read_method, httpserver, storage_options):
             storage_options |= extra
     else:
         extra = None
-    expected_headers = set(default_headers).union(
-        storage_options.keys() if storage_options else []
-    )
+    expected_headers = set(default_headers).union(storage_options.keys() if storage_options else [])
     httpserver.serve_content(content=responder(expected), headers=extra)
     result = read_method(httpserver.url, storage_options=storage_options)
     tm.assert_frame_equal(result, expected)

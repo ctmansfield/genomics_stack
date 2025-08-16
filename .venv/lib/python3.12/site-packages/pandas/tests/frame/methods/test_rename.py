@@ -43,9 +43,7 @@ class TestRename:
         renamed2 = float_frame.rename(columns=str.lower)
 
         tm.assert_frame_equal(renamed, renamed2)
-        tm.assert_frame_equal(
-            renamed2.rename(columns=str.upper), float_frame, check_names=False
-        )
+        tm.assert_frame_equal(renamed2.rename(columns=str.upper), float_frame, check_names=False)
 
         # index
         data = {"A": {"foo": 0, "bar": 1}}
@@ -202,9 +200,7 @@ class TestRename:
         df.columns = ["2001-01-01"]
         expected = DataFrame(
             [[1], [2]],
-            index=MultiIndex.from_tuples(
-                [("foo", "bah"), ("bar", "bas")], names=["a", "b"]
-            ),
+            index=MultiIndex.from_tuples([("foo", "bah"), ("bar", "bas")], names=["a", "b"]),
             columns=["2001-01-01"],
         )
         tm.assert_frame_equal(df, expected)
@@ -215,9 +211,7 @@ class TestRename:
 
         df = DataFrame(data=np.arange(3), index=[(0, 0), (1, 1), (2, 2)], columns=["a"])
         df = df.rename({(1, 1): (5, 4)}, axis="index")
-        expected = DataFrame(
-            data=np.arange(3), index=[(0, 0), (5, 4), (2, 2)], columns=["a"]
-        )
+        expected = DataFrame(data=np.arange(3), index=[(0, 0), (5, 4), (2, 2)], columns=["a"])
         tm.assert_frame_equal(df, expected)
 
     def test_rename_errors_raises(self):
@@ -282,9 +276,7 @@ class TestRename:
         tm.assert_frame_equal(result, expected)
 
     def test_rename_mapper_multi(self):
-        df = DataFrame({"A": ["a", "b"], "B": ["c", "d"], "C": [1, 2]}).set_index(
-            ["A", "B"]
-        )
+        df = DataFrame({"A": ["a", "b"], "B": ["c", "d"], "C": [1, 2]}).set_index(["A", "B"])
         result = df.rename(str.upper)
         expected = df.rename(index=str.upper)
         tm.assert_frame_equal(result, expected)
@@ -368,9 +360,7 @@ class TestRename:
         # GH#4403
         df4 = DataFrame(
             {"RT": [0.0454], "TClose": [22.02], "TExg": [0.0422]},
-            index=MultiIndex.from_tuples(
-                [(600809, 20130331)], names=["STK_ID", "RPT_Date"]
-            ),
+            index=MultiIndex.from_tuples([(600809, 20130331)], names=["STK_ID", "RPT_Date"]),
         )
 
         df5 = DataFrame(

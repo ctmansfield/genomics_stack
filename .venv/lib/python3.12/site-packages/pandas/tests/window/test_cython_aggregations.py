@@ -66,9 +66,7 @@ def _get_rolling_aggregations():
 _rolling_aggregations = _get_rolling_aggregations()
 
 
-@pytest.fixture(
-    params=_rolling_aggregations["params"], ids=_rolling_aggregations["ids"]
-)
+@pytest.fixture(params=_rolling_aggregations["params"], ids=_rolling_aggregations["ids"])
 def rolling_aggregation(request):
     """Make a rolling aggregation function as fixture."""
     return request.param
@@ -104,8 +102,6 @@ def test_rolling_aggregation_with_unused_elements(rolling_aggregation):
     compact_values = np.array(values[loc], dtype=np.float64)
     compact_start = np.arange(0, len(start) * width, width, dtype=np.int64)
     compact_end = compact_start + width
-    expected = Series(
-        rolling_aggregation(compact_values, compact_start, compact_end, minp)
-    )
+    expected = Series(rolling_aggregation(compact_values, compact_start, compact_end, minp))
     assert np.isfinite(expected.values).all(), "Not all expected values are finite"
     tm.assert_equal(expected, result)

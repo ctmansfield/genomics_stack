@@ -1,6 +1,7 @@
 """
 config for datetime formatting
 """
+
 from __future__ import annotations
 
 from pandas._config import config as cf
@@ -17,9 +18,5 @@ pc_date_yearfirst_doc = """
 
 with cf.config_prefix("display"):
     # Needed upstream of `_libs` because these are used in tslibs.parsing
-    cf.register_option(
-        "date_dayfirst", False, pc_date_dayfirst_doc, validator=cf.is_bool
-    )
-    cf.register_option(
-        "date_yearfirst", False, pc_date_yearfirst_doc, validator=cf.is_bool
-    )
+    cf.register_option("date_dayfirst", False, pc_date_dayfirst_doc, validator=cf.is_bool)
+    cf.register_option("date_yearfirst", False, pc_date_yearfirst_doc, validator=cf.is_bool)

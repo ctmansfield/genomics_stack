@@ -110,9 +110,7 @@ def test_repr(setup_path, using_infer_string):
         store["a"] = Series(
             np.arange(10, dtype=np.float64), index=date_range("2020-01-01", periods=10)
         )
-        store["b"] = Series(
-            range(10), dtype="float64", index=[f"i_{i}" for i in range(10)]
-        )
+        store["b"] = Series(range(10), dtype="float64", index=[f"i_{i}" for i in range(10)])
         store["c"] = DataFrame(
             1.1 * np.arange(120).reshape((30, 4)),
             columns=Index(list("ABCD"), dtype=object),
@@ -188,9 +186,7 @@ def test_contains(setup_path):
         assert "bar" not in store
 
         # gh-2694: tables.NaturalNameWarning
-        with tm.assert_produces_warning(
-            tables.NaturalNameWarning, check_stacklevel=False
-        ):
+        with tm.assert_produces_warning(tables.NaturalNameWarning, check_stacklevel=False):
             store["node())"] = DataFrame(
                 1.1 * np.arange(120).reshape((30, 4)),
                 columns=Index(list("ABCD"), dtype=object),
@@ -298,9 +294,7 @@ def test_walk(where, expected):
 
 def test_getattr(setup_path):
     with ensure_clean_store(setup_path) as store:
-        s = Series(
-            np.arange(10, dtype=np.float64), index=date_range("2020-01-01", periods=10)
-        )
+        s = Series(np.arange(10, dtype=np.float64), index=date_range("2020-01-01", periods=10))
         store["a"] = s
 
         # test attribute access
@@ -334,9 +328,7 @@ def test_store_dropna(tmp_path, setup_path):
         {"col1": [0.0, np.nan, 2.0], "col2": [1.0, np.nan, np.nan]},
         index=list("abc"),
     )
-    df_without_missing = DataFrame(
-        {"col1": [0.0, 2.0], "col2": [1.0, np.nan]}, index=list("ac")
-    )
+    df_without_missing = DataFrame({"col1": [0.0, 2.0], "col2": [1.0, np.nan]}, index=list("ac"))
 
     # # Test to make sure defaults are to not drop.
     # # Corresponding to Issue 9382
@@ -531,9 +523,7 @@ def test_calendar_roundtrip_issue(setup_path):
         dt.datetime(2013, 5, 1),
         np.datetime64("2014-05-01"),
     ]
-    bday_egypt = pd.offsets.CustomBusinessDay(
-        holidays=holidays, weekmask=weekmask_egypt
-    )
+    bday_egypt = pd.offsets.CustomBusinessDay(holidays=holidays, weekmask=weekmask_egypt)
     mydt = dt.datetime(2013, 4, 30)
     dts = date_range(mydt, periods=5, freq=bday_egypt)
 
@@ -551,9 +541,7 @@ def test_calendar_roundtrip_issue(setup_path):
 
 def test_remove(setup_path):
     with ensure_clean_store(setup_path) as store:
-        ts = Series(
-            np.arange(10, dtype=np.float64), index=date_range("2020-01-01", periods=10)
-        )
+        ts = Series(np.arange(10, dtype=np.float64), index=date_range("2020-01-01", periods=10))
         df = DataFrame(
             1.1 * np.arange(120).reshape((30, 4)),
             columns=Index(list("ABCD")),
@@ -569,9 +557,7 @@ def test_remove(setup_path):
         assert len(store) == 0
 
         # nonexistence
-        with pytest.raises(
-            KeyError, match="'No object named a_nonexistent_store in the file'"
-        ):
+        with pytest.raises(KeyError, match="'No object named a_nonexistent_store in the file'"):
             store.remove("a_nonexistent_store")
 
         # pathing
@@ -681,9 +667,7 @@ def test_overwrite_node(setup_path):
             columns=Index(list("ABCD")),
             index=date_range("2000-01-01", periods=10, freq="B"),
         )
-        ts = Series(
-            np.arange(10, dtype=np.float64), index=date_range("2020-01-01", periods=10)
-        )
+        ts = Series(np.arange(10, dtype=np.float64), index=date_range("2020-01-01", periods=10))
         store["a"] = ts
 
         tm.assert_series_equal(store["a"], ts)
@@ -765,10 +749,7 @@ def test_coordinates(setup_path):
         tm.assert_frame_equal(result, expected)
 
         # invalid
-        msg = (
-            "where must be passed as a string, PyTablesExpr, "
-            "or list-like of PyTablesExpr"
-        )
+        msg = "where must be passed as a string, PyTablesExpr, " "or list-like of PyTablesExpr"
         with pytest.raises(TypeError, match=msg):
             store.select("df", where=np.arange(len(df), dtype="float64"))
 
@@ -834,9 +815,7 @@ def test_start_stop_multiple(setup_path):
     with ensure_clean_store(setup_path) as store:
         df = DataFrame({"foo": [1, 2], "bar": [1, 2]})
 
-        store.append_to_multiple(
-            {"selector": ["foo"], "data": None}, df, selector="selector"
-        )
+        store.append_to_multiple({"selector": ["foo"], "data": None}, df, selector="selector")
         result = store.select_as_multiple(
             ["selector", "data"], selector="selector", start=0, stop=1
         )
@@ -914,9 +893,7 @@ def test_path_pathlib():
         index=Index([f"i-{i}" for i in range(30)]),
     )
 
-    result = tm.round_trip_pathlib(
-        lambda p: df.to_hdf(p, key="df"), lambda p: read_hdf(p, "df")
-    )
+    result = tm.round_trip_pathlib(lambda p: df.to_hdf(p, key="df"), lambda p: read_hdf(p, "df"))
     tm.assert_frame_equal(df, result)
 
 
@@ -962,9 +939,7 @@ def test_pickle_path_localpath():
         columns=Index(list("ABCD")),
         index=Index([f"i-{i}" for i in range(30)]),
     )
-    result = tm.round_trip_pathlib(
-        lambda p: df.to_hdf(p, key="df"), lambda p: read_hdf(p, "df")
-    )
+    result = tm.round_trip_pathlib(lambda p: df.to_hdf(p, key="df"), lambda p: read_hdf(p, "df"))
     tm.assert_frame_equal(df, result)
 
 

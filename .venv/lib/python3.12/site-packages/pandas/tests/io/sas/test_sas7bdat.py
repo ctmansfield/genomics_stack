@@ -57,9 +57,7 @@ class TestSAS7BDAT:
             with open(fname, "rb") as f:
                 byts = f.read()
             buf = io.BytesIO(byts)
-            with pd.read_sas(
-                buf, format="sas7bdat", iterator=True, encoding="utf-8"
-            ) as rdr:
+            with pd.read_sas(buf, format="sas7bdat", iterator=True, encoding="utf-8") as rdr:
                 df = rdr.read()
             tm.assert_frame_equal(df, expected)
 
@@ -108,9 +106,7 @@ class TestSAS7BDAT:
     def test_iterator_read_too_much(self, dirpath):
         # github #14734
         fname = os.path.join(dirpath, "test1.sas7bdat")
-        with pd.read_sas(
-            fname, format="sas7bdat", iterator=True, encoding="utf-8"
-        ) as rdr:
+        with pd.read_sas(fname, format="sas7bdat", iterator=True, encoding="utf-8") as rdr:
             d1 = rdr.read(rdr.row_count + 20)
 
         with pd.read_sas(fname, iterator=True, encoding="utf-8") as rdr:
@@ -185,9 +181,7 @@ def test_date_time(datapath):
     fname = datapath("io", "sas", "data", "datetime.sas7bdat")
     df = pd.read_sas(fname)
     fname = datapath("io", "sas", "data", "datetime.csv")
-    df0 = pd.read_csv(
-        fname, parse_dates=["Date1", "Date2", "DateTime", "DateTimeHi", "Taiw"]
-    )
+    df0 = pd.read_csv(fname, parse_dates=["Date1", "Date2", "DateTime", "DateTimeHi", "Taiw"])
     # GH 19732: Timestamps imported from sas will incur floating point errors
     # See GH#56014 for discussion of the correct "expected" results
     #  We are really just testing that we are "close". This only seems to be
@@ -323,9 +317,7 @@ def test_max_sas_date_iterator(datapath):
             {
                 "text": ["max"],
                 "dt_as_float": [253717747199.999],
-                "dt_as_dt": np.array(
-                    [datetime(9999, 12, 29, 23, 59, 59, 999000)], dtype="M8[ms]"
-                ),
+                "dt_as_dt": np.array([datetime(9999, 12, 29, 23, 59, 59, 999000)], dtype="M8[ms]"),
                 "date_as_float": [2936547.0],
                 "date_as_date": np.array([datetime(9999, 12, 29)], dtype="M8[s]"),
             },
@@ -394,9 +386,7 @@ def test_meta2_page(datapath):
         ("test3.sas7bdat", 118170, 184, "Out of bounds"),
     ],
 )
-def test_rle_rdc_exceptions(
-    datapath, test_file, override_offset, override_value, expected_msg
-):
+def test_rle_rdc_exceptions(datapath, test_file, override_offset, override_value, expected_msg):
     """Errors in RLE/RDC decompression should propagate."""
     with open(datapath("io", "sas", "data", test_file), "rb") as fd:
         data = bytearray(fd.read())

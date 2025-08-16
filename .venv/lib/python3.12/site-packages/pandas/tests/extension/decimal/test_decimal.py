@@ -41,16 +41,12 @@ def data_missing():
 
 @pytest.fixture
 def data_for_sorting():
-    return DecimalArray(
-        [decimal.Decimal("1"), decimal.Decimal("2"), decimal.Decimal("0")]
-    )
+    return DecimalArray([decimal.Decimal("1"), decimal.Decimal("2"), decimal.Decimal("0")])
 
 
 @pytest.fixture
 def data_missing_for_sorting():
-    return DecimalArray(
-        [decimal.Decimal("1"), decimal.Decimal("NaN"), decimal.Decimal("0")]
-    )
+    return DecimalArray([decimal.Decimal("1"), decimal.Decimal("NaN"), decimal.Decimal("0")])
 
 
 @pytest.fixture
@@ -134,9 +130,7 @@ class TestDecimalArray(base.ExtensionTests):
 
     def test_fillna_frame(self, data_missing):
         msg = "ExtensionArray.fillna added a 'copy' keyword"
-        with tm.assert_produces_warning(
-            DeprecationWarning, match=msg, check_stacklevel=False
-        ):
+        with tm.assert_produces_warning(DeprecationWarning, match=msg, check_stacklevel=False):
             super().test_fillna_frame(data_missing)
 
     def test_fillna_limit_pad(self, data_missing):
@@ -171,9 +165,7 @@ class TestDecimalArray(base.ExtensionTests):
             ("inside", [0, 1, 0, 1, 0], [0, 1, 1, 1, 0]),
         ],
     )
-    def test_ffill_limit_area(
-        self, data_missing, limit_area, input_ilocs, expected_ilocs
-    ):
+    def test_ffill_limit_area(self, data_missing, limit_area, input_ilocs, expected_ilocs):
         # GH#56616
         msg = "ExtensionArray.fillna 'method' keyword is deprecated"
         with tm.assert_produces_warning(
@@ -184,9 +176,7 @@ class TestDecimalArray(base.ExtensionTests):
         ):
             msg = "DecimalArray does not implement limit_area"
             with pytest.raises(NotImplementedError, match=msg):
-                super().test_ffill_limit_area(
-                    data_missing, limit_area, input_ilocs, expected_ilocs
-                )
+                super().test_ffill_limit_area(data_missing, limit_area, input_ilocs, expected_ilocs)
 
     def test_fillna_limit_backfill(self, data_missing):
         msg = "Series.fillna with 'method' is deprecated"
@@ -230,9 +220,7 @@ class TestDecimalArray(base.ExtensionTests):
 
     def test_fillna_series(self, data_missing):
         msg = "ExtensionArray.fillna added a 'copy' keyword"
-        with tm.assert_produces_warning(
-            DeprecationWarning, match=msg, check_stacklevel=False
-        ):
+        with tm.assert_produces_warning(DeprecationWarning, match=msg, check_stacklevel=False):
             super().test_fillna_series(data_missing)
 
     def test_fillna_series_method(self, data_missing, fillna_method):
@@ -406,23 +394,17 @@ def test_combine_from_sequence_raises(monkeypatch):
     result = ser.combine(ser, operator.add)
 
     # note: object dtype
-    expected = pd.Series(
-        [decimal.Decimal("2.0"), decimal.Decimal("4.0")], dtype="object"
-    )
+    expected = pd.Series([decimal.Decimal("2.0"), decimal.Decimal("4.0")], dtype="object")
     tm.assert_series_equal(result, expected)
 
 
-@pytest.mark.parametrize(
-    "class_", [DecimalArrayWithoutFromSequence, DecimalArrayWithoutCoercion]
-)
+@pytest.mark.parametrize("class_", [DecimalArrayWithoutFromSequence, DecimalArrayWithoutCoercion])
 def test_scalar_ops_from_sequence_raises(class_):
     # op(EA, EA) should return an EA, or an ndarray if it's not possible
     # to return an EA with the return values.
     arr = class_([decimal.Decimal("1.0"), decimal.Decimal("2.0")])
     result = arr + arr
-    expected = np.array(
-        [decimal.Decimal("2.0"), decimal.Decimal("4.0")], dtype="object"
-    )
+    expected = np.array([decimal.Decimal("2.0"), decimal.Decimal("4.0")], dtype="object")
     tm.assert_numpy_array_equal(result, expected)
 
 
@@ -565,9 +547,7 @@ def test_indexing_no_materialize(monkeypatch):
 def test_to_numpy_keyword():
     # test the extra keyword
     values = [decimal.Decimal("1.1111"), decimal.Decimal("2.2222")]
-    expected = np.array(
-        [decimal.Decimal("1.11"), decimal.Decimal("2.22")], dtype="object"
-    )
+    expected = np.array([decimal.Decimal("1.11"), decimal.Decimal("2.22")], dtype="object")
     a = pd.array(values, dtype="decimal")
     result = a.to_numpy(decimals=2)
     tm.assert_numpy_array_equal(result, expected)

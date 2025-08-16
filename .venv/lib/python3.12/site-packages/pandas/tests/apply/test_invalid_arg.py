@@ -30,10 +30,7 @@ def test_result_type_error(result_type):
         columns=["A", "B", "C"],
     )
 
-    msg = (
-        "invalid value for result_type, must be one of "
-        "{None, 'reduce', 'broadcast', 'expand'}"
-    )
+    msg = "invalid value for result_type, must be one of " "{None, 'reduce', 'broadcast', 'expand'}"
     with pytest.raises(ValueError, match=msg):
         df.apply(lambda x: [1, 2, 3], axis=1, result_type=result_type)
 
@@ -211,9 +208,7 @@ def test_apply_modify_traceback():
 
 @pytest.mark.parametrize(
     "df, func, expected",
-    tm.get_cython_table_params(
-        DataFrame([["a", "b"], ["b", "a"]]), [["cumprod", TypeError]]
-    ),
+    tm.get_cython_table_params(DataFrame([["a", "b"], ["b", "a"]]), [["cumprod", TypeError]]),
 )
 def test_agg_cython_table_raises_frame(df, func, expected, axis, using_infer_string):
     # GH 21224
@@ -256,9 +251,7 @@ def test_agg_cython_table_raises_series(series, func, expected, using_infer_stri
     if using_infer_string and func in ("cumprod", np.cumprod, np.nancumprod):
         expected = (expected, NotImplementedError)
 
-    msg = (
-        msg + "|does not support|has no kernel|Cannot perform|cannot perform|operation"
-    )
+    msg = msg + "|does not support|has no kernel|Cannot perform|cannot perform|operation"
     warn = None if isinstance(func, str) else FutureWarning
 
     with pytest.raises(expected, match=msg):

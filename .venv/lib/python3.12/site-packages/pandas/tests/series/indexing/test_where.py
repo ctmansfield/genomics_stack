@@ -54,11 +54,7 @@ def test_where_unsafe_upcast(dtype, expected_dtype):
     values = [2.5, 3.5, 4.5, 5.5, 6.5]
     mask = s < 5
     expected = Series(values + list(range(5, 10)), dtype=expected_dtype)
-    warn = (
-        None
-        if np.dtype(dtype).kind == np.dtype(expected_dtype).kind == "f"
-        else FutureWarning
-    )
+    warn = None if np.dtype(dtype).kind == np.dtype(expected_dtype).kind == "f" else FutureWarning
     with tm.assert_produces_warning(warn, match="incompatible dtype"):
         s[mask] = values
     tm.assert_series_equal(s, expected)
@@ -234,10 +230,7 @@ def test_where_setitem_invalid():
     # GH 2702
     # make sure correct exceptions are raised on invalid list assignment
 
-    msg = (
-        lambda x: f"cannot set using a {x} indexer with a "
-        "different length than the value"
-    )
+    msg = lambda x: f"cannot set using a {x} indexer with a " "different length than the value"
     # slice
     s = Series(list("abc"), dtype=object)
 
@@ -288,17 +281,11 @@ def test_where_setitem_invalid():
 
 
 @pytest.mark.parametrize("size", range(2, 6))
-@pytest.mark.parametrize(
-    "mask", [[True, False, False, False, False], [True, False], [False]]
-)
-@pytest.mark.parametrize(
-    "item", [2.0, np.nan, np.finfo(float).max, np.finfo(float).min]
-)
+@pytest.mark.parametrize("mask", [[True, False, False, False, False], [True, False], [False]])
+@pytest.mark.parametrize("item", [2.0, np.nan, np.finfo(float).max, np.finfo(float).min])
 # Test numpy arrays, lists and tuples as the input to be
 # broadcast
-@pytest.mark.parametrize(
-    "box", [lambda x: np.array([x]), lambda x: [x], lambda x: (x,)]
-)
+@pytest.mark.parametrize("box", [lambda x: np.array([x]), lambda x: [x], lambda x: (x,)])
 def test_broadcast(size, mask, item, box):
     # GH#8801, GH#4195
     selection = np.resize(mask, size)
@@ -307,9 +294,7 @@ def test_broadcast(size, mask, item, box):
 
     # Construct the expected series by taking the source
     # data or item based on the selection
-    expected = Series(
-        [item if use_item else data[i] for i, use_item in enumerate(selection)]
-    )
+    expected = Series([item if use_item else data[i] for i, use_item in enumerate(selection)])
 
     s = Series(data)
 

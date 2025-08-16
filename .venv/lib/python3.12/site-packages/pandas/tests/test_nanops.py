@@ -116,9 +116,7 @@ def arr_nan_nan_inf(arr_nan, arr_inf):
 
 
 @pytest.fixture
-def arr_obj(
-    arr_float, arr_int, arr_bool, arr_complex, arr_str, arr_utf, arr_date, arr_tdelta
-):
+def arr_obj(arr_float, arr_int, arr_bool, arr_complex, arr_str, arr_utf, arr_date, arr_tdelta):
     return np.vstack(
         [
             arr_float.astype("O"),
@@ -195,12 +193,8 @@ class TestnanopsDataFrame:
         self.arr_bool = np.random.default_rng(2).integers(0, 2, arr_shape) == 0
         self.arr_str = np.abs(self.arr_float).astype("S")
         self.arr_utf = np.abs(self.arr_float).astype("U")
-        self.arr_date = (
-            np.random.default_rng(2).integers(0, 20000, arr_shape).astype("M8[ns]")
-        )
-        self.arr_tdelta = (
-            np.random.default_rng(2).integers(0, 20000, arr_shape).astype("m8[ns]")
-        )
+        self.arr_date = np.random.default_rng(2).integers(0, 20000, arr_shape).astype("M8[ns]")
+        self.arr_tdelta = np.random.default_rng(2).integers(0, 20000, arr_shape).astype("m8[ns]")
 
         self.arr_nan = np.tile(np.nan, arr_shape)
         self.arr_float_nan = np.vstack([self.arr_float, self.arr_nan])
@@ -256,12 +250,7 @@ class TestnanopsDataFrame:
     def check_results(self, targ, res, axis, check_dtype=True):
         res = getattr(res, "asm8", res)
 
-        if (
-            axis != 0
-            and hasattr(targ, "shape")
-            and targ.ndim
-            and targ.shape != res.shape
-        ):
+        if axis != 0 and hasattr(targ, "shape") and targ.ndim and targ.shape != res.shape:
             res = np.split(res, [targ.shape[0]], axis=0)[0]
 
         try:
@@ -310,9 +299,7 @@ class TestnanopsDataFrame:
             else:
                 targ = targfunc(targartempval, axis=axis, **kwargs)
 
-            if targartempval.dtype == object and (
-                targfunc is np.any or targfunc is np.all
-            ):
+            if targartempval.dtype == object and (targfunc is np.any or targfunc is np.all):
                 # GH#12863 the numpy functions will retain e.g. floatiness
                 if isinstance(targ, np.ndarray):
                     targ = targ.astype(bool)
@@ -358,9 +345,7 @@ class TestnanopsDataFrame:
             **kwargs,
         )
 
-    def check_fun(
-        self, testfunc, targfunc, testar, skipna, empty_targfunc=None, **kwargs
-    ):
+    def check_fun(self, testfunc, targfunc, testar, skipna, empty_targfunc=None, **kwargs):
         targar = testar
         if testar.endswith("_nan") and hasattr(self, testar[:-4]):
             targar = testar[:-4]
@@ -429,9 +414,7 @@ class TestnanopsDataFrame:
             # counterparts, so the numpy functions need to be given something
             # else
             if allow_obj == "convert":
-                targfunc = partial(
-                    self._badobj_wrap, func=targfunc, allow_complex=allow_complex
-                )
+                targfunc = partial(self._badobj_wrap, func=targfunc, allow_complex=allow_complex)
             self.check_fun(testfunc, targfunc, "arr_obj", skipna, **kwargs)
 
     def _badobj_wrap(self, value, func, allow_complex=True, **kwargs):
@@ -442,9 +425,7 @@ class TestnanopsDataFrame:
                 value = value.astype("f8")
         return func(value, **kwargs)
 
-    @pytest.mark.parametrize(
-        "nan_op,np_op", [(nanops.nanany, np.any), (nanops.nanall, np.all)]
-    )
+    @pytest.mark.parametrize("nan_op,np_op", [(nanops.nanany, np.any), (nanops.nanall, np.all)])
     def test_nan_funcs(self, nan_op, np_op, skipna):
         self.check_funs(nan_op, np_op, skipna, allow_all_nan=False, allow_date=False)
 
@@ -459,9 +440,7 @@ class TestnanopsDataFrame:
         )
 
     def test_nanmean(self, skipna):
-        self.check_funs(
-            nanops.nanmean, np.mean, skipna, allow_obj=False, allow_date=False
-        )
+        self.check_funs(nanops.nanmean, np.mean, skipna, allow_obj=False, allow_date=False)
 
     @pytest.mark.filterwarnings("ignore::RuntimeWarning")
     def test_nanmedian(self, skipna):
@@ -515,9 +494,7 @@ class TestnanopsDataFrame:
             )
 
     @pytest.mark.filterwarnings("ignore::RuntimeWarning")
-    @pytest.mark.parametrize(
-        "nan_op,np_op", [(nanops.nanmin, np.min), (nanops.nanmax, np.max)]
-    )
+    @pytest.mark.parametrize("nan_op,np_op", [(nanops.nanmin, np.min), (nanops.nanmax, np.max)])
     def test_nanops_with_warnings(self, nan_op, np_op, skipna):
         self.check_funs(nan_op, np_op, skipna, allow_obj=False)
 
@@ -527,12 +504,7 @@ class TestnanopsDataFrame:
         nullnan = isna(nans)
         if res.ndim:
             res[nullnan] = -1
-        elif (
-            hasattr(nullnan, "all")
-            and nullnan.all()
-            or not hasattr(nullnan, "all")
-            and nullnan
-        ):
+        elif hasattr(nullnan, "all") and nullnan.all() or not hasattr(nullnan, "all") and nullnan:
             res = -1
         return res
 
@@ -860,13 +832,9 @@ class TestEnsureNumeric:
     def test_convertable_values(self):
         with pytest.raises(TypeError, match="Could not convert string '1' to numeric"):
             nanops._ensure_numeric("1")
-        with pytest.raises(
-            TypeError, match="Could not convert string '1.1' to numeric"
-        ):
+        with pytest.raises(TypeError, match="Could not convert string '1.1' to numeric"):
             nanops._ensure_numeric("1.1")
-        with pytest.raises(
-            TypeError, match=r"Could not convert string '1\+1j' to numeric"
-        ):
+        with pytest.raises(TypeError, match=r"Could not convert string '1\+1j' to numeric"):
             nanops._ensure_numeric("1+1j")
 
     def test_non_convertable_values(self):
@@ -923,9 +891,7 @@ class TestNanvarFixedValues:
         samples = np.vstack([samples, samples_unif])
 
         actual_variance = nanops.nanvar(samples, axis=1)
-        tm.assert_almost_equal(
-            actual_variance, np.array([variance, 1.0 / 12]), rtol=1e-2
-        )
+        tm.assert_almost_equal(actual_variance, np.array([variance, 1.0 / 12]), rtol=1e-2)
 
     def test_nanvar_ddof(self):
         n = 5

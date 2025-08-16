@@ -199,9 +199,7 @@ def test_apply_datetimetz(by_row):
     s = Series(values, name="XX")
 
     result = s.apply(lambda x: x + pd.offsets.Day(), by_row=by_row)
-    exp_values = date_range("2011-01-02", "2011-01-03", freq="h").tz_localize(
-        "Asia/Tokyo"
-    )
+    exp_values = date_range("2011-01-02", "2011-01-03", freq="h").tz_localize("Asia/Tokyo")
     exp = Series(exp_values, name="XX")
     tm.assert_series_equal(result, exp)
 
@@ -326,9 +324,7 @@ def test_transform(string_series, by_row):
 def test_transform_partial_failure(op, request):
     # GH 35964
     if op in ("ffill", "bfill", "pad", "backfill", "shift"):
-        request.applymarker(
-            pytest.mark.xfail(reason=f"{op} is successful on any dtype")
-        )
+        request.applymarker(pytest.mark.xfail(reason=f"{op} is successful on any dtype"))
 
     # Using object makes most transform kernels fail
     ser = Series(3 * [object])
@@ -429,9 +425,7 @@ def test_with_nested_series(datetime_series, op_name):
     warning = FutureWarning if op_name == "agg" else None
     with tm.assert_produces_warning(warning, match=msg):
         # GH52123
-        result = getattr(datetime_series, op_name)(
-            lambda x: Series([x, x**2], index=["x", "x^2"])
-        )
+        result = getattr(datetime_series, op_name)(lambda x: Series([x, x**2], index=["x", "x^2"]))
     expected = DataFrame({"x": datetime_series, "x^2": datetime_series**2})
     tm.assert_frame_equal(result, expected)
 

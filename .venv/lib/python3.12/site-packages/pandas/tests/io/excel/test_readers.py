@@ -144,9 +144,7 @@ def adjust_expected(expected: DataFrame, read_ext: str, engine: str) -> None:
 def xfail_datetimes_with_pyxlsb(engine, request):
     if engine == "pyxlsb":
         request.applymarker(
-            pytest.mark.xfail(
-                reason="Sheets containing datetimes not supported by pyxlsb"
-            )
+            pytest.mark.xfail(reason="Sheets containing datetimes not supported by pyxlsb")
         )
 
 
@@ -214,9 +212,7 @@ class TestReaders:
         # usecols as int
         msg = "Passing an integer for `usecols`"
         with pytest.raises(ValueError, match=msg):
-            pd.read_excel(
-                "test1" + read_ext, sheet_name="Sheet1", index_col=0, usecols=3
-            )
+            pd.read_excel("test1" + read_ext, sheet_name="Sheet1", index_col=0, usecols=3)
 
         # usecols as int
         with pytest.raises(ValueError, match=msg):
@@ -234,9 +230,7 @@ class TestReaders:
         expected = df_ref[["B", "C"]]
         adjust_expected(expected, read_ext, engine)
 
-        df1 = pd.read_excel(
-            "test1" + read_ext, sheet_name="Sheet1", index_col=0, usecols=[0, 2, 3]
-        )
+        df1 = pd.read_excel("test1" + read_ext, sheet_name="Sheet1", index_col=0, usecols=[0, 2, 3])
         df2 = pd.read_excel(
             "test1" + read_ext,
             sheet_name="Sheet2",
@@ -255,9 +249,7 @@ class TestReaders:
         expected = df_ref[["A", "B", "C"]]
         adjust_expected(expected, read_ext, engine)
 
-        df2 = pd.read_excel(
-            "test1" + read_ext, sheet_name="Sheet1", index_col=0, usecols="A:D"
-        )
+        df2 = pd.read_excel("test1" + read_ext, sheet_name="Sheet1", index_col=0, usecols="A:D")
         df3 = pd.read_excel(
             "test1" + read_ext,
             sheet_name="Sheet2",
@@ -273,9 +265,7 @@ class TestReaders:
         expected = df_ref[["B", "C"]]
         adjust_expected(expected, read_ext, engine)
 
-        df2 = pd.read_excel(
-            "test1" + read_ext, sheet_name="Sheet1", index_col=0, usecols="A,C,D"
-        )
+        df2 = pd.read_excel("test1" + read_ext, sheet_name="Sheet1", index_col=0, usecols="A,C,D")
         df3 = pd.read_excel(
             "test1" + read_ext,
             sheet_name="Sheet2",
@@ -287,9 +277,7 @@ class TestReaders:
         tm.assert_frame_equal(df2, expected)
         tm.assert_frame_equal(df3, expected)
 
-        df2 = pd.read_excel(
-            "test1" + read_ext, sheet_name="Sheet1", index_col=0, usecols="A,C:D"
-        )
+        df2 = pd.read_excel("test1" + read_ext, sheet_name="Sheet1", index_col=0, usecols="A,C:D")
         df3 = pd.read_excel(
             "test1" + read_ext,
             sheet_name="Sheet2",
@@ -364,16 +352,12 @@ class TestReaders:
     def test_index_col_str(self, read_ext):
         # see gh-52716
         result = pd.read_excel("test1" + read_ext, sheet_name="Sheet3", index_col="A")
-        expected = DataFrame(
-            columns=["B", "C", "D", "E", "F"], index=Index([], name="A")
-        )
+        expected = DataFrame(columns=["B", "C", "D", "E", "F"], index=Index([], name="A"))
         tm.assert_frame_equal(result, expected)
 
     def test_index_col_empty(self, read_ext):
         # see gh-9208
-        result = pd.read_excel(
-            "test1" + read_ext, sheet_name="Sheet3", index_col=["A", "B", "C"]
-        )
+        result = pd.read_excel("test1" + read_ext, sheet_name="Sheet3", index_col=["A", "B", "C"])
         expected = DataFrame(
             columns=["D", "E", "F"],
             index=MultiIndex(levels=[[]] * 3, codes=[[]] * 3, names=["A", "B", "C"]),
@@ -383,9 +367,7 @@ class TestReaders:
     @pytest.mark.parametrize("index_col", [None, 2])
     def test_index_col_with_unnamed(self, read_ext, index_col):
         # see gh-18792
-        result = pd.read_excel(
-            "test1" + read_ext, sheet_name="Sheet4", index_col=index_col
-        )
+        result = pd.read_excel("test1" + read_ext, sheet_name="Sheet4", index_col=index_col)
         expected = DataFrame(
             [["i1", "a", "x"], ["i2", "b", "y"]], columns=["Unnamed: 0", "col1", "col2"]
         )
@@ -395,11 +377,7 @@ class TestReaders:
         tm.assert_frame_equal(result, expected)
 
     def test_usecols_pass_non_existent_column(self, read_ext):
-        msg = (
-            "Usecols do not match columns, "
-            "columns expected but not found: "
-            r"\['E'\]"
-        )
+        msg = "Usecols do not match columns, " "columns expected but not found: " r"\['E'\]"
 
         with pytest.raises(ValueError, match=msg):
             pd.read_excel("test1" + read_ext, usecols=["E"])
@@ -438,16 +416,12 @@ class TestReaders:
         adjust_expected(expected, read_ext, engine)
 
         df1 = pd.read_excel("test1" + read_ext, sheet_name="Sheet1", index_col=0)
-        df2 = pd.read_excel(
-            "test1" + read_ext, sheet_name="Sheet2", skiprows=[1], index_col=0
-        )
+        df2 = pd.read_excel("test1" + read_ext, sheet_name="Sheet2", skiprows=[1], index_col=0)
         # TODO add index to file
         tm.assert_frame_equal(df1, expected)
         tm.assert_frame_equal(df2, expected)
 
-        df3 = pd.read_excel(
-            "test1" + read_ext, sheet_name="Sheet1", index_col=0, skipfooter=1
-        )
+        df3 = pd.read_excel("test1" + read_ext, sheet_name="Sheet1", index_col=0, skipfooter=1)
         tm.assert_frame_equal(df3, df1.iloc[:-1])
 
     def test_reader_special_dtypes(self, request, engine, read_ext):
@@ -487,16 +461,12 @@ class TestReaders:
 
         # check setting Index (assuming xls and xlsx are the same here)
         for icol, name in enumerate(expected.columns):
-            actual = pd.read_excel(
-                basename + read_ext, sheet_name="Sheet1", index_col=icol
-            )
+            actual = pd.read_excel(basename + read_ext, sheet_name="Sheet1", index_col=icol)
             exp = expected.set_index(name)
             tm.assert_frame_equal(actual, exp)
 
         expected["StrCol"] = expected["StrCol"].apply(str)
-        actual = pd.read_excel(
-            basename + read_ext, sheet_name="Sheet1", converters={"StrCol": str}
-        )
+        actual = pd.read_excel(basename + read_ext, sheet_name="Sheet1", converters={"StrCol": str})
         tm.assert_frame_equal(actual, expected)
 
     # GH8212 - support for converters and missing values
@@ -521,9 +491,7 @@ class TestReaders:
 
         # should read in correctly and set types of single cells (not array
         # dtypes)
-        actual = pd.read_excel(
-            basename + read_ext, sheet_name="Sheet1", converters=converters
-        )
+        actual = pd.read_excel(basename + read_ext, sheet_name="Sheet1", converters=converters)
         tm.assert_frame_equal(actual, expected)
 
     def test_reader_dtype(self, read_ext):
@@ -610,9 +578,7 @@ class TestReaders:
         )
         with tm.ensure_clean(read_ext) as file_path:
             df.to_excel(file_path, sheet_name="test", index=False)
-            result = pd.read_excel(
-                file_path, sheet_name="test", dtype_backend=dtype_backend
-            )
+            result = pd.read_excel(file_path, sheet_name="test", dtype_backend=dtype_backend)
         if dtype_backend == "pyarrow":
             import pyarrow as pa
 
@@ -668,9 +634,7 @@ class TestReaders:
 
             with tm.ensure_clean(read_ext) as file_path:
                 df.to_excel(file_path, sheet_name="test", index=False)
-                result = pd.read_excel(
-                    file_path, sheet_name="test", dtype_backend="numpy_nullable"
-                )
+                result = pd.read_excel(file_path, sheet_name="test", dtype_backend="numpy_nullable")
 
             expected = DataFrame(
                 {
@@ -801,9 +765,7 @@ class TestReaders:
         )
 
         if engine == "openpyxl":
-            request.applymarker(
-                pytest.mark.xfail(reason="Maybe not supported by openpyxl")
-            )
+            request.applymarker(pytest.mark.xfail(reason="Maybe not supported by openpyxl"))
 
         if engine is None and read_ext in (".xlsx", ".xlsm"):
             # GH 35029
@@ -823,9 +785,7 @@ class TestReaders:
         expected = df_ref
         adjust_expected(expected, read_ext, engine)
 
-        df1 = pd.read_excel(
-            filename + read_ext, sheet_name=sheet_name, index_col=0
-        )  # doc
+        df1 = pd.read_excel(filename + read_ext, sheet_name=sheet_name, index_col=0)  # doc
         df2 = pd.read_excel(filename + read_ext, index_col=0, sheet_name=sheet_name)
 
         tm.assert_frame_equal(df1, expected)
@@ -870,18 +830,12 @@ class TestReaders:
         bad_stream = b"foo"
         if engine is None:
             error = ValueError
-            msg = (
-                "Excel file format cannot be determined, you must "
-                "specify an engine manually."
-            )
+            msg = "Excel file format cannot be determined, you must " "specify an engine manually."
         elif engine == "xlrd":
             from xlrd import XLRDError
 
             error = XLRDError
-            msg = (
-                "Unsupported format, or corrupt file: Expected BOF "
-                "record; found b'foo'"
-            )
+            msg = "Unsupported format, or corrupt file: Expected BOF " "record; found b'foo'"
         elif engine == "calamine":
             from python_calamine import CalamineError
 
@@ -985,9 +939,7 @@ class TestReaders:
         # GH 55045
         if engine == "calamine" and read_ext == ".ods":
             request.applymarker(
-                pytest.mark.xfail(
-                    reason="ODS file contains bad datetime (seconds as text)"
-                )
+                pytest.mark.xfail(reason="ODS file contains bad datetime (seconds as text)")
             )
 
         # Test reading times with and without milliseconds. GH5945.
@@ -1036,9 +988,7 @@ class TestReaders:
         )
         expected[mi[2]] = expected[mi[2]].astype(f"M8[{unit}]")
 
-        actual = pd.read_excel(
-            mi_file, sheet_name="mi_column", header=[0, 1], index_col=0
-        )
+        actual = pd.read_excel(mi_file, sheet_name="mi_column", header=[0, 1], index_col=0)
         tm.assert_frame_equal(actual, expected)
 
         # "mi_index" sheet
@@ -1051,9 +1001,7 @@ class TestReaders:
         # "both" sheet
         expected.columns = mi
 
-        actual = pd.read_excel(
-            mi_file, sheet_name="both", index_col=[0, 1], header=[0, 1]
-        )
+        actual = pd.read_excel(mi_file, sheet_name="both", index_col=[0, 1], header=[0, 1])
         tm.assert_frame_equal(actual, expected)
 
         # "mi_index_name" sheet
@@ -1066,27 +1014,21 @@ class TestReaders:
         # "mi_column_name" sheet
         expected.index = list(range(4))
         expected.columns = mi.set_names(["c1", "c2"])
-        actual = pd.read_excel(
-            mi_file, sheet_name="mi_column_name", header=[0, 1], index_col=0
-        )
+        actual = pd.read_excel(mi_file, sheet_name="mi_column_name", header=[0, 1], index_col=0)
         tm.assert_frame_equal(actual, expected)
 
         # see gh-11317
         # "name_with_int" sheet
         expected.columns = mi.set_levels([1, 2], level=1).set_names(["c1", "c2"])
 
-        actual = pd.read_excel(
-            mi_file, sheet_name="name_with_int", index_col=0, header=[0, 1]
-        )
+        actual = pd.read_excel(mi_file, sheet_name="name_with_int", index_col=0, header=[0, 1])
         tm.assert_frame_equal(actual, expected)
 
         # "both_name" sheet
         expected.columns = mi.set_names(["c1", "c2"])
         expected.index = mi.set_names(["ilvl1", "ilvl2"])
 
-        actual = pd.read_excel(
-            mi_file, sheet_name="both_name", index_col=[0, 1], header=[0, 1]
-        )
+        actual = pd.read_excel(mi_file, sheet_name="both_name", index_col=[0, 1], header=[0, 1])
         tm.assert_frame_equal(actual, expected)
 
         # "both_skiprows" sheet
@@ -1177,9 +1119,7 @@ class TestReaders:
             codes=[[0, 1, 2, 3, 4, 5], [0, 1, 2, 3, 4, 5]],
             names=[None, None],
         )
-        si = Index(
-            ["R0", "R_l0_g0", "R_l0_g1", "R_l0_g2", "R_l0_g3", "R_l0_g4"], name=None
-        )
+        si = Index(["R0", "R_l0_g0", "R_l0_g1", "R_l0_g2", "R_l0_g3", "R_l0_g4"], name=None)
 
         expected = DataFrame(data, index=si, columns=columns)
 
@@ -1372,9 +1312,7 @@ class TestReaders:
         # GH 31783
         file_name = "testmultiindex" + read_ext
         data = [("B", "B"), ("key", "val"), (3, 4), (3, 4)]
-        idx = MultiIndex.from_tuples(
-            [("A", "A"), ("key", "val"), (1, 2), (1, 2)], names=(0, 1)
-        )
+        idx = MultiIndex.from_tuples([("A", "A"), ("key", "val"), (1, 2), (1, 2)], names=(0, 1))
         expected = DataFrame(data, index=idx, columns=(2, 3))
         result = pd.read_excel(
             file_name, sheet_name="index_col_none", index_col=[0, 1], header=None
@@ -1395,9 +1333,7 @@ class TestReaders:
         columns = MultiIndex.from_tuples([("a", "A"), ("b", "B")])
         data = [[np.nan, np.nan], [np.nan, np.nan], [1, 3], [2, 4]]
         expected = DataFrame(data, columns=columns)
-        result = pd.read_excel(
-            file_name, sheet_name="mi_column_empty_rows", header=[0, 1]
-        )
+        result = pd.read_excel(file_name, sheet_name="mi_column_empty_rows", header=[0, 1])
         tm.assert_frame_equal(result, expected)
 
     def test_trailing_blanks(self, read_ext):
@@ -1415,9 +1351,7 @@ class TestReaders:
             pytest.skip("chartsheets do not exist in the ODF format")
         if engine == "pyxlsb":
             request.applymarker(
-                pytest.mark.xfail(
-                    reason="pyxlsb can't distinguish chartsheets from worksheets"
-                )
+                pytest.mark.xfail(reason="pyxlsb can't distinguish chartsheets from worksheets")
             )
         with pytest.raises(ValueError, match="Worksheet named 'Chart1' not found"):
             pd.read_excel("chartsheet" + read_ext, sheet_name="Chart1")
@@ -1428,13 +1362,9 @@ class TestReaders:
             pytest.skip("chartsheets do not exist in the ODF format")
         if engine == "pyxlsb":
             request.applymarker(
-                pytest.mark.xfail(
-                    reason="pyxlsb can't distinguish chartsheets from worksheets"
-                )
+                pytest.mark.xfail(reason="pyxlsb can't distinguish chartsheets from worksheets")
             )
-        with pytest.raises(
-            ValueError, match="Worksheet index 1 is invalid, 1 worksheets found"
-        ):
+        with pytest.raises(ValueError, match="Worksheet index 1 is invalid, 1 worksheets found"):
             pd.read_excel("chartsheet" + read_ext, sheet_name=1)
 
     def test_euro_decimal_format(self, read_ext):
@@ -1460,9 +1390,7 @@ class TestExcelFileRead:
             "byte string, wrap it in a `BytesIO` object."
         )
 
-        with tm.assert_produces_warning(
-            FutureWarning, match=msg, raise_on_extra_warnings=False
-        ):
+        with tm.assert_produces_warning(FutureWarning, match=msg, raise_on_extra_warnings=False):
             with open("test1" + read_ext, "rb") as f:
                 pd.read_excel(f.read(), engine=engine)
 
@@ -1498,18 +1426,14 @@ class TestExcelFileRead:
             parsed = pd.read_excel(
                 excel, sheet_name="Sheet1", keep_default_na=False, na_values=["apple"]
             )
-        expected = DataFrame(
-            [["NA"], [1], ["NA"], [np.nan], ["rabbit"]], columns=["Test"]
-        )
+        expected = DataFrame([["NA"], [1], ["NA"], [np.nan], ["rabbit"]], columns=["Test"])
         tm.assert_frame_equal(parsed, expected)
 
         with pd.ExcelFile("test4" + read_ext) as excel:
             parsed = pd.read_excel(
                 excel, sheet_name="Sheet1", keep_default_na=True, na_values=["apple"]
             )
-        expected = DataFrame(
-            [[np.nan], [1], [np.nan], [np.nan], ["rabbit"]], columns=["Test"]
-        )
+        expected = DataFrame([[np.nan], [1], [np.nan], [np.nan], ["rabbit"]], columns=["Test"])
         tm.assert_frame_equal(parsed, expected)
 
         # 13967
@@ -1517,18 +1441,14 @@ class TestExcelFileRead:
             parsed = pd.read_excel(
                 excel, sheet_name="Sheet1", keep_default_na=False, na_values=["apple"]
             )
-        expected = DataFrame(
-            [["1.#QNAN"], [1], ["nan"], [np.nan], ["rabbit"]], columns=["Test"]
-        )
+        expected = DataFrame([["1.#QNAN"], [1], ["nan"], [np.nan], ["rabbit"]], columns=["Test"])
         tm.assert_frame_equal(parsed, expected)
 
         with pd.ExcelFile("test5" + read_ext) as excel:
             parsed = pd.read_excel(
                 excel, sheet_name="Sheet1", keep_default_na=True, na_values=["apple"]
             )
-        expected = DataFrame(
-            [[np.nan], [1], [np.nan], [np.nan], ["rabbit"]], columns=["Test"]
-        )
+        expected = DataFrame([[np.nan], [1], [np.nan], [np.nan], ["rabbit"]], columns=["Test"])
         tm.assert_frame_equal(parsed, expected)
 
     @pytest.mark.parametrize("na_filter", [None, True, False])
@@ -1667,9 +1587,7 @@ class TestExcelFileRead:
         idx = Index(["Z"], name="I2")
         cols = MultiIndex.from_tuples([("A", "B"), ("A", "B.1")], names=["I11", "I12"])
         expected = DataFrame([[1, 3]], index=idx, columns=cols, dtype="int64")
-        result = pd.read_excel(
-            filename, sheet_name="Sheet1", index_col=0, header=[0, 1]
-        )
+        result = pd.read_excel(filename, sheet_name="Sheet1", index_col=0, header=[0, 1])
         tm.assert_frame_equal(expected, result)
 
     def test_read_datetime_multiindex(self, request, engine, read_ext):
@@ -1705,9 +1623,7 @@ class TestExcelFileRead:
             pytest.skip("chartsheets do not exist in the ODF format")
         if engine == "pyxlsb":
             request.applymarker(
-                pytest.mark.xfail(
-                    reason="pyxlsb can't distinguish chartsheets from worksheets"
-                )
+                pytest.mark.xfail(reason="pyxlsb can't distinguish chartsheets from worksheets")
             )
         with pd.ExcelFile("chartsheet" + read_ext) as excel:
             assert excel.sheet_names == ["Sheet1"]

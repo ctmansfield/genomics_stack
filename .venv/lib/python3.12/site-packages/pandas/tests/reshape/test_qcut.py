@@ -112,9 +112,7 @@ def test_qcut_binning_issues(datapath):
         starts.append(float(s))
         ends.append(float(e))
 
-    for (sp, sn), (ep, en) in zip(
-        zip(starts[:-1], starts[1:]), zip(ends[:-1], ends[1:])
-    ):
+    for (sp, sn), (ep, en) in zip(zip(starts[:-1], starts[1:]), zip(ends[:-1], ends[1:])):
         assert sp < sn
         assert ep < en
         assert ep <= sn
@@ -124,9 +122,7 @@ def test_qcut_return_intervals():
     ser = Series([0, 1, 2, 3, 4, 5, 6, 7, 8])
     res = qcut(ser, [0, 0.333, 0.666, 1])
 
-    exp_levels = np.array(
-        [Interval(-0.001, 2.664), Interval(2.664, 5.328), Interval(5.328, 8)]
-    )
+    exp_levels = np.array([Interval(-0.001, 2.664), Interval(2.664, 5.328), Interval(5.328, 8)])
     exp = Series(exp_levels.take([0, 0, 0, 1, 1, 1, 2, 2, 2])).astype(
         CategoricalDtype(ordered=True)
     )

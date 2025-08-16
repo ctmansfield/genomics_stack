@@ -17,9 +17,7 @@ pytest.importorskip("matplotlib")
 
 @pytest.fixture
 def hist_df():
-    df = DataFrame(
-        np.random.default_rng(2).standard_normal((30, 2)), columns=["A", "B"]
-    )
+    df = DataFrame(np.random.default_rng(2).standard_normal((30, 2)), columns=["A", "B"])
     df["C"] = np.random.default_rng(2).choice(["a", "b", "c"], 30)
     df["D"] = np.random.default_rng(2).choice(["a", "b", "c"], 30)
     return df
@@ -67,13 +65,9 @@ class TestHistWithBy:
     )
     def test_hist_plot_by_argument(self, by, column, titles, legends, hist_df):
         # GH 15079
-        axes = _check_plot_works(
-            hist_df.plot.hist, column=column, by=by, default_axes=True
-        )
+        axes = _check_plot_works(hist_df.plot.hist, column=column, by=by, default_axes=True)
         result_titles = [ax.get_title() for ax in axes]
-        result_legends = [
-            [legend.get_text() for legend in ax.get_legend().texts] for ax in axes
-        ]
+        result_legends = [[legend.get_text() for legend in ax.get_legend().texts] for ax in axes]
 
         assert result_legends == legends
         assert result_titles == titles
@@ -102,9 +96,7 @@ class TestHistWithBy:
 
         axes = _check_plot_works(df.plot.hist, default_axes=True, column=column, by=by)
         result_titles = [ax.get_title() for ax in axes]
-        result_legends = [
-            [legend.get_text() for legend in ax.get_legend().texts] for ax in axes
-        ]
+        result_legends = [[legend.get_text() for legend in ax.get_legend().texts] for ax in axes]
 
         assert result_legends == legends
         assert result_titles == titles
@@ -122,9 +114,7 @@ class TestHistWithBy:
         # GH 15079
         msg = "No group keys passed"
         with pytest.raises(ValueError, match=msg):
-            _check_plot_works(
-                hist_df.plot.hist, default_axes=True, column=column, by=by
-            )
+            _check_plot_works(hist_df.plot.hist, default_axes=True, column=column, by=by)
 
     @pytest.mark.slow
     @pytest.mark.parametrize(
@@ -147,9 +137,7 @@ class TestHistWithBy:
         # GH 15079
         # _check_plot_works adds an ax so catch warning. see GH #13188
         with tm.assert_produces_warning(UserWarning, check_stacklevel=False):
-            axes = _check_plot_works(
-                hist_df.plot.hist, column=column, by=by, layout=layout
-            )
+            axes = _check_plot_works(hist_df.plot.hist, column=column, by=by, layout=layout)
         _check_axes_shape(axes, axes_num=axes_num, layout=layout)
 
     @pytest.mark.parametrize(
@@ -243,13 +231,9 @@ class TestBoxWithBy:
     )
     def test_box_plot_by_argument(self, by, column, titles, xticklabels, hist_df):
         # GH 15079
-        axes = _check_plot_works(
-            hist_df.plot.box, default_axes=True, column=column, by=by
-        )
+        axes = _check_plot_works(hist_df.plot.box, default_axes=True, column=column, by=by)
         result_titles = [ax.get_title() for ax in axes]
-        result_xticklabels = [
-            [label.get_text() for label in ax.get_xticklabels()] for ax in axes
-        ]
+        result_xticklabels = [[label.get_text() for label in ax.get_xticklabels()] for ax in axes]
 
         assert result_xticklabels == xticklabels
         assert result_titles == titles
@@ -280,9 +264,7 @@ class TestBoxWithBy:
 
         axes = _check_plot_works(df.plot.box, default_axes=True, column=column, by=by)
         result_titles = [ax.get_title() for ax in axes]
-        result_xticklabels = [
-            [label.get_text() for label in ax.get_xticklabels()] for ax in axes
-        ]
+        result_xticklabels = [[label.get_text() for label in ax.get_xticklabels()] for ax in axes]
 
         assert result_xticklabels == xticklabels
         assert result_titles == titles

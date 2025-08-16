@@ -341,15 +341,11 @@ class TestSlicing:
         )
         df_multi = df.set_index(["ACCOUNT", "TICKER"], append=True)
 
-        expected = DataFrame(
-            [[1]], index=Index(["ABC"], name="TICKER"), columns=["val"]
-        )
+        expected = DataFrame([[1]], index=Index(["ABC"], name="TICKER"), columns=["val"])
         result = df_multi.loc[("2013-06-19 09:30:00", "ACCT1")]
         tm.assert_frame_equal(result, expected)
 
-        expected = df_multi.loc[
-            (Timestamp("2013-06-19 09:30:00", tz=None), "ACCT1", "ABC")
-        ]
+        expected = df_multi.loc[(Timestamp("2013-06-19 09:30:00", tz=None), "ACCT1", "ABC")]
         result = df_multi.loc[("2013-06-19 09:30:00", "ACCT1", "ABC")]
         tm.assert_series_equal(result, expected)
 
@@ -363,9 +359,7 @@ class TestSlicing:
         # partial slice on a series mi
         ser = Series(
             range(250),
-            index=MultiIndex.from_product(
-                [date_range("2000-1-1", periods=50), range(5)]
-            ),
+            index=MultiIndex.from_product([date_range("2000-1-1", periods=50), range(5)]),
         )
 
         s2 = ser[:-1].copy()
@@ -388,17 +382,13 @@ class TestSlicing:
 
         nonmonotonic = ser.iloc[[3, 5, 4]]
         timestamp = Timestamp("2014-01-10")
-        with pytest.raises(
-            KeyError, match="Value based partial slicing on non-monotonic"
-        ):
+        with pytest.raises(KeyError, match="Value based partial slicing on non-monotonic"):
             nonmonotonic["2014-01-10":]
 
         with pytest.raises(KeyError, match=r"Timestamp\('2014-01-10 00:00:00'\)"):
             nonmonotonic[timestamp:]
 
-        with pytest.raises(
-            KeyError, match="Value based partial slicing on non-monotonic"
-        ):
+        with pytest.raises(KeyError, match="Value based partial slicing on non-monotonic"):
             nonmonotonic.loc["2014-01-10":]
 
         with pytest.raises(KeyError, match=r"Timestamp\('2014-01-10 00:00:00'\)"):
@@ -456,11 +446,7 @@ class TestSlicing:
 
     def test_slice_reduce_to_series(self):
         # GH 27516
-        df = DataFrame(
-            {"A": range(24)}, index=date_range("2000", periods=24, freq="ME")
-        )
-        expected = Series(
-            range(12), index=date_range("2000", periods=12, freq="ME"), name="A"
-        )
+        df = DataFrame({"A": range(24)}, index=date_range("2000", periods=24, freq="ME"))
+        expected = Series(range(12), index=date_range("2000", periods=12, freq="ME"), name="A")
         result = df.loc["2000", "A"]
         tm.assert_series_equal(result, expected)

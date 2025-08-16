@@ -1170,11 +1170,7 @@ class TestToLatexMultiindex:
     def test_to_latex_groupby_tabular(self):
         # GH 10660
         df = DataFrame({"a": [0, 0, 1, 1], "b": list("abab"), "c": [1, 2, 3, 4]})
-        result = (
-            df.groupby("a")
-            .describe()
-            .to_latex(float_format="{:.1f}".format, escape=True)
-        )
+        result = df.groupby("a").describe().to_latex(float_format="{:.1f}".format, escape=True)
         expected = _dedent(
             r"""
             \begin{tabular}{lrrrrrrrr}
@@ -1199,9 +1195,7 @@ class TestToLatexMultiindex:
         # ONLY happen if all higher order indices (to the left) are
         # equal too. In this test, 'c' has to be printed both times
         # because the higher order index 'A' != 'B'.
-        df = DataFrame(
-            index=pd.MultiIndex.from_tuples([("A", "c"), ("B", "c")]), columns=["col"]
-        )
+        df = DataFrame(index=pd.MultiIndex.from_tuples([("A", "c"), ("B", "c")]), columns=["col"])
         result = df.to_latex(multirow=False)
         expected = _dedent(
             r"""

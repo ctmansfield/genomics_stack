@@ -61,10 +61,7 @@ class TestTimestampToPyDatetime:
         with tm.assert_produces_warning(exp_warning):
             pydt_max = Timestamp.max.to_pydatetime()
 
-        assert (
-            Timestamp(pydt_max).as_unit("ns")._value / 1000
-            == Timestamp.max._value / 1000
-        )
+        assert Timestamp(pydt_max).as_unit("ns")._value / 1000 == Timestamp.max._value / 1000
 
         exp_warning = None if Timestamp.min.nanosecond == 0 else UserWarning
         with tm.assert_produces_warning(exp_warning):
@@ -75,7 +72,4 @@ class TestTimestampToPyDatetime:
         tdus = timedelta(microseconds=1)
         assert pydt_min + tdus > Timestamp.min
 
-        assert (
-            Timestamp(pydt_min + tdus).as_unit("ns")._value / 1000
-            == Timestamp.min._value / 1000
-        )
+        assert Timestamp(pydt_min + tdus).as_unit("ns")._value / 1000 == Timestamp.min._value / 1000

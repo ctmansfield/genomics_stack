@@ -55,9 +55,7 @@ def test_filter_multi_column_df():
     grouper = df["A"].apply(lambda x: x % 2)
     grouped = df.groupby(grouper)
     expected = DataFrame({"A": [12, 12], "B": [1, 1]}, index=[1, 2])
-    tm.assert_frame_equal(
-        grouped.filter(lambda x: x["A"].sum() - x["B"].sum() > 10), expected
-    )
+    tm.assert_frame_equal(grouped.filter(lambda x: x["A"].sum() - x["B"].sum() > 10), expected)
 
 
 def test_filter_mixed_df():
@@ -217,9 +215,7 @@ def test_filter_against_workaround_dataframe():
     # Set up DataFrame of ints, floats, strings.
     letters = np.array(list(ascii_lowercase))
     N = 100
-    random_letters = letters.take(
-        np.random.default_rng(2).integers(0, 26, N, dtype=int)
-    )
+    random_letters = letters.take(np.random.default_rng(2).integers(0, 26, N, dtype=int))
     df = DataFrame(
         {
             "ints": Series(np.random.default_rng(2).integers(0, 100, N)),
@@ -277,9 +273,7 @@ def test_filter_using_len():
 
 def test_filter_maintains_ordering():
     # Simple case: index is sequential. #4621
-    df = DataFrame(
-        {"pid": [1, 1, 1, 2, 2, 3, 3, 3], "tag": [23, 45, 62, 24, 45, 34, 25, 62]}
-    )
+    df = DataFrame({"pid": [1, 1, 1, 2, 2, 3, 3, 3], "tag": [23, 45, 62, 24, 45, 34, 25, 62]})
     s = df["pid"]
     grouped = df.groupby("tag")
     actual = grouped.filter(lambda x: len(x) > 1)

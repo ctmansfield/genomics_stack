@@ -52,9 +52,7 @@ def test_tseries_indices_series(setup_path):
 def test_tseries_indices_frame(setup_path):
     with ensure_clean_store(setup_path) as store:
         idx = date_range("2020-01-01", periods=10)
-        df = DataFrame(
-            np.random.default_rng(2).standard_normal((len(idx), 3)), index=idx
-        )
+        df = DataFrame(np.random.default_rng(2).standard_normal((len(idx), 3)), index=idx)
         store["a"] = df
         result = store["a"]
 

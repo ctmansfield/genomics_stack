@@ -20,9 +20,7 @@ class TestDataFrameSortIndex:
         # doc example
         df = DataFrame(
             {"value": [1, 2, 3, 4]},
-            index=MultiIndex(
-                levels=[["a", "b"], ["bb", "aa"]], codes=[[0, 0, 1, 1], [0, 1, 0, 1]]
-            ),
+            index=MultiIndex(levels=[["a", "b"], ["bb", "aa"]], codes=[[0, 0, 1, 1], [0, 1, 0, 1]]),
         )
         assert df.index._is_lexsorted()
         assert not df.index.is_monotonic_increasing
@@ -30,9 +28,7 @@ class TestDataFrameSortIndex:
         # sort it
         expected = DataFrame(
             {"value": [2, 1, 4, 3]},
-            index=MultiIndex(
-                levels=[["a", "b"], ["aa", "bb"]], codes=[[0, 0, 1, 1], [0, 1, 0, 1]]
-            ),
+            index=MultiIndex(levels=[["a", "b"], ["aa", "bb"]], codes=[[0, 0, 1, 1], [0, 1, 0, 1]]),
         )
         result = df.sort_index()
         assert result.index.is_monotonic_increasing
@@ -192,9 +188,7 @@ class TestDataFrameSortIndex:
         tm.assert_frame_equal(sorted_df, expected)
 
         # NaN label, ascending=False, na_position='first'
-        sorted_df = df.sort_index(
-            kind="quicksort", ascending=False, na_position="first"
-        )
+        sorted_df = df.sort_index(kind="quicksort", ascending=False, na_position="first")
         expected = DataFrame(
             {"A": [4, 8, 6, 1, np.nan, 2, 1], "B": [5, 4, 5, 2, 5, np.nan, 9]},
             index=[np.nan, 6, 5, 4, 3, 2, 1],
@@ -203,14 +197,10 @@ class TestDataFrameSortIndex:
 
     def test_sort_index_multi_index(self):
         # GH#25775, testing that sorting by index works with a multi-index.
-        df = DataFrame(
-            {"a": [3, 1, 2], "b": [0, 0, 0], "c": [0, 1, 2], "d": list("abc")}
-        )
+        df = DataFrame({"a": [3, 1, 2], "b": [0, 0, 0], "c": [0, 1, 2], "d": list("abc")})
         result = df.set_index(list("abc")).sort_index(level=list("ba"))
 
-        expected = DataFrame(
-            {"a": [1, 2, 3], "b": [0, 0, 0], "c": [1, 2, 0], "d": list("bca")}
-        )
+        expected = DataFrame({"a": [1, 2, 3], "b": [0, 0, 0], "c": [1, 2, 0], "d": list("bca")})
         expected = expected.set_index(list("abc"))
 
         tm.assert_frame_equal(result, expected)
@@ -262,9 +252,7 @@ class TestDataFrameSortIndex:
         A = A.take(indexer)
         B = B.take(indexer)
 
-        df = DataFrame(
-            {"A": A, "B": B, "C": np.random.default_rng(2).standard_normal(100)}
-        )
+        df = DataFrame({"A": A, "B": B, "C": np.random.default_rng(2).standard_normal(100)})
 
         ex_indexer = np.lexsort((df.B.max() - df.B, df.A))
         expected = df.take(ex_indexer)
@@ -355,22 +343,16 @@ class TestDataFrameSortIndex:
         # GH#13496
 
         # sort rows by specified level of multi-index
-        mi = MultiIndex.from_tuples(
-            [[2, 1, 3], [2, 1, 2], [1, 1, 1]], names=list("ABC")
-        )
+        mi = MultiIndex.from_tuples([[2, 1, 3], [2, 1, 2], [1, 1, 1]], names=list("ABC"))
         df = DataFrame([[1, 2], [3, 4], [5, 6]], index=mi)
 
-        expected_mi = MultiIndex.from_tuples(
-            [[1, 1, 1], [2, 1, 2], [2, 1, 3]], names=list("ABC")
-        )
+        expected_mi = MultiIndex.from_tuples([[1, 1, 1], [2, 1, 2], [2, 1, 3]], names=list("ABC"))
         expected = DataFrame([[5, 6], [3, 4], [1, 2]], index=expected_mi)
         result = df.sort_index(level=level)
         tm.assert_frame_equal(result, expected)
 
         # sort_remaining=False
-        expected_mi = MultiIndex.from_tuples(
-            [[1, 1, 1], [2, 1, 3], [2, 1, 2]], names=list("ABC")
-        )
+        expected_mi = MultiIndex.from_tuples([[1, 1, 1], [2, 1, 3], [2, 1, 2]], names=list("ABC"))
         expected = DataFrame([[5, 6], [1, 2], [3, 4]], index=expected_mi)
         result = df.sort_index(level=level, sort_remaining=False)
         tm.assert_frame_equal(result, expected)
@@ -430,9 +412,7 @@ class TestDataFrameSortIndex:
     def test_respect_ignore_index(self, inplace, ignore_index):
         # GH 43591
         df = DataFrame({"a": [1, 2, 3]}, index=RangeIndex(4, -1, -2))
-        result = df.sort_index(
-            ascending=False, ignore_index=ignore_index, inplace=inplace
-        )
+        result = df.sort_index(ascending=False, ignore_index=ignore_index, inplace=inplace)
 
         if inplace:
             result = df
@@ -542,9 +522,7 @@ class TestDataFrameSortIndex:
         df = DataFrame([[1, 1], [2, 2]], index=list("ab"))
         expected = DataFrame(
             [[1, 1], [2, 2], [1, 1], [2, 2]],
-            index=MultiIndex.from_tuples(
-                [(0.5, "a"), (0.5, "b"), (0.8, "a"), (0.8, "b")]
-            ),
+            index=MultiIndex.from_tuples([(0.5, "a"), (0.5, "b"), (0.8, "a"), (0.8, "b")]),
         )
         assert expected.index._is_lexsorted()
 
@@ -559,9 +537,7 @@ class TestDataFrameSortIndex:
 
         result = DataFrame(
             [[1, 1], [2, 2], [1, 1], [2, 2]],
-            index=MultiIndex(
-                levels=[[0.5, 0.8], ["a", "b"]], codes=[[0, 0, 1, 1], [0, 1, 0, 1]]
-            ),
+            index=MultiIndex(levels=[[0.5, 0.8], ["a", "b"]], codes=[[0, 0, 1, 1], [0, 1, 0, 1]]),
         )
         result = result.sort_index()
         assert result.index._is_lexsorted()
@@ -584,9 +560,7 @@ class TestDataFrameSortIndex:
             ),
         )
 
-        df.columns = df.columns.set_levels(
-            pd.to_datetime(df.columns.levels[1]), level=1
-        )
+        df.columns = df.columns.set_levels(pd.to_datetime(df.columns.levels[1]), level=1)
         assert not df.columns.is_monotonic_increasing
         result = df.sort_index(axis=1)
         assert result.columns.is_monotonic_increasing
@@ -617,9 +591,7 @@ class TestDataFrameSortIndex:
     def test_sort_index_level_large_cardinality(self):
         # GH#2684 (int64)
         index = MultiIndex.from_arrays([np.arange(4000)] * 3)
-        df = DataFrame(
-            np.random.default_rng(2).standard_normal(4000).astype("int64"), index=index
-        )
+        df = DataFrame(np.random.default_rng(2).standard_normal(4000).astype("int64"), index=index)
 
         # it works!
         result = df.sort_index(level=0)
@@ -627,9 +599,7 @@ class TestDataFrameSortIndex:
 
         # GH#2684 (int32)
         index = MultiIndex.from_arrays([np.arange(4000)] * 3)
-        df = DataFrame(
-            np.random.default_rng(2).standard_normal(4000).astype("int32"), index=index
-        )
+        df = DataFrame(np.random.default_rng(2).standard_normal(4000).astype("int32"), index=index)
 
         # it works!
         result = df.sort_index(level=0)
@@ -742,9 +712,7 @@ class TestDataFrameSortIndex:
         # GH#23452
         df = DataFrame(
             {"foo": range(len(categories))},
-            index=CategoricalIndex(
-                data=categories, categories=categories, ordered=True
-            ),
+            index=CategoricalIndex(data=categories, categories=categories, ordered=True),
         )
         df.index = df.index.reorder_categories(df.index.categories[::-1])
         result = df.sort_index()

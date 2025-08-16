@@ -158,13 +158,9 @@ Index values are different \\(66\\.66667 %\\)
 
     if check_order:
         with pytest.raises(AssertionError, match=msg):
-            tm.assert_index_equal(
-                idx1, idx2, check_exact=check_exact, rtol=rtol, check_order=True
-            )
+            tm.assert_index_equal(idx1, idx2, check_exact=check_exact, rtol=rtol, check_order=True)
     else:
-        tm.assert_index_equal(
-            idx1, idx2, check_exact=check_exact, rtol=rtol, check_order=False
-        )
+        tm.assert_index_equal(idx1, idx2, check_exact=check_exact, rtol=rtol, check_order=False)
 
 
 def test_index_equal_level_values_mismatch(check_exact, rtol):
@@ -245,9 +241,7 @@ Index classes are different
         with pytest.raises(AssertionError, match=msg):
             tm.assert_index_equal(rcat, icat, check_categorical=True, exact=True)
     else:
-        tm.assert_index_equal(
-            rcat, icat, check_categorical=check_categorical, exact=exact
-        )
+        tm.assert_index_equal(rcat, icat, check_categorical=check_categorical, exact=exact)
 
 
 def test_assert_index_equal_different_inferred_types():
@@ -311,9 +305,7 @@ def test_assert_multi_index_dtype_check_categorical(check_categorical):
     idx1 = MultiIndex.from_arrays([Categorical(np.array([1, 2], dtype=np.uint64))])
     idx2 = MultiIndex.from_arrays([Categorical(np.array([1, 2], dtype=np.int64))])
     if check_categorical:
-        with pytest.raises(
-            AssertionError, match=r"^MultiIndex level \[0\] are different"
-        ):
+        with pytest.raises(AssertionError, match=r"^MultiIndex level \[0\] are different"):
             tm.assert_index_equal(idx1, idx2, check_categorical=check_categorical)
     else:
         tm.assert_index_equal(idx1, idx2, check_categorical=check_categorical)

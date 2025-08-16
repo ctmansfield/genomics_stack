@@ -90,14 +90,9 @@ def test_to_html_with_col_space(col_space):
 
 
 def test_to_html_with_column_specific_col_space_raises():
-    df = DataFrame(
-        np.random.default_rng(2).random(size=(3, 3)), columns=["a", "b", "c"]
-    )
+    df = DataFrame(np.random.default_rng(2).random(size=(3, 3)), columns=["a", "b", "c"])
 
-    msg = (
-        "Col_space length\\(\\d+\\) should match "
-        "DataFrame number of columns\\(\\d+\\)"
-    )
+    msg = "Col_space length\\(\\d+\\) should match " "DataFrame number of columns\\(\\d+\\)"
     with pytest.raises(ValueError, match=msg):
         df.to_html(col_space=[30, 40])
 
@@ -110,9 +105,7 @@ def test_to_html_with_column_specific_col_space_raises():
 
 
 def test_to_html_with_column_specific_col_space():
-    df = DataFrame(
-        np.random.default_rng(2).random(size=(3, 3)), columns=["a", "b", "c"]
-    )
+    df = DataFrame(np.random.default_rng(2).random(size=(3, 3)), columns=["a", "b", "c"])
 
     result = df.to_html(col_space={"a": "2em", "b": 23})
     hdrs = [x for x in result.split("\n") if re.search(r"<th[>\s]", x)]
@@ -184,9 +177,7 @@ def test_to_html_escaped(kwargs, string, expected, datapath):
 @pytest.mark.parametrize("index_is_named", [True, False])
 def test_to_html_multiindex_index_false(index_is_named, datapath):
     # GH 8452
-    df = DataFrame(
-        {"a": range(2), "b": range(3, 5), "c": range(5, 7), "d": range(3, 5)}
-    )
+    df = DataFrame({"a": range(2), "b": range(3, 5), "c": range(5, 7), "d": range(3, 5)})
     df.columns = MultiIndex.from_product([["a", "b"], ["c", "d"]])
     if index_is_named:
         df.index = Index(df.index.values, name="idx")
@@ -253,11 +244,7 @@ def test_to_html_multiindex_odd_even_truncate(max_rows, expected, datapath):
         ),
         (
             DataFrame(
-                {
-                    "hod": pd.to_datetime(
-                        ["10:10:10.100", "12:12:12.120"], format="%H:%M:%S.%f"
-                    )
-                }
+                {"hod": pd.to_datetime(["10:10:10.100", "12:12:12.120"], format="%H:%M:%S.%f")}
             ),
             {"hod": lambda x: x.strftime("%H:%M")},
             "datetime64_hourformatter",
@@ -450,9 +437,7 @@ def test_to_html_justify(justify, datapath):
     assert result == expected
 
 
-@pytest.mark.parametrize(
-    "justify", ["super-right", "small-left", "noinherit", "tiny", "pandas"]
-)
+@pytest.mark.parametrize("justify", ["super-right", "small-left", "noinherit", "tiny", "pandas"])
 def test_to_html_invalid_justify(justify):
     # GH 17527
     df = DataFrame()
@@ -477,9 +462,7 @@ class TestHTMLIndex:
     def expected_without_index(self, datapath):
         return expected_html(datapath, "index_2")
 
-    def test_to_html_flat_index_without_name(
-        self, datapath, df, expected_without_index
-    ):
+    def test_to_html_flat_index_without_name(self, datapath, df, expected_without_index):
         expected_with_index = expected_html(datapath, "index_1")
         assert df.to_html() == expected_with_index
 
@@ -494,9 +477,7 @@ class TestHTMLIndex:
         assert df.to_html() == expected_with_index
         assert df.to_html(index=False) == expected_without_index
 
-    def test_to_html_multiindex_without_names(
-        self, datapath, df, expected_without_index
-    ):
+    def test_to_html_multiindex_without_names(self, datapath, df, expected_without_index):
         tuples = [("foo", "car"), ("foo", "bike"), ("bar", "car")]
         df.index = MultiIndex.from_tuples(tuples)
 
@@ -545,9 +526,7 @@ def test_to_html_multiindex_max_cols(datapath):
         codes=[[0, 0, 0], [0, 1, 2]],
         names=[None, "a"],
     )
-    data = np.array(
-        [[1.0, np.nan, np.nan], [np.nan, 2.0, np.nan], [np.nan, np.nan, 3.0]]
-    )
+    data = np.array([[1.0, np.nan, np.nan], [np.nan, 2.0, np.nan], [np.nan, np.nan, 3.0]])
     df = DataFrame(data, index, columns)
     result = df.to_html(max_cols=2)
     expected = expected_html(datapath, "gh6131_expected_output")
@@ -556,9 +535,7 @@ def test_to_html_multiindex_max_cols(datapath):
 
 def test_to_html_multi_indexes_index_false(datapath):
     # GH 22579
-    df = DataFrame(
-        {"a": range(10), "b": range(10, 20), "c": range(10, 20), "d": range(10, 20)}
-    )
+    df = DataFrame({"a": range(10), "b": range(10, 20), "c": range(10, 20), "d": range(10, 20)})
     df.columns = MultiIndex.from_product([["a", "b"], ["c", "d"]])
     df.index = MultiIndex.from_product([["a", "b"], ["c", "d", "e", "f", "g"]])
     result = df.to_html(index=False)
@@ -590,9 +567,7 @@ def test_to_html_multi_indexes_index_false(datapath):
         (Index([0, 1], name="index.name"), "named_standard"),
         (MultiIndex.from_product([["a"], ["b", "c"]]), "unnamed_multi"),
         (
-            MultiIndex.from_product(
-                [["a"], ["b", "c"]], names=["index.name.0", "index.name.1"]
-            ),
+            MultiIndex.from_product([["a"], ["b", "c"]], names=["index.name.0", "index.name.1"]),
             "named_multi",
         ),
     ],
@@ -661,9 +636,7 @@ def test_to_html_alignment_with_truncation(
 ):
     # GH 22747, GH 22579
     df = DataFrame(np.arange(64).reshape(8, 8), index=row_index, columns=column_index)
-    result = df.to_html(
-        max_rows=4, max_cols=4, index=index, header=header, index_names=index_names
-    )
+    result = df.to_html(max_rows=4, max_cols=4, index=index, header=header, index_names=index_names)
 
     if not index:
         row_type = "none"
@@ -701,9 +674,7 @@ def test_to_html_truncation_index_false_max_rows(datapath, index):
     "col_index_named, expected_output",
     [(False, "gh22783_expected_output"), (True, "gh22783_named_columns_index")],
 )
-def test_to_html_truncation_index_false_max_cols(
-    datapath, index, col_index_named, expected_output
-):
+def test_to_html_truncation_index_false_max_cols(datapath, index, col_index_named, expected_output):
     # GH 22783
     data = [
         [1.764052, 0.400157, 0.978738, 2.240893, 1.867558],
@@ -896,9 +867,7 @@ class TestReprHTML:
         h, w = max_rows - 1, max_cols + 1
         df = DataFrame({k: np.arange(1, 1 + h) for k in np.arange(w)})
         assert "<class" not in df._repr_html_()
-        with option_context(
-            "display.large_repr", "info", "display.max_columns", max_cols
-        ):
+        with option_context("display.large_repr", "info", "display.max_columns", max_cols):
             assert "&lt;class" in df._repr_html_()
 
     def test_fake_qtconsole_repr_html(self, float_frame):

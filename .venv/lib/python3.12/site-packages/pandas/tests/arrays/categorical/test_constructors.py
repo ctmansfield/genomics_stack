@@ -73,9 +73,7 @@ class TestCategoricalConstructors:
             Categorical([1, 2, 3], ordered=ordered)
 
         with pytest.raises(exp_err, match=exp_msg):
-            Categorical.from_codes(
-                [0, 0, 1], categories=["a", "b", "c"], ordered=ordered
-            )
+            Categorical.from_codes([0, 0, 1], categories=["a", "b", "c"], ordered=ordered)
 
     def test_constructor_empty(self):
         # GH 17248
@@ -135,9 +133,7 @@ class TestCategoricalConstructors:
             Categorical(arr, ordered=True)
 
     def test_constructor_interval(self):
-        result = Categorical(
-            [Interval(1, 2), Interval(2, 3), Interval(3, 6)], ordered=True
-        )
+        result = Categorical([Interval(1, 2), Interval(2, 3), Interval(3, 6)], ordered=True)
         ii = IntervalIndex([Interval(1, 2), Interval(2, 3), Interval(3, 6)])
         exp = Categorical(ii, ordered=True)
         tm.assert_categorical_equal(result, exp)
@@ -420,9 +416,7 @@ class TestCategoricalConstructors:
         categories = ["b", "a", "c"]
         dtype = CategoricalDtype(categories, ordered=ordered)
         result = Categorical(["a", "b", "a", "c"], dtype=dtype)
-        expected = Categorical(
-            ["a", "b", "a", "c"], categories=categories, ordered=ordered
-        )
+        expected = Categorical(["a", "b", "a", "c"], categories=categories, ordered=ordered)
         tm.assert_categorical_equal(result, expected)
         assert result.ordered is ordered
 
@@ -441,9 +435,7 @@ class TestCategoricalConstructors:
     @pytest.mark.parametrize("categories", [None, ["a", "b"], ["a", "c"]])
     @pytest.mark.parametrize("ordered", [True, False])
     def test_constructor_str_category(self, categories, ordered):
-        result = Categorical(
-            ["a", "b"], categories=categories, ordered=ordered, dtype="category"
-        )
+        result = Categorical(["a", "b"], categories=categories, ordered=ordered, dtype="category")
         expected = Categorical(["a", "b"], categories=categories, ordered=ordered)
         tm.assert_categorical_equal(result, expected)
 
@@ -451,9 +443,7 @@ class TestCategoricalConstructors:
         with pytest.raises(ValueError, match="Unknown dtype"):
             Categorical([1, 2], dtype="foo")
 
-    @pytest.mark.xfail(
-        using_string_dtype() and HAS_PYARROW, reason="Can't be NumPy strings"
-    )
+    @pytest.mark.xfail(using_string_dtype() and HAS_PYARROW, reason="Can't be NumPy strings")
     def test_constructor_np_strs(self):
         # GH#31499 Hashtable.map_locations needs to work on np.str_ objects
         cat = Categorical(["1", "0", "1"], [np.str_("0"), np.str_("1")])
@@ -464,9 +454,7 @@ class TestCategoricalConstructors:
         values = Categorical(["a", "b", "d"])
         result = Categorical(values, dtype=dtype)
         # We use dtype.categories, not values.categories
-        expected = Categorical(
-            ["a", "b", "d"], categories=["a", "b", "c"], ordered=True
-        )
+        expected = Categorical(["a", "b", "d"], categories=["a", "b", "c"], ordered=True)
         tm.assert_categorical_equal(result, expected)
 
     def test_constructor_from_categorical_with_unknown_dtype(self):
@@ -474,20 +462,14 @@ class TestCategoricalConstructors:
         values = Categorical(["a", "b", "d"])
         result = Categorical(values, dtype=dtype)
         # We use values.categories, not dtype.categories
-        expected = Categorical(
-            ["a", "b", "d"], categories=["a", "b", "d"], ordered=True
-        )
+        expected = Categorical(["a", "b", "d"], categories=["a", "b", "d"], ordered=True)
         tm.assert_categorical_equal(result, expected)
 
     def test_constructor_from_categorical_string(self):
         values = Categorical(["a", "b", "d"])
         # use categories, ordered
-        result = Categorical(
-            values, categories=["a", "b", "c"], ordered=True, dtype="category"
-        )
-        expected = Categorical(
-            ["a", "b", "d"], categories=["a", "b", "c"], ordered=True
-        )
+        result = Categorical(values, categories=["a", "b", "c"], ordered=True, dtype="category")
+        expected = Categorical(["a", "b", "d"], categories=["a", "b", "c"], ordered=True)
         tm.assert_categorical_equal(result, expected)
 
         # No string
@@ -627,9 +609,7 @@ class TestCategoricalConstructors:
             )
 
         with pytest.raises(ValueError, match=msg):
-            Categorical.from_codes(
-                [0, 1], ordered=True, dtype=CategoricalDtype(["a", "b"])
-            )
+            Categorical.from_codes([0, 1], ordered=True, dtype=CategoricalDtype(["a", "b"]))
 
     def test_from_codes_neither(self):
         msg = "Both were None"
@@ -674,9 +654,7 @@ class TestCategoricalConstructors:
         codes = np.array([0, 1, 0, 2], dtype="i8")
         dtype = CategoricalDtype(["c", "b", "a"], ordered=True)
         result = Categorical._from_inferred_categories(cats, codes, dtype)
-        expected = Categorical(
-            ["a", "b", "a", "d"], categories=["c", "b", "a"], ordered=True
-        )
+        expected = Categorical(["a", "b", "a", "d"], categories=["c", "b", "a"], ordered=True)
         tm.assert_categorical_equal(result, expected)
 
     def test_from_inferred_categories_coerces(self):
@@ -749,9 +727,7 @@ class TestCategoricalConstructors:
 
     def test_categorical_extension_array_nullable(self, nulls_fixture):
         # GH:
-        arr = pd.arrays.StringArray._from_sequence(
-            [nulls_fixture] * 2, dtype=pd.StringDtype()
-        )
+        arr = pd.arrays.StringArray._from_sequence([nulls_fixture] * 2, dtype=pd.StringDtype())
         result = Categorical(arr)
         assert arr.dtype == result.categories.dtype
         expected = Categorical(Series([pd.NA, pd.NA], dtype=arr.dtype))

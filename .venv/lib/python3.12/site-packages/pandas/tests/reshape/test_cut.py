@@ -76,9 +76,7 @@ def test_bins_from_interval_index():
     result = cut(range(5), bins=expected.categories)
     tm.assert_categorical_equal(result, expected)
 
-    expected = Categorical.from_codes(
-        np.append(c.codes, -1), categories=c.categories, ordered=True
-    )
+    expected = Categorical.from_codes(np.append(c.codes, -1), categories=c.categories, ordered=True)
     result = cut(range(6), bins=expected.categories)
     tm.assert_categorical_equal(result, expected)
 
@@ -127,12 +125,8 @@ def test_bins_not_monotonic():
         ),
         (
             [-1, 0, 1],
-            np.array(
-                [np.iinfo(np.int64).min, 0, np.iinfo(np.int64).max], dtype="int64"
-            ),
-            IntervalIndex.from_tuples(
-                [(np.iinfo(np.int64).min, 0), (0, np.iinfo(np.int64).max)]
-            ),
+            np.array([np.iinfo(np.int64).min, 0, np.iinfo(np.int64).max], dtype="int64"),
+            IntervalIndex.from_tuples([(np.iinfo(np.int64).min, 0), (0, np.iinfo(np.int64).max)]),
         ),
         (
             [
@@ -356,9 +350,7 @@ def test_cut_return_intervals():
     exp_bins[0] -= 0.008
 
     expected = Series(
-        IntervalIndex.from_breaks(exp_bins, closed="right").take(
-            [0, 0, 0, 1, 1, 1, 2, 2, 2]
-        )
+        IntervalIndex.from_breaks(exp_bins, closed="right").take([0, 0, 0, 1, 1, 1, 2, 2, 2])
     ).astype(CategoricalDtype(ordered=True))
     tm.assert_series_equal(result, expected)
 
@@ -368,9 +360,9 @@ def test_series_ret_bins():
     ser = Series(np.arange(4))
     result, bins = cut(ser, 2, retbins=True)
 
-    expected = Series(
-        IntervalIndex.from_breaks([-0.003, 1.5, 3], closed="right").repeat(2)
-    ).astype(CategoricalDtype(ordered=True))
+    expected = Series(IntervalIndex.from_breaks([-0.003, 1.5, 3], closed="right").repeat(2)).astype(
+        CategoricalDtype(ordered=True)
+    )
     tm.assert_series_equal(result, expected)
 
 
@@ -420,9 +412,7 @@ def test_cut_read_only(array_1_writeable, array_2_writeable):
     array_2.flags.writeable = array_2_writeable
 
     hundred_elements = np.arange(100)
-    tm.assert_categorical_equal(
-        cut(hundred_elements, array_1), cut(hundred_elements, array_2)
-    )
+    tm.assert_categorical_equal(cut(hundred_elements, array_1), cut(hundred_elements, array_2))
 
 
 @pytest.mark.parametrize(
@@ -560,9 +550,7 @@ def test_datetime_nan_error():
 
 
 def test_datetime_nan_mask():
-    result = cut(
-        date_range("20130102", periods=5), bins=date_range("20130101", periods=2)
-    )
+    result = cut(date_range("20130102", periods=5), bins=date_range("20130101", periods=2))
 
     mask = result.categories.isna()
     tm.assert_numpy_array_equal(mask, np.array([False]))
@@ -611,9 +599,7 @@ def test_timedelta_cut_roundtrip():
     expected = cut(ser, result_bins)
     tm.assert_series_equal(result, expected)
 
-    expected_bins = TimedeltaIndex(
-        ["0 days 23:57:07.200000", "2 days 00:00:00", "3 days 00:00:00"]
-    )
+    expected_bins = TimedeltaIndex(["0 days 23:57:07.200000", "2 days 00:00:00", "3 days 00:00:00"])
     tm.assert_index_equal(result_bins, expected_bins)
 
 
@@ -650,9 +636,7 @@ def test_cut_incorrect_labels(labels):
 def test_cut_nullable_integer(bins, right, include_lowest):
     a = np.random.default_rng(2).integers(0, 10, size=50).astype(float)
     a[::2] = np.nan
-    result = cut(
-        pd.array(a, dtype="Int64"), bins, right=right, include_lowest=include_lowest
-    )
+    result = cut(pd.array(a, dtype="Int64"), bins, right=right, include_lowest=include_lowest)
     expected = cut(a, bins, right=right, include_lowest=include_lowest)
     tm.assert_categorical_equal(result, expected)
 
@@ -667,9 +651,7 @@ def test_cut_nullable_integer(bins, right, include_lowest):
 def test_cut_non_unique_labels(data, bins, labels, expected_codes, expected_labels):
     # GH 33141
     result = cut(data, bins=bins, labels=labels, ordered=False)
-    expected = Categorical.from_codes(
-        expected_codes, categories=expected_labels, ordered=False
-    )
+    expected = Categorical.from_codes(expected_codes, categories=expected_labels, ordered=False)
     tm.assert_categorical_equal(result, expected)
 
 
@@ -683,9 +665,7 @@ def test_cut_non_unique_labels(data, bins, labels, expected_codes, expected_labe
 def test_cut_unordered_labels(data, bins, labels, expected_codes, expected_labels):
     # GH 33141
     result = cut(data, bins=bins, labels=labels, ordered=False)
-    expected = Categorical.from_codes(
-        expected_codes, categories=expected_labels, ordered=False
-    )
+    expected = Categorical.from_codes(expected_codes, categories=expected_labels, ordered=False)
     tm.assert_categorical_equal(result, expected)
 
 
@@ -752,9 +732,7 @@ def test_cut_with_nonexact_categorical_indices():
         ordered=True,
     )
 
-    expected = DataFrame(
-        {"1": [10] * 5 + [np.nan] * 5, "2": [np.nan] * 5 + [10] * 5}, index=index
-    )
+    expected = DataFrame({"1": [10] * 5 + [np.nan] * 5, "2": [np.nan] * 5 + [10] * 5}, index=index)
 
     tm.assert_frame_equal(expected, result)
 
@@ -783,9 +761,7 @@ def test_cut_with_nullable_int64():
     bins = [0, 2, 4, 6, 8]
     intervals = IntervalIndex.from_breaks(bins)
 
-    expected = Series(
-        Categorical.from_codes([-1, 0, 0, 1, 1, -1, 2, 3], intervals, ordered=True)
-    )
+    expected = Series(Categorical.from_codes([-1, 0, 0, 1, 1, -1, 2, 3], intervals, ordered=True))
 
     result = cut(series, bins=bins)
 

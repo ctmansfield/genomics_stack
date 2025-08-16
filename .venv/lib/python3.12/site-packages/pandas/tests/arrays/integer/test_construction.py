@@ -183,9 +183,7 @@ def test_to_integer_array_float():
         IntegerArray._from_sequence([1.5, 2.0], dtype="Int64")
 
     # for float dtypes, the itemsize is not preserved
-    result = IntegerArray._from_sequence(
-        np.array([1.0, 2.0], dtype="float32"), dtype="Int64"
-    )
+    result = IntegerArray._from_sequence(np.array([1.0, 2.0], dtype="float32"), dtype="Int64")
     assert result.dtype == Int64Dtype()
 
 
@@ -194,14 +192,10 @@ def test_to_integer_array_str():
     expected = pd.array([1, 2, np.nan], dtype="Int64")
     tm.assert_extension_array_equal(result, expected)
 
-    with pytest.raises(
-        ValueError, match=r"invalid literal for int\(\) with base 10: .*"
-    ):
+    with pytest.raises(ValueError, match=r"invalid literal for int\(\) with base 10: .*"):
         IntegerArray._from_sequence(["1", "2", ""], dtype="Int64")
 
-    with pytest.raises(
-        ValueError, match=r"invalid literal for int\(\) with base 10: .*"
-    ):
+    with pytest.raises(ValueError, match=r"invalid literal for int\(\) with base 10: .*"):
         IntegerArray._from_sequence(["1.5", "2.0"], dtype="Int64")
 
 
@@ -213,9 +207,7 @@ def test_to_integer_array_str():
         ([False, True, np.nan], [0, 1, np.nan], Int64Dtype(), Int64Dtype()),
     ],
 )
-def test_to_integer_array_bool(
-    constructor, bool_values, int_values, target_dtype, expected_dtype
-):
+def test_to_integer_array_bool(constructor, bool_values, int_values, target_dtype, expected_dtype):
     result = constructor(bool_values, dtype=target_dtype)
     assert result.dtype == expected_dtype
     expected = pd.array(int_values, dtype=target_dtype)

@@ -296,9 +296,7 @@ def test_nth5():
 
 
 def test_nth_bdays(unit):
-    business_dates = pd.date_range(
-        start="4/1/2014", end="6/30/2014", freq="B", unit=unit
-    )
+    business_dates = pd.date_range(start="4/1/2014", end="6/30/2014", freq="B", unit=unit)
     df = DataFrame(1, index=business_dates, columns=["a", "b"])
     # get the first, fourth and last two business days for each month
     key = [df.index.year, df.index.month]
@@ -426,9 +424,7 @@ def test_first_last_tz_multi_column(method, ts, alpha, unit):
     result = getattr(df.groupby("group"), method)()
     expected = DataFrame(
         {
-            "category_string": pd.Categorical(
-                [alpha, "c"], dtype=category_string.dtype
-            ),
+            "category_string": pd.Categorical([alpha, "c"], dtype=category_string.dtype),
             "datetimetz": [ts, Timestamp("2013-01-03", tz="US/Eastern")],
         },
         index=Index([1, 2], name="group"),
@@ -556,9 +552,7 @@ def test_groupby_head_tail(op, n, expected_rows, columns, as_index):
 )
 def test_groupby_head_tail_axis_1(op, n, expected_cols):
     # GH 9772
-    df = DataFrame(
-        [[1, 2, 3], [1, 4, 5], [2, 6, 7], [3, 8, 9]], columns=["A", "B", "C"]
-    )
+    df = DataFrame([[1, 2, 3], [1, 4, 5], [2, 6, 7], [3, 8, 9]], columns=["A", "B", "C"])
     msg = "DataFrame.groupby with axis=1 is deprecated"
     with tm.assert_produces_warning(FutureWarning, match=msg):
         g = df.groupby([0, 0, 1], axis=1)
@@ -669,9 +663,7 @@ def test_first_categorical_and_datetime_data_nat():
     expected = DataFrame(
         {
             "time": 3 * [np.datetime64("NaT")],
-            "categories": Series(["a", "c", "a"]).astype(
-                pd.CategoricalDtype(["a", "b", "c"])
-            ),
+            "categories": Series(["a", "c", "a"]).astype(pd.CategoricalDtype(["a", "b", "c"])),
         }
     )
     expected.index = Index(["first", "second", "third"], name="group")
@@ -698,9 +690,7 @@ def test_first_multi_key_groupby_categorical():
             ),
         }
     )
-    expected.index = MultiIndex.from_tuples(
-        [(1, 100), (1, 200), (2, 100)], names=["A", "B"]
-    )
+    expected.index = MultiIndex.from_tuples([(1, 100), (1, 200), (2, 100)], names=["A", "B"])
     tm.assert_frame_equal(result, expected)
 
 
@@ -830,9 +820,7 @@ def test_groupby_nth_interval():
     ],
 )
 @pytest.mark.parametrize("method", ["call", "index"])
-def test_nth_slices_with_column_axis(
-    start, stop, expected_values, expected_columns, method
-):
+def test_nth_slices_with_column_axis(start, stop, expected_values, expected_columns, method):
     df = DataFrame([range(5)], columns=[list("ABCDE")])
     msg = "DataFrame.groupby with axis=1 is deprecated"
     with tm.assert_produces_warning(FutureWarning, match=msg):
@@ -845,14 +833,10 @@ def test_nth_slices_with_column_axis(
     tm.assert_frame_equal(result, expected)
 
 
-@pytest.mark.filterwarnings(
-    "ignore:invalid value encountered in remainder:RuntimeWarning"
-)
+@pytest.mark.filterwarnings("ignore:invalid value encountered in remainder:RuntimeWarning")
 def test_head_tail_dropna_true():
     # GH#45089
-    df = DataFrame(
-        [["a", "z"], ["b", np.nan], ["c", np.nan], ["c", np.nan]], columns=["X", "Y"]
-    )
+    df = DataFrame([["a", "z"], ["b", np.nan], ["c", np.nan], ["c", np.nan]], columns=["X", "Y"])
     expected = DataFrame([["a", "z"]], columns=["X", "Y"])
 
     result = df.groupby(["X", "Y"]).head(n=1)

@@ -3,6 +3,7 @@ Helpers for configuring locale settings.
 
 Name `localization` is chosen to avoid overlap with builtin `locale` module.
 """
+
 from __future__ import annotations
 
 from contextlib import contextmanager
@@ -100,10 +101,7 @@ def _valid_locales(locales: list[str] | str, normalize: bool) -> list[str]:
     """
     return [
         loc
-        for loc in (
-            locale.normalize(loc.strip()) if normalize else loc.strip()
-            for loc in locales
-        )
+        for loc in (locale.normalize(loc.strip()) if normalize else loc.strip() for loc in locales)
         if can_set_locale(loc)
     ]
 

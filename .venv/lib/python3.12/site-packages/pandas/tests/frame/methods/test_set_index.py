@@ -85,9 +85,7 @@ class TestSetIndex:
 
     def test_set_index_empty_dataframe(self):
         # GH#38419
-        df1 = DataFrame(
-            {"a": Series(dtype="datetime64[ns]"), "b": Series(dtype="int64"), "c": []}
-        )
+        df1 = DataFrame({"a": Series(dtype="datetime64[ns]"), "b": Series(dtype="int64"), "c": []})
 
         df2 = df1.set_index(["a", "b"])
         result = df2.index.to_frame().dtypes
@@ -96,9 +94,7 @@ class TestSetIndex:
 
     def test_set_index_multiindexcolumns(self):
         columns = MultiIndex.from_tuples([("foo", 1), ("foo", 2), ("bar", 1)])
-        df = DataFrame(
-            np.random.default_rng(2).standard_normal((3, 3)), columns=columns
-        )
+        df = DataFrame(np.random.default_rng(2).standard_normal((3, 3)), columns=columns)
 
         result = df.set_index(df.columns[0])
 
@@ -166,9 +162,7 @@ class TestSetIndex:
         assert df.set_index(df.index).index.names == ["name"]
 
         mi = MultiIndex.from_arrays(df[["A", "B"]].T.values, names=["A", "B"])
-        mi2 = MultiIndex.from_arrays(
-            df[["A", "B", "A", "B"]].T.values, names=["A", "B", "C", "D"]
-        )
+        mi2 = MultiIndex.from_arrays(df[["A", "B", "A", "B"]].T.values, names=["A", "B", "C", "D"])
 
         df = df.set_index(["A", "B"])
 
@@ -219,9 +213,7 @@ class TestSetIndex:
         df = frame_of_index_cols
 
         keys = keys if isinstance(keys, list) else [keys]
-        idx = MultiIndex.from_arrays(
-            [df.index] + [df[x] for x in keys], names=[None] + keys
-        )
+        idx = MultiIndex.from_arrays([df.index] + [df[x] for x in keys], names=[None] + keys)
         expected = df.drop(keys, axis=1) if drop else df.copy()
         expected.index = idx
 
@@ -270,9 +262,7 @@ class TestSetIndex:
         "append, index_name", [(True, None), (True, "B"), (True, "test"), (False, None)]
     )
     @pytest.mark.parametrize("drop", [True, False])
-    def test_set_index_pass_single_array(
-        self, frame_of_index_cols, drop, append, index_name, box
-    ):
+    def test_set_index_pass_single_array(self, frame_of_index_cols, drop, append, index_name, box):
         df = frame_of_index_cols
         df.index.name = index_name
 
@@ -306,9 +296,7 @@ class TestSetIndex:
         [(True, None), (True, "A"), (True, "B"), (True, "test"), (False, None)],
     )
     @pytest.mark.parametrize("drop", [True, False])
-    def test_set_index_pass_arrays(
-        self, frame_of_index_cols, drop, append, index_name, box
-    ):
+    def test_set_index_pass_arrays(self, frame_of_index_cols, drop, append, index_name, box):
         df = frame_of_index_cols
         df.index.name = index_name
 
@@ -406,9 +394,7 @@ class TestSetIndex:
         ci = CategoricalIndex(list("ab") * 5, name="B")
 
         # with Categorical
-        df = DataFrame(
-            {"A": np.random.default_rng(2).standard_normal(10), "B": ci.values}
-        )
+        df = DataFrame({"A": np.random.default_rng(2).standard_normal(10), "B": ci.values})
         idf = df.set_index("B")
         tm.assert_index_equal(idf.index, ci)
 
@@ -505,9 +491,7 @@ class TestSetIndex:
             ["2011-07-19 07:00:00", "2011-07-19 08:00:00", "2011-07-19 09:00:00"],
             tz="US/Eastern",
         )
-        expected2 = DatetimeIndex(
-            ["2012-04-01 09:00", "2012-04-02 09:00"], tz="US/Eastern"
-        )
+        expected2 = DatetimeIndex(["2012-04-01 09:00", "2012-04-02 09:00"], tz="US/Eastern")
 
         tm.assert_index_equal(df.index.levels[0], expected1)
         tm.assert_index_equal(df.index.levels[1], expected2)
@@ -599,9 +583,7 @@ class TestSetIndexInvalid:
     @pytest.mark.parametrize("length", [4, 6], ids=["too_short", "too_long"])
     @pytest.mark.parametrize("append", [True, False])
     @pytest.mark.parametrize("drop", [True, False])
-    def test_set_index_raise_on_len(
-        self, frame_of_index_cols, box, length, drop, append
-    ):
+    def test_set_index_raise_on_len(self, frame_of_index_cols, box, length, drop, append):
         # GH 24984
         df = frame_of_index_cols  # has length 5
 

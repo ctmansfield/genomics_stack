@@ -32,17 +32,13 @@ class TestDataFrameUpdate:
         tm.assert_frame_equal(df1, expected)
 
     def test_update(self):
-        df = DataFrame(
-            [[1.5, np.nan, 3.0], [1.5, np.nan, 3.0], [1.5, np.nan, 3], [1.5, np.nan, 3]]
-        )
+        df = DataFrame([[1.5, np.nan, 3.0], [1.5, np.nan, 3.0], [1.5, np.nan, 3], [1.5, np.nan, 3]])
 
         other = DataFrame([[3.6, 2.0, np.nan], [np.nan, np.nan, 7]], index=[1, 3])
 
         df.update(other)
 
-        expected = DataFrame(
-            [[1.5, np.nan, 3], [3.6, 2, 3], [1.5, np.nan, 3], [1.5, np.nan, 7.0]]
-        )
+        expected = DataFrame([[1.5, np.nan, 3], [3.6, 2, 3], [1.5, np.nan, 3], [1.5, np.nan, 7.0]])
         tm.assert_frame_equal(df, expected)
 
     def test_update_dtypes(self):
@@ -52,9 +48,7 @@ class TestDataFrameUpdate:
             columns=["A", "B", "int", "bool1", "bool2"],
         )
 
-        other = DataFrame(
-            [[45, 45, 3, True]], index=[0], columns=["A", "B", "int", "bool1"]
-        )
+        other = DataFrame([[45, 45, 3, True]], index=[0], columns=["A", "B", "int", "bool1"])
         df.update(other)
 
         expected = DataFrame(
@@ -64,23 +58,17 @@ class TestDataFrameUpdate:
         tm.assert_frame_equal(df, expected)
 
     def test_update_nooverwrite(self):
-        df = DataFrame(
-            [[1.5, np.nan, 3.0], [1.5, np.nan, 3.0], [1.5, np.nan, 3], [1.5, np.nan, 3]]
-        )
+        df = DataFrame([[1.5, np.nan, 3.0], [1.5, np.nan, 3.0], [1.5, np.nan, 3], [1.5, np.nan, 3]])
 
         other = DataFrame([[3.6, 2.0, np.nan], [np.nan, np.nan, 7]], index=[1, 3])
 
         df.update(other, overwrite=False)
 
-        expected = DataFrame(
-            [[1.5, np.nan, 3], [1.5, 2, 3], [1.5, np.nan, 3], [1.5, np.nan, 3.0]]
-        )
+        expected = DataFrame([[1.5, np.nan, 3], [1.5, 2, 3], [1.5, np.nan, 3], [1.5, np.nan, 3.0]])
         tm.assert_frame_equal(df, expected)
 
     def test_update_filtered(self):
-        df = DataFrame(
-            [[1.5, np.nan, 3.0], [1.5, np.nan, 3.0], [1.5, np.nan, 3], [1.5, np.nan, 3]]
-        )
+        df = DataFrame([[1.5, np.nan, 3.0], [1.5, np.nan, 3.0], [1.5, np.nan, 3], [1.5, np.nan, 3]])
 
         other = DataFrame([[3.6, 2.0, np.nan], [np.nan, np.nan, 7]], index=[1, 3])
 
@@ -105,9 +93,7 @@ class TestDataFrameUpdate:
             df.update(df, **bad_kwarg)
 
     def test_update_raise_on_overlap(self):
-        df = DataFrame(
-            [[1.5, 1, 3.0], [1.5, np.nan, 3.0], [1.5, np.nan, 3], [1.5, np.nan, 3]]
-        )
+        df = DataFrame([[1.5, 1, 3.0], [1.5, np.nan, 3.0], [1.5, np.nan, 3], [1.5, np.nan, 3]])
 
         other = DataFrame([[2.0, np.nan], [np.nan, 7]], index=[1, 3], columns=[1, 2])
         with pytest.raises(ValueError, match="Data overlaps"):
@@ -175,9 +161,7 @@ class TestDataFrameUpdate:
         tm.assert_frame_equal(df, expected)
 
     @td.skip_array_manager_invalid_test
-    def test_update_modify_view(
-        self, using_copy_on_write, warn_copy_on_write, using_infer_string
-    ):
+    def test_update_modify_view(self, using_copy_on_write, warn_copy_on_write, using_infer_string):
         # GH#47188
         df = DataFrame({"A": ["1", np.nan], "B": ["100", np.nan]})
         df2 = DataFrame({"A": ["a", "x"], "B": ["100", "200"]})
@@ -198,7 +182,5 @@ class TestDataFrameUpdate:
         df = DataFrame({"A": [1, None], "B": [pd.NaT, pd.to_datetime("2016-01-01")]})
         df2 = DataFrame({"A": [2, 3]})
         df.update(df2, overwrite=False)
-        expected = DataFrame(
-            {"A": [1.0, 3.0], "B": [pd.NaT, pd.to_datetime("2016-01-01")]}
-        )
+        expected = DataFrame({"A": [1.0, 3.0], "B": [pd.NaT, pd.to_datetime("2016-01-01")]})
         tm.assert_frame_equal(df, expected)

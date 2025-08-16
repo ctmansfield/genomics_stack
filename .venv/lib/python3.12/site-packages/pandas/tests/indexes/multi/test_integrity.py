@@ -110,16 +110,12 @@ def test_consistency():
     minor_codes = np.repeat(range(10), 7000)
 
     # the fact that is works means it's consistent
-    index = MultiIndex(
-        levels=[major_axis, minor_axis], codes=[major_codes, minor_codes]
-    )
+    index = MultiIndex(levels=[major_axis, minor_axis], codes=[major_codes, minor_codes])
 
     # inconsistent
     major_codes = np.array([0, 0, 1, 1, 1, 2, 2, 3, 3])
     minor_codes = np.array([0, 1, 0, 1, 1, 0, 1, 0, 1])
-    index = MultiIndex(
-        levels=[major_axis, minor_axis], codes=[major_codes, minor_codes]
-    )
+    index = MultiIndex(levels=[major_axis, minor_axis], codes=[major_codes, minor_codes])
 
     assert index.is_unique is False
 
@@ -130,9 +126,7 @@ def test_hash_collisions(monkeypatch):
     size_cutoff = 50
     with monkeypatch.context() as m:
         m.setattr(libindex, "_SIZE_CUTOFF", size_cutoff)
-        index = MultiIndex.from_product(
-            [np.arange(8), np.arange(8)], names=["one", "two"]
-        )
+        index = MultiIndex.from_product([np.arange(8), np.arange(8)], names=["one", "two"])
         result = index.get_indexer(index.values)
         tm.assert_numpy_array_equal(result, np.arange(len(index), dtype="intp"))
 

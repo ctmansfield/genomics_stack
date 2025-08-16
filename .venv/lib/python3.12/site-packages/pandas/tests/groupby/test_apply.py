@@ -32,9 +32,7 @@ def test_apply_func_that_appends_group_to_list_without_copy():
     msg = "DataFrameGroupBy.apply operated on the grouping columns"
     with tm.assert_produces_warning(FutureWarning, match=msg):
         df.groupby("index").apply(store)
-    expected_value = DataFrame(
-        {"index": [0] * 10, 0: [1] * 10}, index=pd.RangeIndex(0, 100, 10)
-    )
+    expected_value = DataFrame({"index": [0] * 10, 0: [1] * 10}, index=pd.RangeIndex(0, 100, 10))
 
     tm.assert_frame_equal(groups[0], expected_value)
 
@@ -247,9 +245,7 @@ def test_group_apply_once_per_group2(capsys):
 
     msg = "DataFrameGroupBy.apply operated on the grouping columns"
     with tm.assert_produces_warning(FutureWarning, match=msg):
-        df.groupby("group_by_column", group_keys=False).apply(
-            lambda df: print("function_called")
-        )
+        df.groupby("group_by_column", group_keys=False).apply(lambda df: print("function_called"))
 
     result = capsys.readouterr().out.count("function_called")
     # If `groupby` behaves unexpectedly, this test will break
@@ -408,9 +404,7 @@ def test_apply_series_to_frame():
     def f(piece):
         with np.errstate(invalid="ignore"):
             logged = np.log(piece)
-        return DataFrame(
-            {"value": piece, "demeaned": piece - piece.mean(), "logged": logged}
-        )
+        return DataFrame({"value": piece, "demeaned": piece - piece.mean(), "logged": logged})
 
     dr = bdate_range("1/1/2000", periods=100)
     ts = Series(np.random.default_rng(2).standard_normal(100), index=dr)
@@ -629,9 +623,7 @@ def test_apply_without_copy():
 @pytest.mark.parametrize("test_series", [True, False])
 def test_apply_with_duplicated_non_sorted_axis(test_series):
     # GH 30667
-    df = DataFrame(
-        [["x", "p"], ["x", "p"], ["x", "o"]], columns=["X", "Y"], index=[1, 2, 2]
-    )
+    df = DataFrame([["x", "p"], ["x", "p"], ["x", "o"]], columns=["X", "Y"], index=[1, 2, 2])
     if test_series:
         ser = df.set_index("Y")["X"]
         result = ser.groupby(level=0, group_keys=False).apply(lambda x: x)
@@ -701,9 +693,7 @@ def test_apply_numeric_coercion_when_datetime():
     # for which are here.
 
     # GH 15670
-    df = DataFrame(
-        {"Number": [1, 2], "Date": ["2017-03-02"] * 2, "Str": ["foo", "inf"]}
-    )
+    df = DataFrame({"Number": [1, 2], "Date": ["2017-03-02"] * 2, "Str": ["foo", "inf"]})
     msg = "DataFrameGroupBy.apply operated on the grouping columns"
     with tm.assert_produces_warning(FutureWarning, match=msg):
         expected = df.groupby(["Number"]).apply(lambda x: x.iloc[0])
@@ -714,9 +704,7 @@ def test_apply_numeric_coercion_when_datetime():
     tm.assert_series_equal(result["Str"], expected["Str"])
 
     # GH 15421
-    df = DataFrame(
-        {"A": [10, 20, 30], "B": ["foo", "3", "4"], "T": [pd.Timestamp("12:31:22")] * 3}
-    )
+    df = DataFrame({"A": [10, 20, 30], "B": ["foo", "3", "4"], "T": [pd.Timestamp("12:31:22")] * 3})
 
     def get_B(g):
         return g.iloc[0][["B"]]
@@ -790,9 +778,7 @@ def test_apply_groupby_datetimeindex():
     # groupby apply failed on dataframe with DatetimeIndex
 
     data = [["A", 10], ["B", 20], ["B", 30], ["C", 40], ["C", 50]]
-    df = DataFrame(
-        data, columns=["Name", "Value"], index=pd.date_range("2020-09-01", "2020-09-05")
-    )
+    df = DataFrame(data, columns=["Name", "Value"], index=pd.date_range("2020-09-01", "2020-09-05"))
 
     result = df.groupby("Name").sum()
 
@@ -908,9 +894,9 @@ def test_groupby_apply_return_empty_chunk():
     expected = Series(
         [0],
         name="value",
-        index=MultiIndex.from_product(
-            [["empty", "filled"], [0]], names=["group", None]
-        ).drop("empty"),
+        index=MultiIndex.from_product([["empty", "filled"], [0]], names=["group", None]).drop(
+            "empty"
+        ),
     )
     tm.assert_series_equal(result, expected)
 
@@ -1009,9 +995,7 @@ def test_apply_multi_level_name(category):
     else:
         expected_index = Index([1, 2], name="B")
         expected_values = [20, 25]
-    expected = DataFrame(
-        {"C": expected_values, "D": expected_values}, index=expected_index
-    )
+    expected = DataFrame({"C": expected_values, "D": expected_values}, index=expected_index)
 
     df = DataFrame(
         {"A": np.arange(10), "B": b, "C": list(range(10)), "D": list(range(10))}
@@ -1097,9 +1081,7 @@ def test_apply_function_returns_numpy_array():
     msg = "DataFrameGroupBy.apply operated on the grouping columns"
     with tm.assert_produces_warning(FutureWarning, match=msg):
         result = df.groupby("A").apply(fct)
-    expected = Series(
-        [[1.0, 2.0], [3.0], [np.nan]], index=Index(["a", "b", "none"], name="A")
-    )
+    expected = Series([[1.0, 2.0], [3.0], [np.nan]], index=Index(["a", "b", "none"], name="A"))
     tm.assert_series_equal(result, expected)
 
 
@@ -1180,13 +1162,9 @@ def test_apply_with_timezones_aware():
 
     msg = "DataFrameGroupBy.apply operated on the grouping columns"
     with tm.assert_produces_warning(FutureWarning, match=msg):
-        result1 = df1.groupby("x", group_keys=False).apply(
-            lambda df: df[["x", "y"]].copy()
-        )
+        result1 = df1.groupby("x", group_keys=False).apply(lambda df: df[["x", "y"]].copy())
     with tm.assert_produces_warning(FutureWarning, match=msg):
-        result2 = df2.groupby("x", group_keys=False).apply(
-            lambda df: df[["x", "y"]].copy()
-        )
+        result2 = df2.groupby("x", group_keys=False).apply(lambda df: df[["x", "y"]].copy())
 
     tm.assert_frame_equal(result1, result2)
 
@@ -1303,16 +1281,12 @@ def test_apply_dropna_with_indexed_same(dropna):
     [
         pytest.param(
             False,
-            DataFrame(
-                [[1, 1, 1], [2, 2, 1]], columns=Index(["a", "b", None], dtype=object)
-            ),
+            DataFrame([[1, 1, 1], [2, 2, 1]], columns=Index(["a", "b", None], dtype=object)),
             marks=pytest.mark.xfail(using_string_dtype(), reason="TODO(infer_string)"),
         ),
         [
             True,
-            Series(
-                [1, 1], index=MultiIndex.from_tuples([(1, 1), (2, 2)], names=["a", "b"])
-            ),
+            Series([1, 1], index=MultiIndex.from_tuples([(1, 1), (2, 2)], names=["a", "b"])),
         ],
     ],
 )
@@ -1336,9 +1310,7 @@ def test_sort_index_groups():
         result = df.groupby("C").apply(lambda x: x.A.sort_index())
     expected = Series(
         range(1, 6),
-        index=MultiIndex.from_tuples(
-            [(1, 0), (1, 1), (1, 2), (2, 3), (2, 4)], names=["C", None]
-        ),
+        index=MultiIndex.from_tuples([(1, 0), (1, 1), (1, 2), (2, 3), (2, 4)], names=["C", None]),
         name="A",
     )
     tm.assert_series_equal(result, expected)
@@ -1355,9 +1327,9 @@ def test_positional_slice_groups_datetimelike():
     )
     msg = "DataFrameGroupBy.apply operated on the grouping columns"
     with tm.assert_produces_warning(FutureWarning, match=msg):
-        result = expected.groupby(
-            [expected.let, expected.date.dt.date], group_keys=False
-        ).apply(lambda x: x.iloc[0:])
+        result = expected.groupby([expected.let, expected.date.dt.date], group_keys=False).apply(
+            lambda x: x.iloc[0:]
+        )
     tm.assert_frame_equal(result, expected)
 
 
@@ -1367,9 +1339,7 @@ def test_groupby_apply_shape_cache_safety():
     gb = df.groupby("A")
     result = gb[["B", "C"]].apply(lambda x: x.astype(float).max() - x.min())
 
-    expected = DataFrame(
-        {"B": [1.0, 0.0], "C": [2.0, 0.0]}, index=Index(["a", "b"], name="A")
-    )
+    expected = DataFrame({"B": [1.0, 0.0], "C": [2.0, 0.0]}, index=Index(["a", "b"], name="A"))
     tm.assert_frame_equal(result, expected)
 
 
@@ -1396,9 +1366,7 @@ def test_groupby_apply_to_series_name():
 @pytest.mark.parametrize("dropna", [True, False])
 def test_apply_na(dropna):
     # GH#28984
-    df = DataFrame(
-        {"grp": [1, 1, 2, 2], "y": [1, 0, 2, 5], "z": [1, 2, np.nan, np.nan]}
-    )
+    df = DataFrame({"grp": [1, 1, 2, 2], "y": [1, 0, 2, 5], "z": [1, 2, np.nan, np.nan]})
     dfgrp = df.groupby("grp", dropna=dropna)
     msg = "DataFrameGroupBy.apply operated on the grouping columns"
     with tm.assert_produces_warning(FutureWarning, match=msg):
@@ -1449,9 +1417,7 @@ def test_apply_index_key_error_bug(index_values):
     )
     msg = "DataFrameGroupBy.apply operated on the grouping columns"
     with tm.assert_produces_warning(FutureWarning, match=msg):
-        result = result.groupby("a").apply(
-            lambda df: Series([df["b"].mean()], index=["b_mean"])
-        )
+        result = result.groupby("a").apply(lambda df: Series([df["b"].mean()], index=["b_mean"]))
     tm.assert_frame_equal(result, expected)
 
 
@@ -1541,9 +1507,7 @@ def test_empty_df(method, op):
     group = getattr(gb, "b")
 
     result = getattr(group, method)(op)
-    expected = Series(
-        [], name="b", dtype="float64", index=Index([], dtype="float64", name="a")
-    )
+    expected = Series([], name="b", dtype="float64", index=Index([], dtype="float64", name="a"))
 
     tm.assert_series_equal(result, expected)
 

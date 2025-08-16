@@ -91,28 +91,19 @@ class TestDataFrameAlign:
         af, bf = float_frame.align(other, join="inner", axis=1)
         tm.assert_index_equal(bf.columns, other.columns)
 
-        msg = (
-            "The 'method', 'limit', and 'fill_axis' keywords in DataFrame.align "
-            "are deprecated"
-        )
+        msg = "The 'method', 'limit', and 'fill_axis' keywords in DataFrame.align " "are deprecated"
         with tm.assert_produces_warning(FutureWarning, match=msg):
             af, bf = float_frame.align(other, join="inner", axis=1, method="pad")
         tm.assert_index_equal(bf.columns, other.columns)
 
-        msg = (
-            "The 'method', 'limit', and 'fill_axis' keywords in DataFrame.align "
-            "are deprecated"
-        )
+        msg = "The 'method', 'limit', and 'fill_axis' keywords in DataFrame.align " "are deprecated"
         with tm.assert_produces_warning(FutureWarning, match=msg):
             af, bf = float_frame.align(
                 other.iloc[:, 0], join="inner", axis=1, method=None, fill_value=None
             )
         tm.assert_index_equal(bf.index, Index([]).astype(bf.index.dtype))
 
-        msg = (
-            "The 'method', 'limit', and 'fill_axis' keywords in DataFrame.align "
-            "are deprecated"
-        )
+        msg = "The 'method', 'limit', and 'fill_axis' keywords in DataFrame.align " "are deprecated"
         with tm.assert_produces_warning(FutureWarning, match=msg):
             af, bf = float_frame.align(
                 other.iloc[:, 0], join="inner", axis=1, method=None, fill_value=0
@@ -139,9 +130,7 @@ class TestDataFrameAlign:
             left, right = float_frame.align(s, broadcast_axis=1)
         tm.assert_index_equal(left.index, float_frame.index)
         expected = {c: s for c in float_frame.columns}
-        expected = DataFrame(
-            expected, index=float_frame.index, columns=float_frame.columns
-        )
+        expected = DataFrame(expected, index=float_frame.index, columns=float_frame.columns)
         tm.assert_frame_equal(right, expected)
 
     def test_align_series_condition(self):
@@ -159,19 +148,13 @@ class TestDataFrameAlign:
         # test other non-float types
         other = DataFrame(index=range(5), columns=["A", "B", "C"])
 
-        msg = (
-            "The 'method', 'limit', and 'fill_axis' keywords in DataFrame.align "
-            "are deprecated"
-        )
+        msg = "The 'method', 'limit', and 'fill_axis' keywords in DataFrame.align " "are deprecated"
         with tm.assert_produces_warning(FutureWarning, match=msg):
             af, bf = int_frame.align(other, join="inner", axis=1, method="pad")
         tm.assert_index_equal(bf.columns, other.columns)
 
     def test_align_mixed_type(self, float_string_frame):
-        msg = (
-            "The 'method', 'limit', and 'fill_axis' keywords in DataFrame.align "
-            "are deprecated"
-        )
+        msg = "The 'method', 'limit', and 'fill_axis' keywords in DataFrame.align " "are deprecated"
         with tm.assert_produces_warning(FutureWarning, match=msg):
             af, bf = float_string_frame.align(
                 float_string_frame, join="inner", axis=1, method="pad"
@@ -182,10 +165,7 @@ class TestDataFrameAlign:
         # mixed floats/ints
         other = DataFrame(index=range(5), columns=["A", "B", "C"])
 
-        msg = (
-            "The 'method', 'limit', and 'fill_axis' keywords in DataFrame.align "
-            "are deprecated"
-        )
+        msg = "The 'method', 'limit', and 'fill_axis' keywords in DataFrame.align " "are deprecated"
         with tm.assert_produces_warning(FutureWarning, match=msg):
             af, bf = mixed_float_frame.align(
                 other.iloc[:, 0], join="inner", axis=1, method=None, fill_value=0
@@ -195,10 +175,7 @@ class TestDataFrameAlign:
     def test_align_mixed_int(self, mixed_int_frame):
         other = DataFrame(index=range(5), columns=["A", "B", "C"])
 
-        msg = (
-            "The 'method', 'limit', and 'fill_axis' keywords in DataFrame.align "
-            "are deprecated"
-        )
+        msg = "The 'method', 'limit', and 'fill_axis' keywords in DataFrame.align " "are deprecated"
         with tm.assert_produces_warning(FutureWarning, match=msg):
             af, bf = mixed_int_frame.align(
                 other.iloc[:, 0], join="inner", axis=1, method=None, fill_value=0
@@ -242,9 +219,7 @@ class TestDataFrameAlign:
         # GH#10665
         # same test cases as test_align_multiindex in test_series.py
 
-        midx = pd.MultiIndex.from_product(
-            [range(2), range(3), range(2)], names=("a", "b", "c")
-        )
+        midx = pd.MultiIndex.from_product([range(2), range(3), range(2)], names=("a", "b", "c"))
         idx = Index(range(2), name="b")
         df1 = DataFrame(np.arange(12, dtype="int64"), index=midx)
         df2 = DataFrame(np.arange(2, dtype="int64"), index=idx)
@@ -263,9 +238,7 @@ class TestDataFrameAlign:
         res1l, res1r = df1.align(df2, join="right")
         res2l, res2r = df2.align(df1, join="left")
 
-        exp_idx = pd.MultiIndex.from_product(
-            [range(2), range(2), range(2)], names=("a", "b", "c")
-        )
+        exp_idx = pd.MultiIndex.from_product([range(2), range(2), range(2)], names=("a", "b", "c"))
         expl = DataFrame([0, 1, 2, 3, 6, 7, 8, 9], index=exp_idx)
         tm.assert_frame_equal(expl, res1l)
         tm.assert_frame_equal(expl, res2r)
@@ -315,9 +288,7 @@ class TestDataFrameAlign:
         foo_index = Index([1, 2, 3], name="foo")
         bar_index = Index([1, 2], name="bar")
 
-        series = Series(
-            [1, 2, 3, 4], index=Index([1, 2, 3, 4], name="bar"), name="foo_series"
-        )
+        series = Series([1, 2, 3, 4], index=Index([1, 2, 3, 4], name="bar"), name="foo_series")
         df = DataFrame(
             {"col": np.arange(6)},
             index=pd.MultiIndex.from_product([foo_index, bar_index]),
@@ -340,9 +311,7 @@ class TestDataFrameAlign:
             index=pd.MultiIndex.from_product([foo_index, bar_index]),
         )
 
-        expected_r = Series(
-            [1, 2, np.nan, np.nan] * 3, index=df.index, name="foo_series"
-        )
+        expected_r = Series([1, 2, np.nan, np.nan] * 3, index=df.index, name="foo_series")
         result_l, result_r = df.align(series, axis=0)
 
         tm.assert_frame_equal(result_l, df)
@@ -353,9 +322,7 @@ class TestDataFrameAlign:
         foo_index = Index([1, 2, 3], name="foo")
         bar_index = Index([1, 3, 4], name="bar")
 
-        series = Series(
-            [1, 2, 3], index=Index([1, 2, 4], name="bar"), name="foo_series"
-        )
+        series = Series([1, 2, 3], index=Index([1, 2, 4], name="bar"), name="foo_series")
         df = DataFrame(
             {"col": np.arange(9)},
             index=pd.MultiIndex.from_product([foo_index, bar_index]),
@@ -418,10 +385,7 @@ class TestDataFrameAlign:
         left = frame.iloc[left_slice[0], left_slice[1]]
         right = frame.iloc[right_slice[0], right_slice[1]]
 
-        msg = (
-            "The 'method', 'limit', and 'fill_axis' keywords in DataFrame.align "
-            "are deprecated"
-        )
+        msg = "The 'method', 'limit', and 'fill_axis' keywords in DataFrame.align " "are deprecated"
 
         with tm.assert_produces_warning(FutureWarning, match=msg):
             aa, ab = left.align(

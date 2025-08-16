@@ -410,9 +410,7 @@ def test_period(request, transform_assert_equal):
     inp = transform(idx)
 
     if not isinstance(inp, Index):
-        request.applymarker(
-            pytest.mark.xfail(reason="Missing PeriodDtype support in to_numeric")
-        )
+        request.applymarker(pytest.mark.xfail(reason="Missing PeriodDtype support in to_numeric"))
     result = to_numeric(inp)
     expected = transform(idx.asi8)
     assert_equal(result, expected)
@@ -536,9 +534,7 @@ def test_ignore_downcast_neg_to_unsigned():
         (["1.1", 2, 3], np.array([1.1, 2, 3], dtype=np.float64)),
         (
             [10000.0, 20000, 3000, 40000.36, 50000, 50000.00],
-            np.array(
-                [10000.0, 20000, 3000, 40000.36, 50000, 50000.00], dtype=np.float64
-            ),
+            np.array([10000.0, 20000, 3000, 40000.36, 50000, 50000.00], dtype=np.float64),
         ),
     ],
 )
@@ -842,9 +838,7 @@ def test_to_numeric_large_float_not_downcast_to_float_32(val):
     tm.assert_series_equal(result, expected)
 
 
-@pytest.mark.parametrize(
-    "val, dtype", [(1, "Int64"), (1.5, "Float64"), (True, "boolean")]
-)
+@pytest.mark.parametrize("val, dtype", [(1, "Int64"), (1.5, "Float64"), (True, "boolean")])
 def test_to_numeric_dtype_backend(val, dtype):
     # GH#50505
     ser = Series([val], dtype=object)
@@ -961,10 +955,7 @@ def test_to_numeric_dtype_backend_error(dtype_backend):
 
 def test_invalid_dtype_backend():
     ser = Series([1, 2, 3])
-    msg = (
-        "dtype_backend numpy is invalid, only 'numpy_nullable' and "
-        "'pyarrow' are allowed."
-    )
+    msg = "dtype_backend numpy is invalid, only 'numpy_nullable' and " "'pyarrow' are allowed."
     with pytest.raises(ValueError, match=msg):
         to_numeric(ser, dtype_backend="numpy")
 

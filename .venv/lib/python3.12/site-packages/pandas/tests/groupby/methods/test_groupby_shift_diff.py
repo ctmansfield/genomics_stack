@@ -133,9 +133,7 @@ def test_group_diff_bool():
 
 
 def test_group_diff_object_raises(object_dtype):
-    df = DataFrame(
-        {"a": ["foo", "bar", "bar"], "b": ["baz", "foo", "foo"]}, dtype=object_dtype
-    )
+    df = DataFrame({"a": ["foo", "bar", "bar"], "b": ["baz", "foo", "foo"]}, dtype=object_dtype)
     with pytest.raises(TypeError, match=r"unsupported operand type\(s\) for -"):
         df.groupby("a")["b"].diff()
 
@@ -171,9 +169,7 @@ def test_shift_deprecate_freq_and_fill_value():
     # GH 53832
     data = {"a": [1, 2, 3, 4, 5, 6], "b": [0, 0, 0, 1, 1, 1]}
     df = DataFrame(data, index=date_range(start="20100101", periods=6))
-    msg = (
-        "Passing a 'freq' together with a 'fill_value' silently ignores the fill_value"
-    )
+    msg = "Passing a 'freq' together with a 'fill_value' silently ignores the fill_value"
     with tm.assert_produces_warning(FutureWarning, match=msg):
         df.groupby(df.index).shift(periods=-2, freq="D", fill_value="1")
 
@@ -192,9 +188,7 @@ def test_group_shift_with_multiple_periods():
     df = DataFrame({"a": [1, 2, 3, 3, 2], "b": [True, True, False, False, True]})
 
     shifted_df = df.groupby("b")[["a"]].shift([0, 1])
-    expected_df = DataFrame(
-        {"a_0": [1, 2, 3, 3, 2], "a_1": [np.nan, 1.0, np.nan, 3.0, 2.0]}
-    )
+    expected_df = DataFrame({"a_0": [1, 2, 3, 3, 2], "a_1": [np.nan, 1.0, np.nan, 3.0, 2.0]})
     tm.assert_frame_equal(shifted_df, expected_df)
 
     # series
@@ -247,9 +241,6 @@ def test_group_shift_with_multiple_periods_and_both_fill_and_freq_deprecated():
         {"a": [1, 2, 3, 4, 5], "b": [True, True, False, False, True]},
         index=date_range("1/1/2000", periods=5, freq="h"),
     )
-    msg = (
-        "Passing a 'freq' together with a 'fill_value' silently ignores the "
-        "fill_value"
-    )
+    msg = "Passing a 'freq' together with a 'fill_value' silently ignores the " "fill_value"
     with tm.assert_produces_warning(FutureWarning, match=msg):
         df.groupby("b")[["a"]].shift([1, 2], fill_value=1, freq="h")

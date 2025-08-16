@@ -391,9 +391,7 @@ def test_info_memory_usage():
     # test for validity
     DataFrame(1, index=["a"], columns=["A"]).memory_usage(index=True)
     DataFrame(1, index=["a"], columns=["A"]).index.nbytes
-    df = DataFrame(
-        data=1, index=MultiIndex.from_product([["a"], range(1000)]), columns=["A"]
-    )
+    df = DataFrame(data=1, index=MultiIndex.from_product([["a"], range(1000)]), columns=["A"])
     df.index.nbytes
     df.memory_usage(index=True)
     df.index.values.nbytes
@@ -428,9 +426,7 @@ def test_info_memory_usage_deep_pypy():
 
 @pytest.mark.skipif(PYPY, reason="PyPy getsizeof() fails by design")
 def test_usage_via_getsizeof():
-    df = DataFrame(
-        data=1, index=MultiIndex.from_product([["a"], range(1000)]), columns=["A"]
-    )
+    df = DataFrame(data=1, index=MultiIndex.from_product([["a"], range(1000)]), columns=["A"])
     mem = df.memory_usage(deep=True).sum()
     # sys.getsizeof will call the .memory_usage with
     # deep=True, and add on some GC overhead
@@ -458,16 +454,12 @@ def test_info_memory_usage_qualified(using_infer_string):
         assert "+" in buf.getvalue()
 
     buf = StringIO()
-    df = DataFrame(
-        1, columns=list("ab"), index=MultiIndex.from_product([range(3), range(3)])
-    )
+    df = DataFrame(1, columns=list("ab"), index=MultiIndex.from_product([range(3), range(3)]))
     df.info(buf=buf)
     assert "+" not in buf.getvalue()
 
     buf = StringIO()
-    df = DataFrame(
-        1, columns=list("ab"), index=MultiIndex.from_product([range(3), ["foo", "bar"]])
-    )
+    df = DataFrame(1, columns=list("ab"), index=MultiIndex.from_product([range(3), ["foo", "bar"]]))
     df.info(buf=buf)
     if using_infer_string and HAS_PYARROW:
         assert "+" not in buf.getvalue()
@@ -488,9 +480,7 @@ def test_info_memory_usage_bug_on_multiindex():
         [list(ascii_uppercase), date_range("20160101", periods=N)],
         names=["id", "date"],
     )
-    df = DataFrame(
-        {"value": np.random.default_rng(2).standard_normal(N * M)}, index=index
-    )
+    df = DataFrame({"value": np.random.default_rng(2).standard_normal(N * M)}, index=index)
 
     unstacked = df.unstack("id")
     assert df.values.nbytes == unstacked.values.nbytes
@@ -581,9 +571,7 @@ def test_info_show_counts(row, columns, show_counts, result):
     df = DataFrame(1, columns=range(10), index=range(10)).astype({1: "float"})
     df.iloc[1, 1] = np.nan
 
-    with option_context(
-        "display.max_info_rows", row, "display.max_info_columns", columns
-    ):
+    with option_context("display.max_info_rows", row, "display.max_info_columns", columns):
         with StringIO() as buf:
             df.info(buf=buf, show_counts=show_counts)
             assert ("non-null" in buf.getvalue()) is result

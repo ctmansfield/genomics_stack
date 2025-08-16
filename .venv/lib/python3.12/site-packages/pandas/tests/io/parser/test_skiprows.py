@@ -41,13 +41,9 @@ def test_skip_rows_bug(all_parsers, skiprows):
     result = parser.read_csv(
         StringIO(text), skiprows=skiprows, header=None, index_col=0, parse_dates=True
     )
-    index = Index(
-        [datetime(2000, 1, 1), datetime(2000, 1, 2), datetime(2000, 1, 3)], name=0
-    )
+    index = Index([datetime(2000, 1, 1), datetime(2000, 1, 2), datetime(2000, 1, 3)], name=0)
 
-    expected = DataFrame(
-        np.arange(1.0, 10.0).reshape((3, 3)), columns=[1, 2, 3], index=index
-    )
+    expected = DataFrame(np.arange(1.0, 10.0).reshape((3, 3)), columns=[1, 2, 3], index=index)
     tm.assert_frame_equal(result, expected)
 
 
@@ -55,9 +51,7 @@ def test_skip_rows_bug(all_parsers, skiprows):
 def test_deep_skip_rows(all_parsers):
     # see gh-4382
     parser = all_parsers
-    data = "a,b,c\n" + "\n".join(
-        [",".join([str(i), str(i + 1), str(i + 2)]) for i in range(10)]
-    )
+    data = "a,b,c\n" + "\n".join([",".join([str(i), str(i + 1), str(i + 2)]) for i in range(10)])
     condensed_data = "a,b,c\n" + "\n".join(
         [",".join([str(i), str(i + 1), str(i + 2)]) for i in [0, 1, 2, 3, 4, 6, 8, 9]]
     )
@@ -81,16 +75,10 @@ def test_skip_rows_blank(all_parsers):
 1/2/2000,4,5,6
 1/3/2000,7,8,9
 """
-    data = parser.read_csv(
-        StringIO(text), skiprows=6, header=None, index_col=0, parse_dates=True
-    )
-    index = Index(
-        [datetime(2000, 1, 1), datetime(2000, 1, 2), datetime(2000, 1, 3)], name=0
-    )
+    data = parser.read_csv(StringIO(text), skiprows=6, header=None, index_col=0, parse_dates=True)
+    index = Index([datetime(2000, 1, 1), datetime(2000, 1, 2), datetime(2000, 1, 3)], name=0)
 
-    expected = DataFrame(
-        np.arange(1.0, 10.0).reshape((3, 3)), columns=[1, 2, 3], index=index
-    )
+    expected = DataFrame(np.arange(1.0, 10.0).reshape((3, 3)), columns=[1, 2, 3], index=index)
     tm.assert_frame_equal(data, expected)
 
 
@@ -188,9 +176,7 @@ def test_skip_row_with_newline_and_quote(all_parsers, data, exp_data):
 
 
 @xfail_pyarrow  # ValueError: The 'delim_whitespace' option is not supported
-@pytest.mark.parametrize(
-    "lineterminator", ["\n", "\r\n", "\r"]  # "LF"  # "CRLF"  # "CR"
-)
+@pytest.mark.parametrize("lineterminator", ["\n", "\r\n", "\r"])  # "LF"  # "CRLF"  # "CR"
 def test_skiprows_lineterminator(all_parsers, lineterminator, request):
     # see gh-9079
     parser = all_parsers
@@ -218,9 +204,7 @@ def test_skiprows_lineterminator(all_parsers, lineterminator, request):
     data = data.replace("\n", lineterminator)
 
     depr_msg = "The 'delim_whitespace' keyword in pd.read_csv is deprecated"
-    with tm.assert_produces_warning(
-        FutureWarning, match=depr_msg, check_stacklevel=False
-    ):
+    with tm.assert_produces_warning(FutureWarning, match=depr_msg, check_stacklevel=False):
         result = parser.read_csv(
             StringIO(data),
             skiprows=1,
@@ -263,9 +247,7 @@ def test_skip_rows_callable_not_in(all_parsers):
     data = "0,a\n1,b\n2,c\n3,d\n4,e"
     expected = DataFrame([[1, "b"], [3, "d"]])
 
-    result = parser.read_csv(
-        StringIO(data), header=None, skiprows=lambda x: x not in [1, 3]
-    )
+    result = parser.read_csv(StringIO(data), header=None, skiprows=lambda x: x not in [1, 3])
     tm.assert_frame_equal(result, expected)
 
 

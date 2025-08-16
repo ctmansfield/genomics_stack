@@ -139,9 +139,7 @@ class TestSelectDtypes:
         e = df[["b", "e"]]
         tm.assert_frame_equal(r, e)
 
-    @pytest.mark.parametrize(
-        "include", [(np.bool_, "int"), (np.bool_, "integer"), ("bool", int)]
-    )
+    @pytest.mark.parametrize("include", [(np.bool_, "int"), (np.bool_, "integer"), ("bool", int)])
     def test_select_dtypes_exclude_include_int(self, include):
         # Fix select_dtypes(include='int') for Windows, FYI #36596
         df = DataFrame(
@@ -288,9 +286,7 @@ class TestSelectDtypes:
         )
         df.columns = ["a", "a", "b", "b", "b", "c"]
 
-        expected = DataFrame(
-            {"a": list(range(1, 4)), "b": np.arange(3, 6).astype("u1")}
-        )
+        expected = DataFrame({"a": list(range(1, 4)), "b": np.arange(3, 6).astype("u1")})
 
         result = df.select_dtypes(include=[np.number], exclude=["floating"])
         tm.assert_frame_equal(result, expected)
@@ -430,15 +426,15 @@ class TestSelectDtypes:
         "expected, float_dtypes",
         [
             [
-                DataFrame(
-                    {"A": range(3), "B": range(5, 8), "C": range(10, 7, -1)}
-                ).astype(dtype={"A": float, "B": np.float64, "C": np.float32}),
+                DataFrame({"A": range(3), "B": range(5, 8), "C": range(10, 7, -1)}).astype(
+                    dtype={"A": float, "B": np.float64, "C": np.float32}
+                ),
                 float,
             ],
             [
-                DataFrame(
-                    {"A": range(3), "B": range(5, 8), "C": range(10, 7, -1)}
-                ).astype(dtype={"A": float, "B": np.float64, "C": np.float32}),
+                DataFrame({"A": range(3), "B": range(5, 8), "C": range(10, 7, -1)}).astype(
+                    dtype={"A": float, "B": np.float64, "C": np.float32}
+                ),
                 "float",
             ],
             [DataFrame({"C": range(10, 7, -1)}, dtype=np.float32), np.float32],

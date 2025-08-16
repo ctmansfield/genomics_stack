@@ -19,13 +19,9 @@ def test_expanding_apply_consistency_sum_nans(request, all_data, min_periods, f)
         if not no_nans(all_data) and not (
             all_na(all_data) and not all_data.empty and min_periods > 0
         ):
-            request.applymarker(
-                pytest.mark.xfail(reason="np.sum has different behavior with NaNs")
-            )
+            request.applymarker(pytest.mark.xfail(reason="np.sum has different behavior with NaNs"))
     expanding_f_result = all_data.expanding(min_periods=min_periods).sum()
-    expanding_apply_f_result = all_data.expanding(min_periods=min_periods).apply(
-        func=f, raw=True
-    )
+    expanding_apply_f_result = all_data.expanding(min_periods=min_periods).apply(func=f, raw=True)
     tm.assert_equal(expanding_f_result, expanding_apply_f_result)
 
 
@@ -75,9 +71,7 @@ def test_expanding_consistency_var_std_cov(all_data, min_periods, ddof):
 
 @pytest.mark.parametrize("ddof", [0, 1])
 def test_expanding_consistency_series_cov_corr(series_data, min_periods, ddof):
-    var_x_plus_y = (
-        (series_data + series_data).expanding(min_periods=min_periods).var(ddof=ddof)
-    )
+    var_x_plus_y = (series_data + series_data).expanding(min_periods=min_periods).var(ddof=ddof)
     var_x = series_data.expanding(min_periods=min_periods).var(ddof=ddof)
     var_y = series_data.expanding(min_periods=min_periods).var(ddof=ddof)
     cov_x_y = series_data.expanding(min_periods=min_periods).cov(series_data, ddof=ddof)
@@ -97,9 +91,7 @@ def test_expanding_consistency_series_cov_corr(series_data, min_periods, ddof):
         # mean(x)*mean(y)
         mean_x = series_data.expanding(min_periods=min_periods).mean()
         mean_y = series_data.expanding(min_periods=min_periods).mean()
-        mean_x_times_y = (
-            (series_data * series_data).expanding(min_periods=min_periods).mean()
-        )
+        mean_x_times_y = (series_data * series_data).expanding(min_periods=min_periods).mean()
         tm.assert_equal(cov_x_y, mean_x_times_y - (mean_x * mean_y))
 
 

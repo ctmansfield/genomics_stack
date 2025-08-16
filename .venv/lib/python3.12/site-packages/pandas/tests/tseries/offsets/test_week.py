@@ -4,6 +4,7 @@ Tests for the following offsets:
 - WeekOfMonth
 - LastWeekOfMonth
 """
+
 from __future__ import annotations
 
 from datetime import (
@@ -161,9 +162,7 @@ class TestWeekOfMonth:
             WeekOfMonth(n=1, week=0, weekday=-7)
 
     def test_repr(self):
-        assert (
-            repr(WeekOfMonth(weekday=1, week=2)) == "<WeekOfMonth: week=2, weekday=1>"
-        )
+        assert repr(WeekOfMonth(weekday=1, week=2)) == "<WeekOfMonth: week=2, weekday=1>"
 
     def test_offset(self):
         date1 = datetime(2011, 1, 4)  # 1st Tuesday of Month
@@ -346,6 +345,4 @@ class TestLastWeekOfMonth:
         assert fast == slow
 
     def test_repr(self):
-        assert (
-            repr(LastWeekOfMonth(n=2, weekday=1)) == "<2 * LastWeekOfMonths: weekday=1>"
-        )
+        assert repr(LastWeekOfMonth(n=2, weekday=1)) == "<2 * LastWeekOfMonths: weekday=1>"

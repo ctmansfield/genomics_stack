@@ -3,6 +3,7 @@ Module responsible for execution of NDFrame.describe() method.
 
 Method NDFrame.describe() delegates actual execution to function describe_ndframe().
 """
+
 from __future__ import annotations
 
 from abc import (
@@ -351,11 +352,7 @@ def describe_timestamp_1d(data: Series, percentiles: Sequence[float]) -> Series:
     formatted_percentiles = format_percentiles(percentiles)
 
     stat_index = ["count", "mean", "min"] + formatted_percentiles + ["max"]
-    d = (
-        [data.count(), data.mean(), data.min()]
-        + data.quantile(percentiles).tolist()
-        + [data.max()]
-    )
+    d = [data.count(), data.mean(), data.min()] + data.quantile(percentiles).tolist() + [data.max()]
     return Series(d, index=stat_index, name=data.name)
 
 

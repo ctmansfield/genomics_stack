@@ -52,9 +52,7 @@ def set_numba_data(index: Index):
     if numba_data.dtype in (object, "string"):
         numba_data = np.asarray(numba_data)
         if not lib.is_string_array(numba_data):
-            raise ValueError(
-                "The numba engine only supports using string or numeric column names"
-            )
+            raise ValueError("The numba engine only supports using string or numeric column names")
         numba_data = numba_data.astype("U")
     try:
         index._numba_data = numba_data
@@ -300,9 +298,7 @@ def unbox_index(typ, obj, c):
     # equiv of numba.typed.Dict.empty(typ.dtype, types.intp)
     arr_type_obj = c.pyapi.unserialize(c.pyapi.serialize_object(typ.dtype))
     intp_type_obj = c.pyapi.unserialize(c.pyapi.serialize_object(types.intp))
-    hashmap_obj = c.pyapi.call_method(
-        typed_dict_obj, "empty", (arr_type_obj, intp_type_obj)
-    )
+    hashmap_obj = c.pyapi.call_method(typed_dict_obj, "empty", (arr_type_obj, intp_type_obj))
     index.hashmap = c.unbox(types.DictType(typ.dtype, types.intp), hashmap_obj).value
     # Set the parent for speedy boxing.
     index.parent = obj
@@ -390,9 +386,7 @@ def box_series(typ, val, c):
     """
     series = cgutils.create_struct_proxy(typ)(c.context, c.builder, value=val)
     series_const_obj = c.pyapi.unserialize(c.pyapi.serialize_object(Series._from_mgr))
-    mgr_const_obj = c.pyapi.unserialize(
-        c.pyapi.serialize_object(SingleBlockManager.from_array)
-    )
+    mgr_const_obj = c.pyapi.unserialize(c.pyapi.serialize_object(SingleBlockManager.from_array))
     index_obj = c.box(typ.index, series.index)
     array_obj = c.box(typ.as_array, series.values)
     name_obj = c.box(typ.namety, series.name)
@@ -410,9 +404,7 @@ def box_series(typ, val, c):
     )
     mgr_axes_obj = c.pyapi.object_getattr_string(mgr_obj, "axes")
     # Series._constructor_from_mgr(mgr, axes)
-    series_obj = c.pyapi.call_function_objargs(
-        series_const_obj, (mgr_obj, mgr_axes_obj)
-    )
+    series_obj = c.pyapi.call_function_objargs(series_const_obj, (mgr_obj, mgr_axes_obj))
     c.pyapi.object_setattr_string(series_obj, "_name", name_obj)
 
     # Decrefs
@@ -458,9 +450,7 @@ def generate_series_binop(binop):
             else:
 
                 def series_binop_impl(series1, value):
-                    return Series(
-                        binop(series1.values, value), series1.index, series1.name
-                    )
+                    return Series(binop(series1.values, value), series1.index, series1.name)
 
                 return series_binop_impl
 
@@ -552,9 +542,7 @@ def iloc_constructor(context, builder, sig, args):
     (obj,) = args
     iloc_indexer = cgutils.create_struct_proxy(sig.return_type)(context, builder)
     iloc_indexer.obj = obj
-    return impl_ret_borrowed(
-        context, builder, sig.return_type, iloc_indexer._getvalue()
-    )
+    return impl_ret_borrowed(context, builder, sig.return_type, iloc_indexer._getvalue())
 
 
 @register_model(IlocType)

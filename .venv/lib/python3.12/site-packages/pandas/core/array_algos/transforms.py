@@ -15,9 +15,7 @@ if TYPE_CHECKING:
     )
 
 
-def shift(
-    values: np.ndarray, periods: int, axis: AxisInt, fill_value: Scalar
-) -> np.ndarray:
+def shift(values: np.ndarray, periods: int, axis: AxisInt, fill_value: Scalar) -> np.ndarray:
     new_values = values
 
     if periods == 0 or values.size == 0:

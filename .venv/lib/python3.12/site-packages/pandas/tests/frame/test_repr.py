@@ -62,9 +62,7 @@ class TestDataFrameRepr:
 
     def test_assign_index_sequences(self):
         # GH#2200
-        df = DataFrame({"a": [1, 2, 3], "b": [4, 5, 6], "c": [7, 8, 9]}).set_index(
-            ["a", "b"]
-        )
+        df = DataFrame({"a": [1, 2, 3], "b": [4, 5, 6], "c": [7, 8, 9]}).set_index(["a", "b"])
         index = list(df.index)
         index[0] = ("faz", "boo")
         df.index = index
@@ -119,9 +117,7 @@ NaT   4"""
         repr(idf)
 
     def test_repr_name_coincide(self):
-        index = MultiIndex.from_tuples(
-            [("a", 0, "foo"), ("b", 1, "bar")], names=["a", "b", "c"]
-        )
+        index = MultiIndex.from_tuples([("a", 0, "foo"), ("b", 1, "bar")], names=["a", "b", "c"])
 
         df = DataFrame({"value": [0, 1]}, index=index)
 
@@ -294,9 +290,7 @@ NaT   4"""
 \bottomrule
 \end{tabular}
 """
-        with option_context(
-            "styler.format.escape", None, "styler.render.repr", "latex"
-        ):
+        with option_context("styler.format.escape", None, "styler.render.repr", "latex"):
             df = DataFrame([[r"$\alpha$", "b", "c"], [1, 2, 3]])
             result = df._repr_latex_()
             assert result == expected
@@ -312,9 +306,7 @@ NaT   4"""
 
     def test_repr_with_intervalindex(self):
         # https://github.com/pandas-dev/pandas/pull/24134/files
-        df = DataFrame(
-            {"A": [1, 2, 3, 4]}, index=IntervalIndex.from_breaks([0, 1, 2, 3, 4])
-        )
+        df = DataFrame({"A": [1, 2, 3, 4]}, index=IntervalIndex.from_breaks([0, 1, 2, 3, 4]))
         result = repr(df)
         expected = "        A\n(0, 1]  1\n(1, 2]  2\n(2, 3]  3\n(3, 4]  4"
         assert result == expected
@@ -398,9 +390,7 @@ NaT   4"""
 
     def test_to_records_with_na_record_value(self):
         # GH 48526
-        df = DataFrame(
-            [["a", np.nan], ["c", "d"], ["e", "f"]], columns=["left", "right"]
-        )
+        df = DataFrame([["a", np.nan], ["c", "d"], ["e", "f"]], columns=["left", "right"])
         df["record"] = df[["left", "right"]].to_records()
         expected = """  left right       record
 0    a   NaN  [0, a, nan]
@@ -411,9 +401,7 @@ NaT   4"""
 
     def test_to_records_with_na_record(self):
         # GH 48526
-        df = DataFrame(
-            [["a", "b"], [np.nan, np.nan], ["e", "f"]], columns=[np.nan, "right"]
-        )
+        df = DataFrame([["a", "b"], [np.nan, np.nan], ["e", "f"]], columns=[np.nan, "right"])
         df["record"] = df[[np.nan, "right"]].to_records()
         expected = """   NaN right         record
 0    a     b      [0, a, b]

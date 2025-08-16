@@ -135,9 +135,7 @@ def test_to_csv_fsspec_object(cleared_fs, binary_mode, df1):
 
 def test_csv_options(fsspectest):
     df = DataFrame({"a": [0]})
-    df.to_csv(
-        "testmem://test/test.csv", storage_options={"test": "csv_write"}, index=False
-    )
+    df.to_csv("testmem://test/test.csv", storage_options={"test": "csv_write"}, index=False)
     assert fsspectest.test[0] == "csv_write"
     read_csv("testmem://test/test.csv", storage_options={"test": "csv_read"})
     assert fsspectest.test[0] == "csv_read"
@@ -146,9 +144,7 @@ def test_csv_options(fsspectest):
 def test_read_table_options(fsspectest):
     # GH #39167
     df = DataFrame({"a": [0]})
-    df.to_csv(
-        "testmem://test/test.csv", storage_options={"test": "csv_write"}, index=False
-    )
+    df.to_csv("testmem://test/test.csv", storage_options={"test": "csv_write"}, index=False)
     assert fsspectest.test[0] == "csv_write"
     read_table("testmem://test/test.csv", storage_options={"test": "csv_read"})
     assert fsspectest.test[0] == "csv_read"
@@ -172,9 +168,7 @@ def test_to_parquet_new_file(cleared_fs, df1):
     """Regression test for writing to a not-yet-existent GCS Parquet file."""
     pytest.importorskip("fastparquet")
 
-    df1.to_parquet(
-        "memory://test/test.csv", index=True, engine="fastparquet", compression=None
-    )
+    df1.to_parquet("memory://test/test.csv", index=True, engine="fastparquet", compression=None)
 
 
 def test_arrowparquet_options(fsspectest):
@@ -221,22 +215,16 @@ def test_fastparquet_options(fsspectest):
 def test_from_s3_csv(s3_public_bucket_with_data, tips_file, s3so):
     pytest.importorskip("s3fs")
     tm.assert_equal(
-        read_csv(
-            f"s3://{s3_public_bucket_with_data.name}/tips.csv", storage_options=s3so
-        ),
+        read_csv(f"s3://{s3_public_bucket_with_data.name}/tips.csv", storage_options=s3so),
         read_csv(tips_file),
     )
     # the following are decompressed by pandas, not fsspec
     tm.assert_equal(
-        read_csv(
-            f"s3://{s3_public_bucket_with_data.name}/tips.csv.gz", storage_options=s3so
-        ),
+        read_csv(f"s3://{s3_public_bucket_with_data.name}/tips.csv.gz", storage_options=s3so),
         read_csv(tips_file),
     )
     tm.assert_equal(
-        read_csv(
-            f"s3://{s3_public_bucket_with_data.name}/tips.csv.bz2", storage_options=s3so
-        ),
+        read_csv(f"s3://{s3_public_bucket_with_data.name}/tips.csv.bz2", storage_options=s3so),
         read_csv(tips_file),
     )
 
@@ -262,9 +250,7 @@ def test_s3_parquet(s3_public_bucket, s3so, df1):
     pytest.importorskip("s3fs")
 
     fn = f"s3://{s3_public_bucket.name}/test.parquet"
-    df1.to_parquet(
-        fn, index=False, engine="fastparquet", compression=None, storage_options=s3so
-    )
+    df1.to_parquet(fn, index=False, engine="fastparquet", compression=None, storage_options=s3so)
     df2 = read_parquet(fn, engine="fastparquet", storage_options=s3so)
     tm.assert_equal(df1, df2)
 
@@ -314,9 +300,7 @@ def test_json_options(fsspectest, compression):
 
 def test_stata_options(fsspectest):
     df = DataFrame({"a": [0]})
-    df.to_stata(
-        "testmem://mockfile", storage_options={"test": "stata_write"}, write_index=False
-    )
+    df.to_stata("testmem://mockfile", storage_options={"test": "stata_write"}, write_index=False)
     assert fsspectest.test[0] == "stata_write"
     out = read_stata("testmem://mockfile", storage_options={"test": "stata_read"})
     assert fsspectest.test[0] == "stata_read"

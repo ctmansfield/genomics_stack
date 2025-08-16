@@ -88,9 +88,7 @@ class TestArrayToDatetimeResolutionInference:
         assert tz is None
         tm.assert_numpy_array_equal(result, expected[::-1])
 
-    @pytest.mark.parametrize(
-        "item", [float("nan"), NaT.value, float(NaT.value), "NaT", ""]
-    )
+    @pytest.mark.parametrize("item", [float("nan"), NaT.value, float(NaT.value), "NaT", ""])
     def test_infer_with_nat_int_float_str(self, item):
         # floats/ints get inferred to nanos *unless* they are NaN/iNaT,
         # similar NaT string gets treated like NaT scalar (ignored for resolution)
@@ -215,9 +213,7 @@ def test_parsing_different_timezone_offsets():
     assert result_tz is None
 
 
-@pytest.mark.parametrize(
-    "data", [["-352.737091", "183.575577"], ["1", "2", "3", "4", "5"]]
-)
+@pytest.mark.parametrize("data", [["-352.737091", "183.575577"], ["1", "2", "3", "4", "5"]])
 def test_number_looking_strings_not_into_datetime(data):
     # see gh-4601
     #

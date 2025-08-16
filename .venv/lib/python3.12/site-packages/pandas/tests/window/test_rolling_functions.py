@@ -92,9 +92,7 @@ def test_frame(raw, frame, compare_func, roll_func, kwargs, step):
 def test_time_rule_series(series, compare_func, roll_func, kwargs, minp):
     win = 25
     ser = series[::2].resample("B").mean()
-    series_result = getattr(ser.rolling(window=win, min_periods=minp), roll_func)(
-        **kwargs
-    )
+    series_result = getattr(ser.rolling(window=win, min_periods=minp), roll_func)(**kwargs)
     last_date = series_result.index[-1]
     prev_date = last_date - 24 * offsets.BDay()
 
@@ -120,9 +118,7 @@ def test_time_rule_series(series, compare_func, roll_func, kwargs, minp):
 def test_time_rule_frame(raw, frame, compare_func, roll_func, kwargs, minp):
     win = 25
     frm = frame[::2].resample("B").mean()
-    frame_result = getattr(frm.rolling(window=win, min_periods=minp), roll_func)(
-        **kwargs
-    )
+    frame_result = getattr(frm.rolling(window=win, min_periods=minp), roll_func)(**kwargs)
     last_date = frame_result.index[-1]
     prev_date = last_date - 24 * offsets.BDay()
 
@@ -180,9 +176,7 @@ def test_nans_count():
     obj[:10] = np.nan
     obj[-10:] = np.nan
     result = obj.rolling(50, min_periods=30).count()
-    tm.assert_almost_equal(
-        result.iloc[-1], np.isfinite(obj[10:-10]).astype(float).sum()
-    )
+    tm.assert_almost_equal(result.iloc[-1], np.isfinite(obj[10:-10]).astype(float).sum())
 
 
 @pytest.mark.parametrize(
@@ -201,12 +195,12 @@ def test_nans_count():
 )
 @pytest.mark.parametrize("minp", [0, 99, 100])
 def test_min_periods(series, minp, roll_func, kwargs, step):
-    result = getattr(
-        series.rolling(len(series) + 1, min_periods=minp, step=step), roll_func
-    )(**kwargs)
-    expected = getattr(
-        series.rolling(len(series), min_periods=minp, step=step), roll_func
-    )(**kwargs)
+    result = getattr(series.rolling(len(series) + 1, min_periods=minp, step=step), roll_func)(
+        **kwargs
+    )
+    expected = getattr(series.rolling(len(series), min_periods=minp, step=step), roll_func)(
+        **kwargs
+    )
     nan_mask = isna(result)
     tm.assert_series_equal(nan_mask, isna(expected))
 
@@ -244,13 +238,11 @@ def test_center(roll_func, kwargs, minp):
     obj[:10] = np.nan
     obj[-10:] = np.nan
 
-    result = getattr(obj.rolling(20, min_periods=minp, center=True), roll_func)(
-        **kwargs
-    )
+    result = getattr(obj.rolling(20, min_periods=minp, center=True), roll_func)(**kwargs)
     expected = (
-        getattr(
-            concat([obj, Series([np.nan] * 9)]).rolling(20, min_periods=minp), roll_func
-        )(**kwargs)
+        getattr(concat([obj, Series([np.nan] * 9)]).rolling(20, min_periods=minp), roll_func)(
+            **kwargs
+        )
         .iloc[9:]
         .reset_index(drop=True)
     )
@@ -284,9 +276,9 @@ def test_center_reindex_series(series, roll_func, kwargs, minp, fill_value):
         .shift(-12)
         .reindex(series.index)
     )
-    series_rs = getattr(
-        series.rolling(window=25, min_periods=minp, center=True), roll_func
-    )(**kwargs)
+    series_rs = getattr(series.rolling(window=25, min_periods=minp, center=True), roll_func)(
+        **kwargs
+    )
     if fill_value is not None:
         series_xp = series_xp.fillna(fill_value)
     tm.assert_series_equal(series_xp, series_rs)
@@ -319,9 +311,7 @@ def test_center_reindex_frame(frame, roll_func, kwargs, minp, fill_value):
         .shift(-12)
         .reindex(frame.index)
     )
-    frame_rs = getattr(
-        frame.rolling(window=25, min_periods=minp, center=True), roll_func
-    )(**kwargs)
+    frame_rs = getattr(frame.rolling(window=25, min_periods=minp, center=True), roll_func)(**kwargs)
     if fill_value is not None:
         frame_xp = frame_xp.fillna(fill_value)
     tm.assert_frame_equal(frame_xp, frame_rs)
@@ -463,12 +453,8 @@ def test_rolling_median_resample():
 def test_rolling_median_memory_error():
     # GH11722
     n = 20000
-    Series(np.random.default_rng(2).standard_normal(n)).rolling(
-        window=2, center=False
-    ).median()
-    Series(np.random.default_rng(2).standard_normal(n)).rolling(
-        window=2, center=False
-    ).median()
+    Series(np.random.default_rng(2).standard_normal(n)).rolling(window=2, center=False).median()
+    Series(np.random.default_rng(2).standard_normal(n)).rolling(window=2, center=False).median()
 
 
 @pytest.mark.parametrize(

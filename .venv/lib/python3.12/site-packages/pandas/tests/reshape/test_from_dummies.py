@@ -49,10 +49,7 @@ def test_error_no_prefix_contains_unassigned():
     dummies = DataFrame({"a": [1, 0, 0], "b": [0, 1, 0]})
     with pytest.raises(
         ValueError,
-        match=(
-            r"Dummy DataFrame contains unassigned value\(s\); "
-            r"First instance in row: 2"
-        ),
+        match=(r"Dummy DataFrame contains unassigned value\(s\); " r"First instance in row: 2"),
     ):
         from_dummies(dummies)
 
@@ -73,26 +70,19 @@ def test_error_no_prefix_multi_assignment():
     dummies = DataFrame({"a": [1, 0, 1], "b": [0, 1, 1]})
     with pytest.raises(
         ValueError,
-        match=(
-            r"Dummy DataFrame contains multi-assignment\(s\); "
-            r"First instance in row: 2"
-        ),
+        match=(r"Dummy DataFrame contains multi-assignment\(s\); " r"First instance in row: 2"),
     ):
         from_dummies(dummies)
 
 
 def test_error_no_prefix_contains_nan():
     dummies = DataFrame({"a": [1, 0, 0], "b": [0, 1, np.nan]})
-    with pytest.raises(
-        ValueError, match=r"Dummy DataFrame contains NA value in column: 'b'"
-    ):
+    with pytest.raises(ValueError, match=r"Dummy DataFrame contains NA value in column: 'b'"):
         from_dummies(dummies)
 
 
 def test_error_contains_non_dummies():
-    dummies = DataFrame(
-        {"a": [1, 6, 3, 1], "b": [0, 1, 0, 2], "c": ["c1", "c2", "c3", "c4"]}
-    )
+    dummies = DataFrame({"a": [1, 6, 3, 1], "b": [0, 1, 0, 2], "c": ["c1", "c2", "c3", "c4"]})
     with pytest.raises(
         TypeError,
         match=r"Passed DataFrame contains non-dummy data",
@@ -119,10 +109,7 @@ def test_error_with_prefix_multiple_seperators():
 def test_error_with_prefix_sep_wrong_type(dummies_basic):
     with pytest.raises(
         TypeError,
-        match=(
-            r"Expected 'sep' to be of type 'str' or 'None'; "
-            r"Received 'sep' of type: list"
-        ),
+        match=(r"Expected 'sep' to be of type 'str' or 'None'; " r"Received 'sep' of type: list"),
     ):
         from_dummies(dummies_basic, sep=["_"])
 
@@ -130,10 +117,7 @@ def test_error_with_prefix_sep_wrong_type(dummies_basic):
 def test_error_with_prefix_contains_unassigned(dummies_with_unassigned):
     with pytest.raises(
         ValueError,
-        match=(
-            r"Dummy DataFrame contains unassigned value\(s\); "
-            r"First instance in row: 2"
-        ),
+        match=(r"Dummy DataFrame contains unassigned value\(s\); " r"First instance in row: 2"),
     ):
         from_dummies(dummies_with_unassigned, sep="_")
 
@@ -166,9 +150,7 @@ def test_error_with_prefix_contains_nan(dummies_basic):
     # Set float64 dtype to avoid upcast when setting np.nan
     dummies_basic["col2_c"] = dummies_basic["col2_c"].astype("float64")
     dummies_basic.loc[2, "col2_c"] = np.nan
-    with pytest.raises(
-        ValueError, match=r"Dummy DataFrame contains NA value in column: 'col2_c'"
-    ):
+    with pytest.raises(ValueError, match=r"Dummy DataFrame contains NA value in column: 'col2_c'"):
         from_dummies(dummies_basic, sep="_")
 
 
@@ -192,10 +174,7 @@ def test_error_with_prefix_double_assignment():
     )
     with pytest.raises(
         ValueError,
-        match=(
-            r"Dummy DataFrame contains multi-assignment\(s\); "
-            r"First instance in row: 0"
-        ),
+        match=(r"Dummy DataFrame contains multi-assignment\(s\); " r"First instance in row: 0"),
     ):
         from_dummies(dummies, sep="_")
 
@@ -245,18 +224,14 @@ def test_no_prefix_string_cats_basic_bool_values():
 
 
 def test_no_prefix_string_cats_basic_mixed_bool_values():
-    dummies = DataFrame(
-        {"a": [1, 0, 0, 1], "b": [False, True, False, False], "c": [0, 0, 1, 0]}
-    )
+    dummies = DataFrame({"a": [1, 0, 0, 1], "b": [False, True, False, False], "c": [0, 0, 1, 0]})
     expected = DataFrame({"": ["a", "b", "c", "a"]})
     result = from_dummies(dummies)
     tm.assert_frame_equal(result, expected)
 
 
 def test_no_prefix_int_cats_basic():
-    dummies = DataFrame(
-        {1: [1, 0, 0, 0], 25: [0, 1, 0, 0], 2: [0, 0, 1, 0], 5: [0, 0, 0, 1]}
-    )
+    dummies = DataFrame({1: [1, 0, 0, 0], 25: [0, 1, 0, 0], 2: [0, 0, 1, 0], 5: [0, 0, 0, 1]})
     expected = DataFrame({"": [1, 25, 2, 5]})
     result = from_dummies(dummies)
     tm.assert_frame_equal(result, expected)
@@ -328,9 +303,7 @@ def test_no_prefix_string_cats_contains_get_dummies_NaN_column():
         ),
     ],
 )
-def test_no_prefix_string_cats_default_category(
-    default_category, expected, using_infer_string
-):
+def test_no_prefix_string_cats_default_category(default_category, expected, using_infer_string):
     dummies = DataFrame({"a": [1, 0, 0], "b": [0, 1, 0]})
     result = from_dummies(dummies, default_category=default_category)
     if using_infer_string:
@@ -399,9 +372,7 @@ def test_with_prefix_contains_get_dummies_NaN_column():
 def test_with_prefix_default_category(
     dummies_with_unassigned, default_category, expected, using_infer_string
 ):
-    result = from_dummies(
-        dummies_with_unassigned, sep="_", default_category=default_category
-    )
+    result = from_dummies(dummies_with_unassigned, sep="_", default_category=default_category)
     if using_infer_string:
         expected = expected.astype("str")
     tm.assert_frame_equal(result, expected)
@@ -441,9 +412,7 @@ def test_ea_categories_with_sep():
 
 def test_maintain_original_index():
     # GH 54300
-    df = DataFrame(
-        {"a": [1, 0, 0, 1], "b": [0, 1, 0, 0], "c": [0, 0, 1, 0]}, index=list("abcd")
-    )
+    df = DataFrame({"a": [1, 0, 0, 1], "b": [0, 1, 0, 0], "c": [0, 0, 1, 0]}, index=list("abcd"))
     result = from_dummies(df)
     expected = DataFrame({"": list("abca")}, index=list("abcd"))
     tm.assert_frame_equal(result, expected)

@@ -63,9 +63,7 @@ def test_constructor_not_string_type_raises(array_lib, chunked):
     if array_lib is np:
         msg = "Unsupported type '<class 'numpy.ndarray'>' for ArrowExtensionArray"
     else:
-        msg = re.escape(
-            "ArrowStringArray requires a PyArrow (chunked) array of large_string type"
-        )
+        msg = re.escape("ArrowStringArray requires a PyArrow (chunked) array of large_string type")
     with pytest.raises(ValueError, match=msg):
         ArrowStringArray(arr)
 
@@ -78,9 +76,7 @@ def test_constructor_not_string_type_value_dictionary_raises(chunked):
     if chunked:
         arr = pa.chunked_array(arr)
 
-    msg = re.escape(
-        "ArrowStringArray requires a PyArrow (chunked) array of large_string type"
-    )
+    msg = re.escape("ArrowStringArray requires a PyArrow (chunked) array of large_string type")
     with pytest.raises(ValueError, match=msg):
         ArrowStringArray(arr)
 
@@ -144,9 +140,7 @@ def test_from_sequence_wrong_dtype_raises(using_infer_string):
 
     if not using_infer_string:
         with pytest.raises(AssertionError, match=None):
-            ArrowStringArray._from_sequence(
-                ["a", None, "c"], dtype=StringDtype("python")
-            )
+            ArrowStringArray._from_sequence(["a", None, "c"], dtype=StringDtype("python"))
 
     ArrowStringArray._from_sequence(["a", None, "c"], dtype=StringDtype("pyarrow"))
 

@@ -99,9 +99,7 @@ def test_freq_window_not_implemented(window):
         np.arange(10),
         index=date_range("2015-12-24", periods=10, freq="D"),
     )
-    with pytest.raises(
-        NotImplementedError, match="^step (not implemented|is not supported)"
-    ):
+    with pytest.raises(NotImplementedError, match="^step (not implemented|is not supported)"):
         df.rolling(window, step=3).sum()
 
 
@@ -214,14 +212,10 @@ def test_closed_fixed(closed, arithmetic_win_operators):
         ),
     ],
 )
-def test_datetimelike_centered_selections(
-    closed, window_selections, arithmetic_win_operators
-):
+def test_datetimelike_centered_selections(closed, window_selections, arithmetic_win_operators):
     # GH 34315
     func_name = arithmetic_win_operators
-    df_time = DataFrame(
-        {"A": [0.0, 1.0, 2.0, 3.0, 4.0]}, index=date_range("2020", periods=5)
-    )
+    df_time = DataFrame({"A": [0.0, 1.0, 2.0, 3.0, 4.0]}, index=date_range("2020", periods=5))
 
     expected = DataFrame(
         {"A": [getattr(df_time["A"].iloc[s], func_name)() for s in window_selections]},
@@ -254,9 +248,7 @@ def test_datetimelike_centered_selections(
         ("2s", "neither", [1.0, 2.0, 2.0]),
     ],
 )
-def test_datetimelike_centered_offset_covers_all(
-    window, closed, expected, frame_or_series
-):
+def test_datetimelike_centered_offset_covers_all(window, closed, expected, frame_or_series):
     # GH 42753
 
     index = [
@@ -280,9 +272,7 @@ def test_datetimelike_centered_offset_covers_all(
         ("2D", "neither", [2, 2, 2, 2, 2, 2, 2, 2]),
     ],
 )
-def test_datetimelike_nonunique_index_centering(
-    window, closed, expected, frame_or_series
-):
+def test_datetimelike_nonunique_index_centering(window, closed, expected, frame_or_series):
     index = DatetimeIndex(
         [
             "2020-01-01",
@@ -407,9 +397,7 @@ def test_closed_fixed_binary_col(center, step):
         index=date_range(start="2020-01-01", freq="min", periods=len(expected_data)),
     )[::step]
 
-    rolling = df.rolling(
-        window=len(df), closed="left", min_periods=1, center=center, step=step
-    )
+    rolling = df.rolling(window=len(df), closed="left", min_periods=1, center=center, step=step)
     result = rolling.mean()
     tm.assert_frame_equal(result, expected)
 
@@ -441,9 +429,7 @@ def test_closed_one_entry_groupby(func):
         data={"A": [1, 1, 2], "B": [3, 2, 1]},
         index=date_range("2000", periods=3),
     )
-    result = getattr(
-        ser.groupby("A", sort=False)["B"].rolling("10D", closed="left"), func
-    )()
+    result = getattr(ser.groupby("A", sort=False)["B"].rolling("10D", closed="left"), func)()
     exp_idx = MultiIndex.from_arrays(arrays=[[1, 1, 2], ser.index], names=("A", None))
     expected = Series(data=[np.nan, 3, np.nan], index=exp_idx, name="B")
     tm.assert_series_equal(result, expected)
@@ -642,9 +628,7 @@ def test_readonly_array():
 def test_rolling_datetime(axis_frame, tz_naive_fixture):
     # GH-28192
     tz = tz_naive_fixture
-    df = DataFrame(
-        {i: [1] * 2 for i in date_range("2019-8-01", "2019-08-03", freq="D", tz=tz)}
-    )
+    df = DataFrame({i: [1] * 2 for i in date_range("2019-8-01", "2019-08-03", freq="D", tz=tz)})
 
     if axis_frame in [0, "index"]:
         msg = "The 'axis' keyword in DataFrame.rolling"
@@ -656,14 +640,8 @@ def test_rolling_datetime(axis_frame, tz_naive_fixture):
             result = df.rolling("2D", axis=axis_frame).sum()
     expected = DataFrame(
         {
-            **{
-                i: [1.0] * 2
-                for i in date_range("2019-8-01", periods=1, freq="D", tz=tz)
-            },
-            **{
-                i: [2.0] * 2
-                for i in date_range("2019-8-02", "2019-8-03", freq="D", tz=tz)
-            },
+            **{i: [1.0] * 2 for i in date_range("2019-8-01", periods=1, freq="D", tz=tz)},
+            **{i: [2.0] * 2 for i in date_range("2019-8-02", "2019-8-03", freq="D", tz=tz)},
         }
     )
     tm.assert_frame_equal(result, expected)
@@ -679,9 +657,9 @@ def test_rolling_window_as_string(center):
     df = DataFrame({"DateCol": days, "metric": data})
 
     df.set_index("DateCol", inplace=True)
-    result = df.rolling(window="21D", min_periods=2, closed="left", center=center)[
-        "metric"
-    ].agg("max")
+    result = df.rolling(window="21D", min_periods=2, closed="left", center=center)["metric"].agg(
+        "max"
+    )
 
     index = days.rename("DateCol")
     index = index._with_freq(None)
@@ -833,9 +811,7 @@ def test_iter_rolling_on_dataframe(expected, window):
         }
     )
 
-    expected = [
-        DataFrame(values, index=df.loc[index, "C"]) for (values, index) in expected
-    ]
+    expected = [DataFrame(values, index=df.loc[index, "C"]) for (values, index) in expected]
     for expected, actual in zip(expected, df.rolling(window, on="C")):
         tm.assert_frame_equal(actual, expected)
 
@@ -932,9 +908,7 @@ def test_iter_rolling_datetime(expected, expected_index, window):
     # GH 11704
     ser = Series(range(5), index=date_range(start="2020-01-01", periods=5, freq="D"))
 
-    expected = [
-        Series(values, index=idx) for (values, idx) in zip(expected, expected_index)
-    ]
+    expected = [Series(values, index=idx) for (values, idx) in zip(expected, expected_index)]
 
     for expected, actual in zip(expected, ser.rolling(window)):
         tm.assert_series_equal(actual, expected)
@@ -945,15 +919,11 @@ def test_iter_rolling_datetime(expected, expected_index, window):
     [
         (
             {"level": 0},
-            MultiIndex.from_tuples(
-                [(0, 0), (0, 0), (1, 1), (1, 1), (1, 1)], names=[None, None]
-            ),
+            MultiIndex.from_tuples([(0, 0), (0, 0), (1, 1), (1, 1), (1, 1)], names=[None, None]),
         ),
         (
             {"by": "X"},
-            MultiIndex.from_tuples(
-                [(0, 0), (1, 0), (2, 1), (3, 1), (4, 1)], names=["X", None]
-            ),
+            MultiIndex.from_tuples([(0, 0), (1, 0), (2, 1), (3, 1), (4, 1)], names=["X", None]),
         ),
     ],
 )
@@ -990,9 +960,7 @@ def test_rolling_numerical_accuracy_kahan_mean(add, unit):
         {"A": [3002399751580331.0 + add, -0.0, -0.0]},
         index=dti,
     )
-    result = (
-        df.resample("1s").ffill().rolling("3s", closed="left", min_periods=3).mean()
-    )
+    result = df.resample("1s").ffill().rolling("3s", closed="left", min_periods=3).mean()
     dates = date_range("19700101 09:00:00", periods=7, freq="s", unit=unit)
     expected = DataFrame(
         {
@@ -1142,9 +1110,7 @@ def test_rolling_on_df_transposed():
             "2min",
         ),
         (
-            period_range(
-                start="2020-01-01 08:00", end="2020-01-01 12:00", freq="30min"
-            ),
+            period_range(start="2020-01-01 08:00", end="2020-01-01 12:00", freq="30min"),
             "1h",
         ),
     ],
@@ -1308,9 +1274,7 @@ def test_rolling_decreasing_indices_centered(window, closed, expected, frame_or_
         ("3ns", [2.0, 3.0, 3.0, 2.0]),
     ],
 )
-def test_rolling_center_nanosecond_resolution(
-    window, closed, expected, frame_or_series
-):
+def test_rolling_center_nanosecond_resolution(window, closed, expected, frame_or_series):
     index = date_range("2020", periods=4, freq="1ns")
     df = frame_or_series([1, 1, 1, 1], index=index, dtype=float)
     expected = frame_or_series(expected, index=index, dtype=float)
@@ -1639,9 +1603,7 @@ def test_rank(window, method, pct, ascending, test_data):
         ser = Series(data=np.random.default_rng(2).choice(3, length))
     elif test_data == "nans":
         ser = Series(
-            data=np.random.default_rng(2).choice(
-                [1.0, 0.25, 0.75, np.nan, np.inf, -np.inf], length
-            )
+            data=np.random.default_rng(2).choice([1.0, 0.25, 0.75, np.nan, np.inf, -np.inf], length)
         )
 
     expected = ser.rolling(window).apply(
@@ -1658,9 +1620,7 @@ def test_rolling_quantile_np_percentile():
     row = 10
     col = 5
     idx = date_range("20100101", periods=row, freq="B")
-    df = DataFrame(
-        np.random.default_rng(2).random(row * col).reshape((row, -1)), index=idx
-    )
+    df = DataFrame(np.random.default_rng(2).random(row * col).reshape((row, -1)), index=idx)
 
     df_quantile = df.quantile([0.25, 0.5, 0.75], axis=0)
     np_percentile = np.percentile(df, [25, 50, 75], axis=0)
@@ -1669,9 +1629,7 @@ def test_rolling_quantile_np_percentile():
 
 
 @pytest.mark.parametrize("quantile", [0.0, 0.1, 0.45, 0.5, 1])
-@pytest.mark.parametrize(
-    "interpolation", ["linear", "lower", "higher", "nearest", "midpoint"]
-)
+@pytest.mark.parametrize("interpolation", ["linear", "lower", "higher", "nearest", "midpoint"])
 @pytest.mark.parametrize(
     "data",
     [

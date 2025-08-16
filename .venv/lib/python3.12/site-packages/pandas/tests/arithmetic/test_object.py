@@ -256,9 +256,7 @@ class TestArithmetic:
             name="xxx",
         )
         assert ser2.dtype == object
-        exp = Series(
-            [pd.Timedelta("2 days"), pd.Timedelta("4 days")], name="xxx", dtype=object
-        )
+        exp = Series([pd.Timedelta("2 days"), pd.Timedelta("4 days")], name="xxx", dtype=object)
         tm.assert_series_equal(ser2 - ser, exp)
         tm.assert_series_equal(ser - ser2, -exp)
 
@@ -404,9 +402,7 @@ class MyIndex(pd.Index):
 )
 def test_index_ops_defer_to_unknown_subclasses(other):
     # https://github.com/pandas-dev/pandas/issues/31109
-    values = np.array(
-        [datetime.date(2000, 1, 1), datetime.date(2000, 1, 2)], dtype=object
-    )
+    values = np.array([datetime.date(2000, 1, 1), datetime.date(2000, 1, 2)], dtype=object)
     a = MyIndex._simple_new(values)
     other = pd.Index(other)
     result = other + a

@@ -218,9 +218,7 @@ class TestDateTimeConverter:
         xp = converter.mdates.date2num(Timestamp("2012-1-1 01:02:03", tz="UTC"))
         tm.assert_almost_equal(rs, xp, rtol=rtol)
 
-        rs = dtc.convert(
-            Timestamp("2012-1-1 09:02:03", tz="Asia/Hong_Kong"), None, None
-        )
+        rs = dtc.convert(Timestamp("2012-1-1 09:02:03", tz="Asia/Hong_Kong"), None, None)
         tm.assert_almost_equal(rs, xp, rtol=rtol)
 
         rs = dtc.convert(datetime(2012, 1, 1, 1, 2, 3), None, None)
@@ -393,9 +391,7 @@ def test_quarterly_finder(year_span):
     nyears = span / 4
     (min_anndef, maj_anndef) = converter._get_default_annual_spacing(nyears)
     result = converter._quarterly_finder(vmin, vmax, to_offset("QE"))
-    quarters = PeriodIndex(
-        arrays.PeriodArray(np.array([x[0] for x in result]), dtype="period[Q]")
-    )
+    quarters = PeriodIndex(arrays.PeriodArray(np.array([x[0] for x in result]), dtype="period[Q]"))
     majors = np.array([x[1] for x in result])
     minors = np.array([x[2] for x in result])
     major_quarters = quarters[majors]

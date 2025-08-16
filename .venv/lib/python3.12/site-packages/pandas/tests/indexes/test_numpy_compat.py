@@ -124,9 +124,7 @@ def test_numpy_ufuncs_other(index, func):
         with tm.external_error_raised(TypeError):
             func(index)
 
-    elif is_numeric_dtype(index) and not (
-        is_complex_dtype(index) and func is np.signbit
-    ):
+    elif is_numeric_dtype(index) and not (is_complex_dtype(index) and func is np.signbit):
         # Results in bool array
         result = func(index)
         if not isinstance(index.dtype, np.dtype):

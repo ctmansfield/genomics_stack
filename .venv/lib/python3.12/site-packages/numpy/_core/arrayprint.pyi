@@ -187,7 +187,6 @@ def array2string(
     suffix: str = "",
     legacy: _LegacyNoStyle | None = None,
 ) -> str: ...
-
 def format_float_scientific(
     x: _FloatLike_co,
     precision: int | None = ...,

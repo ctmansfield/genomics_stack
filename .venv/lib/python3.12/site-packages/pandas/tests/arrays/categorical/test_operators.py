@@ -56,9 +56,7 @@ class TestCategoricalOpsWithFactor:
 
         # comparisons with categoricals
         cat_rev = Categorical(["a", "b", "c"], categories=["c", "b", "a"], ordered=True)
-        cat_rev_base = Categorical(
-            ["b", "b", "b"], categories=["c", "b", "a"], ordered=True
-        )
+        cat_rev_base = Categorical(["b", "b", "b"], categories=["c", "b", "a"], ordered=True)
         cat = Categorical(["a", "b", "c"], ordered=True)
         cat_base = Categorical(["b", "b", "b"], categories=cat.categories, ordered=True)
 
@@ -94,10 +92,7 @@ class TestCategoricalOpsWithFactor:
 
         # comparison (in both directions) with Series will raise
         s = Series(["b", "b", "b"], dtype=object)
-        msg = (
-            "Cannot compare a Categorical for op __gt__ with type "
-            r"<class 'numpy\.ndarray'>"
-        )
+        msg = "Cannot compare a Categorical for op __gt__ with type " r"<class 'numpy\.ndarray'>"
         with pytest.raises(TypeError, match=msg):
             cat > s
         with pytest.raises(TypeError, match=msg):
@@ -210,9 +205,7 @@ class TestCategoricalOps:
         tm.assert_numpy_array_equal(result, ~expected)
 
     @pytest.mark.filterwarnings("ignore::RuntimeWarning")
-    def test_comparison_of_ordered_categorical_with_nan_to_scalar(
-        self, compare_operators_no_eq_ne
-    ):
+    def test_comparison_of_ordered_categorical_with_nan_to_scalar(self, compare_operators_no_eq_ne):
         # https://github.com/pandas-dev/pandas/issues/26504
         # BUG: fix ordered categorical comparison with missing values (#26504 )
         # and following comparisons with scalars in categories with missing
@@ -246,9 +239,7 @@ class TestCategoricalOps:
         cat_rev = Series(Categorical(data, categories=reverse, ordered=True))
         cat_rev_base = Series(Categorical(base, categories=reverse, ordered=True))
         cat = Series(Categorical(data, ordered=True))
-        cat_base = Series(
-            Categorical(base, categories=cat.cat.categories, ordered=True)
-        )
+        cat_base = Series(Categorical(base, categories=cat.cat.categories, ordered=True))
         s = Series(base, dtype=object if base == list("bbb") else None)
         a = np.array(base)
 
@@ -284,10 +275,7 @@ class TestCategoricalOps:
 
         # categorical cannot be compared to Series or numpy array, and also
         # not the other way around
-        msg = (
-            "Cannot compare a Categorical for op __gt__ with type "
-            r"<class 'numpy\.ndarray'>"
-        )
+        msg = "Cannot compare a Categorical for op __gt__ with type " r"<class 'numpy\.ndarray'>"
         with pytest.raises(TypeError, match=msg):
             cat > s
         with pytest.raises(TypeError, match=msg):
@@ -361,9 +349,7 @@ class TestCategoricalOps:
         cat_labels = Categorical(labels, labels)
 
         df = df.sort_values(by=["value"], ascending=True)
-        df["value_group"] = pd.cut(
-            df.value, range(0, 10500, 500), right=False, labels=cat_labels
-        )
+        df["value_group"] = pd.cut(df.value, range(0, 10500, 500), right=False, labels=cat_labels)
 
         # numeric ops should not succeed
         for op, str_rep in [

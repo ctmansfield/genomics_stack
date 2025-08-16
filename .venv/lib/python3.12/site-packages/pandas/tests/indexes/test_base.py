@@ -78,9 +78,7 @@ class TestIndex:
         assert isinstance(new_index, Index)
         assert new_index.name == "name"
         if using_infer_string:
-            tm.assert_extension_array_equal(
-                new_index.values, pd.array(arr, dtype="str")
-            )
+            tm.assert_extension_array_equal(new_index.values, pd.array(arr, dtype="str"))
         else:
             tm.assert_numpy_array_equal(arr, new_index.values)
         arr[0] = "SOMEBIGLONGSTRING"
@@ -383,9 +381,7 @@ class TestIndex:
         # same
         assert Index(["a", "b", "c"]).equals(Index(["a", "b", "c"]))
 
-    @pytest.mark.parametrize(
-        "comp", [Index(["a", "b"]), Index(["a", "b", "d"]), ["a", "b", "c"]]
-    )
+    @pytest.mark.parametrize("comp", [Index(["a", "b"]), Index(["a", "b", "d"]), ["a", "b", "c"]])
     def test_not_equals_object(self, comp):
         assert not Index(["a", "b", "c"]).equals(comp)
 
@@ -554,9 +550,7 @@ class TestIndex:
         tm.assert_index_equal(expected, result)
 
     def test_map_tseries_indices_accsr_return_index(self):
-        date_index = DatetimeIndex(
-            date_range("2020-01-01", periods=24, freq="h"), name="hourly"
-        )
+        date_index = DatetimeIndex(date_range("2020-01-01", periods=24, freq="h"), name="hourly")
         result = date_index.map(lambda x: x.hour)
         expected = Index(np.arange(24, dtype="int64"), name="hourly")
         tm.assert_index_equal(result, expected, exact=True)
@@ -784,9 +778,7 @@ class TestIndex:
         with pytest.raises(KeyError, match=""):
             index.drop([3, 4])
 
-    @pytest.mark.parametrize(
-        "key,expected", [(4, Index([1, 2, 3])), ([3, 4, 5], Index([1, 2]))]
-    )
+    @pytest.mark.parametrize("key,expected", [(4, Index([1, 2, 3])), ([3, 4, 5], Index([1, 2]))])
     def test_drop_by_numeric_label_errors_ignore(self, key, expected):
         index = Index([1, 2, 3])
         dropped = index.drop(key, errors="ignore")
@@ -854,9 +846,7 @@ class TestIndex:
         result = index.isin(values)
         tm.assert_numpy_array_equal(result, expected)
 
-    def test_isin_nan_common_object(
-        self, nulls_fixture, nulls_fixture2, using_infer_string
-    ):
+    def test_isin_nan_common_object(self, nulls_fixture, nulls_fixture2, using_infer_string):
         # Test cartesian product of null fixtures and ensure that we don't
         # mangle the various types (save a corner case with PyPy)
         idx = Index(["a", nulls_fixture])
@@ -1123,10 +1113,7 @@ class TestIndex:
 
     def test_take_fill_value_none_raises(self):
         index = Index(list("ABC"), name="xxx")
-        msg = (
-            "When allow_fill=True and fill_value is not None, "
-            "all indices must be >= -1"
-        )
+        msg = "When allow_fill=True and fill_value is not None, " "all indices must be >= -1"
 
         with pytest.raises(ValueError, match=msg):
             index.take(np.array([1, 0, -2]), fill_value=True)
@@ -1187,9 +1174,9 @@ class TestIndex:
 
     def test_reindex_no_type_preserve_target_empty_mi(self):
         index = Index(list("abc"))
-        result = index.reindex(
-            MultiIndex([Index([], np.int64), Index([], np.float64)], [[], []])
-        )[0]
+        result = index.reindex(MultiIndex([Index([], np.int64), Index([], np.float64)], [[], []]))[
+            0
+        ]
         assert result.levels[0].dtype.type == np.int64
         assert result.levels[1].dtype.type == np.float64
 
@@ -1308,9 +1295,7 @@ class TestIndex:
         with pytest.raises(Exception, match="ascending must be a single bool value or"):
             index.sortlevel(ascending="True")
 
-        with pytest.raises(
-            Exception, match="ascending must be a list of bool values of length 1"
-        ):
+        with pytest.raises(Exception, match="ascending must be a list of bool values of length 1"):
             index.sortlevel(ascending=[True, True])
 
         with pytest.raises(Exception, match="ascending must be a bool value"):

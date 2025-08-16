@@ -72,14 +72,10 @@ class TestCaching:
         assert df.loc[0, "c"] == 0.0
         assert df.loc[7, "c"] == 1.0
 
-    def test_setitem_cache_updating_slices(
-        self, using_copy_on_write, warn_copy_on_write
-    ):
+    def test_setitem_cache_updating_slices(self, using_copy_on_write, warn_copy_on_write):
         # GH 7084
         # not updating cache on series setting with slices
-        expected = DataFrame(
-            {"A": [600, 600, 600]}, index=date_range("5/7/2014", "5/9/2014")
-        )
+        expected = DataFrame({"A": [600, 600, 600]}, index=date_range("5/7/2014", "5/9/2014"))
         out = DataFrame({"A": [0, 0, 0]}, index=date_range("5/7/2014", "5/9/2014"))
         df = DataFrame({"C": ["A", "A", "A"], "D": [100, 200, 300]})
 
@@ -117,9 +113,7 @@ class TestCaching:
         tm.assert_frame_equal(out, expected)
         tm.assert_series_equal(out["A"], expected["A"])
 
-    def test_altering_series_clears_parent_cache(
-        self, using_copy_on_write, warn_copy_on_write
-    ):
+    def test_altering_series_clears_parent_cache(self, using_copy_on_write, warn_copy_on_write):
         # GH #33675
         df = DataFrame([[1, 2], [3, 4]], index=["a", "b"], columns=["A", "B"])
         ser = df["A"]
@@ -196,9 +190,7 @@ class TestChaining:
         with option_context("chained_assignment", "raise"):
             # work with the chain
             expected = DataFrame([[-5, 1], [-6, 3]], columns=list("AB"))
-            df = DataFrame(
-                np.arange(4).reshape(2, 2), columns=list("AB"), dtype="int64"
-            )
+            df = DataFrame(np.arange(4).reshape(2, 2), columns=list("AB"), dtype="int64")
             df_original = df.copy()
             assert df._is_copy is None
 
@@ -256,9 +248,7 @@ class TestChaining:
             tm.assert_frame_equal(df, expected)
 
     @pytest.mark.arm_slow
-    def test_detect_chained_assignment_fails(
-        self, using_copy_on_write, warn_copy_on_write
-    ):
+    def test_detect_chained_assignment_fails(self, using_copy_on_write, warn_copy_on_write):
         # Using a copy (the chain), fails
         df = DataFrame(
             {
@@ -275,9 +265,7 @@ class TestChaining:
                 df.loc[0]["A"] = -5
 
     @pytest.mark.arm_slow
-    def test_detect_chained_assignment_doc_example(
-        self, using_copy_on_write, warn_copy_on_write
-    ):
+    def test_detect_chained_assignment_doc_example(self, using_copy_on_write, warn_copy_on_write):
         # Doc example
         df = DataFrame(
             {
@@ -300,9 +288,7 @@ class TestChaining:
         self, using_array_manager, using_copy_on_write, warn_copy_on_write
     ):
         expected = DataFrame({"A": [111, "bbb", "ccc"], "B": [1, 2, 3]})
-        df = DataFrame(
-            {"A": Series(["aaa", "bbb", "ccc"], dtype=object), "B": [1, 2, 3]}
-        )
+        df = DataFrame({"A": Series(["aaa", "bbb", "ccc"], dtype=object), "B": [1, 2, 3]})
         df_original = df.copy()
 
         if not using_copy_on_write and not warn_copy_on_write:
@@ -497,9 +483,7 @@ class TestChaining:
 
     def test_setting_with_copy_bug(self, using_copy_on_write, warn_copy_on_write):
         # operating on a copy
-        df = DataFrame(
-            {"a": list(range(4)), "b": list("ab.."), "c": ["a", "b", np.nan, "d"]}
-        )
+        df = DataFrame({"a": list(range(4)), "b": list("ab.."), "c": ["a", "b", np.nan, "d"]})
         df_original = df.copy()
         mask = pd.isna(df.c)
 

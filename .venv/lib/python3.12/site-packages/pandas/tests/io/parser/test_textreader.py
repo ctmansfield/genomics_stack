@@ -2,6 +2,7 @@
 Tests the TextReader class in parsers.pyx, which
 is integral to the C engine in parsers.py
 """
+
 from io import (
     BytesIO,
     StringIO,
@@ -60,12 +61,8 @@ class TestTextReader:
         reader = TextReader(StringIO(data), skipinitialspace=True, header=None)
         result = reader.read()
 
-        tm.assert_numpy_array_equal(
-            result[0], np.array(["a", "a", "a", "a"], dtype=np.object_)
-        )
-        tm.assert_numpy_array_equal(
-            result[1], np.array(["b", "b", "b", "b"], dtype=np.object_)
-        )
+        tm.assert_numpy_array_equal(result[0], np.array(["a", "a", "a", "a"], dtype=np.object_))
+        tm.assert_numpy_array_equal(result[1], np.array(["b", "b", "b", "b"], dtype=np.object_))
 
     def test_parse_booleans(self):
         data = "True\nFalse\nTrue\nTrue"
@@ -81,12 +78,8 @@ class TestTextReader:
         reader = TextReader(StringIO(data), delim_whitespace=True, header=None)
         result = reader.read()
 
-        tm.assert_numpy_array_equal(
-            result[0], np.array(["a", "a", "a"], dtype=np.object_)
-        )
-        tm.assert_numpy_array_equal(
-            result[1], np.array(["b", "b", "b"], dtype=np.object_)
-        )
+        tm.assert_numpy_array_equal(result[0], np.array(["a", "a", "a"], dtype=np.object_))
+        tm.assert_numpy_array_equal(result[1], np.array(["b", "b", "b"], dtype=np.object_))
 
     def test_embedded_newline(self):
         data = 'a\n"hello\nthere"\nthis'
@@ -118,9 +111,7 @@ class TestTextReader:
     def test_integer_thousands_alt(self):
         data = "123.456\n12.500"
 
-        reader = TextFileReader(
-            StringIO(data), delimiter=":", thousands=".", header=None
-        )
+        reader = TextFileReader(StringIO(data), delimiter=":", thousands=".", header=None)
         result = reader.read()
 
         expected = DataFrame([123456, 12500])
@@ -135,9 +126,7 @@ class TestTextReader:
         with pytest.raises(parser.ParserError, match=msg):
             reader.read()
 
-        reader = TextReader(
-            StringIO(data), delimiter=":", header=None, on_bad_lines=2  # Skip
-        )
+        reader = TextReader(StringIO(data), delimiter=":", header=None, on_bad_lines=2)  # Skip
         result = reader.read()
         expected = {
             0: np.array(["a", "d", "g", "l"], dtype=object),
@@ -147,9 +136,7 @@ class TestTextReader:
         assert_array_dicts_equal(result, expected)
 
         with tm.assert_produces_warning(ParserWarning, match="Skipping line"):
-            reader = TextReader(
-                StringIO(data), delimiter=":", header=None, on_bad_lines=1  # Warn
-            )
+            reader = TextReader(StringIO(data), delimiter=":", header=None, on_bad_lines=1)  # Warn
             reader.read()
 
     def test_header_not_enough_lines(self):
@@ -317,9 +304,7 @@ a,b,c
         df = read_csv(StringIO("a,b\nc\n"), skiprows=0, names=["a"], engine="c")
         tm.assert_frame_equal(df, a)
 
-        df = read_csv(
-            StringIO("1,1,1,1,0\n" * 2 + "\n" * 2), names=list("abcd"), engine="c"
-        )
+        df = read_csv(StringIO("1,1,1,1,0\n" * 2 + "\n" * 2), names=list("abcd"), engine="c")
         tm.assert_frame_equal(df, b)
 
         df = read_csv(
@@ -331,9 +316,7 @@ a,b,c
 
     def test_empty_csv_input(self):
         # GH14867
-        with read_csv(
-            StringIO(), chunksize=20, header=None, names=["a", "b", "c"]
-        ) as df:
+        with read_csv(StringIO(), chunksize=20, header=None, names=["a", "b", "c"]) as df:
             assert isinstance(df, TextFileReader)
 
 

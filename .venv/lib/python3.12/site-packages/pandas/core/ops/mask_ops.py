@@ -1,6 +1,7 @@
 """
 Ops for masked arrays.
 """
+
 from __future__ import annotations
 
 import numpy as np
@@ -56,11 +57,7 @@ def kleene_or(
         # output is unknown where (False & NA), (NA & False), (NA & NA)
         left_false = ~(left | left_mask)
         right_false = ~(right | right_mask)
-        mask = (
-            (left_false & right_mask)
-            | (right_false & left_mask)
-            | (left_mask & right_mask)
-        )
+        mask = (left_false & right_mask) | (right_false & left_mask) | (left_mask & right_mask)
     else:
         if right is True:
             mask = np.zeros_like(left_mask)

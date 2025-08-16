@@ -43,9 +43,7 @@ class TestTableSchemaRepr:
         # column MultiIndex
         # GH#15996
         midx = MultiIndex.from_product([["A", "B"], ["a", "b", "c"]])
-        df = DataFrame(
-            np.random.default_rng(2).standard_normal((5, len(midx))), columns=midx
-        )
+        df = DataFrame(np.random.default_rng(2).standard_normal((5, len(midx))), columns=midx)
 
         opt = cf.option_context("display.html.table_schema", True)
 

@@ -23,9 +23,7 @@ def parser(request):
     return request.param
 
 
-@pytest.fixture(
-    params=[None, {"book": ["category", "title", "author", "year", "price"]}]
-)
+@pytest.fixture(params=[None, {"book": ["category", "title", "author", "year", "price"]}])
 def iterparse(request):
     return request.param
 
@@ -147,9 +145,7 @@ def test_dtypes_with_names(parser):
             "Col1": ["square", "circle", "triangle"],
             "Col2": Series(["00360", "00360", "00180"]).astype("string"),
             "Col3": Series([4.0, float("nan"), 3.0]).astype("Int64"),
-            "Col4": DatetimeIndex(
-                ["2020-01-01", "2021-01-01", "2022-01-01"], dtype="M8[ns]"
-            ),
+            "Col4": DatetimeIndex(["2020-01-01", "2021-01-01", "2022-01-01"], dtype="M8[ns]"),
         }
     )
 
@@ -203,9 +199,7 @@ def test_wrong_dtype(xml_books, parser, iterparse):
     with pytest.raises(
         ValueError, match=('Unable to parse string "Everyday Italian" at position 0')
     ):
-        read_xml(
-            xml_books, dtype={"title": "Int64"}, parser=parser, iterparse=iterparse
-        )
+        read_xml(xml_books, dtype={"title": "Int64"}, parser=parser, iterparse=iterparse)
 
 
 def test_both_dtype_converters(parser):
@@ -240,9 +234,7 @@ def test_both_dtype_converters(parser):
 
 
 def test_converters_str(parser):
-    df_result = read_xml(
-        StringIO(xml_types), converters={"degrees": str}, parser=parser
-    )
+    df_result = read_xml(StringIO(xml_types), converters={"degrees": str}, parser=parser)
     df_iter = read_xml_iterparse(
         xml_types,
         parser=parser,
@@ -289,23 +281,17 @@ def test_converters_date(parser):
 
 def test_wrong_converters_type(xml_books, parser, iterparse):
     with pytest.raises(TypeError, match=("Type converters must be a dict or subclass")):
-        read_xml(
-            xml_books, converters={"year", str}, parser=parser, iterparse=iterparse
-        )
+        read_xml(xml_books, converters={"year", str}, parser=parser, iterparse=iterparse)
 
 
 def test_callable_func_converters(xml_books, parser, iterparse):
     with pytest.raises(TypeError, match=("'float' object is not callable")):
-        read_xml(
-            xml_books, converters={"year": float()}, parser=parser, iterparse=iterparse
-        )
+        read_xml(xml_books, converters={"year": float()}, parser=parser, iterparse=iterparse)
 
 
 def test_callable_str_converters(xml_books, parser, iterparse):
     with pytest.raises(TypeError, match=("'str' object is not callable")):
-        read_xml(
-            xml_books, converters={"year": "float"}, parser=parser, iterparse=iterparse
-        )
+        read_xml(xml_books, converters={"year": "float"}, parser=parser, iterparse=iterparse)
 
 
 # PARSE DATES
@@ -463,9 +449,7 @@ def test_day_first_parse_dates(parser):
         }
     )
 
-    with tm.assert_produces_warning(
-        UserWarning, match="Parsing dates in %d/%m/%Y format"
-    ):
+    with tm.assert_produces_warning(UserWarning, match="Parsing dates in %d/%m/%Y format"):
         df_result = read_xml(StringIO(xml), parse_dates=["date"], parser=parser)
         df_iter = read_xml_iterparse(
             xml,
@@ -479,7 +463,5 @@ def test_day_first_parse_dates(parser):
 
 
 def test_wrong_parse_dates_type(xml_books, parser, iterparse):
-    with pytest.raises(
-        TypeError, match=("Only booleans, lists, and dictionaries are accepted")
-    ):
+    with pytest.raises(TypeError, match=("Only booleans, lists, and dictionaries are accepted")):
         read_xml(xml_books, parse_dates={"date"}, parser=parser, iterparse=iterparse)

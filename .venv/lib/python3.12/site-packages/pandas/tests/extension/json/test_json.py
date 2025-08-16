@@ -79,9 +79,7 @@ def data_for_grouping():
 
 
 class TestJSONArray(base.ExtensionTests):
-    @pytest.mark.xfail(
-        reason="comparison method not implemented for JSONArray (GH-37867)"
-    )
+    @pytest.mark.xfail(reason="comparison method not implemented for JSONArray (GH-37867)")
     def test_contains(self, data):
         # GH-37867
         super().test_contains(data)
@@ -162,15 +160,11 @@ class TestJSONArray(base.ExtensionTests):
             ("inside", [0, 1, 0, 1, 0], [0, 1, 1, 1, 0]),
         ],
     )
-    def test_ffill_limit_area(
-        self, data_missing, limit_area, input_ilocs, expected_ilocs
-    ):
+    def test_ffill_limit_area(self, data_missing, limit_area, input_ilocs, expected_ilocs):
         # GH#56616
         msg = "JSONArray does not implement limit_area"
         with pytest.raises(NotImplementedError, match=msg):
-            super().test_ffill_limit_area(
-                data_missing, limit_area, input_ilocs, expected_ilocs
-            )
+            super().test_ffill_limit_area(data_missing, limit_area, input_ilocs, expected_ilocs)
 
     @unhashable
     def test_value_counts(self, all_data, dropna):
@@ -190,20 +184,15 @@ class TestJSONArray(base.ExtensionTests):
         super().test_sort_values(data_for_sorting, ascending, sort_by_key)
 
     @pytest.mark.parametrize("ascending", [True, False])
-    def test_sort_values_missing(
-        self, data_missing_for_sorting, ascending, sort_by_key
-    ):
-        super().test_sort_values_missing(
-            data_missing_for_sorting, ascending, sort_by_key
-        )
+    def test_sort_values_missing(self, data_missing_for_sorting, ascending, sort_by_key):
+        super().test_sort_values_missing(data_missing_for_sorting, ascending, sort_by_key)
 
     @pytest.mark.xfail(reason="combine for JSONArray not supported")
     def test_combine_le(self, data_repeated):
         super().test_combine_le(data_repeated)
 
     @pytest.mark.xfail(
-        reason="combine for JSONArray not supported - "
-        "may pass depending on random data",
+        reason="combine for JSONArray not supported - " "may pass depending on random data",
         strict=False,
         raises=AssertionError,
     )
@@ -229,9 +218,7 @@ class TestJSONArray(base.ExtensionTests):
     def test_fillna_copy_frame(self, data_missing):
         super().test_fillna_copy_frame(data_missing)
 
-    def test_equals_same_data_different_object(
-        self, data, using_copy_on_write, request
-    ):
+    def test_equals_same_data_different_object(self, data, using_copy_on_write, request):
         if using_copy_on_write:
             mark = pytest.mark.xfail(reason="Fails with CoW")
             request.applymarker(mark)
@@ -339,9 +326,7 @@ class TestJSONArray(base.ExtensionTests):
 
         super().test_setitem_mask_raises(data, box_in_series)
 
-    @pytest.mark.xfail(
-        reason="cannot set using a list-like indexer with a different length"
-    )
+    @pytest.mark.xfail(reason="cannot set using a list-like indexer with a different length")
     def test_setitem_mask_boolean_array_with_na(self, data, box_in_series):
         super().test_setitem_mask_boolean_array_with_na(data, box_in_series)
 
@@ -363,9 +348,7 @@ class TestJSONArray(base.ExtensionTests):
         "idx, box_in_series",
         [
             ([0, 1, 2, pd.NA], False),
-            pytest.param(
-                [0, 1, 2, pd.NA], True, marks=pytest.mark.xfail(reason="GH-31948")
-            ),
+            pytest.param([0, 1, 2, pd.NA], True, marks=pytest.mark.xfail(reason="GH-31948")),
             (pd.array([0, 1, 2, pd.NA], dtype="Int64"), False),
             (pd.array([0, 1, 2, pd.NA], dtype="Int64"), False),
         ],
@@ -388,16 +371,12 @@ class TestJSONArray(base.ExtensionTests):
     def test_setitem_frame_2d_values(self, data):
         super().test_setitem_frame_2d_values(data)
 
-    @pytest.mark.xfail(
-        reason="cannot set using a list-like indexer with a different length"
-    )
+    @pytest.mark.xfail(reason="cannot set using a list-like indexer with a different length")
     @pytest.mark.parametrize("setter", ["loc", None])
     def test_setitem_mask_broadcast(self, data, setter):
         super().test_setitem_mask_broadcast(data, setter)
 
-    @pytest.mark.xfail(
-        reason="cannot set using a slice indexer with a different length"
-    )
+    @pytest.mark.xfail(reason="cannot set using a slice indexer with a different length")
     def test_setitem_slice(self, data, box_in_series):
         super().test_setitem_slice(data, box_in_series)
 
@@ -434,9 +413,7 @@ def custom_assert_series_equal(left, right, *args, **kwargs):
     # converting the UserDicts to dicts.
     if left.dtype.name == "json":
         assert left.dtype == right.dtype
-        left = pd.Series(
-            JSONArray(left.values.astype(object)), index=left.index, name=left.name
-        )
+        left = pd.Series(JSONArray(left.values.astype(object)), index=left.index, name=left.name)
         right = pd.Series(
             JSONArray(right.values.astype(object)),
             index=right.index,

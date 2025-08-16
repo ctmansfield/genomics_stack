@@ -1,7 +1,6 @@
- id |  original_name  |    kind     |  status   |      user_email       |                                        notes                                        
+ id |  original_name  |    kind     |  status   |      user_email       |                                        notes
 ----+-----------------+-------------+-----------+-----------------------+-------------------------------------------------------------------------------------
   3 | AncestryDNA.txt | txt         | duplicate | ctmansfield@gmail.com |  parsed_rows=677436; duplicate_of=2; soft_deleted_at=2025-08-12 23:09:39.497669+00;
   2 | AncestryDNA.txt | txt         | parsed    | ctmansfield@gmail.com |  parsed_rows=677436;
   1 | test_dna.txt    | 23andme_txt | parsed    |                       | hello world parsed_rows=1;
 (3 rows)
-

@@ -105,5 +105,3 @@ JSON
 register_task "llm-summarize" "Generate lay summaries with local LLM" "cmd_llm_summarize" \
 "Usage: genomicsctl.sh llm-summarize <upload_id>
 Env: LLM_MODEL (default phi3:mini), LLM_TEMP, LLM_MAXTOK, LLM_HOST, LLM_PORT"
-
-

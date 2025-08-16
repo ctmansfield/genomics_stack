@@ -39,10 +39,7 @@ class TestDataFrameShift:
             index=date_range("1/1/2000", periods=5, freq="h"),
         )
 
-        msg = (
-            "Passing a 'freq' together with a 'fill_value' silently ignores the "
-            "fill_value"
-        )
+        msg = "Passing a 'freq' together with a 'fill_value' silently ignores the " "fill_value"
         with tm.assert_produces_warning(FutureWarning, match=msg):
             obj.shift(1, fill_value=1, freq="h")
 
@@ -209,9 +206,7 @@ class TestDataFrameShift:
         tm.assert_series_equal(shifted["A"], shifted_ser)
 
         unshifted = datetime_frame.shift(5).shift(-5)
-        tm.assert_numpy_array_equal(
-            unshifted.dropna().values, datetime_frame.values[:-5]
-        )
+        tm.assert_numpy_array_equal(unshifted.dropna().values, datetime_frame.values[:-5])
 
         unshifted_ser = ser.shift(5).shift(-5)
         tm.assert_numpy_array_equal(unshifted_ser.dropna().values, ser.values[:-5])
@@ -241,9 +236,7 @@ class TestDataFrameShift:
 
     def test_shift_with_periodindex(self, frame_or_series):
         # Shifting with PeriodIndex
-        ps = DataFrame(
-            np.arange(4, dtype=float), index=pd.period_range("2020-01-01", periods=4)
-        )
+        ps = DataFrame(np.arange(4, dtype=float), index=pd.period_range("2020-01-01", periods=4))
         ps = tm.get_obj(ps, frame_or_series)
 
         shifted = ps.shift(1)
@@ -355,9 +348,7 @@ class TestDataFrameShift:
         ts = frame_or_series(["a", "b", "c", "d"], dtype="category")
         res = ts.shift(1, fill_value="a")
         expected = frame_or_series(
-            pd.Categorical(
-                ["a", "a", "b", "c"], categories=["a", "b", "c", "d"], ordered=False
-            )
+            pd.Categorical(["a", "a", "b", "c"], categories=["a", "b", "c", "d"], ordered=False)
         )
         tm.assert_equal(res, expected)
 
@@ -537,9 +528,7 @@ class TestDataFrameShift:
         with pytest.raises(ValueError, match=msg):
             ps.shift(freq="M")
 
-    def test_datetime_frame_shift_with_freq_error(
-        self, datetime_frame, frame_or_series
-    ):
+    def test_datetime_frame_shift_with_freq_error(self, datetime_frame, frame_or_series):
         dtobj = tm.get_obj(datetime_frame, frame_or_series)
         no_freq = dtobj.iloc[[0, 5, 7]]
         msg = "Freq was not set in the index hence cannot be inferred"
@@ -577,9 +566,7 @@ class TestDataFrameShift:
         [
             pytest.param(
                 True,
-                marks=pytest.mark.xfail(
-                    reason="_can_hold_element incorrectly always returns True"
-                ),
+                marks=pytest.mark.xfail(reason="_can_hold_element incorrectly always returns True"),
             ),
             False,
         ],
@@ -594,15 +581,11 @@ class TestDataFrameShift:
             pd.interval_range(0, 3, periods=2),
             pytest.param(
                 pd.array([1, 2], dtype="Int64"),
-                marks=pytest.mark.xfail(
-                    reason="_can_hold_element incorrectly always returns True"
-                ),
+                marks=pytest.mark.xfail(reason="_can_hold_element incorrectly always returns True"),
             ),
             pytest.param(
                 pd.array([1, 2], dtype="Float32"),
-                marks=pytest.mark.xfail(
-                    reason="_can_hold_element incorrectly always returns True"
-                ),
+                marks=pytest.mark.xfail(reason="_can_hold_element incorrectly always returns True"),
             ),
         ],
         ids=lambda x: str(x.dtype),
@@ -636,9 +619,7 @@ class TestDataFrameShift:
     def test_shift_axis1_categorical_columns(self):
         # GH#38434
         ci = CategoricalIndex(["a", "b", "c"])
-        df = DataFrame(
-            {"a": [1, 3], "b": [2, 4], "c": [5, 6]}, index=ci[:-1], columns=ci
-        )
+        df = DataFrame({"a": [1, 3], "b": [2, 4], "c": [5, 6]}, index=ci[:-1], columns=ci)
         result = df.shift(axis=1)
 
         expected = DataFrame(
@@ -722,10 +703,7 @@ class TestDataFrameShift:
             df.shift(1, freq="h"),
         )
 
-        msg = (
-            "Passing a 'freq' together with a 'fill_value' silently ignores the "
-            "fill_value"
-        )
+        msg = "Passing a 'freq' together with a 'fill_value' silently ignores the " "fill_value"
         with tm.assert_produces_warning(FutureWarning, match=msg):
             df.shift([1, 2], fill_value=1, freq="h")
 

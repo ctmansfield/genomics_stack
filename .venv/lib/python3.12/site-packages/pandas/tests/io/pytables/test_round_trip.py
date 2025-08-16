@@ -34,9 +34,7 @@ def test_conv_read_write():
             obj.to_hdf(path, key=key, **kwargs)
             return read_hdf(path, key)
 
-        o = Series(
-            np.arange(10, dtype=np.float64), index=date_range("2020-01-01", periods=10)
-        )
+        o = Series(np.arange(10, dtype=np.float64), index=date_range("2020-01-01", periods=10))
         tm.assert_series_equal(o, roundtrip("series", o))
 
         o = Series(range(10), dtype="float64", index=[f"i_{i}" for i in range(10)])
@@ -264,18 +262,14 @@ def test_series(setup_path):
     s = Series(range(10), dtype="float64", index=[f"i_{i}" for i in range(10)])
     _check_roundtrip(s, tm.assert_series_equal, path=setup_path)
 
-    ts = Series(
-        np.arange(10, dtype=np.float64), index=date_range("2020-01-01", periods=10)
-    )
+    ts = Series(np.arange(10, dtype=np.float64), index=date_range("2020-01-01", periods=10))
     _check_roundtrip(ts, tm.assert_series_equal, path=setup_path)
 
     ts2 = Series(ts.index, Index(ts.index))
     _check_roundtrip(ts2, tm.assert_series_equal, path=setup_path)
 
     ts3 = Series(ts.values, Index(np.asarray(ts.index)))
-    _check_roundtrip(
-        ts3, tm.assert_series_equal, path=setup_path, check_index_type=False
-    )
+    _check_roundtrip(ts3, tm.assert_series_equal, path=setup_path, check_index_type=False)
 
 
 def test_float_index(setup_path):
@@ -350,15 +344,11 @@ def test_timeseries_preepoch(setup_path, request):
         _check_roundtrip(ts, tm.assert_series_equal, path=setup_path)
     except OverflowError:
         if is_platform_windows():
-            request.applymarker(
-                pytest.mark.xfail("known failure on some windows platforms")
-            )
+            request.applymarker(pytest.mark.xfail("known failure on some windows platforms"))
         raise
 
 
-@pytest.mark.parametrize(
-    "compression", [False, pytest.param(True, marks=td.skip_if_windows)]
-)
+@pytest.mark.parametrize("compression", [False, pytest.param(True, marks=td.skip_if_windows)])
 def test_frame(compression, setup_path):
     df = DataFrame(
         1.1 * np.arange(120).reshape((30, 4)),
@@ -370,21 +360,15 @@ def test_frame(compression, setup_path):
     df.iloc[0, 0] = np.nan
     df.iloc[5, 3] = np.nan
 
-    _check_roundtrip_table(
-        df, tm.assert_frame_equal, path=setup_path, compression=compression
-    )
-    _check_roundtrip(
-        df, tm.assert_frame_equal, path=setup_path, compression=compression
-    )
+    _check_roundtrip_table(df, tm.assert_frame_equal, path=setup_path, compression=compression)
+    _check_roundtrip(df, tm.assert_frame_equal, path=setup_path, compression=compression)
 
     tdf = DataFrame(
         np.random.default_rng(2).standard_normal((10, 4)),
         columns=Index(list("ABCD")),
         index=date_range("2000-01-01", periods=10, freq="B"),
     )
-    _check_roundtrip(
-        tdf, tm.assert_frame_equal, path=setup_path, compression=compression
-    )
+    _check_roundtrip(tdf, tm.assert_frame_equal, path=setup_path, compression=compression)
 
     with ensure_clean_store(setup_path) as store:
         # not consolidated
@@ -422,16 +406,12 @@ def test_empty_series(dtype, setup_path):
 
 def test_can_serialize_dates(setup_path):
     rng = [x.date() for x in bdate_range("1/1/2000", "1/30/2000")]
-    frame = DataFrame(
-        np.random.default_rng(2).standard_normal((len(rng), 4)), index=rng
-    )
+    frame = DataFrame(np.random.default_rng(2).standard_normal((len(rng), 4)), index=rng)
 
     _check_roundtrip(frame, tm.assert_frame_equal, path=setup_path)
 
 
-def test_store_hierarchical(
-    setup_path, using_infer_string, multiindex_dataframe_random_data
-):
+def test_store_hierarchical(setup_path, using_infer_string, multiindex_dataframe_random_data):
     frame = multiindex_dataframe_random_data
 
     if using_infer_string:
@@ -451,9 +431,7 @@ def test_store_hierarchical(
         tm.assert_frame_equal(recons, frame)
 
 
-@pytest.mark.parametrize(
-    "compression", [False, pytest.param(True, marks=td.skip_if_windows)]
-)
+@pytest.mark.parametrize("compression", [False, pytest.param(True, marks=td.skip_if_windows)])
 def test_store_mixed(compression, setup_path):
     def _make_one():
         df = DataFrame(
@@ -553,9 +531,7 @@ def test_unicode_longer_encoded(setup_path):
 
 def test_store_datetime_mixed(setup_path):
     df = DataFrame({"a": [1, 2, 3], "b": [1.0, 2.0, 3.0], "c": ["a", "b", "c"]})
-    ts = Series(
-        np.arange(10, dtype=np.float64), index=date_range("2020-01-01", periods=10)
-    )
+    ts = Series(np.arange(10, dtype=np.float64), index=date_range("2020-01-01", periods=10))
     df["d"] = ts.index[:3]
     _check_roundtrip(df, tm.assert_frame_equal, path=setup_path)
 
@@ -577,9 +553,7 @@ def test_infer_string_columns(tmp_path, setup_path):
     pytest.importorskip("pyarrow")
     path = tmp_path / setup_path
     with pd.option_context("future.infer_string", True):
-        df = DataFrame(1, columns=list("ABCD"), index=list(range(10))).set_index(
-            ["A", "B"]
-        )
+        df = DataFrame(1, columns=list("ABCD"), index=list(range(10))).set_index(["A", "B"])
         expected = df.copy()
         df.to_hdf(path, key="df", format="table")
 

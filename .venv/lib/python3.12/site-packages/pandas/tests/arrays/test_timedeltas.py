@@ -78,9 +78,7 @@ class TestNonNano:
         result = (end_time - start_time).dt.total_seconds().values
         assert result == expected
 
-    @pytest.mark.parametrize(
-        "nat", [np.datetime64("NaT", "ns"), np.datetime64("NaT", "us")]
-    )
+    @pytest.mark.parametrize("nat", [np.datetime64("NaT", "ns"), np.datetime64("NaT", "us")])
     def test_add_nat_datetimelike_scalar(self, nat, tda):
         result = tda + nat
         assert isinstance(result, DatetimeArray)
@@ -196,9 +194,7 @@ class TestNonNano:
 class TestTimedeltaArray:
     @pytest.mark.parametrize("dtype", [int, np.int32, np.int64, "uint32", "uint64"])
     def test_astype_int(self, dtype):
-        arr = TimedeltaArray._from_sequence(
-            [Timedelta("1h"), Timedelta("2h")], dtype="m8[ns]"
-        )
+        arr = TimedeltaArray._from_sequence([Timedelta("1h"), Timedelta("2h")], dtype="m8[ns]")
 
         if np.dtype(dtype) != np.int64:
             with pytest.raises(TypeError, match=r"Do obj.astype\('int64'\)"):

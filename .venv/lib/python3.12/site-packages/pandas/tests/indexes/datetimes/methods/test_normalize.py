@@ -21,15 +21,11 @@ class TestNormalize:
         expected = date_range("1/1/2000", periods=10, freq="D")
         tm.assert_index_equal(result, expected)
 
-        arr_ns = np.array([1380585623454345752, 1380585612343234312]).astype(
-            "datetime64[ns]"
-        )
+        arr_ns = np.array([1380585623454345752, 1380585612343234312]).astype("datetime64[ns]")
         rng_ns = DatetimeIndex(arr_ns)
         rng_ns_normalized = rng_ns.normalize()
 
-        arr_ns = np.array([1380585600000000000, 1380585600000000000]).astype(
-            "datetime64[ns]"
-        )
+        arr_ns = np.array([1380585600000000000, 1380585600000000000]).astype("datetime64[ns]")
         expected = DatetimeIndex(arr_ns)
         tm.assert_index_equal(rng_ns_normalized, expected)
 

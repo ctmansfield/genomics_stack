@@ -117,9 +117,7 @@ class TestDataFrameInterpolate:
         assert tm.shares_memory(df["C"]._values, cvalues)
         assert tm.shares_memory(df["D"]._values, dvalues)
 
-    @pytest.mark.xfail(
-        using_string_dtype(), reason="interpolate doesn't work for string"
-    )
+    @pytest.mark.xfail(using_string_dtype(), reason="interpolate doesn't work for string")
     def test_interp_basic_with_non_range_index(self, using_infer_string):
         df = DataFrame(
             {
@@ -218,9 +216,7 @@ class TestDataFrameInterpolate:
 
     def test_interp_various(self):
         pytest.importorskip("scipy")
-        df = DataFrame(
-            {"A": [1, 2, np.nan, 4, 5, np.nan, 7], "C": [1, 2, 3, 5, 8, 13, 21]}
-        )
+        df = DataFrame({"A": [1, 2, np.nan, 4, 5, np.nan, 7], "C": [1, 2, 3, 5, 8, 13, 21]})
         df = df.set_index("C")
         expected = df.copy()
         result = df.interpolate(method="polynomial", order=1)
@@ -257,9 +253,7 @@ class TestDataFrameInterpolate:
 
     def test_interp_alt_scipy(self):
         pytest.importorskip("scipy")
-        df = DataFrame(
-            {"A": [1, 2, np.nan, 4, 5, np.nan, 7], "C": [1, 2, 3, 5, 8, 13, 21]}
-        )
+        df = DataFrame({"A": [1, 2, np.nan, 4, 5, np.nan, 7], "C": [1, 2, 3, 5, 8, 13, 21]})
         result = df.interpolate(method="barycentric")
         expected = df.copy()
         expected.loc[2, "A"] = 3
@@ -338,9 +332,7 @@ class TestDataFrameInterpolate:
         "check_scipy", [False, pytest.param(True, marks=td.skip_if_no("scipy"))]
     )
     def test_interp_leading_nans(self, check_scipy):
-        df = DataFrame(
-            {"A": [np.nan, np.nan, 0.5, 0.25, 0], "B": [np.nan, -3, -3.5, np.nan, -4]}
-        )
+        df = DataFrame({"A": [np.nan, np.nan, 0.5, 0.25, 0], "B": [np.nan, -3, -3.5, np.nan, -4]})
         result = df.interpolate()
         expected = df.copy()
         expected.loc[3, "B"] = -3.75
@@ -400,9 +392,7 @@ class TestDataFrameInterpolate:
         msg = "The 'downcast' keyword in Series.interpolate is deprecated"
 
         if using_copy_on_write:
-            with tm.assert_produces_warning(
-                (FutureWarning, ChainedAssignmentError), match=msg
-            ):
+            with tm.assert_produces_warning((FutureWarning, ChainedAssignmentError), match=msg):
                 return_value = result["a"].interpolate(inplace=True, downcast="infer")
             assert return_value is None
             tm.assert_frame_equal(result, expected_cow)
@@ -469,18 +459,16 @@ class TestDataFrameInterpolate:
         # https://github.com/pandas-dev/pandas/issues/25190
         x = np.linspace(0, 100, 1000)
         y = np.sin(x)
-        df = DataFrame(
-            data=np.tile(y, (10, 1)), index=np.arange(10), columns=x
-        ).reindex(columns=x * 1.005)
+        df = DataFrame(data=np.tile(y, (10, 1)), index=np.arange(10), columns=x).reindex(
+            columns=x * 1.005
+        )
         result = df.interpolate(method="linear", axis=axis_name)
         expected = df.interpolate(method="linear", axis=axis_number)
         tm.assert_frame_equal(result, expected)
 
     @pytest.mark.parametrize("multiblock", [True, False])
     @pytest.mark.parametrize("method", ["ffill", "bfill", "pad"])
-    def test_interp_fillna_methods(
-        self, request, axis, multiblock, method, using_array_manager
-    ):
+    def test_interp_fillna_methods(self, request, axis, multiblock, method, using_array_manager):
         # GH 12918
         if using_array_manager and axis in (1, "columns"):
             # TODO(ArrayManager) support axis=1

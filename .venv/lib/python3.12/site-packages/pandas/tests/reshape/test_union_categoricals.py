@@ -80,15 +80,11 @@ class TestUnionCategoricals:
 
     def test_union_categoricals_nan(self):
         # GH 13759
-        res = union_categoricals(
-            [Categorical([1, 2, np.nan]), Categorical([3, 2, np.nan])]
-        )
+        res = union_categoricals([Categorical([1, 2, np.nan]), Categorical([3, 2, np.nan])])
         exp = Categorical([1, 2, np.nan, 3, 2, np.nan])
         tm.assert_categorical_equal(res, exp)
 
-        res = union_categoricals(
-            [Categorical(["A", "B"]), Categorical(["B", "B", np.nan])]
-        )
+        res = union_categoricals([Categorical(["A", "B"]), Categorical(["B", "B", np.nan])])
         exp = Categorical(["A", "B", "B", "B", np.nan])
         tm.assert_categorical_equal(res, exp)
 
@@ -116,9 +112,7 @@ class TestUnionCategoricals:
         exp = Categorical([np.nan, np.nan, "X"])
         tm.assert_categorical_equal(res, exp)
 
-        res = union_categoricals(
-            [Categorical([np.nan, np.nan]), Categorical([np.nan, np.nan])]
-        )
+        res = union_categoricals([Categorical([np.nan, np.nan]), Categorical([np.nan, np.nan])])
         exp = Categorical([np.nan, np.nan, np.nan, np.nan])
         tm.assert_categorical_equal(res, exp)
 
@@ -127,9 +121,7 @@ class TestUnionCategoricals:
         # GH 13759
         if using_infer_string and val == ["1"]:
             request.applymarker(
-                pytest.mark.xfail(
-                    reason="TDOD(infer_string) object and strings dont match"
-                )
+                pytest.mark.xfail(reason="TDOD(infer_string) object and strings dont match")
             )
         res = union_categoricals([Categorical([]), Categorical(val)])
         exp = Categorical(val)
@@ -155,9 +147,7 @@ class TestUnionCategoricals:
         c1 = Categorical(["a", "b", "c"], categories=["a", "b", "c"])
         c2 = Categorical(["a", "b", "c"], categories=["b", "a", "c"])
         result = union_categoricals([c1, c2])
-        expected = Categorical(
-            ["a", "b", "c", "a", "b", "c"], categories=["a", "b", "c"]
-        )
+        expected = Categorical(["a", "b", "c", "a", "b", "c"], categories=["a", "b", "c"])
         tm.assert_categorical_equal(result, expected)
 
     def test_union_categoricals_ordered(self):
@@ -343,9 +333,7 @@ class TestUnionCategoricals:
         c1 = Categorical(["b", "a"], categories=["b", "a", "c"], ordered=True)
         c2 = Categorical(["a", "c"], categories=["b", "a", "c"], ordered=True)
         result = union_categoricals([c1, c2], sort_categories=False)
-        expected = Categorical(
-            ["b", "a", "a", "c"], categories=["b", "a", "c"], ordered=True
-        )
+        expected = Categorical(["b", "a", "a", "c"], categories=["b", "a", "c"], ordered=True)
         tm.assert_categorical_equal(result, expected)
 
     def test_union_categorical_unwrap(self):

@@ -17,9 +17,7 @@ class TestSeries:
     def test_set_axis_name_mi(self, func):
         ser = Series(
             [11, 21, 31],
-            index=MultiIndex.from_tuples(
-                [("A", x) for x in ["a", "B", "c"]], names=["l1", "l2"]
-            ),
+            index=MultiIndex.from_tuples([("A", x) for x in ["a", "B", "c"]], names=["l1", "l2"]),
         )
 
         result = methodcaller(func, ["L1", "L2"])(ser)
@@ -42,8 +40,7 @@ class TestSeries:
     def test_nonzero_single_element(self):
         # allow single item via bool method
         msg_warn = (
-            "Series.bool is now deprecated and will be removed "
-            "in future version of pandas"
+            "Series.bool is now deprecated and will be removed " "in future version of pandas"
         )
         ser = Series([True])
         ser1 = Series([False])
@@ -64,8 +61,7 @@ class TestSeries:
     @pytest.mark.parametrize("data", [np.nan, pd.NaT])
     def test_nonzero_single_element_raise_2(self, data):
         msg_warn = (
-            "Series.bool is now deprecated and will be removed "
-            "in future version of pandas"
+            "Series.bool is now deprecated and will be removed " "in future version of pandas"
         )
         msg_err = "bool cannot act on a non-boolean single element Series"
         series = Series([data])
@@ -77,8 +73,7 @@ class TestSeries:
     def test_nonzero_multiple_element_raise(self, data):
         # multiple bool are still an error
         msg_warn = (
-            "Series.bool is now deprecated and will be removed "
-            "in future version of pandas"
+            "Series.bool is now deprecated and will be removed " "in future version of pandas"
         )
         msg_err = "The truth value of a Series is ambiguous"
         series = Series([data])
@@ -92,8 +87,7 @@ class TestSeries:
     def test_nonbool_single_element_raise(self, data):
         # single non-bool are an error
         msg_warn = (
-            "Series.bool is now deprecated and will be removed "
-            "in future version of pandas"
+            "Series.bool is now deprecated and will be removed " "in future version of pandas"
         )
         msg_err1 = "The truth value of a Series is ambiguous"
         msg_err2 = "bool cannot act on a non-boolean single element Series"
@@ -135,11 +129,7 @@ class TestSeries:
             for name in self._metadata:
                 if method == "concat" and name == "filename":
                     value = "+".join(
-                        [
-                            getattr(obj, name)
-                            for obj in other.objs
-                            if getattr(obj, name, None)
-                        ]
+                        [getattr(obj, name) for obj in other.objs if getattr(obj, name, None)]
                     )
                     object.__setattr__(self, name, value)
                 else:

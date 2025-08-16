@@ -13,18 +13,14 @@ import pandas as pd
 import pandas._testing as tm
 
 
-@pytest.mark.filterwarnings(
-    "ignore:The default of observed=False is deprecated:FutureWarning"
-)
+@pytest.mark.filterwarnings("ignore:The default of observed=False is deprecated:FutureWarning")
 class BaseGroupbyTests:
     """Groupby-specific tests."""
 
     def test_grouping_grouper(self, data_for_grouping):
         df = pd.DataFrame(
             {
-                "A": pd.Series(
-                    ["B", "B", None, None, "A", "A", "B", "C"], dtype=object
-                ),
+                "A": pd.Series(["B", "B", None, None, "A", "A", "B", "C"], dtype=object),
                 "B": data_for_grouping,
             }
         )

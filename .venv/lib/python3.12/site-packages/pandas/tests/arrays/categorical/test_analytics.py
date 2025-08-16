@@ -46,9 +46,7 @@ class TestCategoricalAnalytics:
         assert np.maximum.reduce(obj) == "d"
         # TODO: raises if we pass axis=0  (on Index and Categorical, not Series)
 
-        cat = Categorical(
-            ["a", "b", "c", "d"], categories=["d", "c", "b", "a"], ordered=True
-        )
+        cat = Categorical(["a", "b", "c", "d"], categories=["d", "c", "b", "a"], ordered=True)
         obj = index_or_series_or_array(cat)
         _min = obj.min()
         _max = obj.max()
@@ -78,9 +76,7 @@ class TestCategoricalAnalytics:
             pytest.param(
                 Series(date_range("2020-01-01", periods=3), dtype="category"),
                 NaT,
-                marks=pytest.mark.xfail(
-                    reason="https://github.com/pandas-dev/pandas/issues/29962"
-                ),
+                marks=pytest.mark.xfail(reason="https://github.com/pandas-dev/pandas/issues/29962"),
             ),
         ],
     )
@@ -121,9 +117,7 @@ class TestCategoricalAnalytics:
     @pytest.mark.parametrize("method", ["min", "max"])
     def test_numeric_only_min_max_raises(self, method):
         # GH 25303
-        cat = Categorical(
-            [np.nan, 1, 2, np.nan], categories=[5, 4, 3, 2, 1], ordered=True
-        )
+        cat = Categorical([np.nan, 1, 2, np.nan], categories=[5, 4, 3, 2, 1], ordered=True)
         with pytest.raises(TypeError, match=".* got an unexpected keyword"):
             getattr(cat, method)(numeric_only=True)
 
@@ -143,8 +137,7 @@ class TestCategoricalAnalytics:
     def test_numpy_min_max_unsupported_kwargs_raises(self, method, kwarg):
         cat = Categorical(["a", "b", "c", "b"], ordered=True)
         msg = (
-            f"the '{kwarg}' parameter is not supported in the pandas implementation "
-            f"of {method}"
+            f"the '{kwarg}' parameter is not supported in the pandas implementation " f"of {method}"
         )
         if kwarg == "axis":
             msg = r"`axis` must be fewer than the number of dimensions \(1\)"
@@ -218,10 +211,7 @@ class TestCategoricalAnalytics:
             ser.searchsorted("cucumber")
 
         # Searching for multiple values one of each is not from the Categorical
-        msg = (
-            "Cannot setitem on a Categorical with a new category, "
-            "set the categories first"
-        )
+        msg = "Cannot setitem on a Categorical with a new category, " "set the categories first"
         with pytest.raises(TypeError, match=msg):
             cat.searchsorted(["bread", "cucumber"])
         with pytest.raises(TypeError, match=msg):
@@ -282,9 +272,7 @@ class TestCategoricalAnalytics:
 
         # shift back
         sn2 = cat.shift(-2)
-        xp2 = Categorical(
-            ["c", "d", "a", np.nan, np.nan], categories=["a", "b", "c", "d"]
-        )
+        xp2 = Categorical(["c", "d", "a", np.nan, np.nan], categories=["a", "b", "c", "d"])
         tm.assert_categorical_equal(sn2, xp2)
         tm.assert_categorical_equal(cat[2:], sn2[:-2])
 
@@ -336,10 +324,7 @@ class TestCategoricalAnalytics:
     @pytest.mark.parametrize("value", [1, "True", [1, 2, 3], 5.0])
     def test_validate_inplace_raises(self, value):
         cat = Categorical(["A", "B", "B", "C", "A"])
-        msg = (
-            'For argument "inplace" expected type bool, '
-            f"received type {type(value).__name__}"
-        )
+        msg = 'For argument "inplace" expected type bool, ' f"received type {type(value).__name__}"
 
         with pytest.raises(ValueError, match=msg):
             cat.sort_values(inplace=value)

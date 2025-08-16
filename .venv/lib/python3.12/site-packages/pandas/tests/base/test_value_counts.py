@@ -144,9 +144,7 @@ def test_value_counts_inferred(index_or_series, using_infer_string):
 
     # relative histogram.
     hist = s.value_counts(normalize=True)
-    expected = Series(
-        [0.4, 0.3, 0.2, 0.1], index=["b", "a", "d", "c"], name="proportion"
-    )
+    expected = Series([0.4, 0.3, 0.2, 0.1], index=["b", "a", "d", "c"], name="proportion")
     tm.assert_series_equal(hist, expected)
 
 
@@ -188,9 +186,7 @@ def test_value_counts_bins(index_or_series, using_infer_string):
     tm.assert_series_equal(res4, exp4)
 
     res4n = s1.value_counts(bins=4, normalize=True)
-    exp4n = Series(
-        [0.5, 0.25, 0.25, 0], index=intervals.take([0, 1, 3, 2]), name="proportion"
-    )
+    exp4n = Series([0.5, 0.25, 0.25, 0], index=intervals.take([0, 1, 3, 2]), name="proportion")
     tm.assert_series_equal(res4n, exp4n)
 
     # handle NA's properly

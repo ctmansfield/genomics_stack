@@ -131,9 +131,7 @@ class TestExpressions:
         ],
     )
     @pytest.mark.parametrize("flex", [True, False])
-    @pytest.mark.parametrize(
-        "arith", ["add", "sub", "mul", "mod", "truediv", "floordiv"]
-    )
+    @pytest.mark.parametrize("arith", ["add", "sub", "mul", "mod", "truediv", "floordiv"])
     def test_run_arithmetic(self, request, fixture, flex, arith, monkeypatch):
         df = request.getfixturevalue(fixture)
         with monkeypatch.context() as m:
@@ -145,9 +143,7 @@ class TestExpressions:
             tm.assert_equal(expected, result)
 
             for i in range(len(df.columns)):
-                result, expected = self.call_op(
-                    df.iloc[:, i], df.iloc[:, i], flex, arith
-                )
+                result, expected = self.call_op(df.iloc[:, i], df.iloc[:, i], flex, arith)
                 if arith == "truediv":
                     assert expected.dtype.kind == "f"
                 tm.assert_equal(expected, result)
@@ -288,9 +284,7 @@ class TestExpressions:
         expr.set_numexpr_threads()
         testit()
 
-    @pytest.mark.parametrize(
-        "op_str,opname", [("/", "truediv"), ("//", "floordiv"), ("**", "pow")]
-    )
+    @pytest.mark.parametrize("op_str,opname", [("/", "truediv"), ("//", "floordiv"), ("**", "pow")])
     def test_bool_ops_raise_on_arithmetic(self, op_str, opname):
         df = DataFrame(
             {
@@ -321,9 +315,7 @@ class TestExpressions:
         with pytest.raises(NotImplementedError, match=err_msg):
             f(df, True)
 
-    @pytest.mark.parametrize(
-        "op_str,opname", [("+", "add"), ("*", "mul"), ("-", "sub")]
-    )
+    @pytest.mark.parametrize("op_str,opname", [("+", "add"), ("*", "mul"), ("-", "sub")])
     def test_bool_ops_warn_on_arithmetic(self, op_str, opname):
         n = 10
         df = DataFrame(
@@ -378,9 +370,7 @@ class TestExpressions:
         "test_input,expected",
         [
             (
-                DataFrame(
-                    [[0, 1, 2, "aa"], [0, 1, 2, "aa"]], columns=["a", "b", "c", "dtype"]
-                ),
+                DataFrame([[0, 1, 2, "aa"], [0, 1, 2, "aa"]], columns=["a", "b", "c", "dtype"]),
                 DataFrame([[False, False], [False, False]], columns=["a", "dtype"]),
             ),
             (
@@ -400,9 +390,7 @@ class TestExpressions:
         result = test_input.loc[:, ["a", "dtype"]].ne(test_input.loc[:, ["a", "dtype"]])
         tm.assert_frame_equal(result, expected)
 
-    @pytest.mark.parametrize(
-        "arith", ("add", "sub", "mul", "mod", "truediv", "floordiv")
-    )
+    @pytest.mark.parametrize("arith", ("add", "sub", "mul", "mod", "truediv", "floordiv"))
     @pytest.mark.parametrize("axis", (0, 1))
     def test_frame_series_axis(self, axis, arith, _frame, monkeypatch):
         # GH#26736 Dataframe.floordiv(Series, axis=1) fails
@@ -435,9 +423,7 @@ class TestExpressions:
     )
     @pytest.mark.parametrize("box", [DataFrame, Series, Index])
     @pytest.mark.parametrize("scalar", [-5, 5])
-    def test_python_semantics_with_numexpr_installed(
-        self, op, box, scalar, monkeypatch
-    ):
+    def test_python_semantics_with_numexpr_installed(self, op, box, scalar, monkeypatch):
         # https://github.com/pandas-dev/pandas/issues/36047
         with monkeypatch.context() as m:
             m.setattr(expr, "_MIN_ELEMENTS", 0)

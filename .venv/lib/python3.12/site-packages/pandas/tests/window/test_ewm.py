@@ -150,12 +150,8 @@ def test_ewm_getitem_attributes_retained(arg, adjust, ignore_na):
 
 def test_ewma_times_adjust_false_raises():
     # GH 40098
-    with pytest.raises(
-        NotImplementedError, match="times is not supported with adjust=False."
-    ):
-        Series(range(1)).ewm(
-            0.1, adjust=False, times=date_range("2000", freq="D", periods=1)
-        )
+    with pytest.raises(NotImplementedError, match="times is not supported with adjust=False."):
+        Series(range(1)).ewm(0.1, adjust=False, times=date_range("2000", freq="D", periods=1))
 
 
 @pytest.mark.parametrize(
@@ -197,9 +193,7 @@ def test_ewma_times_adjust_false_raises():
 def test_float_dtype_ewma(func, expected, float_numpy_dtype):
     # GH#42452
 
-    df = DataFrame(
-        {0: range(5), 1: range(6, 11), 2: range(10, 20, 2)}, dtype=float_numpy_dtype
-    )
+    df = DataFrame({0: range(5), 1: range(6, 11), 2: range(10, 20, 2)}, dtype=float_numpy_dtype)
     msg = "Support for axis=1 in DataFrame.ewm is deprecated"
     with tm.assert_produces_warning(FutureWarning, match=msg):
         e = df.ewm(alpha=0.5, axis=1)
@@ -210,9 +204,7 @@ def test_float_dtype_ewma(func, expected, float_numpy_dtype):
 
 def test_times_string_col_raises():
     # GH 43265
-    df = DataFrame(
-        {"A": np.arange(10.0), "time_col": date_range("2000", freq="D", periods=10)}
-    )
+    df = DataFrame({"A": np.arange(10.0), "time_col": date_range("2000", freq="D", periods=10)})
     with pytest.raises(ValueError, match="times must be datetime64"):
         df.ewm(halflife="1 day", min_periods=0, times="time_col")
 
@@ -386,8 +378,7 @@ def test_ewma_nan_handling():
                 (1.0 - (1.0 / (1.0 + 2.0))) ** 3,
                 np.nan,
                 (1.0 - (1.0 / (1.0 + 2.0))) * (1.0 / (1.0 + 2.0)),
-                (1.0 / (1.0 + 2.0))
-                * ((1.0 - (1.0 / (1.0 + 2.0))) ** 2 + (1.0 / (1.0 + 2.0))),
+                (1.0 / (1.0 + 2.0)) * ((1.0 - (1.0 / (1.0 + 2.0))) ** 2 + (1.0 / (1.0 + 2.0))),
             ],
         ),
         (
@@ -559,9 +550,7 @@ def test_ewm_corr_cov_min_periods(name, min_periods):
     tm.assert_series_equal(result, empty)
 
     # check series of length 1
-    result = getattr(Series([1.0]).ewm(com=50, min_periods=min_periods), name)(
-        Series([1.0])
-    )
+    result = getattr(Series([1.0]).ewm(com=50, min_periods=min_periods), name)(Series([1.0]))
     tm.assert_series_equal(result, Series([np.nan]))
 
 
@@ -573,9 +562,7 @@ def test_different_input_array_raise_exception(name):
     msg = "other must be a DataFrame or Series"
     # exception raised is Exception
     with pytest.raises(ValueError, match=msg):
-        getattr(A.ewm(com=20, min_periods=5), name)(
-            np.random.default_rng(2).standard_normal(50)
-        )
+        getattr(A.ewm(com=20, min_periods=5), name)(np.random.default_rng(2).standard_normal(50))
 
 
 @pytest.mark.parametrize("name", ["var", "std", "mean"])

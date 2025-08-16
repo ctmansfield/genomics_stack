@@ -1,6 +1,7 @@
 """
 Tests for 2D compatibility.
 """
+
 import numpy as np
 import pytest
 
@@ -183,9 +184,7 @@ class Dim2CompatTests:
 
         result2 = arr2._pad_or_backfill(method=method, limit=None)
 
-        expected2 = (
-            data_missing[::-1]._pad_or_backfill(method=method).repeat(2).reshape(2, 2)
-        )
+        expected2 = data_missing[::-1]._pad_or_backfill(method=method).repeat(2).reshape(2, 2)
         tm.assert_extension_array_equal(result2, expected2)
 
     @pytest.mark.parametrize("method", ["mean", "median", "var", "std", "sum", "prod"])

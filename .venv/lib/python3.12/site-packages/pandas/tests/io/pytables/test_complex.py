@@ -60,12 +60,8 @@ def test_complex_table(tmp_path, setup_path):
 
 
 def test_complex_mixed_fixed(tmp_path, setup_path):
-    complex64 = np.array(
-        [1.0 + 1.0j, 1.0 + 1.0j, 1.0 + 1.0j, 1.0 + 1.0j], dtype=np.complex64
-    )
-    complex128 = np.array(
-        [1.0 + 1.0j, 1.0 + 1.0j, 1.0 + 1.0j, 1.0 + 1.0j], dtype=np.complex128
-    )
+    complex64 = np.array([1.0 + 1.0j, 1.0 + 1.0j, 1.0 + 1.0j, 1.0 + 1.0j], dtype=np.complex64)
+    complex128 = np.array([1.0 + 1.0j, 1.0 + 1.0j, 1.0 + 1.0j, 1.0 + 1.0j], dtype=np.complex128)
     df = DataFrame(
         {
             "A": [1, 2, 3, 4],
@@ -83,12 +79,8 @@ def test_complex_mixed_fixed(tmp_path, setup_path):
 
 
 def test_complex_mixed_table(tmp_path, setup_path):
-    complex64 = np.array(
-        [1.0 + 1.0j, 1.0 + 1.0j, 1.0 + 1.0j, 1.0 + 1.0j], dtype=np.complex64
-    )
-    complex128 = np.array(
-        [1.0 + 1.0j, 1.0 + 1.0j, 1.0 + 1.0j, 1.0 + 1.0j], dtype=np.complex128
-    )
+    complex64 = np.array([1.0 + 1.0j, 1.0 + 1.0j, 1.0 + 1.0j, 1.0 + 1.0j], dtype=np.complex64)
+    complex128 = np.array([1.0 + 1.0j, 1.0 + 1.0j, 1.0 + 1.0j, 1.0 + 1.0j], dtype=np.complex128)
     df = DataFrame(
         {
             "A": [1, 2, 3, 4],
@@ -137,9 +129,7 @@ def test_complex_across_dimensions(tmp_path, setup_path):
 
 
 def test_complex_indexing_error(setup_path):
-    complex128 = np.array(
-        [1.0 + 1.0j, 1.0 + 1.0j, 1.0 + 1.0j, 1.0 + 1.0j], dtype=np.complex128
-    )
+    complex128 = np.array([1.0 + 1.0j, 1.0 + 1.0j, 1.0 + 1.0j, 1.0 + 1.0j], dtype=np.complex128)
     df = DataFrame(
         {"A": [1, 2, 3, 4], "B": ["a", "b", "c", "d"], "C": complex128},
         index=list("abcd"),

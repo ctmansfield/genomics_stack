@@ -16,9 +16,7 @@ import pandas._testing as tm
 class TestCategoricalConcat:
     def test_categorical_concat(self, sort):
         # See GH 10177
-        df1 = DataFrame(
-            np.arange(18, dtype="int64").reshape(6, 3), columns=["a", "b", "c"]
-        )
+        df1 = DataFrame(np.arange(18, dtype="int64").reshape(6, 3), columns=["a", "b", "c"])
 
         df2 = DataFrame(np.arange(14, dtype="int64").reshape(7, 2), columns=["a", "c"])
 
@@ -128,9 +126,7 @@ class TestCategoricalConcat:
         a = Series(np.arange(6, dtype="int64"))
         b = Series(list("aabbca"))
 
-        df2 = DataFrame(
-            {"A": a, "B": b.astype(CategoricalDtype(list("cab")))}
-        ).set_index("B")
+        df2 = DataFrame({"A": a, "B": b.astype(CategoricalDtype(list("cab")))}).set_index("B")
         result = pd.concat([df2, df2])
         expected = DataFrame(
             {
@@ -141,9 +137,7 @@ class TestCategoricalConcat:
         tm.assert_frame_equal(result, expected)
 
         # wrong categories -> uses concat_compat, which casts to object
-        df3 = DataFrame(
-            {"A": a, "B": Categorical(b, categories=list("abe"))}
-        ).set_index("B")
+        df3 = DataFrame({"A": a, "B": Categorical(b, categories=list("abe"))}).set_index("B")
         result = pd.concat([df2, df3])
         expected = pd.concat(
             [
@@ -170,17 +164,11 @@ class TestCategoricalConcat:
 
     def test_concat_categorical_datetime(self):
         # GH-39443
-        df1 = DataFrame(
-            {"x": Series(datetime(2021, 1, 1), index=[0], dtype="category")}
-        )
-        df2 = DataFrame(
-            {"x": Series(datetime(2021, 1, 2), index=[1], dtype="category")}
-        )
+        df1 = DataFrame({"x": Series(datetime(2021, 1, 1), index=[0], dtype="category")})
+        df2 = DataFrame({"x": Series(datetime(2021, 1, 2), index=[1], dtype="category")})
 
         result = pd.concat([df1, df2])
-        expected = DataFrame(
-            {"x": Series([datetime(2021, 1, 1), datetime(2021, 1, 2)])}
-        )
+        expected = DataFrame({"x": Series([datetime(2021, 1, 1), datetime(2021, 1, 2)])})
 
         tm.assert_equal(result, expected)
 
@@ -259,9 +247,7 @@ class TestCategoricalConcat:
 
         c1 = pd.CategoricalIndex(["a", "a"], categories=["a", "b"], ordered=False)
         c2 = pd.CategoricalIndex(["b", "b"], categories=["b", "a"], ordered=False)
-        c3 = pd.CategoricalIndex(
-            ["a", "a", "b", "b"], categories=["a", "b"], ordered=False
-        )
+        c3 = pd.CategoricalIndex(["a", "a", "b", "b"], categories=["a", "b"], ordered=False)
 
         df1 = DataFrame({"A": [1, 2]}, index=c1)
         df2 = DataFrame({"A": [3, 4]}, index=c2)

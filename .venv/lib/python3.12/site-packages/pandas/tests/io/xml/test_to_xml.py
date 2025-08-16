@@ -287,9 +287,7 @@ def test_index_false_rename_row_root(xml_books, parser):
     df_file = read_xml(xml_books, parser=parser)
 
     with tm.ensure_clean("test.xml") as path:
-        df_file.to_xml(
-            path, index=False, root_name="books", row_name="book", parser=parser
-        )
+        df_file.to_xml(path, index=False, root_name="books", row_name="book", parser=parser)
         with open(path, "rb") as f:
             output = f.read().decode("utf-8").strip()
 
@@ -298,9 +296,7 @@ def test_index_false_rename_row_root(xml_books, parser):
         assert output == expected
 
 
-@pytest.mark.parametrize(
-    "offset_index", [list(range(10, 13)), [str(i) for i in range(10, 13)]]
-)
+@pytest.mark.parametrize("offset_index", [list(range(10, 13)), [str(i) for i in range(10, 13)]])
 def test_index_false_with_offset_input_index(parser, offset_index, geom_df):
     """
     Tests that the output does not contain the `<index>` field when the index of the
@@ -482,9 +478,7 @@ def test_elems_cols_nan_output(parser, geom_df):
   </row>
 </data>"""
 
-    output = geom_df.to_xml(
-        index=False, elem_cols=["degrees", "sides", "shape"], parser=parser
-    )
+    output = geom_df.to_xml(index=False, elem_cols=["degrees", "sides", "shape"], parser=parser)
     output = equalize_decl(output)
 
     assert output == elems_cols_expected
@@ -636,11 +630,7 @@ def test_multi_index(parser, planet_df):
   </row>
 </data>"""
 
-    agg = (
-        planet_df.groupby(["location", "type"])["mass"]
-        .agg(["count", "sum", "mean"])
-        .round(2)
-    )
+    agg = planet_df.groupby(["location", "type"])["mass"].agg(["count", "sum", "mean"]).round(2)
 
     output = agg.to_xml(parser=parser)
     output = equalize_decl(output)
@@ -660,11 +650,7 @@ sum="2466.5" mean="1233.25"/>
 sum="189.23" mean="94.61"/>
 </data>"""
 
-    agg = (
-        planet_df.groupby(["location", "type"])["mass"]
-        .agg(["count", "sum", "mean"])
-        .round(2)
-    )
+    agg = planet_df.groupby(["location", "type"])["mass"].agg(["count", "sum", "mean"]).round(2)
     output = agg.to_xml(attr_cols=list(agg.reset_index().columns.values), parser=parser)
     output = equalize_decl(output)
 
@@ -764,9 +750,7 @@ def test_namespace_prefix(parser, geom_df):
   </doc:row>
 </doc:data>"""
 
-    output = geom_df.to_xml(
-        namespaces={"doc": "http://example.com"}, prefix="doc", parser=parser
-    )
+    output = geom_df.to_xml(namespaces={"doc": "http://example.com"}, prefix="doc", parser=parser)
     output = equalize_decl(output)
 
     assert output == expected
@@ -774,9 +758,7 @@ def test_namespace_prefix(parser, geom_df):
 
 def test_missing_prefix_in_nmsp(parser, geom_df):
     with pytest.raises(KeyError, match=("doc is not included in namespaces")):
-        geom_df.to_xml(
-            namespaces={"": "http://example.com"}, prefix="doc", parser=parser
-        )
+        geom_df.to_xml(namespaces={"": "http://example.com"}, prefix="doc", parser=parser)
 
 
 def test_namespace_prefix_and_default(parser, geom_df):
@@ -972,9 +954,7 @@ def test_default_parser_no_lxml(geom_df):
 
 
 def test_unknown_parser(geom_df):
-    with pytest.raises(
-        ValueError, match=("Values for parser can only be lxml or etree.")
-    ):
+    with pytest.raises(ValueError, match=("Values for parser can only be lxml or etree.")):
         geom_df.to_xml(parser="bs4")
 
 
@@ -1006,9 +986,7 @@ xsl_expected = """\
 
 def test_stylesheet_file_like(xsl_row_field_output, mode, geom_df):
     pytest.importorskip("lxml")
-    with open(
-        xsl_row_field_output, mode, encoding="utf-8" if mode == "r" else None
-    ) as f:
+    with open(xsl_row_field_output, mode, encoding="utf-8" if mode == "r" else None) as f:
         assert geom_df.to_xml(stylesheet=f) == xsl_expected
 
 
@@ -1018,9 +996,7 @@ def test_stylesheet_io(xsl_row_field_output, mode, geom_df):
     pytest.importorskip("lxml")
     xsl_obj: BytesIO | StringIO  # type: ignore[annotation-unchecked]
 
-    with open(
-        xsl_row_field_output, mode, encoding="utf-8" if mode == "r" else None
-    ) as f:
+    with open(xsl_row_field_output, mode, encoding="utf-8" if mode == "r" else None) as f:
         if mode == "rb":
             xsl_obj = BytesIO(f.read())
         else:
@@ -1033,9 +1009,7 @@ def test_stylesheet_io(xsl_row_field_output, mode, geom_df):
 
 def test_stylesheet_buffered_reader(xsl_row_field_output, mode, geom_df):
     pytest.importorskip("lxml")
-    with open(
-        xsl_row_field_output, mode, encoding="utf-8" if mode == "r" else None
-    ) as f:
+    with open(xsl_row_field_output, mode, encoding="utf-8" if mode == "r" else None) as f:
         xsl_obj = f.read()
 
     output = geom_df.to_xml(stylesheet=xsl_obj)
@@ -1096,9 +1070,7 @@ def test_incorrect_xsl_syntax(geom_df):
     </xsl:template>
 </xsl:stylesheet>"""
 
-    with pytest.raises(
-        lxml_etree.XMLSyntaxError, match=("Opening and ending tag mismatch")
-    ):
+    with pytest.raises(lxml_etree.XMLSyntaxError, match=("Opening and ending tag mismatch")):
         geom_df.to_xml(stylesheet=xsl)
 
 
@@ -1162,9 +1134,7 @@ def test_stylesheet_with_etree(geom_df):
         </xsl:copy>
     </xsl:template>"""
 
-    with pytest.raises(
-        ValueError, match=("To use stylesheet, you need lxml installed")
-    ):
+    with pytest.raises(ValueError, match=("To use stylesheet, you need lxml installed")):
         geom_df.to_xml(parser="etree", stylesheet=xsl)
 
 
@@ -1319,9 +1289,7 @@ def test_compression_output(parser, compression_only, geom_df):
     assert geom_xml == output.strip()
 
 
-def test_filename_and_suffix_comp(
-    parser, compression_only, geom_df, compression_to_extension
-):
+def test_filename_and_suffix_comp(parser, compression_only, geom_df, compression_to_extension):
     compfile = "xml." + compression_to_extension[compression_only]
     with tm.ensure_clean(filename=compfile) as path:
         geom_df.to_xml(path, parser=parser, compression=compression_only)
@@ -1370,6 +1338,4 @@ def test_s3_permission_output(parser, s3_public_bucket, geom_df):
         fs = s3fs.S3FileSystem(anon=True)
         fs.ls(s3_public_bucket.name)
 
-        geom_df.to_xml(
-            f"s3://{s3_public_bucket.name}/geom.xml", compression="zip", parser=parser
-        )
+        geom_df.to_xml(f"s3://{s3_public_bucket.name}/geom.xml", compression="zip", parser=parser)

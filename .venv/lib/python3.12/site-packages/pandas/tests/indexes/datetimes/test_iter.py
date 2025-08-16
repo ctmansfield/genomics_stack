@@ -11,9 +11,7 @@ from pandas.core.arrays import datetimes
 
 
 class TestDatetimeIndexIteration:
-    @pytest.mark.parametrize(
-        "tz", [None, "UTC", "US/Central", dateutil.tz.tzoffset(None, -28800)]
-    )
+    @pytest.mark.parametrize("tz", [None, "UTC", "US/Central", dateutil.tz.tzoffset(None, -28800)])
     def test_iteration_preserves_nanoseconds(self, tz):
         # GH#19603
         index = DatetimeIndex(
@@ -39,9 +37,7 @@ class TestDatetimeIndexIteration:
             assert result == expected
 
     def test_iteration_preserves_tz2(self):
-        index = date_range(
-            "2012-01-01", periods=3, freq="h", tz=dateutil.tz.tzoffset(None, -28800)
-        )
+        index = date_range("2012-01-01", periods=3, freq="h", tz=dateutil.tz.tzoffset(None, -28800))
 
         for i, ts in enumerate(index):
             result = ts
@@ -64,9 +60,7 @@ class TestDatetimeIndexIteration:
     def test_iteration_over_chunksize(self, offset, monkeypatch):
         # GH#21012
         chunksize = 5
-        index = date_range(
-            "2000-01-01 00:00:00", periods=chunksize - offset, freq="min"
-        )
+        index = date_range("2000-01-01 00:00:00", periods=chunksize - offset, freq="min")
         num = 0
         with monkeypatch.context() as m:
             m.setattr(datetimes, "_ITER_CHUNKSIZE", chunksize)

@@ -189,12 +189,8 @@ def test_assert_not_almost_equal_numbers_with_mixed(a, b):
     _assert_not_almost_equal_both(a, b)
 
 
-@pytest.mark.parametrize(
-    "left_dtype", ["M8[ns]", "m8[ns]", "float64", "int64", "object"]
-)
-@pytest.mark.parametrize(
-    "right_dtype", ["M8[ns]", "m8[ns]", "float64", "int64", "object"]
-)
+@pytest.mark.parametrize("left_dtype", ["M8[ns]", "m8[ns]", "float64", "int64", "object"])
+@pytest.mark.parametrize("right_dtype", ["M8[ns]", "m8[ns]", "float64", "int64", "object"])
 def test_assert_almost_equal_edge_case_ndarrays(left_dtype, right_dtype):
     # Empty compare.
     _assert_almost_equal_both(
@@ -247,9 +243,7 @@ def test_assert_almost_equal_dict_like_object(val):
             if item == "a":
                 return dict_val
 
-    func = (
-        _assert_almost_equal_both if val == dict_val else _assert_not_almost_equal_both
-    )
+    func = _assert_almost_equal_both if val == dict_val else _assert_not_almost_equal_both
     func(real_dict, DictLikeObj(), check_dtype=False)
 
 
@@ -257,9 +251,7 @@ def test_assert_almost_equal_strings():
     _assert_almost_equal_both("abc", "abc")
 
 
-@pytest.mark.parametrize(
-    "a,b", [("abc", "abcd"), ("abc", "abd"), ("abc", 1), ("abc", [1])]
-)
+@pytest.mark.parametrize("a,b", [("abc", "abcd"), ("abc", "abd"), ("abc", 1), ("abc", [1])])
 def test_assert_not_almost_equal_strings(a, b):
     _assert_not_almost_equal_both(a, b)
 
@@ -324,15 +316,9 @@ def test_mismatched_na_assert_almost_equal_deprecation(left, right):
     if left is right:
         _assert_almost_equal_both(left, right, check_dtype=False)
         tm.assert_numpy_array_equal(left_arr, right_arr)
-        tm.assert_index_equal(
-            Index(left_arr, dtype=object), Index(right_arr, dtype=object)
-        )
-        tm.assert_series_equal(
-            Series(left_arr, dtype=object), Series(right_arr, dtype=object)
-        )
-        tm.assert_frame_equal(
-            DataFrame(left_arr, dtype=object), DataFrame(right_arr, dtype=object)
-        )
+        tm.assert_index_equal(Index(left_arr, dtype=object), Index(right_arr, dtype=object))
+        tm.assert_series_equal(Series(left_arr, dtype=object), Series(right_arr, dtype=object))
+        tm.assert_frame_equal(DataFrame(left_arr, dtype=object), DataFrame(right_arr, dtype=object))
 
     else:
         with tm.assert_produces_warning(FutureWarning, match=msg):
@@ -344,9 +330,7 @@ def test_mismatched_na_assert_almost_equal_deprecation(left, right):
         #  change/deprecate array_equivalent_object to be stricter, as
         #  assert_index_equal uses Index.equal which uses array_equivalent.
         with tm.assert_produces_warning(FutureWarning, match=msg):
-            tm.assert_series_equal(
-                Series(left_arr, dtype=object), Series(right_arr, dtype=object)
-            )
+            tm.assert_series_equal(Series(left_arr, dtype=object), Series(right_arr, dtype=object))
         with tm.assert_produces_warning(FutureWarning, match=msg):
             tm.assert_frame_equal(
                 DataFrame(left_arr, dtype=object), DataFrame(right_arr, dtype=object)
@@ -542,9 +526,7 @@ NESTED_CASES = [
         np.array(
             [
                 np.array([np.array([1, 2, 3]), np.array([4, 5])], dtype=object),
-                np.array(
-                    [np.array([6]), np.array([7, 8]), np.array([9])], dtype=object
-                ),
+                np.array([np.array([6]), np.array([7, 8]), np.array([9])], dtype=object),
             ],
             dtype=object,
         ),
@@ -568,9 +550,7 @@ NESTED_CASES = [
     (
         np.array(
             [
-                np.array(
-                    [{"f1": 1, "f2": np.array(["a", "b"], dtype=object)}], dtype=object
-                ),
+                np.array([{"f1": 1, "f2": np.array(["a", "b"], dtype=object)}], dtype=object),
                 np.array([], dtype=object),
             ],
             dtype=object,

@@ -151,9 +151,7 @@ def test_set_levels_codes_directly(idx):
         idx.levels = new_levels
 
     msg = (
-        "property 'codes' of 'MultiIndex' object has no setter"
-        if PY311
-        else "can't set attribute"
+        "property 'codes' of 'MultiIndex' object has no setter" if PY311 else "can't set attribute"
     )
     with pytest.raises(AttributeError, match=msg):
         idx.codes = new_codes
@@ -315,9 +313,7 @@ def test_set_levels_categorical(ordered):
     tm.assert_index_equal(result, expected)
 
     result_lvl = result.get_level_values(0)
-    expected_lvl = CategoricalIndex(
-        list("bacb"), categories=cidx.categories, ordered=cidx.ordered
-    )
+    expected_lvl = CategoricalIndex(list("bacb"), categories=cidx.categories, ordered=cidx.ordered)
     tm.assert_index_equal(result_lvl, expected_lvl)
 
 

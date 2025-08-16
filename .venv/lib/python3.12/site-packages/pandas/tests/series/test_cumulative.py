@@ -102,9 +102,7 @@ class TestSeriesCumulativeOps:
     )
     def test_cummin_cummax_period(self, func, exp):
         # GH#28385
-        ser = pd.Series(
-            [pd.Period("2012-1-1", freq="D"), pd.NaT, pd.Period("2012-1-2", freq="D")]
-        )
+        ser = pd.Series([pd.Period("2012-1-1", freq="D"), pd.NaT, pd.Period("2012-1-2", freq="D")])
         result = getattr(ser, func)(skipna=False)
         expected = pd.Series([pd.Period("2012-1-1", freq="D"), pd.NaT, pd.NaT])
         tm.assert_series_equal(result, expected)
@@ -120,9 +118,7 @@ class TestSeriesCumulativeOps:
             [False, False, False, False, False, False, False],
         ],
     )
-    @pytest.mark.parametrize(
-        "func", [lambda x: x, lambda x: ~x], ids=["identity", "inverse"]
-    )
+    @pytest.mark.parametrize("func", [lambda x: x, lambda x: ~x], ids=["identity", "inverse"])
     @pytest.mark.parametrize("method", methods.keys())
     def test_cummethods_bool(self, arg, func, method):
         # GH#6270
@@ -193,9 +189,7 @@ class TestSeriesCumulativeOps:
             ([pd.NA, pd.NA, pd.NA], "cummax", False, [pd.NA, pd.NA, pd.NA]),
         ],
     )
-    def test_cum_methods_ea_strings(
-        self, string_dtype_no_object, data, op, skipna, expected_data
-    ):
+    def test_cum_methods_ea_strings(self, string_dtype_no_object, data, op, skipna, expected_data):
         # https://github.com/pandas-dev/pandas/pull/60633 - pyarrow
         # https://github.com/pandas-dev/pandas/pull/60938 - Python
         ser = pd.Series(data, dtype=string_dtype_no_object)

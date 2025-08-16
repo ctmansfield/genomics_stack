@@ -66,9 +66,7 @@ def test_ewm_consistency_mean(all_data, adjust, ignore_na, min_periods):
     ).mean()
     weights = create_mock_weights(all_data, com=com, adjust=adjust, ignore_na=ignore_na)
     expected = all_data.multiply(weights).cumsum().divide(weights.cumsum()).ffill()
-    expected[
-        all_data.expanding().count() < (max(min_periods, 1) if min_periods else 1)
-    ] = np.nan
+    expected[all_data.expanding().count() < (max(min_periods, 1) if min_periods else 1)] = np.nan
     tm.assert_equal(result, expected.astype("float64"))
 
 
@@ -99,9 +97,7 @@ def test_ewm_consistency_consistent(consistent_data, adjust, ignore_na, min_peri
     tm.assert_equal(corr_x_x, expected)
 
 
-def test_ewm_consistency_var_debiasing_factors(
-    all_data, adjust, ignore_na, min_periods
-):
+def test_ewm_consistency_var_debiasing_factors(all_data, adjust, ignore_na, min_periods):
     com = 3.0
 
     # check variance debiasing factors
@@ -130,9 +126,9 @@ def test_moments_consistency_var(all_data, adjust, ignore_na, min_periods, bias)
     mean_x = all_data.ewm(
         com=com, min_periods=min_periods, adjust=adjust, ignore_na=ignore_na
     ).mean()
-    var_x = all_data.ewm(
-        com=com, min_periods=min_periods, adjust=adjust, ignore_na=ignore_na
-    ).var(bias=bias)
+    var_x = all_data.ewm(com=com, min_periods=min_periods, adjust=adjust, ignore_na=ignore_na).var(
+        bias=bias
+    )
     assert not (var_x < 0).any().any()
 
     if bias:
@@ -146,9 +142,7 @@ def test_moments_consistency_var(all_data, adjust, ignore_na, min_periods, bias)
 
 
 @pytest.mark.parametrize("bias", [True, False])
-def test_moments_consistency_var_constant(
-    consistent_data, adjust, ignore_na, min_periods, bias
-):
+def test_moments_consistency_var_constant(consistent_data, adjust, ignore_na, min_periods, bias):
     com = 3.0
     count_x = consistent_data.expanding(min_periods=min_periods).count()
     var_x = consistent_data.ewm(
@@ -167,14 +161,14 @@ def test_moments_consistency_var_constant(
 @pytest.mark.parametrize("bias", [True, False])
 def test_ewm_consistency_std(all_data, adjust, ignore_na, min_periods, bias):
     com = 3.0
-    var_x = all_data.ewm(
-        com=com, min_periods=min_periods, adjust=adjust, ignore_na=ignore_na
-    ).var(bias=bias)
+    var_x = all_data.ewm(com=com, min_periods=min_periods, adjust=adjust, ignore_na=ignore_na).var(
+        bias=bias
+    )
     assert not (var_x < 0).any().any()
 
-    std_x = all_data.ewm(
-        com=com, min_periods=min_periods, adjust=adjust, ignore_na=ignore_na
-    ).std(bias=bias)
+    std_x = all_data.ewm(com=com, min_periods=min_periods, adjust=adjust, ignore_na=ignore_na).std(
+        bias=bias
+    )
     assert not (std_x < 0).any().any()
 
     # check that var(x) == std(x)^2
@@ -190,9 +184,7 @@ def test_ewm_consistency_std(all_data, adjust, ignore_na, min_periods, bias):
 
 
 @pytest.mark.parametrize("bias", [True, False])
-def test_ewm_consistency_series_cov_corr(
-    series_data, adjust, ignore_na, min_periods, bias
-):
+def test_ewm_consistency_series_cov_corr(series_data, adjust, ignore_na, min_periods, bias):
     com = 3.0
 
     var_x_plus_y = (

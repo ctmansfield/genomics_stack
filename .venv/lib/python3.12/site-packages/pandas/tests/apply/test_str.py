@@ -34,8 +34,7 @@ def test_apply_with_string_funcs(request, float_frame, func, args, kwds, how):
         request.applymarker(
             pytest.mark.xfail(
                 raises=TypeError,
-                reason="agg/apply signature mismatch - agg passes 2nd "
-                "argument to func",
+                reason="agg/apply signature mismatch - agg passes 2nd " "argument to func",
             )
         )
     result = getattr(float_frame, how)(func, *args, **kwds)
@@ -58,15 +57,11 @@ def test_apply_np_reducer(op, how):
     result = getattr(float_frame, how)(op)
     # pandas ddof defaults to 1, numpy to 0
     kwargs = {"ddof": 1} if op in ("std", "var") else {}
-    expected = Series(
-        getattr(np, op)(float_frame, axis=0, **kwargs), index=float_frame.columns
-    )
+    expected = Series(getattr(np, op)(float_frame, axis=0, **kwargs), index=float_frame.columns)
     tm.assert_series_equal(result, expected)
 
 
-@pytest.mark.parametrize(
-    "op", ["abs", "ceil", "cos", "cumsum", "exp", "log", "sqrt", "square"]
-)
+@pytest.mark.parametrize("op", ["abs", "ceil", "cos", "cumsum", "exp", "log", "sqrt", "square"])
 @pytest.mark.parametrize("how", ["transform", "apply"])
 def test_apply_np_transformer(float_frame, op, how):
     # GH 39116

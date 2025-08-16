@@ -60,9 +60,7 @@ class TestTimedeltas:
     )
     def test_timedelta_units_H_T_S_L_U_N_deprecated(self, depr_unit, unit):
         # GH#52536
-        depr_msg = (
-            f"'{depr_unit}' is deprecated and will be removed in a future version."
-        )
+        depr_msg = f"'{depr_unit}' is deprecated and will be removed in a future version."
 
         expected = to_timedelta(np.arange(5), unit=unit)
         with tm.assert_produces_warning(FutureWarning, match=depr_msg):
@@ -161,13 +159,9 @@ class TestTimedeltas:
         self, freq_depr, start, end, expected_values, expected_freq
     ):
         # GH#52536
-        msg = (
-            f"'{freq_depr[-1]}' is deprecated and will be removed in a future version."
-        )
+        msg = f"'{freq_depr[-1]}' is deprecated and will be removed in a future version."
 
         with tm.assert_produces_warning(FutureWarning, match=msg):
             result = timedelta_range(start=start, end=end, freq=freq_depr)
-        expected = TimedeltaIndex(
-            expected_values, dtype="timedelta64[ns]", freq=expected_freq
-        )
+        expected = TimedeltaIndex(expected_values, dtype="timedelta64[ns]", freq=expected_freq)
         tm.assert_index_equal(result, expected)

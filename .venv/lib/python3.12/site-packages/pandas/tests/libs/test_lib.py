@@ -161,9 +161,7 @@ class TestIndexing:
         with pytest.raises(IndexError, match=msg):
             target[maybe_slice]
 
-    @pytest.mark.parametrize(
-        "case", [[99, 97, 99, 96], [99, 99, 98, 97], [98, 98, 97, 96]]
-    )
+    @pytest.mark.parametrize("case", [[99, 97, 99, 96], [99, 99, 98, 97], [98, 98, 97, 96]])
     def test_maybe_indices_to_slice_right_edge_cases(self, case):
         target = np.arange(100)
         indices = np.array(case, dtype=np.intp)
@@ -218,9 +216,7 @@ class TestIndexing:
         assert isinstance(maybe_slice, slice)
         tm.assert_numpy_array_equal(target[indices], target[maybe_slice])
 
-    @pytest.mark.parametrize(
-        "case", [[14, 12, 10, 12], [12, 12, 11, 10], [10, 11, 12, 11]]
-    )
+    @pytest.mark.parametrize("case", [[14, 12, 10, 12], [12, 12, 11, 10], [10, 11, 12, 11]])
     def test_maybe_indices_to_slice_middle_not_slice(self, case):
         # not slice
         target = np.arange(100)

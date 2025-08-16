@@ -588,9 +588,7 @@ def test_empty_xpath_lxml(xml_books):
 
 
 def test_bad_xpath_etree(xml_books):
-    with pytest.raises(
-        SyntaxError, match=("You have used an incorrect or unsupported XPath")
-    ):
+    with pytest.raises(SyntaxError, match=("You have used an incorrect or unsupported XPath")):
         read_xml(xml_books, xpath=".//[book]", parser="etree")
 
 
@@ -714,9 +712,7 @@ def test_missing_prefix_definition_lxml(kml_cta_rail_lines):
 @pytest.mark.parametrize("key", ["", None])
 def test_none_namespace_prefix(key):
     pytest.importorskip("lxml")
-    with pytest.raises(
-        TypeError, match=("empty namespace prefix is not supported in XPath")
-    ):
+    with pytest.raises(TypeError, match=("empty namespace prefix is not supported in XPath")):
         read_xml(
             StringIO(xml_default_nmsp),
             xpath=".//kml:Placemark",
@@ -851,9 +847,7 @@ def test_attribute_centric_xml():
     df_etree = read_xml(StringIO(xml), xpath=".//station", parser="etree")
 
     df_iter_lx = read_xml_iterparse(xml, iterparse={"station": ["Name", "coords"]})
-    df_iter_et = read_xml_iterparse(
-        xml, parser="etree", iterparse={"station": ["Name", "coords"]}
-    )
+    df_iter_et = read_xml_iterparse(xml, parser="etree", iterparse={"station": ["Name", "coords"]})
 
     tm.assert_frame_equal(df_lxml, df_etree)
     tm.assert_frame_equal(df_iter_lx, df_iter_et)
@@ -863,9 +857,7 @@ def test_attribute_centric_xml():
 
 
 def test_names_option_output(xml_books, parser):
-    df_file = read_xml(
-        xml_books, names=["Col1", "Col2", "Col3", "Col4", "Col5"], parser=parser
-    )
+    df_file = read_xml(xml_books, names=["Col1", "Col2", "Col3", "Col4", "Col5"], parser=parser)
     df_iter = read_xml(
         xml_books,
         parser=parser,
@@ -945,9 +937,7 @@ def test_repeat_values_new_names(parser):
     <family>ellipse</family>
   </shape>
 </shapes>"""
-    df_xpath = read_xml(
-        StringIO(xml), xpath=".//shape", parser=parser, names=["name", "group"]
-    )
+    df_xpath = read_xml(StringIO(xml), xpath=".//shape", parser=parser, names=["name", "group"])
 
     df_iter = read_xml_iterparse(
         xml,
@@ -1037,10 +1027,7 @@ def test_wrong_encoding(xml_baby_names, parser):
 def test_utf16_encoding(xml_baby_names, parser):
     with pytest.raises(
         UnicodeError,
-        match=(
-            "UTF-16 stream does not start with BOM|"
-            "'utf-16(-le)?' codec can't decode byte"
-        ),
+        match=("UTF-16 stream does not start with BOM|" "'utf-16(-le)?' codec can't decode byte"),
     ):
         read_xml(xml_baby_names, encoding="UTF-16", parser=parser)
 
@@ -1116,9 +1103,7 @@ def test_default_parser_no_lxml(xml_books):
 
 
 def test_wrong_parser(xml_books):
-    with pytest.raises(
-        ValueError, match=("Values for parser can only be lxml or etree.")
-    ):
+    with pytest.raises(ValueError, match=("Values for parser can only be lxml or etree.")):
         read_xml(xml_books, parser="bs4")
 
 
@@ -1234,9 +1219,7 @@ def test_style_charset():
 def test_not_stylesheet(kml_cta_rail_lines, xml_books):
     lxml_etree = pytest.importorskip("lxml.etree")
 
-    with pytest.raises(
-        lxml_etree.XSLTParseError, match=("document is not a stylesheet")
-    ):
+    with pytest.raises(lxml_etree.XSLTParseError, match=("document is not a stylesheet")):
         read_xml(kml_cta_rail_lines, stylesheet=xml_books)
 
 
@@ -1346,9 +1329,7 @@ def test_stylesheet_file_close(kml_cta_rail_lines, xsl_flatten_doc, mode):
 
 def test_stylesheet_with_etree(kml_cta_rail_lines, xsl_flatten_doc):
     pytest.importorskip("lxml")
-    with pytest.raises(
-        ValueError, match=("To use stylesheet, you need lxml installed")
-    ):
+    with pytest.raises(ValueError, match=("To use stylesheet, you need lxml installed")):
         read_xml(kml_cta_rail_lines, parser="etree", stylesheet=xsl_flatten_doc)
 
 
@@ -1370,15 +1351,11 @@ def test_empty_stylesheet(val):
 def test_file_like_iterparse(xml_books, parser, mode):
     with open(xml_books, mode, encoding="utf-8" if mode == "r" else None) as f:
         if mode == "r" and parser == "lxml":
-            with pytest.raises(
-                TypeError, match=("reading file objects must return bytes objects")
-            ):
+            with pytest.raises(TypeError, match=("reading file objects must return bytes objects")):
                 read_xml(
                     f,
                     parser=parser,
-                    iterparse={
-                        "book": ["category", "title", "year", "author", "price"]
-                    },
+                    iterparse={"book": ["category", "title", "year", "author", "price"]},
                 )
             return None
         else:
@@ -1416,18 +1393,14 @@ def test_file_io_iterparse(xml_books, parser, mode):
                     read_xml(
                         b,
                         parser=parser,
-                        iterparse={
-                            "book": ["category", "title", "year", "author", "price"]
-                        },
+                        iterparse={"book": ["category", "title", "year", "author", "price"]},
                     )
                 return None
             else:
                 df_fileio = read_xml(
                     b,
                     parser=parser,
-                    iterparse={
-                        "book": ["category", "title", "year", "author", "price"]
-                    },
+                    iterparse={"book": ["category", "title", "year", "author", "price"]},
                 )
 
     df_expected = DataFrame(
@@ -1448,9 +1421,7 @@ def test_file_io_iterparse(xml_books, parser, mode):
 def test_url_path_error(parser, httpserver, xml_file):
     with open(xml_file, encoding="utf-8") as f:
         httpserver.serve_content(content=f.read())
-        with pytest.raises(
-            ParserError, match=("iterparse is designed for large XML files")
-        ):
+        with pytest.raises(ParserError, match=("iterparse is designed for large XML files")):
             read_xml(
                 httpserver.url,
                 parser=parser,
@@ -1462,9 +1433,7 @@ def test_compression_error(parser, compression_only):
     with tm.ensure_clean(filename="geom_xml.zip") as path:
         geom_df.to_xml(path, parser=parser, compression=compression_only)
 
-        with pytest.raises(
-            ParserError, match=("iterparse is designed for large XML files")
-        ):
+        with pytest.raises(ParserError, match=("iterparse is designed for large XML files")):
             read_xml(
                 path,
                 parser=parser,
@@ -1483,9 +1452,7 @@ def test_wrong_dict_type(xml_books, parser):
 
 
 def test_wrong_dict_value(xml_books, parser):
-    with pytest.raises(
-        TypeError, match="<class 'str'> is not a valid type for value in iterparse"
-    ):
+    with pytest.raises(TypeError, match="<class 'str'> is not a valid type for value in iterparse"):
         read_xml(xml_books, parser=parser, iterparse={"book": "category"})
 
 
@@ -1517,10 +1484,7 @@ def test_bad_xml(parser):
 
         with pytest.raises(
             SyntaxError,
-            match=(
-                "Extra content at the end of the document|"
-                "junk after document element"
-            ),
+            match=("Extra content at the end of the document|" "junk after document element"),
         ):
             read_xml(
                 path,
@@ -1550,9 +1514,7 @@ def test_comment(parser):
 
     df_xpath = read_xml(StringIO(xml), xpath=".//shape", parser=parser)
 
-    df_iter = read_xml_iterparse(
-        xml, parser=parser, iterparse={"shape": ["name", "type"]}
-    )
+    df_iter = read_xml_iterparse(xml, parser=parser, iterparse={"shape": ["name", "type"]})
 
     df_expected = DataFrame(
         {
@@ -1586,9 +1548,7 @@ def test_dtd(parser):
 
     df_xpath = read_xml(StringIO(xml), xpath=".//shape", parser=parser)
 
-    df_iter = read_xml_iterparse(
-        xml, parser=parser, iterparse={"shape": ["name", "type"]}
-    )
+    df_iter = read_xml_iterparse(xml, parser=parser, iterparse={"shape": ["name", "type"]})
 
     df_expected = DataFrame(
         {
@@ -1622,9 +1582,7 @@ def test_processing_instruction(parser):
 
     df_xpath = read_xml(StringIO(xml), xpath=".//shape", parser=parser)
 
-    df_iter = read_xml_iterparse(
-        xml, parser=parser, iterparse={"shape": ["name", "type"]}
-    )
+    df_iter = read_xml_iterparse(xml, parser=parser, iterparse={"shape": ["name", "type"]})
 
     df_expected = DataFrame(
         {
@@ -1638,9 +1596,7 @@ def test_processing_instruction(parser):
 
 
 def test_no_result(xml_books, parser):
-    with pytest.raises(
-        ParserError, match="No result from selected items in iterparse."
-    ):
+    with pytest.raises(ParserError, match="No result from selected items in iterparse."):
         read_xml(
             xml_books,
             parser=parser,
@@ -1931,9 +1887,7 @@ def test_online_stylesheet():
 
 def test_compression_read(parser, compression_only):
     with tm.ensure_clean() as comp_path:
-        geom_df.to_xml(
-            comp_path, index=False, parser=parser, compression=compression_only
-        )
+        geom_df.to_xml(comp_path, index=False, parser=parser, compression=compression_only)
 
         df_xpath = read_xml(comp_path, parser=parser, compression=compression_only)
 
@@ -2000,9 +1954,7 @@ def test_s3_parser_consistency(s3_public_bucket_with_data, s3so):
     tm.assert_frame_equal(df_lxml, df_etree)
 
 
-def test_read_xml_nullable_dtypes(
-    parser, string_storage, dtype_backend, using_infer_string
-):
+def test_read_xml_nullable_dtypes(parser, string_storage, dtype_backend, using_infer_string):
     # GH#50500
     data = """<?xml version='1.0' encoding='utf-8'?>
 <data xmlns="http://example.com">
@@ -2071,9 +2023,6 @@ def test_read_xml_nullable_dtypes(
 
 
 def test_invalid_dtype_backend():
-    msg = (
-        "dtype_backend numpy is invalid, only 'numpy_nullable' and "
-        "'pyarrow' are allowed."
-    )
+    msg = "dtype_backend numpy is invalid, only 'numpy_nullable' and " "'pyarrow' are allowed."
     with pytest.raises(ValueError, match=msg):
         read_xml("test", dtype_backend="numpy")

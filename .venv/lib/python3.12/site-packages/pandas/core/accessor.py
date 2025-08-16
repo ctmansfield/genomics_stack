@@ -4,6 +4,7 @@ accessor.py contains base classes for implementing accessor properties
 that can be mixed into or pinned onto other pandas classes.
 
 """
+
 from __future__ import annotations
 
 from typing import (
@@ -117,10 +118,7 @@ class PandasDelegate:
             return f
 
         for name in accessors:
-            if (
-                not raise_on_missing
-                and getattr(delegate, accessor_mapping(name), None) is None
-            ):
+            if not raise_on_missing and getattr(delegate, accessor_mapping(name), None) is None:
                 continue
 
             if typ == "property":

@@ -58,9 +58,7 @@ def test_categorical_dtype(data, data_categorical):
     assert desc_cat["is_ordered"] == data[1]
     assert desc_cat["is_dictionary"] is True
     assert isinstance(desc_cat["categories"], PandasColumn)
-    tm.assert_series_equal(
-        desc_cat["categories"]._col, pd.Series(["a", "d", "e", "s", "t"])
-    )
+    tm.assert_series_equal(desc_cat["categories"]._col, pd.Series(["a", "d", "e", "s", "t"]))
 
     tm.assert_frame_equal(df, from_dataframe(df.__dataframe__()))
 
@@ -73,9 +71,7 @@ def test_categorical_pyarrow():
     table = pa.table({"weekday": pa.array(arr).dictionary_encode()})
     exchange_df = table.__dataframe__()
     result = from_dataframe(exchange_df)
-    weekday = pd.Categorical(
-        arr, categories=["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
-    )
+    weekday = pd.Categorical(arr, categories=["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"])
     expected = pd.DataFrame({"weekday": weekday})
     tm.assert_frame_equal(result, expected)
 
@@ -185,9 +181,7 @@ def test_missing_from_masked():
     rng = np.random.default_rng(2)
     dict_null = {col: rng.integers(low=0, high=len(df)) for col in df.columns}
     for col, num_nulls in dict_null.items():
-        null_idx = df.index[
-            rng.choice(np.arange(len(df)), size=num_nulls, replace=False)
-        ]
+        null_idx = df.index[rng.choice(np.arange(len(df)), size=num_nulls, replace=False)]
         df.loc[null_idx, col] = None
 
     df2 = df.__dataframe__()
@@ -352,9 +346,7 @@ def test_timestamp_ns_pyarrow():
 @pytest.mark.parametrize("unit", ["s", "ms", "us", "ns"])
 def test_datetimetzdtype(tz, unit):
     # GH 54239
-    tz_data = (
-        pd.date_range("2018-01-01", periods=5, freq="D").tz_localize(tz).as_unit(unit)
-    )
+    tz_data = pd.date_range("2018-01-01", periods=5, freq="D").tz_localize(tz).as_unit(unit)
     df = pd.DataFrame({"ts_tz": tz_data})
     tm.assert_frame_equal(df, from_dataframe(df.__dataframe__()))
 
@@ -494,9 +486,7 @@ def test_non_str_names_w_duplicates():
         ),
     ],
 )
-def test_pandas_nullable_with_missing_values(
-    data: list, dtype: str, expected_dtype: str
-) -> None:
+def test_pandas_nullable_with_missing_values(data: list, dtype: str, expected_dtype: str) -> None:
     # https://github.com/pandas-dev/pandas/issues/57643
     # https://github.com/pandas-dev/pandas/issues/57664
     pa = pytest.importorskip("pyarrow", "11.0.0")

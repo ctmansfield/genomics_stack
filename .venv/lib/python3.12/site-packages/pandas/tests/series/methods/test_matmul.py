@@ -13,9 +13,7 @@ import pandas._testing as tm
 class TestMatmul:
     def test_matmul(self):
         # matmul test is for GH#10259
-        a = Series(
-            np.random.default_rng(2).standard_normal(4), index=["p", "q", "r", "s"]
-        )
+        a = Series(np.random.default_rng(2).standard_normal(4), index=["p", "q", "r", "s"])
         b = DataFrame(
             np.random.default_rng(2).standard_normal((3, 4)),
             index=["1", "2", "3"],

@@ -23,9 +23,7 @@ class TestDataFrameNonuniqueIndexes:
 
     def test_setattr_columns_vs_construct_with_columns_datetimeindx(self):
         idx = date_range("20130101", periods=4, freq="QE-NOV")
-        df = DataFrame(
-            [[1, 1, 1, 5], [1, 1, 2, 5], [2, 1, 3, 5]], columns=["a", "a", "a", "a"]
-        )
+        df = DataFrame([[1, 1, 1, 5], [1, 1, 2, 5], [2, 1, 3, 5]], columns=["a", "a", "a", "a"])
         df.columns = idx
         expected = DataFrame([[1, 1, 1, 5], [1, 1, 2, 5], [2, 1, 3, 5]], columns=idx)
         tm.assert_frame_equal(df, expected)
@@ -174,17 +172,13 @@ class TestDataFrameNonuniqueIndexes:
         # multiple assignments that change dtypes
         # the location indexer is a slice
         # GH 6120
-        df = DataFrame(
-            np.random.default_rng(2).standard_normal((5, 2)), columns=["that", "that"]
-        )
+        df = DataFrame(np.random.default_rng(2).standard_normal((5, 2)), columns=["that", "that"])
         expected = DataFrame(1.0, index=range(5), columns=["that", "that"])
 
         df["that"] = 1.0
         tm.assert_frame_equal(df, expected)
 
-        df = DataFrame(
-            np.random.default_rng(2).random((5, 2)), columns=["that", "that"]
-        )
+        df = DataFrame(np.random.default_rng(2).random((5, 2)), columns=["that", "that"])
         expected = DataFrame(1, index=range(5), columns=["that", "that"])
 
         df["that"] = 1
@@ -197,8 +191,7 @@ class TestDataFrameNonuniqueIndexes:
 
         # not-comparing like-labelled
         msg = (
-            r"Can only compare identically-labeled \(both index and columns\) "
-            "DataFrame objects"
+            r"Can only compare identically-labeled \(both index and columns\) " "DataFrame objects"
         )
         with pytest.raises(ValueError, match=msg):
             df1 == df2
@@ -273,9 +266,7 @@ class TestDataFrameNonuniqueIndexes:
             columns=["a", "a", "b", "b", "d", "c", "c"],
         )
         df.columns = list("ABCDEFG")
-        expected = DataFrame(
-            [[1, 2, 1.0, 2.0, 3.0, "foo", "bar"]], columns=list("ABCDEFG")
-        )
+        expected = DataFrame([[1, 2, 1.0, 2.0, 3.0, "foo", "bar"]], columns=list("ABCDEFG"))
         tm.assert_frame_equal(df, expected)
 
     def test_multi_dtype2(self):
@@ -286,17 +277,11 @@ class TestDataFrameNonuniqueIndexes:
 
     def test_dups_across_blocks(self, using_array_manager):
         # dups across blocks
-        df_float = DataFrame(
-            np.random.default_rng(2).standard_normal((10, 3)), dtype="float64"
-        )
-        df_int = DataFrame(
-            np.random.default_rng(2).standard_normal((10, 3)).astype("int64")
-        )
+        df_float = DataFrame(np.random.default_rng(2).standard_normal((10, 3)), dtype="float64")
+        df_int = DataFrame(np.random.default_rng(2).standard_normal((10, 3)).astype("int64"))
         df_bool = DataFrame(True, index=df_float.index, columns=df_float.columns)
         df_object = DataFrame("foo", index=df_float.index, columns=df_float.columns)
-        df_dt = DataFrame(
-            pd.Timestamp("20010101"), index=df_float.index, columns=df_float.columns
-        )
+        df_dt = DataFrame(pd.Timestamp("20010101"), index=df_float.index, columns=df_float.columns)
         df = pd.concat([df_float, df_int, df_bool, df_object, df_dt], axis=1)
 
         if not using_array_manager:

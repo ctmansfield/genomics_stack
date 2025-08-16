@@ -109,10 +109,7 @@ class TestIteration:
 
         # repr with int on 32-bit/windows
         if not (is_platform_windows() or not IS64):
-            assert (
-                repr(list(df.itertuples(name=None)))
-                == "[(0, 1, 4), (1, 2, 5), (2, 3, 6)]"
-            )
+            assert repr(list(df.itertuples(name=None))) == "[(0, 1, 4), (1, 2, 5), (2, 3, 6)]"
 
     def test_itertuples_tuple_name(self):
         df = DataFrame(data={"a": [1, 2, 3], "b": [4, 5, 6]})
@@ -139,9 +136,7 @@ class TestIteration:
     def test_sequence_like_with_categorical(self):
         # GH#7839
         # make sure can iterate
-        df = DataFrame(
-            {"id": [1, 2, 3, 4, 5, 6], "raw_grade": ["a", "b", "b", "a", "a", "e"]}
-        )
+        df = DataFrame({"id": [1, 2, 3, 4, 5, 6], "raw_grade": ["a", "b", "b", "a", "a", "e"]})
         df["grade"] = Categorical(df["raw_grade"])
 
         # basic sequencing testing

@@ -133,11 +133,7 @@ def test_center(q):
 
     result = obj.rolling(20, center=True).quantile(q)
     expected = (
-        concat([obj, Series([np.nan] * 9)])
-        .rolling(20)
-        .quantile(q)
-        .iloc[9:]
-        .reset_index(drop=True)
+        concat([obj, Series([np.nan] * 9)]).rolling(20).quantile(q).iloc[9:].reset_index(drop=True)
     )
     tm.assert_series_equal(result, expected)
 

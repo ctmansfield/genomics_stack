@@ -161,11 +161,7 @@ R_l0_g4,R_l1_g4,R4C0,R4C1,R4C2
     [
         (
             {"index_col": ["foo", "bar"]},
-            (
-                "index_col must only contain "
-                "row numbers when specifying "
-                "a multi-index header"
-            ),
+            ("index_col must only contain " "row numbers when specifying " "a multi-index header"),
         ),
         (
             {"index_col": [0, 1], "names": ["foo", "bar"]},
@@ -419,9 +415,7 @@ def test_header_multi_index_blank_line(all_parsers):
     tm.assert_frame_equal(expected, result)
 
 
-@pytest.mark.parametrize(
-    "data,header", [("1,2,3\n4,5,6", None), ("foo,bar,baz\n1,2,3\n4,5,6", 0)]
-)
+@pytest.mark.parametrize("data,header", [("1,2,3\n4,5,6", None), ("foo,bar,baz\n1,2,3\n4,5,6", 0)])
 def test_header_names_backward_compat(all_parsers, data, header, request):
     # see gh-2539
     parser = all_parsers
@@ -463,9 +457,7 @@ def test_no_header(all_parsers, kwargs, names):
 6,7,8,9,10
 11,12,13,14,15
 """
-    expected = DataFrame(
-        [[1, 2, 3, 4, 5], [6, 7, 8, 9, 10], [11, 12, 13, 14, 15]], columns=names
-    )
+    expected = DataFrame([[1, 2, 3, 4, 5], [6, 7, 8, 9, 10], [11, 12, 13, 14, 15]], columns=names)
     result = parser.read_csv(StringIO(data), header=None, **kwargs)
     tm.assert_frame_equal(result, expected)
 
@@ -633,9 +625,7 @@ row21,row22, row23
 row31,row32
 """
 
-    with pytest.raises(
-        ParserError, match="Header rows must have an equal number of columns."
-    ):
+    with pytest.raises(ParserError, match="Header rows must have an equal number of columns."):
         parser.read_csv(StringIO(case), header=[0, 2])
 
 
@@ -645,9 +635,7 @@ def test_header_none_and_implicit_index(all_parsers):
     parser = all_parsers
     data = "x,1,5\ny,2\nz,3\n"
     result = parser.read_csv(StringIO(data), names=["a", "b"], header=None)
-    expected = DataFrame(
-        {"a": [1, 2, 3], "b": [5, np.nan, np.nan]}, index=["x", "y", "z"]
-    )
+    expected = DataFrame({"a": [1, 2, 3], "b": [5, np.nan, np.nan]}, index=["x", "y", "z"])
     tm.assert_frame_equal(result, expected)
 
 
@@ -664,9 +652,7 @@ def test_header_none_and_on_bad_lines_skip(all_parsers):
     # GH#22144
     parser = all_parsers
     data = "x,1\ny,2,5\nz,3\n"
-    result = parser.read_csv(
-        StringIO(data), names=["a", "b"], header=None, on_bad_lines="skip"
-    )
+    result = parser.read_csv(StringIO(data), names=["a", "b"], header=None, on_bad_lines="skip")
     expected = DataFrame({"a": ["x", "z"], "b": [1, 3]})
     tm.assert_frame_equal(result, expected)
 
@@ -707,9 +693,7 @@ def test_header_delim_whitespace(all_parsers):
     """
 
     depr_msg = "The 'delim_whitespace' keyword in pd.read_csv is deprecated"
-    with tm.assert_produces_warning(
-        FutureWarning, match=depr_msg, check_stacklevel=False
-    ):
+    with tm.assert_produces_warning(FutureWarning, match=depr_msg, check_stacklevel=False):
         result = parser.read_csv(StringIO(data), delim_whitespace=True)
     expected = DataFrame({"a,b": ["1,2", "3,4"]})
     tm.assert_frame_equal(result, expected)

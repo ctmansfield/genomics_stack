@@ -79,9 +79,7 @@ class TestArrayStrptimeResolutionInference:
 
         now = Timestamp("now").asm8
         res, _ = array_strptime(vals, fmt="%Y-%m-%d", utc=False, creso=creso_infer)
-        res2, _ = array_strptime(
-            vals[::-1], fmt="%Y-%m-%d", utc=False, creso=creso_infer
-        )
+        res2, _ = array_strptime(vals[::-1], fmt="%Y-%m-%d", utc=False, creso=creso_infer)
 
         # 1s is an arbitrary cutoff for call overhead; in local testing the
         #  actual difference is about 250us

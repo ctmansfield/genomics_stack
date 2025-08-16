@@ -78,9 +78,7 @@ class TestDataFrameDiff:
         df = ser.to_frame()
 
         result = df.diff()
-        ex_index = pd.TimedeltaIndex([pd.NaT, pd.NaT, pd.Timedelta(days=1)]).as_unit(
-            unit
-        )
+        ex_index = pd.TimedeltaIndex([pd.NaT, pd.NaT, pd.Timedelta(days=1)]).as_unit(unit)
         expected = Series(ex_index).to_frame()
         tm.assert_frame_equal(result, expected)
 
@@ -179,12 +177,8 @@ class TestDataFrameDiff:
     def test_diff_axis(self):
         # GH#9727
         df = DataFrame([[1.0, 2.0], [3.0, 4.0]])
-        tm.assert_frame_equal(
-            df.diff(axis=1), DataFrame([[np.nan, 1.0], [np.nan, 1.0]])
-        )
-        tm.assert_frame_equal(
-            df.diff(axis=0), DataFrame([[np.nan, np.nan], [2.0, 2.0]])
-        )
+        tm.assert_frame_equal(df.diff(axis=1), DataFrame([[np.nan, 1.0], [np.nan, 1.0]]))
+        tm.assert_frame_equal(df.diff(axis=0), DataFrame([[np.nan, np.nan], [2.0, 2.0]]))
 
     def test_diff_period(self):
         # GH#32995 Don't pass an incorrect axis
@@ -206,9 +200,7 @@ class TestDataFrameDiff:
         tm.assert_frame_equal(result, expected)
 
         # GH#21437 mixed-float-dtypes
-        df = DataFrame(
-            {"a": np.arange(3, dtype="float32"), "b": np.arange(3, dtype="float64")}
-        )
+        df = DataFrame({"a": np.arange(3, dtype="float32"), "b": np.arange(3, dtype="float64")})
         result = df.diff(axis=1)
         expected = DataFrame({"a": df["a"] * np.nan, "b": df["b"] * 0})
         tm.assert_frame_equal(result, expected)
@@ -236,9 +228,7 @@ class TestDataFrameDiff:
         sparse_df = DataFrame([[0, 1], [1, 0]], dtype="Sparse[int]")
 
         result = sparse_df.diff()
-        expected = DataFrame(
-            [[np.nan, np.nan], [1.0, -1.0]], dtype=pd.SparseDtype("float", 0.0)
-        )
+        expected = DataFrame([[np.nan, np.nan], [1.0, -1.0]], dtype=pd.SparseDtype("float", 0.0))
 
         tm.assert_frame_equal(result, expected)
 
@@ -301,8 +291,6 @@ class TestDataFrameDiff:
         df = DataFrame(range(5))
         df = df.astype(any_int_numpy_dtype)
         result = df.diff()
-        expected_dtype = (
-            "float32" if any_int_numpy_dtype in ("int8", "int16") else "float64"
-        )
+        expected_dtype = "float32" if any_int_numpy_dtype in ("int8", "int16") else "float64"
         expected = DataFrame([np.nan, 1.0, 1.0, 1.0, 1.0], dtype=expected_dtype)
         tm.assert_frame_equal(result, expected)

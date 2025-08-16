@@ -78,9 +78,7 @@ def test_write_cells_merge_styled(ext):
     sty_kwargs = _OpenpyxlWriter._convert_to_style_kwargs(sty_merged)
     openpyxl_sty_merged = sty_kwargs["font"]
     merge_cells = [
-        ExcelCell(
-            col=0, row=0, val="pandas", mergestart=1, mergeend=1, style=sty_merged
-        )
+        ExcelCell(col=0, row=0, val="pandas", mergestart=1, mergeend=1, style=sty_merged)
     ]
 
     with tm.ensure_clean(ext) as path:
@@ -113,9 +111,7 @@ def test_engine_kwargs_append_invalid(ext):
         DataFrame(["hello", "world"]).to_excel(f)
         with pytest.raises(
             TypeError,
-            match=re.escape(
-                "load_workbook() got an unexpected keyword argument 'apple_banana'"
-            ),
+            match=re.escape("load_workbook() got an unexpected keyword argument 'apple_banana'"),
         ):
             with ExcelWriter(
                 f, engine="openpyxl", mode="a", engine_kwargs={"apple_banana": "fruit"}
@@ -164,9 +160,7 @@ def test_engine_kwargs_append_reader(datapath, ext, kwarg_name, kwarg_value):
         assert getattr(reader.book, kwarg_name) == kwarg_value
 
 
-@pytest.mark.parametrize(
-    "mode,expected", [("w", ["baz"]), ("a", ["foo", "bar", "baz"])]
-)
+@pytest.mark.parametrize("mode,expected", [("w", ["baz"]), ("a", ["foo", "bar", "baz"])])
 def test_write_append_mode(ext, mode, expected):
     df = DataFrame([1], columns=["baz"])
 
@@ -204,9 +198,7 @@ def test_if_sheet_exists_append_modes(ext, if_sheet_exists, num_sheets, expected
 
     with tm.ensure_clean(ext) as f:
         df1.to_excel(f, engine="openpyxl", sheet_name="foo", index=False)
-        with ExcelWriter(
-            f, engine="openpyxl", mode="a", if_sheet_exists=if_sheet_exists
-        ) as writer:
+        with ExcelWriter(f, engine="openpyxl", mode="a", if_sheet_exists=if_sheet_exists) as writer:
             df2.to_excel(writer, sheet_name="foo", index=False)
 
         with contextlib.closing(openpyxl.load_workbook(f)) as wb:
@@ -234,9 +226,7 @@ def test_append_overlay_startrow_startcol(ext, startrow, startcol, greeting, goo
 
     with tm.ensure_clean(ext) as f:
         df1.to_excel(f, engine="openpyxl", sheet_name="poo", index=False)
-        with ExcelWriter(
-            f, engine="openpyxl", mode="a", if_sheet_exists="overlay"
-        ) as writer:
+        with ExcelWriter(f, engine="openpyxl", mode="a", if_sheet_exists="overlay") as writer:
             # use startrow+1 because we don't have a header
             df2.to_excel(
                 writer,
@@ -288,9 +278,7 @@ def test_to_excel_with_openpyxl_engine(ext):
         df1 = DataFrame({"A": np.linspace(1, 10, 10)})
         df2 = DataFrame({"B": np.linspace(1, 20, 10)})
         df = pd.concat([df1, df2], axis=1)
-        styled = df.style.map(
-            lambda val: f"color: {'red' if val < 0 else 'black'}"
-        ).highlight_max()
+        styled = df.style.map(lambda val: f"color: {'red' if val < 0 else 'black'}").highlight_max()
 
         styled.to_excel(filename, engine="openpyxl")
 
@@ -299,9 +287,7 @@ def test_to_excel_with_openpyxl_engine(ext):
 def test_read_workbook(datapath, ext, read_only):
     # GH 39528
     filename = datapath("io", "data", "excel", "test1" + ext)
-    with contextlib.closing(
-        openpyxl.load_workbook(filename, read_only=read_only)
-    ) as wb:
+    with contextlib.closing(openpyxl.load_workbook(filename, read_only=read_only)) as wb:
         result = pd.read_excel(wb, engine="openpyxl")
     expected = pd.read_excel(filename)
     tm.assert_frame_equal(result, expected)
@@ -321,22 +307,16 @@ def test_read_workbook(datapath, ext, read_only):
         (2, {"A": [1, 2, 3], "B": [4, 5, 6], "C": [7, 8, 9]}),
     ],
 )
-@pytest.mark.parametrize(
-    "filename", ["dimension_missing", "dimension_small", "dimension_large"]
-)
+@pytest.mark.parametrize("filename", ["dimension_missing", "dimension_small", "dimension_large"])
 # When read_only is None, use read_excel instead of a workbook
 @pytest.mark.parametrize("read_only", [True, False, None])
-def test_read_with_bad_dimension(
-    datapath, ext, header, expected_data, filename, read_only
-):
+def test_read_with_bad_dimension(datapath, ext, header, expected_data, filename, read_only):
     # GH 38956, 39001 - no/incorrect dimension information
     path = datapath("io", "data", "excel", f"{filename}{ext}")
     if read_only is None:
         result = pd.read_excel(path, header=header)
     else:
-        with contextlib.closing(
-            openpyxl.load_workbook(path, read_only=read_only)
-        ) as wb:
+        with contextlib.closing(openpyxl.load_workbook(path, read_only=read_only)) as wb:
             result = pd.read_excel(wb, engine="openpyxl", header=header)
     expected = DataFrame(expected_data)
     tm.assert_frame_equal(result, expected)
@@ -349,9 +329,7 @@ def test_append_mode_file(ext):
     with tm.ensure_clean(ext) as f:
         df.to_excel(f, engine="openpyxl")
 
-        with ExcelWriter(
-            f, mode="a", engine="openpyxl", if_sheet_exists="new"
-        ) as writer:
+        with ExcelWriter(f, mode="a", engine="openpyxl", if_sheet_exists="new") as writer:
             df.to_excel(writer)
 
         # make sure that zip files are not concatenated by making sure that
@@ -371,9 +349,7 @@ def test_read_with_empty_trailing_rows(datapath, ext, read_only):
     if read_only is None:
         result = pd.read_excel(path)
     else:
-        with contextlib.closing(
-            openpyxl.load_workbook(path, read_only=read_only)
-        ) as wb:
+        with contextlib.closing(openpyxl.load_workbook(path, read_only=read_only)) as wb:
             result = pd.read_excel(wb, engine="openpyxl")
     expected = DataFrame(
         {
@@ -393,9 +369,7 @@ def test_read_empty_with_blank_row(datapath, ext, read_only):
     if read_only is None:
         result = pd.read_excel(path)
     else:
-        with contextlib.closing(
-            openpyxl.load_workbook(path, read_only=read_only)
-        ) as wb:
+        with contextlib.closing(openpyxl.load_workbook(path, read_only=read_only)) as wb:
             result = pd.read_excel(wb, engine="openpyxl")
     expected = DataFrame()
     tm.assert_frame_equal(result, expected)

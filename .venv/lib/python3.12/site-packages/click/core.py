@@ -50,9 +50,7 @@ F = t.TypeVar("F", bound="t.Callable[..., t.Any]")
 V = t.TypeVar("V")
 
 
-def _complete_visible_commands(
-    ctx: Context, incomplete: str
-) -> cabc.Iterator[tuple[str, Command]]:
+def _complete_visible_commands(ctx: Context, incomplete: str) -> cabc.Iterator[tuple[str, Command]]:
     """List all the subcommands of a group that start with the
     incomplete value and aren't hidden.
 
@@ -94,9 +92,7 @@ def batch(iterable: cabc.Iterable[V], batch_size: int) -> list[tuple[V, ...]]:
 
 
 @contextmanager
-def augment_usage_errors(
-    ctx: Context, param: Parameter | None = None
-) -> cabc.Iterator[None]:
+def augment_usage_errors(ctx: Context, param: Parameter | None = None) -> cabc.Iterator[None]:
     """Context manager that attaches extra information to exceptions."""
     try:
         yield
@@ -411,9 +407,7 @@ class Context:
                 and parent.auto_envvar_prefix is not None
                 and self.info_name is not None
             ):
-                auto_envvar_prefix = (
-                    f"{parent.auto_envvar_prefix}_{self.info_name.upper()}"
-                )
+                auto_envvar_prefix = f"{parent.auto_envvar_prefix}_{self.info_name.upper()}"
         else:
             auto_envvar_prefix = auto_envvar_prefix.upper()
 
@@ -564,9 +558,7 @@ class Context:
         .. versionchanged:: 8.0
             Added the :attr:`formatter_class` attribute.
         """
-        return self.formatter_class(
-            width=self.terminal_width, max_width=self.max_content_width
-        )
+        return self.formatter_class(width=self.terminal_width, max_width=self.max_content_width)
 
     def with_resource(self, context_manager: AbstractContextManager[V]) -> V:
         """Register a resource as if it were used in a ``with``
@@ -666,9 +658,7 @@ class Context:
         return rv
 
     @t.overload
-    def lookup_default(
-        self, name: str, call: t.Literal[True] = True
-    ) -> t.Any | None: ...
+    def lookup_default(self, name: str, call: t.Literal[True] = True) -> t.Any | None: ...
 
     @t.overload
     def lookup_default(
@@ -738,9 +728,7 @@ class Context:
         return type(self)(command, info_name=command.name, parent=self)
 
     @t.overload
-    def invoke(
-        self, callback: t.Callable[..., V], /, *args: t.Any, **kwargs: t.Any
-    ) -> V: ...
+    def invoke(self, callback: t.Callable[..., V], /, *args: t.Any, **kwargs: t.Any) -> V: ...
 
     @t.overload
     def invoke(self, callback: Command, /, *args: t.Any, **kwargs: t.Any) -> t.Any: ...
@@ -769,9 +757,7 @@ class Context:
             other_cmd = callback
 
             if other_cmd.callback is None:
-                raise TypeError(
-                    "The given command does not have a callback that can be invoked."
-                )
+                raise TypeError("The given command does not have a callback that can be invoked.")
             else:
                 callback = t.cast("t.Callable[..., V]", other_cmd.callback)
 
@@ -1214,9 +1200,7 @@ class Command:
         in the right way.
         """
         if self.deprecated:
-            extra_message = (
-                f" {self.deprecated}" if isinstance(self.deprecated, str) else ""
-            )
+            extra_message = f" {self.deprecated}" if isinstance(self.deprecated, str) else ""
             message = _(
                 "DeprecationWarning: The command {name!r} is deprecated.{extra_message}"
             ).format(name=self.name, extra_message=extra_message)
@@ -1513,9 +1497,7 @@ class Group(Command):
     def __init__(
         self,
         name: str | None = None,
-        commands: cabc.MutableMapping[str, Command]
-        | cabc.Sequence[Command]
-        | None = None,
+        commands: cabc.MutableMapping[str, Command] | cabc.Sequence[Command] | None = None,
         invoke_without_command: bool = False,
         no_args_is_help: bool | None = None,
         subcommand_metavar: str | None = None,
@@ -1554,9 +1536,7 @@ class Group(Command):
         if self.chain:
             for param in self.params:
                 if isinstance(param, Argument) and not param.required:
-                    raise RuntimeError(
-                        "A group in chain mode cannot have optional arguments."
-                    )
+                    raise RuntimeError("A group in chain mode cannot have optional arguments.")
 
     def to_info_dict(self, ctx: Context) -> dict[str, t.Any]:
         info_dict = super().to_info_dict(ctx)
@@ -1616,9 +1596,9 @@ class Group(Command):
         func: t.Callable[..., t.Any] | None = None
 
         if args and callable(args[0]):
-            assert len(args) == 1 and not kwargs, (
-                "Use 'command(**kwargs)(callable)' to provide arguments."
-            )
+            assert (
+                len(args) == 1 and not kwargs
+            ), "Use 'command(**kwargs)(callable)' to provide arguments."
             (func,) = args
             args = ()
 
@@ -1665,9 +1645,9 @@ class Group(Command):
         func: t.Callable[..., t.Any] | None = None
 
         if args and callable(args[0]):
-            assert len(args) == 1 and not kwargs, (
-                "Use 'group(**kwargs)(callable)' to provide arguments."
-            )
+            assert (
+                len(args) == 1 and not kwargs
+            ), "Use 'group(**kwargs)(callable)' to provide arguments."
             (func,) = args
             args = ()
 
@@ -2086,10 +2066,9 @@ class Parameter:
         expose_value: bool = True,
         is_eager: bool = False,
         envvar: str | cabc.Sequence[str] | None = None,
-        shell_complete: t.Callable[
-            [Context, Parameter, str], list[CompletionItem] | list[str]
-        ]
-        | None = None,
+        shell_complete: (
+            t.Callable[[Context, Parameter, str], list[CompletionItem] | list[str]] | None
+        ) = None,
         deprecated: bool | str = False,
     ) -> None:
         self.name: str | None
@@ -2157,9 +2136,7 @@ class Parameter:
 
                     if nargs > 1 and len(check_default) != nargs:
                         subject = "item length" if multiple else "length"
-                        raise ValueError(
-                            f"'default' {subject} must match nargs={nargs}."
-                        )
+                        raise ValueError(f"'default' {subject} must match nargs={nargs}.")
 
             if required and deprecated:
                 raise ValueError(
@@ -2220,18 +2197,14 @@ class Parameter:
         return metavar
 
     @t.overload
-    def get_default(
-        self, ctx: Context, call: t.Literal[True] = True
-    ) -> t.Any | None: ...
+    def get_default(self, ctx: Context, call: t.Literal[True] = True) -> t.Any | None: ...
 
     @t.overload
     def get_default(
         self, ctx: Context, call: bool = ...
     ) -> t.Any | t.Callable[[], t.Any] | None: ...
 
-    def get_default(
-        self, ctx: Context, call: bool = True
-    ) -> t.Any | t.Callable[[], t.Any] | None:
+    def get_default(self, ctx: Context, call: bool = True) -> t.Any | t.Callable[[], t.Any] | None:
         """Get the default for the parameter. Tries
         :meth:`Context.lookup_default` first, then the local default.
 
@@ -2299,9 +2272,7 @@ class Parameter:
                 # This should only happen when passing in args manually,
                 # the parser should construct an iterable when parsing
                 # the command line.
-                raise BadParameter(
-                    _("Value must be an iterable."), ctx=ctx, param=self
-                ) from None
+                raise BadParameter(_("Value must be an iterable."), ctx=ctx, param=self) from None
 
         if self.nargs == 1 or self.type.is_composite:
 
@@ -2397,12 +2368,9 @@ class Parameter:
                     ParameterSource.DEFAULT_MAP,
                 )
             ):
-                extra_message = (
-                    f" {self.deprecated}" if isinstance(self.deprecated, str) else ""
-                )
+                extra_message = f" {self.deprecated}" if isinstance(self.deprecated, str) else ""
                 message = _(
-                    "DeprecationWarning: The {param_type} {name!r} is deprecated."
-                    "{extra_message}"
+                    "DeprecationWarning: The {param_type} {name!r} is deprecated." "{extra_message}"
                 ).format(
                     param_type=self.param_type_name,
                     name=self.human_readable_name,
@@ -2555,9 +2523,7 @@ class Option(Parameter):
             help = inspect.cleandoc(help)
 
         default_is_missing = "default" not in attrs
-        super().__init__(
-            param_decls, type=type, multiple=multiple, deprecated=deprecated, **attrs
-        )
+        super().__init__(param_decls, type=type, multiple=multiple, deprecated=deprecated, **attrs)
 
         if prompt is True:
             if self.name is None:
@@ -2571,9 +2537,7 @@ class Option(Parameter):
 
         if deprecated:
             deprecated_message = (
-                f"(DEPRECATED: {deprecated})"
-                if isinstance(deprecated, str)
-                else "(DEPRECATED)"
+                f"(DEPRECATED: {deprecated})" if isinstance(deprecated, str) else "(DEPRECATED)"
             )
             help = help + deprecated_message if help is not None else deprecated_message
 
@@ -2651,9 +2615,7 @@ class Option(Parameter):
                 raise TypeError("Secondary flag is not valid for non-boolean flag.")
 
             if self.is_bool_flag and self.hide_input and self.prompt is not None:
-                raise TypeError(
-                    "'prompt' with 'hide_input' is not valid for boolean flag."
-                )
+                raise TypeError("'prompt' with 'hide_input' is not valid for boolean flag.")
 
             if self.count:
                 if self.multiple:
@@ -2706,8 +2668,7 @@ class Option(Parameter):
                         secondary_opts.append(second.lstrip())
                     if first == second:
                         raise ValueError(
-                            f"Boolean option {decl!r} cannot use the"
-                            " same flag for true/false."
+                            f"Boolean option {decl!r} cannot use the" " same flag for true/false."
                         )
                 else:
                     possible_names.append(_split_opt(decl))
@@ -2722,9 +2683,7 @@ class Option(Parameter):
         if name is None:
             if not expose_value:
                 return None, opts, secondary_opts
-            raise TypeError(
-                f"Could not determine name for option with declarations {decls!r}"
-            )
+            raise TypeError(f"Could not determine name for option with declarations {decls!r}")
 
         if not opts and not secondary_opts:
             raise TypeError(
@@ -2803,9 +2762,7 @@ class Option(Parameter):
         extra = self.get_help_extra(ctx)
         extra_items = []
         if "envvars" in extra:
-            extra_items.append(
-                _("env var: {var}").format(var=", ".join(extra["envvars"]))
-            )
+            extra_items.append(_("env var: {var}").format(var=", ".join(extra["envvars"])))
         if "default" in extra:
             extra_items.append(_("default: {default}").format(default=extra["default"]))
         if "range" in extra:
@@ -2900,18 +2857,14 @@ class Option(Parameter):
         return extra
 
     @t.overload
-    def get_default(
-        self, ctx: Context, call: t.Literal[True] = True
-    ) -> t.Any | None: ...
+    def get_default(self, ctx: Context, call: t.Literal[True] = True) -> t.Any | None: ...
 
     @t.overload
     def get_default(
         self, ctx: Context, call: bool = ...
     ) -> t.Any | t.Callable[[], t.Any] | None: ...
 
-    def get_default(
-        self, ctx: Context, call: bool = True
-    ) -> t.Any | t.Callable[[], t.Any] | None:
+    def get_default(self, ctx: Context, call: bool = True) -> t.Any | t.Callable[[], t.Any] | None:
         # If we're a non boolean flag our default is more complex because
         # we need to look at all flags in the same group to figure out
         # if we're the default one in which case we return the flag
@@ -2966,11 +2919,7 @@ class Option(Parameter):
                 return str(self.flag_value)
             return rv
 
-        if (
-            self.allow_from_autoenv
-            and ctx.auto_envvar_prefix is not None
-            and self.name is not None
-        ):
+        if self.allow_from_autoenv and ctx.auto_envvar_prefix is not None and self.name is not None:
             envvar = f"{ctx.auto_envvar_prefix}_{self.name.upper()}"
             rv = os.environ.get(envvar)
 
@@ -3011,11 +2960,7 @@ class Option(Parameter):
                 value = self.flag_value
                 source = ParameterSource.COMMANDLINE
 
-        elif (
-            self.multiple
-            and value is not None
-            and any(v is _flag_needs_value for v in value)
-        ):
+        elif self.multiple and value is not None and any(v is _flag_needs_value for v in value):
             value = [self.flag_value if v is _flag_needs_value else v for v in value]
             source = ParameterSource.COMMANDLINE
 
@@ -3096,8 +3041,7 @@ class Argument(Parameter):
             name = name.replace("-", "_").lower()
         else:
             raise TypeError(
-                "Arguments take exactly one parameter declaration, got"
-                f" {len(decls)}: {decls}."
+                "Arguments take exactly one parameter declaration, got" f" {len(decls)}: {decls}."
             )
         return name, [arg], []
 

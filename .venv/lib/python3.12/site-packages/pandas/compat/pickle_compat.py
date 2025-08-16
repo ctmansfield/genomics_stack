@@ -1,6 +1,7 @@
 """
 Support pre-0.12 series pickle compatibility.
 """
+
 from __future__ import annotations
 
 import contextlib
@@ -244,9 +245,7 @@ def loads(
     Analogous to pickle._loads.
     """
     fd = io.BytesIO(bytes_object)
-    return Unpickler(
-        fd, fix_imports=fix_imports, encoding=encoding, errors=errors
-    ).load()
+    return Unpickler(fd, fix_imports=fix_imports, encoding=encoding, errors=errors).load()
 
 
 @contextlib.contextmanager

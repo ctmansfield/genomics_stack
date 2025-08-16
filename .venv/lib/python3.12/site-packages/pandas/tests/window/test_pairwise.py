@@ -65,9 +65,7 @@ def test_rolling_corr(series):
 
 def test_rolling_corr_bias_correction():
     # test for correct bias correction
-    a = Series(
-        np.arange(20, dtype=np.float64), index=date_range("2020-01-01", periods=20)
-    )
+    a = Series(np.arange(20, dtype=np.float64), index=date_range("2020-01-01", periods=20))
     b = a.copy()
     a[:5] = np.nan
     b[:10] = np.nan
@@ -104,9 +102,7 @@ def test_flex_binary_frame(method, frame):
     )
 
     res3 = getattr(frame.rolling(window=10), method)(frame2)
-    exp = DataFrame(
-        {k: getattr(frame[k].rolling(window=10), method)(frame2[k]) for k in frame}
-    )
+    exp = DataFrame({k: getattr(frame[k].rolling(window=10), method)(frame2[k]) for k in frame})
     tm.assert_frame_equal(res3, exp)
 
 
@@ -250,9 +246,7 @@ class TestPairwise:
         # note that we may construct the 1st level of the MI
         # in a non-monotonic way, so compare accordingly
         result = f(pairwise_frames)
-        tm.assert_index_equal(
-            result.index.levels[0], pairwise_frames.index, check_names=False
-        )
+        tm.assert_index_equal(result.index.levels[0], pairwise_frames.index, check_names=False)
         tm.assert_index_equal(
             safe_sort(result.index.levels[1]),
             safe_sort(pairwise_frames.columns.unique()),
@@ -312,9 +306,7 @@ class TestPairwise:
     ):
         # DataFrame with another DataFrame, pairwise=True
         result = f(pairwise_frames, pairwise_other_frame)
-        tm.assert_index_equal(
-            result.index.levels[0], pairwise_frames.index, check_names=False
-        )
+        tm.assert_index_equal(result.index.levels[0], pairwise_frames.index, check_names=False)
         tm.assert_index_equal(
             safe_sort(result.index.levels[1]),
             safe_sort(pairwise_other_frame.columns.unique()),
@@ -342,16 +334,12 @@ class TestPairwise:
     def test_no_pairwise_with_other(self, pairwise_frames, pairwise_other_frame, f):
         # DataFrame with another DataFrame, pairwise=False
         result = (
-            f(pairwise_frames, pairwise_other_frame)
-            if pairwise_frames.columns.is_unique
-            else None
+            f(pairwise_frames, pairwise_other_frame) if pairwise_frames.columns.is_unique else None
         )
         if result is not None:
             # we can have int and str columns
             expected_index = pairwise_frames.index.union(pairwise_other_frame.index)
-            expected_columns = pairwise_frames.columns.union(
-                pairwise_other_frame.columns
-            )
+            expected_columns = pairwise_frames.columns.union(pairwise_other_frame.columns)
             tm.assert_index_equal(result.index, expected_index)
             tm.assert_index_equal(result.columns, expected_columns)
         else:

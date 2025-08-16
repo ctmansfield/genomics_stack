@@ -9,9 +9,7 @@ from pandas.util._decorators import deprecate_nonkeyword_arguments
 import pandas._testing as tm
 
 
-@deprecate_nonkeyword_arguments(
-    version="1.1", allowed_args=["a", "b"], name="f_add_inputs"
-)
+@deprecate_nonkeyword_arguments(version="1.1", allowed_args=["a", "b"], name="f_add_inputs")
 def f(a, b=0, c=0, d=0):
     return a + b + c + d
 

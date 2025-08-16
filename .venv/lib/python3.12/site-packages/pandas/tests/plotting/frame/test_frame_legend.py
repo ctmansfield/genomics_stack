@@ -19,10 +19,7 @@ mpl = pytest.importorskip("matplotlib")
 
 class TestFrameLegend:
     @pytest.mark.xfail(
-        reason=(
-            "Open bug in matplotlib "
-            "https://github.com/matplotlib/matplotlib/issues/11357"
-        )
+        reason=("Open bug in matplotlib " "https://github.com/matplotlib/matplotlib/issues/11357")
     )
     def test_mixed_yerr(self):
         # https://github.com/pandas-dev/pandas/issues/39522
@@ -63,15 +60,9 @@ class TestFrameLegend:
     def test_df_legend_labels(self, kind):
         pytest.importorskip("scipy")
         df = DataFrame(np.random.default_rng(2).random((3, 3)), columns=["a", "b", "c"])
-        df2 = DataFrame(
-            np.random.default_rng(2).random((3, 3)), columns=["d", "e", "f"]
-        )
-        df3 = DataFrame(
-            np.random.default_rng(2).random((3, 3)), columns=["g", "h", "i"]
-        )
-        df4 = DataFrame(
-            np.random.default_rng(2).random((3, 3)), columns=["j", "k", "l"]
-        )
+        df2 = DataFrame(np.random.default_rng(2).random((3, 3)), columns=["d", "e", "f"])
+        df3 = DataFrame(np.random.default_rng(2).random((3, 3)), columns=["g", "h", "i"])
+        df4 = DataFrame(np.random.default_rng(2).random((3, 3)), columns=["j", "k", "l"])
 
         ax = df.plot(kind=kind, legend=True)
         _check_legend_labels(ax, labels=df.columns)
@@ -89,12 +80,8 @@ class TestFrameLegend:
     def test_df_legend_labels_secondary_y(self):
         pytest.importorskip("scipy")
         df = DataFrame(np.random.default_rng(2).random((3, 3)), columns=["a", "b", "c"])
-        df2 = DataFrame(
-            np.random.default_rng(2).random((3, 3)), columns=["d", "e", "f"]
-        )
-        df3 = DataFrame(
-            np.random.default_rng(2).random((3, 3)), columns=["g", "h", "i"]
-        )
+        df2 = DataFrame(np.random.default_rng(2).random((3, 3)), columns=["d", "e", "f"])
+        df3 = DataFrame(np.random.default_rng(2).random((3, 3)), columns=["g", "h", "i"])
         # Secondary Y
         ax = df.plot(legend=True, secondary_y="b")
         _check_legend_labels(ax, labels=["a", "b (right)", "c"])
@@ -243,9 +230,7 @@ class TestFrameLegend:
 
     def test_missing_markers_legend(self):
         # 14958
-        df = DataFrame(
-            np.random.default_rng(2).standard_normal((8, 3)), columns=["A", "B", "C"]
-        )
+        df = DataFrame(np.random.default_rng(2).standard_normal((8, 3)), columns=["A", "B", "C"])
         ax = df.plot(y=["A"], marker="x", linestyle="solid")
         df.plot(y=["B"], marker="o", linestyle="dotted", ax=ax)
         df.plot(y=["C"], marker="<", linestyle="dotted", ax=ax)

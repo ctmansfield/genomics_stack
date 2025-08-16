@@ -61,9 +61,7 @@ def test_unique(names):
 
 
 def test_unique_datetimelike():
-    idx1 = DatetimeIndex(
-        ["2015-01-01", "2015-01-01", "2015-01-01", "2015-01-01", "NaT", "NaT"]
-    )
+    idx1 = DatetimeIndex(["2015-01-01", "2015-01-01", "2015-01-01", "2015-01-01", "NaT", "NaT"])
     idx2 = DatetimeIndex(
         ["2015-01-01", "2015-01-01", "2015-01-02", "2015-01-02", "NaT", "2015-01-01"],
         tz="Asia/Tokyo",
@@ -71,9 +69,7 @@ def test_unique_datetimelike():
     result = MultiIndex.from_arrays([idx1, idx2]).unique()
 
     eidx1 = DatetimeIndex(["2015-01-01", "2015-01-01", "NaT", "NaT"])
-    eidx2 = DatetimeIndex(
-        ["2015-01-01", "2015-01-02", "NaT", "2015-01-01"], tz="Asia/Tokyo"
-    )
+    eidx2 = DatetimeIndex(["2015-01-01", "2015-01-02", "NaT", "2015-01-01"], tz="Asia/Tokyo")
     exp = MultiIndex.from_arrays([eidx1, eidx2])
     tm.assert_index_equal(result, exp)
 
@@ -159,9 +155,7 @@ def test_has_duplicates(idx, idx_dup):
     assert mi.has_duplicates is True
 
     # single instance of NaN
-    mi_nan = MultiIndex(
-        levels=[["a", "b"], [0, 1]], codes=[[-1, 0, 0, 1, 1], [-1, 0, 1, 0, 1]]
-    )
+    mi_nan = MultiIndex(levels=[["a", "b"], [0, 1]], codes=[[-1, 0, 0, 1, 1], [-1, 0, 1, 0, 1]])
     assert mi_nan.is_unique is True
     assert mi_nan.has_duplicates is False
 

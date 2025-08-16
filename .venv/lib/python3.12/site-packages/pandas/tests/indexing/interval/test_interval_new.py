@@ -39,9 +39,7 @@ class TestIntervalIndex:
         with pytest.raises(KeyError, match=re.escape("Interval(3, 5, closed='right')")):
             indexer_sl(ser)[Interval(3, 5)]
 
-        with pytest.raises(
-            KeyError, match=re.escape("Interval(-2, 0, closed='right')")
-        ):
+        with pytest.raises(KeyError, match=re.escape("Interval(-2, 0, closed='right')")):
             indexer_sl(ser)[Interval(-2, 0)]
 
         with pytest.raises(KeyError, match=re.escape("Interval(5, 6, closed='right')")):

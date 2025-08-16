@@ -31,39 +31,39 @@ Backups + manifests live under `.genomics_patches/`.
 
 ## Quick Start
 
-1. **Install the tool files**  
+1. **Install the tool files**
    ```bash
    tar -xzf patch-0007-repo-upgrade-menu.tar.gz
    cd patch-0007-repo-upgrade-menu
    REPO_DIR=/root/genomics-stack bash install.sh
    ```
 
-2. **Open the menu**  
+2. **Open the menu**
    ```bash
    /root/genomics-stack/tools/repo_upgrade_menu.sh
    ```
 
-3. **Apply all patches at once (non-interactive)**  
+3. **Apply all patches at once (non-interactive)**
    ```bash
    /root/genomics-stack/tools/repo_upgrade_menu.sh --apply-all -y
    ```
 
-4. **Roll back a specific patch**  
+4. **Roll back a specific patch**
    ```bash
    /root/genomics-stack/tools/repo_upgrade_menu.sh --rollback 0004 -y
    ```
 
-5. **Roll back everything**  
+5. **Roll back everything**
    ```bash
    /root/genomics-stack/tools/repo_upgrade_menu.sh --rollback all -y
    ```
 
-6. **Verify**  
+6. **Verify**
    ```bash
    /root/genomics-stack/tools/repo_upgrade_menu.sh --verify
    ```
 
-7. **Push to GitHub**  
+7. **Push to GitHub**
    ```bash
    /root/genomics-stack/tools/repo_upgrade_menu.sh --push
    ```
@@ -130,11 +130,11 @@ rm -f  /root/genomics-stack/tools/repo_upgrade_menu.sh
 
 ## FAQ
 
-**Q: Does rollback restore my code exactly?**  
+**Q: Does rollback restore my code exactly?**
 A: Yes—only for files touched by the patch and captured in the manifest. Unrelated files are untouched.
 
-**Q: Will it modify my Git history?**  
+**Q: Will it modify my Git history?**
 A: The script creates new commits for apply/rollback. It won’t rewrite existing commits.
 
-**Q: Can I run this on a different repo path?**  
+**Q: Can I run this on a different repo path?**
 A: Yes: `REPO_DIR=/path/to/repo tools/repo_upgrade_menu.sh` or `--repo /path/to/repo`.

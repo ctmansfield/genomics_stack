@@ -1,6 +1,7 @@
 """
 Check the numpy config is valid.
 """
+
 from unittest.mock import patch
 
 import pytest
@@ -31,8 +32,7 @@ class TestNumPyConfigs:
 
         assert isinstance(config, dict)
         assert all(key in config for key in self.REQUIRED_CONFIG_KEYS), (
-            "Required key missing,"
-            " see index of `False` with `REQUIRED_CONFIG_KEYS`"
+            "Required key missing," " see index of `False` with `REQUIRED_CONFIG_KEYS`"
         )
 
     def test_invalid_mode(self):
@@ -41,6 +41,5 @@ class TestNumPyConfigs:
 
     def test_warn_to_add_tests(self):
         assert len(np.__config__.DisplayModes) == 2, (
-            "New mode detected,"
-            " please add UT if applicable and increment this count"
+            "New mode detected," " please add UT if applicable and increment this count"
         )

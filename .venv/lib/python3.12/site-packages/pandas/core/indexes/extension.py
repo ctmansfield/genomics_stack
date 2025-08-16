@@ -1,6 +1,7 @@
 """
 Shared methods for Index subclasses backed by ExtensionArray.
 """
+
 from __future__ import annotations
 
 from typing import (
@@ -29,9 +30,7 @@ if TYPE_CHECKING:
 _ExtensionIndexT = TypeVar("_ExtensionIndexT", bound="ExtensionIndex")
 
 
-def _inherit_from_data(
-    name: str, delegate: type, cache: bool = False, wrap: bool = False
-):
+def _inherit_from_data(name: str, delegate: type, cache: bool = False, wrap: bool = False):
     """
     Make an alias for a method of the underlying ExtensionArray.
 

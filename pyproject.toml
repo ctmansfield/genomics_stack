@@ -1,12 +1,24 @@
 [tool.black]
 line-length = 100
-target-version = ["py311","py312"]
+target-version = ["py312"]
 
 [tool.ruff]
 line-length = 100
-extend-exclude = [".venv","metabase_data","risk_reports","db_data",".genomics_patches"]
-select = ["E","F","I","UP","B","SIM","W"]
-ignore = ["E203","W503"]
+target-version = "py312"
+
+[tool.ruff.lint]
+# Families only; let Black manage wrapping
+select = ["E", "F", "B", "I", "UP", "SIM"]
+ignore = ["E203", "E501"]   # keep Black-compatible breaks; don't double-flag line length
+
+[tool.ruff.lint.per-file-ignores]
+# FastAPI dependency-injection (B008), late imports for simple HTML endpoints (E402),
+# unresolved names that are provided by the framework/wiring (F821), plus "try/except/pass" (SIM105) and B904 style.
+"ingest/app.py" = ["B008", "E402", "F821", "SIM105", "B904"]
+# Suggestion-only "combine with statements"
+"ingest_worker/worker.py" = ["SIM117"]
+# Helper script; quick suppression for now
+"scripts/vep/vep_annotate.py" = ["SIM105", "E722"]
 
 [tool.ruff.lint.isort]
 known-first-party = ["lib","ingest","ingest_worker","snp_enrichment_system","scripts"]

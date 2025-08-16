@@ -125,18 +125,14 @@ class TestDatetimeIndexOps:
         assert (rng.hour == 0).all()
 
         # a more unusual time zone, GH#1946
-        dr = date_range(
-            "2011-10-02 00:00", freq="h", periods=10, tz=prefix + "America/Atikokan"
-        )
+        dr = date_range("2011-10-02 00:00", freq="h", periods=10, tz=prefix + "America/Atikokan")
 
         expected = Index(np.arange(10, dtype=np.int32))
         tm.assert_index_equal(dr.hour, expected)
 
     # GH#12806
     # error: Unsupported operand types for + ("List[None]" and "List[str]")
-    @pytest.mark.parametrize(
-        "time_locale", [None] + tm.get_locales()  # type: ignore[operator]
-    )
+    @pytest.mark.parametrize("time_locale", [None] + tm.get_locales())  # type: ignore[operator]
     def test_day_name_month_name(self, time_locale):
         # Test Monday -> Sunday and January -> December, in that sequence
         if time_locale is None:

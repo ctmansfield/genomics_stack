@@ -74,9 +74,7 @@ class TestDataFrameCov:
         expected = DataFrame(expected_np)
         tm.assert_frame_equal(result, expected)
 
-    @pytest.mark.parametrize(
-        "other_column", [pd.array([1, 2, 3]), np.array([1.0, 2.0, 3.0])]
-    )
+    @pytest.mark.parametrize("other_column", [pd.array([1, 2, 3]), np.array([1.0, 2.0, 3.0])])
     def test_cov_nullable_integer(self, other_column):
         # https://github.com/pandas-dev/pandas/issues/33803
         data = DataFrame({"a": pd.array([1, 2, None]), "b": other_column})
@@ -191,9 +189,7 @@ class TestDataFrameCorr:
         df.cov()
         df.corr()
 
-    @pytest.mark.parametrize(
-        "nullable_column", [pd.array([1, 2, 3]), pd.array([1, 2, None])]
-    )
+    @pytest.mark.parametrize("nullable_column", [pd.array([1, 2, 3]), pd.array([1, 2, None])])
     @pytest.mark.parametrize(
         "other_column",
         [pd.array([1, 2, 3]), np.array([1.0, 2.0, 3.0]), np.array([1.0, 2.0, np.nan])],
@@ -234,16 +230,12 @@ class TestDataFrameCorr:
         # GH: 37448
         df = DataFrame(length * [[0.4, 0.1]], columns=["A", "B"])
         result = df.corr()
-        expected = DataFrame(
-            {"A": [np.nan, np.nan], "B": [np.nan, np.nan]}, index=["A", "B"]
-        )
+        expected = DataFrame({"A": [np.nan, np.nan], "B": [np.nan, np.nan]}, index=["A", "B"])
         tm.assert_frame_equal(result, expected)
 
     def test_calc_corr_small_numbers(self):
         # GH: 37452
-        df = DataFrame(
-            {"A": [1.0e-20, 2.0e-20, 3.0e-20], "B": [1.0e-20, 2.0e-20, 3.0e-20]}
-        )
+        df = DataFrame({"A": [1.0e-20, 2.0e-20, 3.0e-20], "B": [1.0e-20, 2.0e-20, 3.0e-20]})
         result = df.corr()
         expected = DataFrame({"A": [1.0, 1.0], "B": [1.0, 1.0]}, index=["A", "B"])
         tm.assert_frame_equal(result, expected)
@@ -253,9 +245,7 @@ class TestDataFrameCorr:
         pytest.importorskip("scipy")
         df = DataFrame({"A": [1, 2], "B": [1, 2]})
         result = df.corr(method=method, min_periods=3)
-        expected = DataFrame(
-            {"A": [np.nan, np.nan], "B": [np.nan, np.nan]}, index=["A", "B"]
-        )
+        expected = DataFrame({"A": [np.nan, np.nan], "B": [np.nan, np.nan]}, index=["A", "B"])
         tm.assert_frame_equal(result, expected)
 
     @pytest.mark.parametrize("meth", ["pearson", "kendall", "spearman"])
@@ -373,9 +363,7 @@ class TestDataFrameCorrWith:
     @pytest.mark.parametrize("numeric_only", [True, False])
     def test_corrwith_mixed_dtypes(self, numeric_only):
         # GH#18570
-        df = DataFrame(
-            {"a": [1, 4, 3, 2], "b": [4, 6, 7, 3], "c": ["a", "b", "c", "d"]}
-        )
+        df = DataFrame({"a": [1, 4, 3, 2], "b": [4, 6, 7, 3], "c": ["a", "b", "c", "d"]})
         s = Series([0, 6, 7, 3])
         if numeric_only:
             result = df.corrwith(s, numeric_only=numeric_only)
@@ -390,24 +378,16 @@ class TestDataFrameCorrWith:
                 df.corrwith(s, numeric_only=numeric_only)
 
     def test_corrwith_index_intersection(self):
-        df1 = DataFrame(
-            np.random.default_rng(2).random(size=(10, 2)), columns=["a", "b"]
-        )
-        df2 = DataFrame(
-            np.random.default_rng(2).random(size=(10, 3)), columns=["a", "b", "c"]
-        )
+        df1 = DataFrame(np.random.default_rng(2).random(size=(10, 2)), columns=["a", "b"])
+        df2 = DataFrame(np.random.default_rng(2).random(size=(10, 3)), columns=["a", "b", "c"])
 
         result = df1.corrwith(df2, drop=True).index.sort_values()
         expected = df1.columns.intersection(df2.columns).sort_values()
         tm.assert_index_equal(result, expected)
 
     def test_corrwith_index_union(self):
-        df1 = DataFrame(
-            np.random.default_rng(2).random(size=(10, 2)), columns=["a", "b"]
-        )
-        df2 = DataFrame(
-            np.random.default_rng(2).random(size=(10, 3)), columns=["a", "b", "c"]
-        )
+        df1 = DataFrame(np.random.default_rng(2).random(size=(10, 2)), columns=["a", "b"])
+        df2 = DataFrame(np.random.default_rng(2).random(size=(10, 3)), columns=["a", "b", "c"])
 
         result = df1.corrwith(df2, drop=False).index.sort_values()
         expected = df1.columns.union(df2.columns).sort_values()
@@ -461,9 +441,7 @@ class TestDataFrameCorrWith:
         expected = Series([0.0, 1.0, 0.0], index=["A", "B", "C"])
         tm.assert_series_equal(result, expected)
 
-        df_bool = DataFrame(
-            {"A": [True, True, False, False], "B": [True, False, False, True]}
-        )
+        df_bool = DataFrame({"A": [True, True, False, False], "B": [True, False, False, True]})
         ser_bool = Series([True, True, False, True])
         result = df_bool.corrwith(ser_bool)
         expected = Series([0.57735, 0.57735], index=["A", "B"])

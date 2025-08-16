@@ -81,13 +81,9 @@ class TestMergeMulti:
 
         tm.assert_frame_equal(result, expected)
 
-        result = left.join(right, on=on_cols, how=join_type, sort=True).reset_index(
-            drop=True
-        )
+        result = left.join(right, on=on_cols, how=join_type, sort=True).reset_index(drop=True)
 
-        expected = merge(
-            left, right.reset_index(), on=on_cols, how=join_type, sort=True
-        )
+        expected = merge(left, right.reset_index(), on=on_cols, how=join_type, sort=True)
 
         tm.assert_frame_equal(result, expected)
 
@@ -125,9 +121,7 @@ class TestMergeMulti:
                 tm.assert_frame_equal(out, res)
 
             lc = list(map(chr, np.arange(ord("a"), ord("z") + 1)))
-            left = DataFrame(
-                np.random.default_rng(2).choice(lc, (50, 2)), columns=["1st", "3rd"]
-            )
+            left = DataFrame(np.random.default_rng(2).choice(lc, (50, 2)), columns=["1st", "3rd"])
             # Explicit cast to float to avoid implicit cast when setting nan
             left.insert(
                 1,
@@ -450,9 +444,7 @@ class TestMergeMulti:
     @pytest.mark.parametrize("klass", [None, np.asarray, Series, Index])
     def test_merge_datetime_index(self, klass):
         # see gh-19038
-        df = DataFrame(
-            [1, 2, 3], ["2016-01-01", "2017-01-01", "2018-01-01"], columns=["a"]
-        )
+        df = DataFrame([1, 2, 3], ["2016-01-01", "2017-01-01", "2018-01-01"], columns=["a"])
         df.index = pd.to_datetime(df.index)
         on_vector = df.index.year
 
@@ -648,9 +640,7 @@ class TestMergeMulti:
         # invalid cases
         household.index.name = "foo"
 
-        with pytest.raises(
-            ValueError, match="cannot join with no overlapping index names"
-        ):
+        with pytest.raises(ValueError, match="cannot join with no overlapping index names"):
             household.join(portfolio, how="inner")
 
         portfolio2 = portfolio.copy()
@@ -839,9 +829,7 @@ class TestJoinMultiMulti:
         result = left_multi.join(right_multi, how=join_type).sort_index()
         tm.assert_frame_equal(result, expected)
 
-    def test_join_multi_empty_frames(
-        self, left_multi, right_multi, join_type, on_cols_multi
-    ):
+    def test_join_multi_empty_frames(self, left_multi, right_multi, join_type, on_cols_multi):
         left_multi = left_multi.drop(columns=left_multi.columns)
         right_multi = right_multi.drop(columns=right_multi.columns)
 
@@ -869,9 +857,7 @@ class TestJoinMultiMulti:
     @pytest.mark.parametrize("box", [None, np.asarray, Series, Index])
     def test_merge_datetime_index(self, box):
         # see gh-19038
-        df = DataFrame(
-            [1, 2, 3], ["2016-01-01", "2017-01-01", "2018-01-01"], columns=["a"]
-        )
+        df = DataFrame([1, 2, 3], ["2016-01-01", "2017-01-01", "2018-01-01"], columns=["a"])
         df.index = pd.to_datetime(df.index)
         on_vector = df.index.year
 
@@ -894,9 +880,7 @@ class TestJoinMultiMulti:
             [("K0", "X0"), ("K0", "X1"), ("K1", "X2")], names=["key", "X"]
         )
 
-        left = DataFrame(
-            {"A": ["A0", "A1", "A2"], "B": ["B0", "B1", "B2"]}, index=index_left
-        )
+        left = DataFrame({"A": ["A0", "A1", "A2"], "B": ["B0", "B1", "B2"]}, index=index_left)
 
         index_right = MultiIndex.from_tuples(
             [("K0", "Y0"), ("K1", "Y1"), ("K2", "Y2"), ("K2", "Y3")], names=["key", "Y"]

@@ -37,9 +37,7 @@ def is_constant(x):
 
 @pytest.fixture(
     params=(
-        obj
-        for obj in itertools.chain(create_series(), create_dataframes())
-        if is_constant(obj)
+        obj for obj in itertools.chain(create_series(), create_dataframes()) if is_constant(obj)
     ),
 )
 def consistent_data(request):

@@ -112,9 +112,7 @@ def test_interpolate_inplace_with_refs(using_copy_on_write, vals, warn_copy_on_w
 
 @pytest.mark.parametrize("func", ["ffill", "bfill"])
 @pytest.mark.parametrize("dtype", ["float64", "Float64"])
-def test_interp_fill_functions_inplace(
-    using_copy_on_write, func, warn_copy_on_write, dtype
-):
+def test_interp_fill_functions_inplace(using_copy_on_write, func, warn_copy_on_write, dtype):
     # Check that these takes the same code paths as interpolate
     df = DataFrame({"a": [1, np.nan, 2]}, dtype=dtype)
     df_orig = df.copy()
@@ -280,9 +278,7 @@ def test_fillna_inplace_reference(using_copy_on_write, warn_copy_on_write):
 
 def test_fillna_interval_inplace_reference(using_copy_on_write, warn_copy_on_write):
     # Set dtype explicitly to avoid implicit cast when setting nan
-    ser = Series(
-        interval_range(start=0, end=5), name="a", dtype="interval[float64, right]"
-    )
+    ser = Series(interval_range(start=0, end=5), name="a", dtype="interval[float64, right]")
     ser.iloc[1] = np.nan
 
     ser_orig = ser.copy()
@@ -296,9 +292,7 @@ def test_fillna_interval_inplace_reference(using_copy_on_write, warn_copy_on_wri
         )
         tm.assert_series_equal(view, ser_orig)
     else:
-        assert np.shares_memory(
-            get_array(ser, "a").left.values, get_array(view, "a").left.values
-        )
+        assert np.shares_memory(get_array(ser, "a").left.values, get_array(view, "a").left.values)
 
 
 def test_fillna_series_empty_arg(using_copy_on_write):
@@ -325,9 +319,7 @@ def test_fillna_series_empty_arg_inplace(using_copy_on_write):
         assert ser._mgr._has_no_reference(0)
 
 
-def test_fillna_ea_noop_shares_memory(
-    using_copy_on_write, any_numeric_ea_and_arrow_dtype
-):
+def test_fillna_ea_noop_shares_memory(using_copy_on_write, any_numeric_ea_and_arrow_dtype):
     df = DataFrame({"a": [1, NA, 3], "b": 1}, dtype=any_numeric_ea_and_arrow_dtype)
     df_orig = df.copy()
     df2 = df.fillna(100)

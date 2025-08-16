@@ -29,9 +29,7 @@ def vals(n):
     vals = [
         np.random.default_rng(2).integers(0, 10, n),
         np.random.default_rng(2).choice(list("abcdefghij"), n),
-        np.random.default_rng(2).choice(
-            pd.date_range("20141009", periods=10).tolist(), n
-        ),
+        np.random.default_rng(2).choice(pd.date_range("20141009", periods=10).tolist(), n),
         np.random.default_rng(2).choice(list("ZYXWVUTSRQ"), n),
         np.random.default_rng(2).standard_normal(n),
     ]
@@ -45,9 +43,7 @@ def keys(n, m, vals):
     keys = [
         np.random.default_rng(2).integers(0, 11, m),
         np.random.default_rng(2).choice(list("abcdefghijk"), m),
-        np.random.default_rng(2).choice(
-            pd.date_range("20141009", periods=11).tolist(), m
-        ),
+        np.random.default_rng(2).choice(pd.date_range("20141009", periods=11).tolist(), m),
         np.random.default_rng(2).choice(list("ZYXWVUTSRQP"), m),
     ]
     keys = list(map(tuple, zip(*keys)))
@@ -110,9 +106,7 @@ def test_multiindex_get_loc(request, lexsort_depth, keys, frame_fixture, cols):
                 return_value = right.set_index(cols[:-1], inplace=True)
                 assert return_value is None
                 if len(right) == 1:  # single hit
-                    right = Series(
-                        right["jolia"].values, name=right.index[0], index=["jolia"]
-                    )
+                    right = Series(right["jolia"].values, name=right.index[0], index=["jolia"])
                     tm.assert_series_equal(mi.loc[key[: i + 1]], right)
                 else:  # multi hit
                     tm.assert_frame_equal(mi.loc[key[: i + 1]], right)

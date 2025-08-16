@@ -280,9 +280,7 @@ def test_merge_on_key_enlarging_one(using_copy_on_write, func, how):
         assert not np.shares_memory(get_array(result, "b"), get_array(df2, "b"))
         assert df2._mgr._has_no_reference(1)
         assert df2._mgr._has_no_reference(0)
-        assert np.shares_memory(get_array(result, "key"), get_array(df1, "key")) is (
-            how == "left"
-        )
+        assert np.shares_memory(get_array(result, "key"), get_array(df1, "key")) is (how == "left")
         assert not np.shares_memory(get_array(result, "key"), get_array(df2, "key"))
     else:
         assert not np.shares_memory(get_array(result, "a"), get_array(df1, "a"))
@@ -366,12 +364,8 @@ def test_join_multiple_dataframes_on_key(using_copy_on_write):
         assert np.shares_memory(get_array(result, "b"), get_array(dfs_list[0], "b"))
         assert np.shares_memory(get_array(result, "c"), get_array(dfs_list[1], "c"))
         assert np.shares_memory(get_array(result.index), get_array(df1.index))
-        assert not np.shares_memory(
-            get_array(result.index), get_array(dfs_list[0].index)
-        )
-        assert not np.shares_memory(
-            get_array(result.index), get_array(dfs_list[1].index)
-        )
+        assert not np.shares_memory(get_array(result.index), get_array(dfs_list[0].index))
+        assert not np.shares_memory(get_array(result.index), get_array(dfs_list[1].index))
     else:
         assert not np.shares_memory(get_array(result, "a"), get_array(df1, "a"))
         assert not np.shares_memory(get_array(result, "b"), get_array(dfs_list[0], "b"))

@@ -80,9 +80,7 @@ def test_arrow_array_missing():
     assert result.storage.equals(expected)
 
 
-@pytest.mark.filterwarnings(
-    "ignore:Passing a BlockManager to DataFrame:DeprecationWarning"
-)
+@pytest.mark.filterwarnings("ignore:Passing a BlockManager to DataFrame:DeprecationWarning")
 @pytest.mark.parametrize(
     "breaks",
     [[0.0, 1.0, 2.0, 3.0], pd.date_range("2017", periods=4, freq="D")],
@@ -109,16 +107,12 @@ def test_arrow_table_roundtrip(breaks):
     tm.assert_frame_equal(result, expected)
 
     # GH#41040
-    table = pa.table(
-        [pa.chunked_array([], type=table.column(0).type)], schema=table.schema
-    )
+    table = pa.table([pa.chunked_array([], type=table.column(0).type)], schema=table.schema)
     result = table.to_pandas()
     tm.assert_frame_equal(result, expected[0:0])
 
 
-@pytest.mark.filterwarnings(
-    "ignore:Passing a BlockManager to DataFrame:DeprecationWarning"
-)
+@pytest.mark.filterwarnings("ignore:Passing a BlockManager to DataFrame:DeprecationWarning")
 @pytest.mark.parametrize(
     "breaks",
     [[0.0, 1.0, 2.0, 3.0], pd.date_range("2017", periods=4, freq="D")],
@@ -151,9 +145,7 @@ def test_from_arrow_from_raw_struct_array():
     dtype = pd.IntervalDtype(np.dtype("int64"), closed="neither")
 
     result = dtype.__from_arrow__(arr)
-    expected = IntervalArray.from_breaks(
-        np.array([0, 1, 2], dtype="int64"), closed="neither"
-    )
+    expected = IntervalArray.from_breaks(np.array([0, 1, 2], dtype="int64"), closed="neither")
     tm.assert_extension_array_equal(result, expected)
 
     result = dtype.__from_arrow__(pa.chunked_array([arr]))

@@ -48,8 +48,7 @@ class TestDataFrame:
     def test_nonzero_single_element(self):
         # allow single item via bool method
         msg_warn = (
-            "DataFrame.bool is now deprecated and will be removed "
-            "in future version of pandas"
+            "DataFrame.bool is now deprecated and will be removed " "in future version of pandas"
         )
         df = DataFrame([[True]])
         df1 = DataFrame([[False]])
@@ -114,12 +113,8 @@ class TestDataFrame:
             m.setattr(DataFrame, "_metadata", ["filename"])
             m.setattr(DataFrame, "__finalize__", finalize)
 
-            df1 = DataFrame(
-                np.random.default_rng(2).integers(0, 4, (3, 2)), columns=["a", "b"]
-            )
-            df2 = DataFrame(
-                np.random.default_rng(2).integers(0, 4, (3, 2)), columns=["c", "d"]
-            )
+            df1 = DataFrame(np.random.default_rng(2).integers(0, 4, (3, 2)), columns=["a", "b"])
+            df2 = DataFrame(np.random.default_rng(2).integers(0, 4, (3, 2)), columns=["c", "d"])
             DataFrame._metadata = ["filename"]
             df1.filename = "fname1.csv"
             df2.filename = "fname2.csv"
@@ -129,9 +124,7 @@ class TestDataFrame:
 
             # concat
             # GH#6927
-            df1 = DataFrame(
-                np.random.default_rng(2).integers(0, 4, (3, 2)), columns=list("ab")
-            )
+            df1 = DataFrame(np.random.default_rng(2).integers(0, 4, (3, 2)), columns=list("ab"))
             df1.filename = "foo"
 
             result = pd.concat([df1, df1])
@@ -188,9 +181,7 @@ class TestDataFrame2:
 
     def test_unexpected_keyword(self):
         # GH8597
-        df = DataFrame(
-            np.random.default_rng(2).standard_normal((5, 2)), columns=["jim", "joe"]
-        )
+        df = DataFrame(np.random.default_rng(2).standard_normal((5, 2)), columns=["jim", "joe"])
         ca = pd.Categorical([0, 0, 2, 2, 3, np.nan])
         ts = df["joe"].copy()
         ts[2] = np.nan

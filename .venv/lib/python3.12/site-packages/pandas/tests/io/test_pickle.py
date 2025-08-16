@@ -10,6 +10,7 @@ $ python generate_legacy_storage_files.py <output_dir> pickle
 
 3. Move the created pickle to "data/legacy_pickle/<version>" directory.
 """
+
 from __future__ import annotations
 
 from array import array
@@ -173,11 +174,7 @@ def python_unpickler(path):
 
 def flatten(data: dict) -> list[tuple[str, Any]]:
     """Flatten create_pickle_data"""
-    return [
-        (typ, example)
-        for typ, examples in data.items()
-        for example in examples.values()
-    ]
+    return [(typ, example) for typ, examples in data.items() for example in examples.values()]
 
 
 @pytest.mark.parametrize(
@@ -460,9 +457,7 @@ def test_pickle_buffer_roundtrip():
 # ---------------------
 
 
-@pytest.mark.parametrize(
-    "mockurl", ["http://url.com", "ftp://test.com", "http://gzip.com"]
-)
+@pytest.mark.parametrize("mockurl", ["http://url.com", "ftp://test.com", "http://gzip.com"])
 def test_pickle_generalurl_read(monkeypatch, mockurl):
     def python_pickler(obj, path):
         with open(path, "wb") as fh:
@@ -588,9 +583,7 @@ def test_pickle_timeseries_periodindex():
     assert new_ts.index.freqstr == "M"
 
 
-@pytest.mark.parametrize(
-    "name", [777, 777.0, "name", datetime.datetime(2001, 11, 11), (1, 2)]
-)
+@pytest.mark.parametrize("name", [777, 777.0, "name", datetime.datetime(2001, 11, 11), (1, 2)])
 def test_pickle_preserve_name(name):
     unpickled = tm.round_trip_pickle(Series(np.arange(10, dtype=np.float64), name=name))
     assert unpickled.name == name

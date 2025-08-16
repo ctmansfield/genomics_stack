@@ -51,9 +51,7 @@ class TestDataFrameValues:
         assert arr[0, 0] == 1j
 
     def test_values_duplicates(self):
-        df = DataFrame(
-            [[1, 2, "a", "b"], [1, 2, "a", "b"]], columns=["one", "one", "two", "two"]
-        )
+        df = DataFrame([[1, 2, "a", "b"], [1, 2, "a", "b"]], columns=["one", "one", "two", "two"])
 
         result = df.values
         expected = np.array([[1, 2, "a", "b"], [1, 2, "a", "b"]], dtype=object)
@@ -72,9 +70,7 @@ class TestDataFrameValues:
 
         expected = series.astype("object")
 
-        df = DataFrame(
-            {"a": series, "b": np.random.default_rng(2).standard_normal(len(series))}
-        )
+        df = DataFrame({"a": series, "b": np.random.default_rng(2).standard_normal(len(series))})
 
         result = df.values.squeeze()
         assert (result[:, 0] == expected.values).all()

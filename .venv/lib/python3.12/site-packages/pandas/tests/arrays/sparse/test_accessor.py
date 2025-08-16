@@ -61,9 +61,7 @@ class TestSeriesAccessor:
             ),
         ],
     )
-    def test_to_coo(
-        self, sort_labels, expected_rows, expected_cols, expected_values_pos
-    ):
+    def test_to_coo(self, sort_labels, expected_rows, expected_cols, expected_values_pos):
         sp_sparse = pytest.importorskip("scipy.sparse")
 
         values = SparseArray([0, np.nan, 1, 0, None, 3], fill_value=0)
@@ -113,9 +111,9 @@ class TestFrameAccessor:
 
         mat = sp_sparse.eye(10, format=format, dtype=dtype)
         result = pd.DataFrame.sparse.from_spmatrix(mat, index=labels, columns=labels)
-        expected = pd.DataFrame(
-            np.eye(10, dtype=dtype), index=labels, columns=labels
-        ).astype(sp_dtype)
+        expected = pd.DataFrame(np.eye(10, dtype=dtype), index=labels, columns=labels).astype(
+            sp_dtype
+        )
         tm.assert_frame_equal(result, expected)
 
     @pytest.mark.parametrize("format", ["csc", "csr", "coo"])
@@ -161,12 +159,8 @@ class TestFrameAccessor:
         pytest.importorskip("scipy")
         df = pd.DataFrame(
             {
-                "A": SparseArray(
-                    [fill_value, fill_value, fill_value, 2], fill_value=fill_value
-                ),
-                "B": SparseArray(
-                    [fill_value, 2, fill_value, fill_value], fill_value=fill_value
-                ),
+                "A": SparseArray([fill_value, fill_value, fill_value, 2], fill_value=fill_value),
+                "B": SparseArray([fill_value, 2, fill_value, fill_value], fill_value=fill_value),
             }
         )
         with pytest.raises(ValueError, match="fill value must be 0"):
@@ -200,9 +194,7 @@ class TestFrameAccessor:
             index=["b", "a"],
         )
         result = df.sparse.to_dense()
-        expected = pd.DataFrame(
-            {"A": [1, 0], "B": [1, 0], "C": [1.0, 0.0]}, index=["b", "a"]
-        )
+        expected = pd.DataFrame({"A": [1, 0], "B": [1, 0], "C": [1.0, 0.0]}, index=["b", "a"])
         tm.assert_frame_equal(result, expected)
 
     def test_density(self):
@@ -242,9 +234,7 @@ class TestFrameAccessor:
         sp_sparse = pytest.importorskip("scipy.sparse")
 
         m = sp_sparse.csr_matrix(np.array([[0, 1], [0, 0]]))
-        with pytest.raises(
-            TypeError, match="Expected coo_matrix. Got csr_matrix instead."
-        ):
+        with pytest.raises(TypeError, match="Expected coo_matrix. Got csr_matrix instead."):
             pd.Series.sparse.from_coo(m)
 
     def test_with_column_named_sparse(self):

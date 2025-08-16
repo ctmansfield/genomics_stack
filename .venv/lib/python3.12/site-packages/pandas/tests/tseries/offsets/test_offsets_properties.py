@@ -7,6 +7,7 @@ which was more ambitious but less idiomatic in its use of Hypothesis.
 You may wish to consult the previous version for inspiration on further
 tests, or when trying to pin down the bugs exposed by the tests below.
 """
+
 from hypothesis import (
     assume,
     given,
@@ -51,9 +52,7 @@ def test_shift_across_dst(offset):
     assume(not offset.normalize)
 
     # Note that dti includes a transition across DST boundary
-    dti = pd.date_range(
-        start="2017-10-30 12:00:00", end="2017-11-06", freq="D", tz="US/Eastern"
-    )
+    dti = pd.date_range(start="2017-10-30 12:00:00", end="2017-11-06", freq="D", tz="US/Eastern")
     assert (dti.hour == 12).all()  # we haven't screwed up yet
 
     res = dti + offset

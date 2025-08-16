@@ -38,8 +38,7 @@ class SharedSetAxisTests:
                 assert not tm.shares_memory(result, obj)
             else:
                 assert not any(
-                    tm.shares_memory(result.iloc[:, i], obj.iloc[:, i])
-                    for i in range(obj.shape[1])
+                    tm.shares_memory(result.iloc[:, i], obj.iloc[:, i]) for i in range(obj.shape[1])
                 )
 
         result = obj.set_axis(new_index, axis=0, copy=False)
@@ -50,8 +49,7 @@ class SharedSetAxisTests:
             assert tm.shares_memory(result, obj)
         else:
             assert all(
-                tm.shares_memory(result.iloc[:, i], obj.iloc[:, i])
-                for i in range(obj.shape[1])
+                tm.shares_memory(result.iloc[:, i], obj.iloc[:, i]) for i in range(obj.shape[1])
             )
 
         # copy defaults to True
@@ -64,16 +62,14 @@ class SharedSetAxisTests:
                 assert tm.shares_memory(result, obj)
             else:
                 assert any(
-                    tm.shares_memory(result.iloc[:, i], obj.iloc[:, i])
-                    for i in range(obj.shape[1])
+                    tm.shares_memory(result.iloc[:, i], obj.iloc[:, i]) for i in range(obj.shape[1])
                 )
         # check we DID make a copy
         elif obj.ndim == 1:
             assert not tm.shares_memory(result, obj)
         else:
             assert not any(
-                tm.shares_memory(result.iloc[:, i], obj.iloc[:, i])
-                for i in range(obj.shape[1])
+                tm.shares_memory(result.iloc[:, i], obj.iloc[:, i]) for i in range(obj.shape[1])
             )
 
         res = obj.set_axis(new_index, copy=False)
@@ -83,8 +79,7 @@ class SharedSetAxisTests:
             assert tm.shares_memory(res, orig)
         else:
             assert all(
-                tm.shares_memory(res.iloc[:, i], orig.iloc[:, i])
-                for i in range(res.shape[1])
+                tm.shares_memory(res.iloc[:, i], orig.iloc[:, i]) for i in range(res.shape[1])
             )
 
     def test_set_axis_unnamed_kwarg_warns(self, obj):
@@ -105,10 +100,7 @@ class SharedSetAxisTests:
 
     def test_set_axis_setattr_index_not_collection(self, obj):
         # wrong type
-        msg = (
-            r"Index\(\.\.\.\) must be called with a collection of some "
-            r"kind, None was passed"
-        )
+        msg = r"Index\(\.\.\.\) must be called with a collection of some " r"kind, None was passed"
         with pytest.raises(TypeError, match=msg):
             obj.index = None
 

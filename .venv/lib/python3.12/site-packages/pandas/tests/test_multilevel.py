@@ -129,13 +129,9 @@ class TestMultiLevel:
         assert (df[2000, 1, 10] == df[2000, 1, 7]).all()
 
     def test_alignment(self):
-        x = Series(
-            data=[1, 2, 3], index=MultiIndex.from_tuples([("A", 1), ("A", 2), ("B", 3)])
-        )
+        x = Series(data=[1, 2, 3], index=MultiIndex.from_tuples([("A", 1), ("A", 2), ("B", 3)]))
 
-        y = Series(
-            data=[4, 5, 6], index=MultiIndex.from_tuples([("Z", 1), ("Z", 2), ("B", 3)])
-        )
+        y = Series(data=[4, 5, 6], index=MultiIndex.from_tuples([("Z", 1), ("Z", 2), ("B", 3)]))
 
         res = x - y
         exp_index = x.index.union(y.index)
@@ -169,9 +165,7 @@ class TestMultiLevel:
         index = MultiIndex.from_tuples(
             [("foo", "one"), ("foo", "two"), ("bar", "one"), ("bar", "two")]
         )
-        df = DataFrame(
-            np.random.default_rng(2).standard_normal((4, 4)), index=index, columns=index
-        )
+        df = DataFrame(np.random.default_rng(2).standard_normal((4, 4)), index=index, columns=index)
         df["Totals", ""] = df.sum(1)
         df = df._consolidate()
 
@@ -250,9 +244,7 @@ class TestMultiLevel:
 
         g = df[df.a == 2].groupby(group_keys)
         result = g.first().index
-        expected = MultiIndex(
-            levels=[[1], [2], [3]], codes=[[], [], []], names=["a", "b", "c"]
-        )
+        expected = MultiIndex(levels=[[1], [2], [3]], codes=[[], [], []], names=["a", "b", "c"])
 
         tm.assert_index_equal(result, expected)
 
@@ -346,9 +338,7 @@ class TestSorted:
 
         expected = DataFrame(
             {"col": [1, 4, 5, 2]},
-            index=MultiIndex.from_tuples(
-                [("B", "a"), ("B", "c"), ("C", "a"), ("C", "b")]
-            ),
+            index=MultiIndex.from_tuples([("B", "a"), ("B", "c"), ("C", "a"), ("C", "b")]),
             dtype="int64",
         )
         result = sorted.loc[pd.IndexSlice["B":"C", "a":"c"], :]

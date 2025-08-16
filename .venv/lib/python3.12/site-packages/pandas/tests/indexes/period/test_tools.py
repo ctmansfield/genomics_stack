@@ -31,9 +31,7 @@ class TestPeriodRepresentation:
         ],
     )
     @pytest.mark.filterwarnings(r"ignore:PeriodDtype\[B\] is deprecated:FutureWarning")
-    @pytest.mark.filterwarnings(
-        "ignore:Period with BDay freq is deprecated:FutureWarning"
-    )
+    @pytest.mark.filterwarnings("ignore:Period with BDay freq is deprecated:FutureWarning")
     def test_freq(self, freq, base_date):
         rng = period_range(start=base_date, periods=10, freq=freq)
         exp = np.arange(10, dtype=np.int64)

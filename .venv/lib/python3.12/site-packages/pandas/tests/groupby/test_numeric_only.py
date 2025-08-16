@@ -130,9 +130,7 @@ class TestNumericOnly:
     @pytest.mark.parametrize("method", ["sum", "cumsum"])
     def test_sum_cumsum(self, df, method):
         expected_columns_numeric = Index(["int", "float", "category_int"])
-        expected_columns = Index(
-            ["int", "float", "string", "category_int", "timedelta"]
-        )
+        expected_columns = Index(["int", "float", "string", "category_int", "timedelta"])
         if method == "cumsum":
             # cumsum loses string
             expected_columns = Index(["int", "float", "category_int", "timedelta"])
@@ -163,9 +161,7 @@ class TestNumericOnly:
 
         # object dtypes for transformations are not implemented in Cython and
         # have no Python fallback
-        exception = (
-            (NotImplementedError, TypeError) if method.startswith("cum") else TypeError
-        )
+        exception = (NotImplementedError, TypeError) if method.startswith("cum") else TypeError
 
         if method in ("min", "max", "cummin", "cummax", "cumsum", "cumprod"):
             # The methods default to numeric_only=False and raise TypeError
@@ -223,9 +219,7 @@ def test_axis1_numeric_only(request, groupby_func, numeric_only, using_infer_str
         msg = "GH#47723 groupby.corrwith and skew do not correctly implement axis=1"
         request.applymarker(pytest.mark.xfail(reason=msg))
 
-    df = DataFrame(
-        np.random.default_rng(2).standard_normal((10, 4)), columns=["A", "B", "C", "D"]
-    )
+    df = DataFrame(np.random.default_rng(2).standard_normal((10, 4)), columns=["A", "B", "C", "D"])
     df["E"] = "x"
     groups = [1, 2, 3, 1, 2, 3, 1, 2, 3, 4]
     gb = df.groupby(groups)
@@ -399,9 +393,7 @@ def test_numeric_only(kernel, has_arg, numeric_only, keys):
         with pytest.raises(exception, match=msg):
             method(*args, **kwargs)
     elif not has_arg and numeric_only is not lib.no_default:
-        with pytest.raises(
-            TypeError, match="got an unexpected keyword argument 'numeric_only'"
-        ):
+        with pytest.raises(TypeError, match="got an unexpected keyword argument 'numeric_only'"):
             method(*args, **kwargs)
     else:
         assert kernel in ("diff", "pct_change")

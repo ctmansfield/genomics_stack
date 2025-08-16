@@ -117,9 +117,7 @@ class TestReindexSetIndex:
             .set_index("index")
             .reindex(["1", "2"])
         )
-        exp = DataFrame({"index": ["1", "2"], "vals": [np.nan, np.nan]}).set_index(
-            "index"
-        )
+        exp = DataFrame({"index": ["1", "2"], "vals": [np.nan, np.nan]}).set_index("index")
         exp = exp.astype(df.vals.dtype)
         tm.assert_frame_equal(
             df,
@@ -179,9 +177,7 @@ class TestDataFrameSelectReindex:
         # https://github.com/pandas-dev/pandas/pull/51197
         # also ensure to honor copy keyword for ExtensionDtypes
         N = 10
-        df = DataFrame(
-            np.random.default_rng(2).standard_normal((N * 10, N)), dtype="Float64"
-        )
+        df = DataFrame(np.random.default_rng(2).standard_normal((N * 10, N)), dtype="Float64")
         cols = np.arange(N)
         np.random.default_rng(2).shuffle(cols)
 
@@ -220,9 +216,7 @@ class TestDataFrameSelectReindex:
         tm.assert_frame_equal(res, expected[["A", "B"]])
 
         # same with a datetime-castable str
-        res = df.reindex(
-            index=range(4), columns=["A", "B", "C"], fill_value="2016-01-01"
-        )
+        res = df.reindex(index=range(4), columns=["A", "B", "C"], fill_value="2016-01-01")
         expected = DataFrame(
             {"A": df["A"].tolist() + [ts], "B": df["B"].tolist() + [ts], "C": [ts] * 4},
         )
@@ -284,9 +278,9 @@ class TestDataFrameSelectReindex:
         tm.assert_frame_equal(expected, reindexed)
 
         # reindexing with backfilling
-        expected = DataFrame(
-            {"a": [0] * 4, "b": new_index, "c": ["B", "C", "F", "G"]}
-        ).set_index(["a", "b"])
+        expected = DataFrame({"a": [0] * 4, "b": new_index, "c": ["B", "C", "F", "G"]}).set_index(
+            ["a", "b"]
+        )
         reindexed_with_backfilling = df.reindex(new_multi_index, method="bfill")
         tm.assert_frame_equal(expected, reindexed_with_backfilling)
 
@@ -294,9 +288,9 @@ class TestDataFrameSelectReindex:
         tm.assert_frame_equal(expected, reindexed_with_backfilling)
 
         # reindexing with padding
-        expected = DataFrame(
-            {"a": [0] * 4, "b": new_index, "c": ["A", "C", "F", "F"]}
-        ).set_index(["a", "b"])
+        expected = DataFrame({"a": [0] * 4, "b": new_index, "c": ["A", "C", "F", "F"]}).set_index(
+            ["a", "b"]
+        )
         reindexed_with_padding = df.reindex(new_multi_index, method="pad")
         tm.assert_frame_equal(expected, reindexed_with_padding)
 
@@ -371,9 +365,7 @@ class TestDataFrameSelectReindex:
 
     def test_reindex_frame_add_nat(self):
         rng = date_range("1/1/2000 00:00:00", periods=10, freq="10s")
-        df = DataFrame(
-            {"A": np.random.default_rng(2).standard_normal(len(rng)), "B": rng}
-        )
+        df = DataFrame({"A": np.random.default_rng(2).standard_normal(len(rng)), "B": rng})
 
         result = df.reindex(range(15))
         assert np.issubdtype(result["B"].dtype, np.dtype("M8[ns]"))
@@ -595,9 +587,7 @@ class TestDataFrameSelectReindex:
 
     def test_reindex_sparse(self):
         # https://github.com/pandas-dev/pandas/issues/35286
-        df = DataFrame(
-            {"A": [0, 1], "B": pd.array([0, 1], dtype=pd.SparseDtype("int64", 0))}
-        )
+        df = DataFrame({"A": [0, 1], "B": pd.array([0, 1], dtype=pd.SparseDtype("int64", 0))})
         result = df.reindex([0, 2])
         expected = DataFrame(
             {
@@ -858,9 +848,7 @@ class TestDataFrameSelectReindex:
         # GH#48190
         df = DataFrame({"a": [1, 2]}, dtype=any_numeric_ea_dtype)
         result = df.reindex(columns=list("ab"), index=[0, 1, 2], fill_value=10)
-        expected = DataFrame(
-            {"a": Series([1, 2, 10], dtype=any_numeric_ea_dtype), "b": 10}
-        )
+        expected = DataFrame({"a": Series([1, 2, 10], dtype=any_numeric_ea_dtype), "b": 10})
         tm.assert_frame_equal(result, expected)
 
     def test_reindex_dups(self):
@@ -881,9 +869,7 @@ class TestDataFrameSelectReindex:
 
     def test_reindex_with_duplicate_columns(self):
         # reindex is invalid!
-        df = DataFrame(
-            [[1, 5, 7.0], [1, 5, 7.0], [1, 5, 7.0]], columns=["bar", "a", "a"]
-        )
+        df = DataFrame([[1, 5, 7.0], [1, 5, 7.0], [1, 5, 7.0]], columns=["bar", "a", "a"])
         msg = "cannot reindex on an axis with duplicate labels"
         with pytest.raises(ValueError, match=msg):
             df.reindex(columns=["bar"])
@@ -893,9 +879,7 @@ class TestDataFrameSelectReindex:
     def test_reindex_axis_style(self):
         # https://github.com/pandas-dev/pandas/issues/12392
         df = DataFrame({"A": [1, 2, 3], "B": [4, 5, 6]})
-        expected = DataFrame(
-            {"A": [1, 2, np.nan], "B": [4, 5, np.nan]}, index=[0, 1, 3]
-        )
+        expected = DataFrame({"A": [1, 2, np.nan], "B": [4, 5, np.nan]}, index=[0, 1, 3])
         result = df.reindex([0, 1, 3])
         tm.assert_frame_equal(result, expected)
 
@@ -985,9 +969,7 @@ class TestDataFrameSelectReindex:
             tm.assert_frame_equal(res1, res)
 
     def test_reindex_boolean(self):
-        frame = DataFrame(
-            np.ones((10, 2), dtype=bool), index=np.arange(0, 20, 2), columns=[0, 2]
-        )
+        frame = DataFrame(np.ones((10, 2), dtype=bool), index=np.arange(0, 20, 2), columns=[0, 2])
 
         reindexed = frame.reindex(np.arange(10))
         assert reindexed.values.dtype == np.object_
@@ -1085,17 +1067,13 @@ class TestDataFrameSelectReindex:
             {
                 "A": np.arange(3, dtype="int64"),
             },
-            index=CategoricalIndex(
-                list("abc"), dtype=CategoricalDtype(list("cabe")), name="B"
-            ),
+            index=CategoricalIndex(list("abc"), dtype=CategoricalDtype(list("cabe")), name="B"),
         )
 
         # reindexing
         # convert to a regular index
         result = df.reindex(["a", "b", "e"])
-        expected = DataFrame({"A": [0, 1, np.nan], "B": Series(list("abe"))}).set_index(
-            "B"
-        )
+        expected = DataFrame({"A": [0, 1, np.nan], "B": Series(list("abe"))}).set_index("B")
         tm.assert_frame_equal(result, expected, check_index_type=True)
 
         result = df.reindex(["a", "b"])
@@ -1127,9 +1105,7 @@ class TestDataFrameSelectReindex:
         tm.assert_frame_equal(result, expected, check_index_type=True)
 
         result = df.reindex(["a", "b", "e"])
-        expected = DataFrame({"A": [0, 1, np.nan], "B": Series(list("abe"))}).set_index(
-            "B"
-        )
+        expected = DataFrame({"A": [0, 1, np.nan], "B": Series(list("abe"))}).set_index("B")
         tm.assert_frame_equal(result, expected, check_index_type=True)
 
         result = df.reindex(["a", "b"])
@@ -1163,9 +1139,7 @@ class TestDataFrameSelectReindex:
             {
                 "A": np.arange(6, dtype="int64"),
             },
-            index=CategoricalIndex(
-                list("aabbca"), dtype=CategoricalDtype(list("cabe")), name="B"
-            ),
+            index=CategoricalIndex(list("aabbca"), dtype=CategoricalDtype(list("cabe")), name="B"),
         )
         # passed duplicate indexers are not allowed
         msg = "cannot reindex on an axis with duplicate labels"

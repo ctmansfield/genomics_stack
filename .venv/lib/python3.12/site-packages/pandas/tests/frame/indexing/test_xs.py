@@ -36,9 +36,7 @@ def four_level_index_dataframe():
 
 
 class TestXS:
-    def test_xs(
-        self, float_frame, datetime_frame, using_copy_on_write, warn_copy_on_write
-    ):
+    def test_xs(self, float_frame, datetime_frame, using_copy_on_write, warn_copy_on_write):
         float_frame_orig = float_frame.copy()
         idx = float_frame.index[5]
         xs = float_frame.xs(idx)
@@ -56,9 +54,7 @@ class TestXS:
         assert xs["A"] == 1
         assert xs["B"] == "1"
 
-        with pytest.raises(
-            KeyError, match=re.escape("Timestamp('1999-12-31 00:00:00')")
-        ):
+        with pytest.raises(KeyError, match=re.escape("Timestamp('1999-12-31 00:00:00')")):
             datetime_frame.xs(datetime_frame.index[0] - BDay())
 
         # xs get column
@@ -122,9 +118,7 @@ class TestXS:
         result = df.xs((2008, "sat"), level=["year", "day"], drop_level=False)
         tm.assert_frame_equal(result, expected)
 
-    def test_xs_view(
-        self, using_array_manager, using_copy_on_write, warn_copy_on_write
-    ):
+    def test_xs_view(self, using_array_manager, using_copy_on_write, warn_copy_on_write):
         # in 0.14 this will return a view if possible a copy otherwise, but
         # this is numpy dependent
 
@@ -310,15 +304,11 @@ class TestXSWithMultiIndex:
         expected_index = MultiIndex(
             levels=[["q"], [20.0]], codes=[[0], [0]], names=["two", "three"]
         )
-        expected = DataFrame(
-            expected_values, index=expected_index, columns=list("ABCDE")
-        )
+        expected = DataFrame(expected_values, index=expected_index, columns=list("ABCDE"))
         result = indexer(df)
         tm.assert_frame_equal(result, expected)
 
-    @pytest.mark.parametrize(
-        "indexer", [lambda df: df.xs("a", level=0), lambda df: df.xs("a")]
-    )
+    @pytest.mark.parametrize("indexer", [lambda df: df.xs("a", level=0), lambda df: df.xs("a")])
     def test_xs_level0(self, indexer, four_level_index_dataframe):
         df = four_level_index_dataframe
         expected_values = [
@@ -330,9 +320,7 @@ class TestXSWithMultiIndex:
             codes=[[0, 1], [0, 1], [1, 0]],
             names=["two", "three", "four"],
         )
-        expected = DataFrame(
-            expected_values, index=expected_index, columns=list("ABCDE")
-        )
+        expected = DataFrame(expected_values, index=expected_index, columns=list("ABCDE"))
 
         result = indexer(df)
         tm.assert_frame_equal(result, expected)
@@ -387,9 +375,7 @@ class TestXSWithMultiIndex:
         result = df.xs("a", axis=1, drop_level=False)
         expected = DataFrame(
             [[1, 2]],
-            columns=MultiIndex.from_tuples(
-                [("a", "x"), ("a", "y")], names=["level1", "level2"]
-            ),
+            columns=MultiIndex.from_tuples([("a", "x"), ("a", "y")], names=["level1", "level2"]),
         )
         tm.assert_frame_equal(result, expected)
 

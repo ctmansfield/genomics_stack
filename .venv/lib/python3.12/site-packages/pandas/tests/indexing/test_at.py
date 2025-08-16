@@ -25,9 +25,7 @@ def test_at_timezone():
     result = DataFrame({"foo": [datetime(2000, 1, 1)]})
     with tm.assert_produces_warning(FutureWarning, match="incompatible dtype"):
         result.at[0, "foo"] = datetime(2000, 1, 2, tzinfo=timezone.utc)
-    expected = DataFrame(
-        {"foo": [datetime(2000, 1, 2, tzinfo=timezone.utc)]}, dtype=object
-    )
+    expected = DataFrame({"foo": [datetime(2000, 1, 2, tzinfo=timezone.utc)]}, dtype=object)
     tm.assert_frame_equal(result, expected)
 
 
@@ -85,9 +83,7 @@ class TestAtSetItem:
         assert ser.iat[3] == 22
 
     def test_at_setitem_categorical_missing(self):
-        df = DataFrame(
-            index=range(3), columns=range(3), dtype=CategoricalDtype(["foo", "bar"])
-        )
+        df = DataFrame(index=range(3), columns=range(3), dtype=CategoricalDtype(["foo", "bar"]))
         df.at[1, 1] = "foo"
 
         expected = DataFrame(

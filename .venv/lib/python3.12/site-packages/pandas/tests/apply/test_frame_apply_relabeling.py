@@ -52,9 +52,7 @@ def test_agg_relabel_partial_functions():
     msg = "using Series.[mean|min]"
     with tm.assert_produces_warning(FutureWarning, match=msg):
         result = df.agg(foo=("A", np.mean), bar=("A", "mean"), cat=("A", min))
-    expected = pd.DataFrame(
-        {"A": [1.5, 1.5, 1.0]}, index=pd.Index(["foo", "bar", "cat"])
-    )
+    expected = pd.DataFrame({"A": [1.5, 1.5, 1.0]}, index=pd.Index(["foo", "bar", "cat"]))
     tm.assert_frame_equal(result, expected)
 
     msg = "using Series.[mean|min|max|sum]"
@@ -88,9 +86,7 @@ def test_agg_namedtuple():
         fft=pd.NamedAgg("B", aggfunc="max"),
     )
 
-    expected = pd.DataFrame(
-        {"B": [3, 1, 2, 2]}, index=pd.Index(["foo", "bar", "cat", "fft"])
-    )
+    expected = pd.DataFrame({"B": [3, 1, 2, 2]}, index=pd.Index(["foo", "bar", "cat", "fft"]))
     tm.assert_frame_equal(result, expected)
 
     result = df.agg(

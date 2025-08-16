@@ -210,12 +210,8 @@ def test_background_gradient_gmap_array_raises(gmap, axis):
 @pytest.mark.parametrize(
     "gmap",
     [
-        DataFrame(  # reverse the columns
-            [[2, 1], [1, 2]], columns=["B", "A"], index=["X", "Y"]
-        ),
-        DataFrame(  # reverse the index
-            [[2, 1], [1, 2]], columns=["A", "B"], index=["Y", "X"]
-        ),
+        DataFrame([[2, 1], [1, 2]], columns=["B", "A"], index=["X", "Y"]),  # reverse the columns
+        DataFrame([[2, 1], [1, 2]], columns=["A", "B"], index=["Y", "X"]),  # reverse the index
         DataFrame(  # reverse the index and columns
             [[1, 2], [2, 1]], columns=["B", "A"], index=["Y", "X"]
         ),

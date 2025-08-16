@@ -2,6 +2,7 @@
 A verbatim copy (vendored) of the spec tests.
 Taken from https://github.com/data-apis/dataframe-api
 """
+
 import ctypes
 import math
 
@@ -100,9 +101,7 @@ def test_categorical(df_from_dict):
 
 
 def test_dataframe(df_from_dict):
-    df = df_from_dict(
-        {"x": [True, True, False], "y": [1, 2, 0], "z": [9.2, 10.5, 11.8]}
-    )
+    df = df_from_dict({"x": [True, True, False], "y": [1, 2, 0], "z": [9.2, 10.5, 11.8]})
     dfX = df.__dataframe__()
 
     assert dfX.num_columns() == 3

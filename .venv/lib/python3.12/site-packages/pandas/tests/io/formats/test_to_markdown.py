@@ -16,9 +16,7 @@ def test_simple():
     df = pd.DataFrame([1, 2, 3])
     df.to_markdown(buf=buf)
     result = buf.getvalue()
-    assert (
-        result == "|    |   0 |\n|---:|----:|\n|  0 |   1 |\n|  1 |   2 |\n|  2 |   3 |"
-    )
+    assert result == "|    |   0 |\n|---:|----:|\n|  0 |   1 |\n|  1 |   2 |\n|  2 |   3 |"
 
 
 def test_empty_frame():
@@ -27,8 +25,7 @@ def test_empty_frame():
     df.to_markdown(buf=buf)
     result = buf.getvalue()
     assert result == (
-        "| id   | first_name   | last_name   |\n"
-        "|------|--------------|-------------|"
+        "| id   | first_name   | last_name   |\n" "|------|--------------|-------------|"
     )
 
 
@@ -57,17 +54,14 @@ def test_series():
     s.to_markdown(buf=buf)
     result = buf.getvalue()
     assert result == (
-        "|    |   foo |\n|---:|------:|\n|  0 |     1 "
-        "|\n|  1 |     2 |\n|  2 |     3 |"
+        "|    |   foo |\n|---:|------:|\n|  0 |     1 " "|\n|  1 |     2 |\n|  2 |     3 |"
     )
 
 
 def test_no_buf():
     df = pd.DataFrame([1, 2, 3])
     result = df.to_markdown()
-    assert (
-        result == "|    |   0 |\n|---:|----:|\n|  0 |   1 |\n|  1 |   2 |\n|  2 |   3 |"
-    )
+    assert result == "|    |   0 |\n|---:|----:|\n|  0 |   1 |\n|  1 |   2 |\n|  2 |   3 |"
 
 
 @pytest.mark.parametrize("index", [True, False])
@@ -79,9 +73,7 @@ def test_index(index):
     result = df.to_markdown(index=index)
 
     if index:
-        expected = (
-            "|    |   0 |\n|---:|----:|\n|  0 |   1 |\n|  1 |   2 |\n|  2 |   3 |"
-        )
+        expected = "|    |   0 |\n|---:|----:|\n|  0 |   1 |\n|  1 |   2 |\n|  2 |   3 |"
     else:
         expected = "|   0 |\n|----:|\n|   1 |\n|   2 |\n|   3 |"
     assert result == expected

@@ -21,9 +21,7 @@ def test_keys(setup_path):
         store["a"] = Series(
             np.arange(10, dtype=np.float64), index=date_range("2020-01-01", periods=10)
         )
-        store["b"] = Series(
-            range(10), dtype="float64", index=[f"i_{i}" for i in range(10)]
-        )
+        store["b"] = Series(range(10), dtype="float64", index=[f"i_{i}" for i in range(10)])
         store["c"] = DataFrame(
             1.1 * np.arange(120).reshape((30, 4)),
             columns=Index(list("ABCD"), dtype=object),

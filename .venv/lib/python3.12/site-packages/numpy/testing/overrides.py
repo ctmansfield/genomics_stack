@@ -20,8 +20,7 @@ def get_overridable_numpy_ufuncs():
     set
         A set containing all overridable ufuncs in the public numpy API.
     """
-    ufuncs = {obj for obj in _umath.__dict__.values()
-              if isinstance(obj, _ufunc)}
+    ufuncs = {obj for obj in _umath.__dict__.values() if isinstance(obj, _ufunc)}
     return ufuncs
 
 
@@ -65,7 +64,9 @@ def get_overridable_numpy_array_functions():
     # 'import numpy' doesn't import recfunctions, so make sure it's imported
     # so ufuncs defined there show up in the ufunc listing
     from numpy.lib import recfunctions  # noqa: F401
+
     return _array_functions.copy()
+
 
 def allows_array_function_override(func):
     """Determine if a Numpy function can be overridden via `__array_function__`

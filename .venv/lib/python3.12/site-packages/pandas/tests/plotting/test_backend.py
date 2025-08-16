@@ -35,9 +35,7 @@ def test_backend_is_correct(monkeypatch, restore_backend, dummy_backend):
 
     pandas.set_option("plotting.backend", "pandas_dummy_backend")
     assert pandas.get_option("plotting.backend") == "pandas_dummy_backend"
-    assert (
-        pandas.plotting._core._get_plot_backend("pandas_dummy_backend") is dummy_backend
-    )
+    assert pandas.plotting._core._get_plot_backend("pandas_dummy_backend") is dummy_backend
 
 
 def test_backend_can_be_set_in_plot_call(monkeypatch, restore_backend, dummy_backend):
@@ -72,9 +70,7 @@ def test_setting_backend_without_plot_raises(monkeypatch):
     monkeypatch.setitem(sys.modules, "pandas_plot_backend", module)
 
     assert pandas.options.plotting.backend == "matplotlib"
-    with pytest.raises(
-        ValueError, match="Could not find plotting backend 'pandas_plot_backend'."
-    ):
+    with pytest.raises(ValueError, match="Could not find plotting backend 'pandas_plot_backend'."):
         pandas.set_option("plotting.backend", "pandas_plot_backend")
 
     assert pandas.options.plotting.backend == "matplotlib"
@@ -83,8 +79,7 @@ def test_setting_backend_without_plot_raises(monkeypatch):
 @td.skip_if_installed("matplotlib")
 def test_no_matplotlib_ok():
     msg = (
-        'matplotlib is required for plotting when the default backend "matplotlib" is '
-        "selected."
+        'matplotlib is required for plotting when the default backend "matplotlib" is ' "selected."
     )
     with pytest.raises(ImportError, match=msg):
         pandas.plotting._core._get_plot_backend("matplotlib")

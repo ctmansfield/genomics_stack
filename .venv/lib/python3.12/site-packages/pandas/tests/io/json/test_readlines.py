@@ -146,9 +146,7 @@ def test_readjson_chunks(request, lines_json_df, chunksize, engine):
 def test_readjson_chunksize_requires_lines(lines_json_df, engine):
     msg = "chunksize can only be passed if lines=True"
     with pytest.raises(ValueError, match=msg):
-        with read_json(
-            StringIO(lines_json_df), lines=False, chunksize=2, engine=engine
-        ) as _:
+        with read_json(StringIO(lines_json_df), lines=False, chunksize=2, engine=engine) as _:
             pass
 
 
@@ -168,9 +166,7 @@ def test_readjson_chunks_series(request, engine):
     unchunked = read_json(strio, lines=True, typ="Series", engine=engine)
 
     strio = StringIO(s.to_json(lines=True, orient="records"))
-    with read_json(
-        strio, lines=True, typ="Series", chunksize=1, engine=engine
-    ) as reader:
+    with read_json(strio, lines=True, typ="Series", chunksize=1, engine=engine) as reader:
         chunked = pd.concat(reader)
 
     tm.assert_series_equal(chunked, unchunked)
@@ -187,9 +183,7 @@ def test_readjson_each_chunk(request, lines_json_df, engine):
 
     # Other tests check that the final result of read_json(chunksize=True)
     # is correct. This checks the intermediate chunks.
-    with read_json(
-        StringIO(lines_json_df), lines=True, chunksize=2, engine=engine
-    ) as reader:
+    with read_json(StringIO(lines_json_df), lines=True, chunksize=2, engine=engine) as reader:
         chunks = list(reader)
     assert chunks[0].shape == (2, 2)
     assert chunks[1].shape == (1, 2)
@@ -236,9 +230,7 @@ def test_readjson_chunks_closes(chunksize):
         )
         with reader:
             reader.read()
-        assert (
-            reader.handles.handle.closed
-        ), f"didn't close stream with chunksize = {chunksize}"
+        assert reader.handles.handle.closed, f"didn't close stream with chunksize = {chunksize}"
 
 
 @pytest.mark.parametrize("chunksize", [0, -1, 2.2, "foo"])
@@ -409,10 +401,7 @@ def test_to_json_append_orient(orient_):
     # GH 35849
     # Test ValueError when orient is not 'records'
     df = DataFrame({"col1": [1, 2], "col2": ["a", "b"]})
-    msg = (
-        r"mode='a' \(append\) is only supported when "
-        "lines is True and orient is 'records'"
-    )
+    msg = r"mode='a' \(append\) is only supported when " "lines is True and orient is 'records'"
     with pytest.raises(ValueError, match=msg):
         df.to_json(mode="a", orient=orient_)
 
@@ -421,10 +410,7 @@ def test_to_json_append_lines():
     # GH 35849
     # Test ValueError when lines is not True
     df = DataFrame({"col1": [1, 2], "col2": ["a", "b"]})
-    msg = (
-        r"mode='a' \(append\) is only supported when "
-        "lines is True and orient is 'records'"
-    )
+    msg = r"mode='a' \(append\) is only supported when " "lines is True and orient is 'records'"
     with pytest.raises(ValueError, match=msg):
         df.to_json(mode="a", lines=False, orient="records")
 
@@ -434,10 +420,7 @@ def test_to_json_append_mode(mode_):
     # GH 35849
     # Test ValueError when mode is not supported option
     df = DataFrame({"col1": [1, 2], "col2": ["a", "b"]})
-    msg = (
-        f"mode={mode_} is not a valid option."
-        "Only 'w' and 'a' are currently supported."
-    )
+    msg = f"mode={mode_} is not a valid option." "Only 'w' and 'a' are currently supported."
     with pytest.raises(ValueError, match=msg):
         df.to_json(mode=mode_, lines=False, orient="records")
 

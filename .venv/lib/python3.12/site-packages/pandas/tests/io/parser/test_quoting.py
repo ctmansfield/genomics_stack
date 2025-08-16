@@ -130,9 +130,7 @@ def test_quoting_various(all_parsers, kwargs, exp_data):
     tm.assert_frame_equal(result, expected)
 
 
-@pytest.mark.parametrize(
-    "doublequote,exp_data", [(True, [[3, '4 " 5']]), (False, [[3, '4 " 5"']])]
-)
+@pytest.mark.parametrize("doublequote,exp_data", [(True, [[3, '4 " 5']]), (False, [[3, '4 " 5"']])])
 def test_double_quote(all_parsers, doublequote, exp_data, request):
     parser = all_parsers
     data = 'a,b\n3,"4 "" 5"'

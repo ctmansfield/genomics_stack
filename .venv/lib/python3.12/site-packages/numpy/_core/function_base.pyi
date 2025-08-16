@@ -151,7 +151,6 @@ def linspace(
     axis: SupportsIndex = 0,
     device: L["cpu"] | None = None,
 ) -> tuple[NDArray[Incomplete], Incomplete]: ...
-
 @overload
 def logspace(
     start: _ToArrayFloat64,
@@ -213,7 +212,6 @@ def logspace(
     dtype: DTypeLike | None = None,
     axis: SupportsIndex = 0,
 ) -> NDArray[Incomplete]: ...
-
 @overload
 def geomspace(
     start: _ToArrayFloat64,
@@ -269,7 +267,6 @@ def geomspace(
     dtype: DTypeLike | None = None,
     axis: SupportsIndex = 0,
 ) -> NDArray[Incomplete]: ...
-
 def add_newdoc(
     place: str,
     obj: str,

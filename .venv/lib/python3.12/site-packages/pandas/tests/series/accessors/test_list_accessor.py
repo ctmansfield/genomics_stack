@@ -37,15 +37,11 @@ def test_list_getitem_slice():
         dtype=ArrowDtype(pa.list_(pa.int64())),
     )
     if pa_version_under11p0:
-        with pytest.raises(
-            NotImplementedError, match="List slice not supported by pyarrow "
-        ):
+        with pytest.raises(NotImplementedError, match="List slice not supported by pyarrow "):
             ser.list[1:None:None]
     else:
         actual = ser.list[1:None:None]
-        expected = Series(
-            [[2, 3], [None, 5], None], dtype=ArrowDtype(pa.list_(pa.int64()))
-        )
+        expected = Series([[2, 3], [None, 5], None], dtype=ArrowDtype(pa.list_(pa.int64())))
         tm.assert_series_equal(actual, expected)
 
 
@@ -75,9 +71,7 @@ def test_list_getitem_slice_invalid():
         dtype=ArrowDtype(pa.list_(pa.int64())),
     )
     if pa_version_under11p0:
-        with pytest.raises(
-            NotImplementedError, match="List slice not supported by pyarrow "
-        ):
+        with pytest.raises(NotImplementedError, match="List slice not supported by pyarrow "):
             ser.list[1:None:0]
     else:
         with pytest.raises(pa.lib.ArrowInvalid, match=re.escape("`step` must be >= 1")):
@@ -92,8 +86,7 @@ def test_list_accessor_non_list_dtype():
     with pytest.raises(
         AttributeError,
         match=re.escape(
-            "Can only use the '.list' accessor with 'list[pyarrow]' dtype, "
-            "not int64[pyarrow]."
+            "Can only use the '.list' accessor with 'list[pyarrow]' dtype, " "not int64[pyarrow]."
         ),
     ):
         ser.list[1:None:0]
