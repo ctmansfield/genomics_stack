@@ -35,3 +35,6 @@ __pycache__/
 !scripts/
 !scripts/reports/
 !scripts/reports/**
+.local_backups/
+*.bak
+*.bak-*
