@@ -1,0 +1,19 @@
+# lint-baseline-v1 — Ruff configuration kept separate to avoid conflicts
+# If you later merge into your main pyproject.toml, duplicate the sections.
+[tool.ruff]
+line-length = 100
+src = ["ingest", "ingest_worker", "lib", "snp_enrichment_system"]
+extend-exclude = ["risk_reports/out", "metabase_data", "build", "dist", ".venv", "venv", ".git"]
+force-exclude = true
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP"]
+ignore = []
+
+[tool.ruff.lint.per-file-ignores]
+"**/__init__.py" = ["F401"]  # allow explicit re-exports
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+docstring-code-format = true
