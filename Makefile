@@ -180,3 +180,17 @@ verify-dna:
 	  --file "$(FILE)" \
 	  --table "$(TABLE)" \
 	  --header "$(HEADER)"
+
+# --- added by lint-baseline-v1 ---
+# >>> lint-baseline-v1
+.PHONY: lint format precommit-install
+
+precommit-install:
+	pre-commit install
+
+lint:
+	pre-commit run --all-files
+
+format:
+	ruff --config pyproject.ruff.toml format .
+# <<< lint-baseline-v1
