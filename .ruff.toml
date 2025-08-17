@@ -1,5 +1,5 @@
-# lint-tuning-v1 — keep in sync with pre-commit repo-level 'exclude'
-[tool.ruff]
+# .ruff.toml — lint-hotfix-v1
+[ruff]
 line-length = 100
 src = ["ingest", "ingest_worker", "lib", "snp_enrichment_system"]
 extend-exclude = [
@@ -14,14 +14,14 @@ extend-exclude = [
 ]
 force-exclude = true
 
-[tool.ruff.lint]
+[lint]
 select = ["E", "F", "W", "I", "UP"]
 ignore = []
 
-[tool.ruff.lint.per-file-ignores]
+[lint.per-file-ignores]
 "**/__init__.py" = ["F401"]  # allow explicit re-exports
 
-[tool.ruff.format]
+[format]
 quote-style = "double"
 indent-style = "space"
 docstring-code-format = true

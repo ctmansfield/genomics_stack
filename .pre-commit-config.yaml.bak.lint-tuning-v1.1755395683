@@ -1,23 +1,12 @@
-# lint-hotfix-v1
-exclude: >
-  ^(
-    risk_reports/out/|
-    metabase_data/|
-    build/|dist/|
-    \.venv/|venv/|
-    \.git/|
-    \.ruff_cache/|
-    support/
-  )
-
+# lint-baseline-v1
 repos:
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.12.7
     hooks:
       - id: ruff
-        args: ["--fix", "--config", ".ruff.toml"]
+        args: ["--fix", "--config", "pyproject.ruff.toml"]
       - id: ruff-format
-        args: ["--config", ".ruff.toml"]
+        args: ["--config", "pyproject.ruff.toml"]
 
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v6.0.0
@@ -29,16 +18,10 @@ repos:
     rev: v0.11.0.1
     hooks:
       - id: shellcheck
-        types: [executable]
-        types_or: [shell]
-        exclude: ^(support/|tools/renderer_e2e/|\.venv/|venv/)
         args: ["--severity=warning"]
 
   - repo: https://github.com/scop/pre-commit-shfmt
     rev: v3.12.0-2
     hooks:
       - id: shfmt
-        types: [executable]
-        types_or: [shell]
-        exclude: ^(support/|tools/renderer_e2e/|\.venv/|venv/)
         args: ["-i", "2", "-ci"]
