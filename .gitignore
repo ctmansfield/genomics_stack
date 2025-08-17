@@ -4,3 +4,6 @@
 /incoming/
 /__pycache__/
 *.pyc
+
+# ignore lint-baseline backups
+*.bak.lint-baseline-v1.*
