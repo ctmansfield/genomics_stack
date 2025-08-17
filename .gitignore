@@ -7,3 +7,14 @@
 
 # ignore lint-baseline backups
 *.bak.lint-baseline-v1.*
+
+# >>> lint-tuning-v1
+*.bak.lint-baseline-v1.*
+.ruff_cache/
+risk_reports/out/
+metabase_data/
+build/
+dist/
+.venv/
+venv/
+# <<< lint-tuning-v1
