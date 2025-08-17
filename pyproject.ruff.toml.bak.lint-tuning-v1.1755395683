@@ -1,17 +1,9 @@
-# lint-tuning-v1 — keep in sync with pre-commit repo-level 'exclude'
+# lint-baseline-v1 — Ruff configuration kept separate to avoid conflicts
+# If you later merge into your main pyproject.toml, duplicate the sections.
 [tool.ruff]
 line-length = 100
 src = ["ingest", "ingest_worker", "lib", "snp_enrichment_system"]
-extend-exclude = [
-  "risk_reports/out",
-  "metabase_data",
-  ".ruff_cache",
-  "build",
-  "dist",
-  ".venv",
-  "venv",
-  ".git"
-]
+extend-exclude = ["risk_reports/out", "metabase_data", "build", "dist", ".venv", "venv", ".git"]
 force-exclude = true
 
 [tool.ruff.lint]

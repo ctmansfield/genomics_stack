@@ -16,7 +16,7 @@ if ! command -v ruff >/dev/null 2>&1; then
 fi
 
 # Versions
-PRECOMMIT_VER="$(pre-commit --version | awk '{print $3}')"
+PRECOMMIT_VER="$(pre-commit --version | awk '{print $2}')"
 RUFF_VER="$(ruff --version | awk '{print $2}')"
 
 # Hook revs (robust parsing with grep+sed)
@@ -34,7 +34,7 @@ SHFMT_REV="$(get_rev 'pre-commit-shfmt' || true)"
 set +e
 pre-commit run --all-files -v >/dev/null
 PC_STATUS=$?
-ruff --config pyproject.ruff.toml format --check . >/dev/null 2>&1
+ruff --config .ruff.toml format --check . >/dev/null 2>&1
 FMT_STATUS=$?
 set -e
 
