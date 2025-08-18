@@ -5,3 +5,7 @@ metabase_data/
 db_data/
 risk_reports/
 .genomics_patches/
+
+# allow router file into build context
+!ingest/ingest_patch_upload.py
+!ingest_patch_upload.py
