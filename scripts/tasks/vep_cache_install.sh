@@ -1,9 +1,12 @@
+# shellcheck shell=bash
 task_vep_cache_install() {
   require_cmd aria2c
   sudo mkdir -p "$CACHE_ROOT/tmp" "$CACHE_ROOT/homo_sapiens"
-  local tar="$CACHE_ROOT/tmp/$(basename "$ENSEMBL_CACHE_URL")"
+  local tar
+  tar="$CACHE_ROOT/tmp/$(basename "$ENSEMBL_CACHE_URL")"
 
   say "Local vs remote size"
+# shellcheck disable=SC2316
   local remote local
   remote=$(curl -sIL "$ENSEMBL_CACHE_URL" | awk -v IGNORECASE=1 '/^content-length:/ {print $2}' | tail -1 | tr -d '\r')
   local=$(stat -c %s "$tar" 2>/dev/null || echo 0)

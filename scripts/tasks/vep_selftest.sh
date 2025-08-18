@@ -1,3 +1,4 @@
+# shellcheck shell=bash
 task_vep_selftest() {
   local out="$CACHE_ROOT/out"
   sudo mkdir -p "$out"; sudo chown -R 1000:1000 "$CACHE_ROOT"; sudo chmod -R u+rwX,go+rX "$CACHE_ROOT"

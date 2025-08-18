@@ -19,7 +19,7 @@ cmd_report_pdf_any(){
 
   echo "[+] Rendering $html → $pdf"
   docker run --rm -v "$DIR":/data zenika/alpine-chrome:124 \
-     --no-sandbox --headless --disable-gpu --print-to-pdf=/data/$(basename "$pdf") file:///data/$(basename "$html")
+     --no-sandbox --headless --disable-gpu --print-to-pdf="/data/$(basename "$pdf")" "file:///data/$(basename "$html")"
 
   echo "[ok] PDF: $pdf"
 }

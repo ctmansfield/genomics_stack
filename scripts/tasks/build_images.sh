@@ -1,3 +1,4 @@
+# shellcheck shell=bash
 task_build_images() {
   say "Building images (ingest, ingest_worker)"
   dc build ingest ingest_worker

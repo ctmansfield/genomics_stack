@@ -1,3 +1,4 @@
+# shellcheck shell=bash
 task_stack_up() {
   say "Compose config check"; dc config >/dev/null && ok "OK"
   say "Build services"; dc build ingest ingest_worker

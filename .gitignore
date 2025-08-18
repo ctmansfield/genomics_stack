@@ -19,3 +19,9 @@ dist/
 venv/
 # <<< lint-tuning-v1
 /.env
+.pgdata-*/
+env.d/*.env
+*.log
+
+# local patch backups
+.patch_backups/

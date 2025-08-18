@@ -3,6 +3,7 @@ set -euo pipefail
 
 # load common helpers + 'dc' alias
 COMMON="$(cd "$(dirname "${BASH_SOURCE[0]}")"/.. && pwd)/lib/common.sh"
+# shellcheck disable=SC1090
 [ -r "$COMMON" ] && . "$COMMON"
 
 psql_db(){ dc exec -T db psql -v ON_ERROR_STOP=1 -U "$PGUSER" -d "$PGDB" "$@"; }

@@ -74,10 +74,13 @@ ensure_dirs() {
 
 # Utility: backup a file if it exists
 backup_file() {
-  local f="$1" patch="$2"
+  local f
+  f="$1" patch="$2"
   if [[ -f "$f" ]]; then
-    local rel="${f#$REPO_DIR/}"
-    local dir="$BACKUP_DIR/$patch/$(dirname "$rel")"
+    local rel
+    rel="${f#$REPO_DIR/}"
+  local dir
+  dir="$BACKUP_DIR/$patch/$(dirname "$rel")"
     mkdir -p "$dir"
     cp -a "$f" "$dir/"
   fi
@@ -85,13 +88,15 @@ backup_file() {
 
 # Utility: record file path in applied manifest
 record_applied_file() {
-  local patch="$1" file="$2"
+  local patch
+  patch="$1" file="$2"
   echo "$file" >> "$APPLIED_DIR/$patch.files"
 }
 
 # Utility: write a heredoc to a file (with backup+record)
 write_file() {
-  local path="$1" patch="$2"
+  local path
+  path="$1" patch="$2"
   backup_file "$path" "$patch"
   mkdir -p "$(dirname "$path")"
   # Read from stdin to the target path
@@ -101,7 +106,8 @@ write_file() {
 
 # Utility: append (with backup+record)
 append_file() {
-  local path="$1" patch="$2"
+  local path
+  path="$1" patch="$2"
   backup_file "$path" "$patch"
   mkdir -p "$(dirname "$path")"
   cat >> "$path"
@@ -110,16 +116,20 @@ append_file() {
 
 # Rollback helper
 rollback_patch() {
-  local patch="$1"
-  local manifest="$APPLIED_DIR/$patch.files"
+  local patch
+  patch="$1"
+  local manifest
+  manifest="$APPLIED_DIR/$patch.files"
   if [[ ! -f "$manifest" ]]; then
     echo "No manifest found for $patch; nothing to roll back."
     return 0
   fi
   while IFS= read -r f; do
     # If a backup exists for this file in this patch, restore; else remove new file
-    local rel="${f#$REPO_DIR/}"
-    local bak="$BACKUP_DIR/$patch/$rel"
+    local rel
+    rel="${f#$REPO_DIR/}"
+    local bak
+    bak="$BACKUP_DIR/$patch/$rel"
     if [[ -f "$bak" ]]; then
       cp -a "$bak" "$f"
     else
@@ -136,7 +146,8 @@ rollback_patch() {
 
 # -------------------- PATCH 0001: Linting --------------------
 apply_0001() {
-  local P="0001"
+  local P
+  P="0001"
   log "Applying $P: Linting/Formatting/Types"
   require_git_clean_or_autocommit
   ensure_dirs
@@ -213,7 +224,8 @@ EOF
 
 # -------------------- PATCH 0002: Refactor scaffold --------------------
 apply_0002() {
-  local P="0002"
+  local P
+  P="0002"
   log "Applying $P: Refactor scaffold"
   require_git_clean_or_autocommit
   ensure_dirs
@@ -263,7 +275,8 @@ EOF
 
 # -------------------- PATCH 0003: Error handling & validation --------------------
 apply_0003() {
-  local P="0003"
+  local P
+  P="0003"
   log "Applying $P: Error handling & validation"
   require_git_clean_or_autocommit
   ensure_dirs
@@ -339,7 +352,8 @@ EOF
 
 # -------------------- PATCH 0004: Dockerization --------------------
 apply_0004() {
-  local P="0004"
+  local P
+  P="0004"
   log "Applying $P: Dockerization"
   require_git_clean_or_autocommit
   ensure_dirs
@@ -398,7 +412,8 @@ EOF
 
 # -------------------- PATCH 0005: Testing --------------------
 apply_0005() {
-  local P="0005"
+  local P
+  P="0005"
   log "Applying $P: Testing Framework"
   require_git_clean_or_autocommit
   ensure_dirs
@@ -421,7 +436,8 @@ EOF
 
 # -------------------- PATCH 0006: CI/CD --------------------
 apply_0006() {
-  local P="0006"
+  local P
+  P="0006"
   log "Applying $P: CI/CD (GitHub Actions)"
   require_git_clean_or_autocommit
   ensure_dirs

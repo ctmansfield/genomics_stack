@@ -39,7 +39,7 @@ HTML
 # If the caller wants raw HTML (to bypass JSON), support --as-html
 if [[ "${1:-}" == "--as-html" ]]; then
   # Expand env vars in HTML
-  eval "echo "$HTML_BODY""
+  printf "%s\n" "$HTML_BODY"
   exit 0
 fi
 

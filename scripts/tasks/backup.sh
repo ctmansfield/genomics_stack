@@ -1,3 +1,4 @@
+# shellcheck shell=bash
 task_backup() {
   require_cmd tar
   local BDIR="${BACKUP_DIR:-/mnt/nas_storage/genomics-stack/backups}"

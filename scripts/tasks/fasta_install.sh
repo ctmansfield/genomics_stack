@@ -1,6 +1,8 @@
+# shellcheck shell=bash
 task_fasta_install() {
   sudo mkdir -p "$CACHE_ROOT"
-  local gz="$CACHE_ROOT/$(basename "$FASTA_URL")"
+  local gz
+  gz="$CACHE_ROOT/$(basename "$FASTA_URL")"
   say "Download FASTA (resume)"
   aria2c -c -x8 -s8 -k1M -d "$CACHE_ROOT" -o "$(basename "$gz")" "$FASTA_URL"
 

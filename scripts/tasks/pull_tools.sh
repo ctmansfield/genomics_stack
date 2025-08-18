@@ -1,3 +1,4 @@
+# shellcheck shell=bash
 task_pull_tools() {
   say "Pulling bcftools/samtools images"
   docker pull staphb/bcftools:1.20

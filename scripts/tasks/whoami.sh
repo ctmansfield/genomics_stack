@@ -1,3 +1,4 @@
+# shellcheck shell=bash
 task_whoami() {
   local token="${1:?usage: genomicsctl.sh whoami <token>}"
   say "GET /whoami"

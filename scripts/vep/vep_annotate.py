@@ -58,7 +58,7 @@ def extract_columns_from_vep_record(rec: dict[str, str]) -> list[str]:
             return ""
         try:
             return str(float(v))
-        except:
+        except (ValueError, TypeError):
             return ""
 
     strand_map = {"+": "1", "-": "-1", "1": "1", "-1": "-1"}

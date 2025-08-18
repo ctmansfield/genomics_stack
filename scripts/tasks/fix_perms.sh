@@ -1,3 +1,4 @@
+# shellcheck shell=bash
 task_fix_perms() {
   say "fixing perms on $UPLOADS"
   sudo mkdir -p "$UPLOADS"

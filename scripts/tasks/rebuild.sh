@@ -1,3 +1,4 @@
+# shellcheck shell=bash
 task_rebuild() {
   local svc="${1:-ingest}"
   say "rebuild+up $svc"; dc build "$svc"; dc up -d "$svc"; dc ps

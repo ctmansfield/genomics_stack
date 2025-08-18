@@ -1,3 +1,4 @@
+# shellcheck shell=bash
 task_claim() {
   local id="${1:?usage: genomicsctl.sh claim <upload_id> <email> <claim_code>}"
   local email="${2:?}"; local code="${3:?}"

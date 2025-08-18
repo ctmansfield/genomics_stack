@@ -1,3 +1,0 @@
-rsid,chrom,pos,ref,alt,gene,consequence,impact,clin_sig,af,annotations
-rs429358,19,45411941,T,C,APOE,missense_variant,MODERATE,risk_factor,0.15,"{""note"": ""APOE ε4"", ""source"": ""demo""}"
-rs7412,19,45412079,C,T,APOE,missense_variant,MODERATE,risk_factor,0.08,"{""note"": ""APOE ε2"", ""source"": ""demo""}"

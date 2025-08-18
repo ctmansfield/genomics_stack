@@ -1,3 +1,4 @@
+# shellcheck shell=bash
 task_setup_dirs() {
   say "Creating directories"
   sudo mkdir -p \
