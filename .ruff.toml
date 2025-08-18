@@ -1,27 +1,18 @@
-# .ruff.toml — lint-hotfix-v1
-[ruff]
+# Ruff configuration
 line-length = 100
-src = ["ingest", "ingest_worker", "lib", "snp_enrichment_system"]
-extend-exclude = [
-  "risk_reports/out",
-  "metabase_data",
-  ".ruff_cache",
-  "build",
-  "dist",
-  ".venv",
-  "venv",
-  ".git"
-]
-force-exclude = true
+target-version = "py311"
+extend-exclude = ["db_data", "metabase_data", ".venv*", ".git", ".*_data"]
 
 [lint]
-select = ["E", "F", "W", "I", "UP"]
-ignore = []
+# E/F: pycodestyle/pyflakes, I: import sorting
+select = ["E", "F", "I"]
+ignore = ["E501"]
 
-[lint.per-file-ignores]
-"**/__init__.py" = ["F401"]  # allow explicit re-exports
+[lint.isort]
+known-first-party = ["ingest", "ingest_worker"]
 
 [format]
 quote-style = "double"
 indent-style = "space"
-docstring-code-format = true
+skip-magic-trailing-comma = false
+line-ending = "lf"

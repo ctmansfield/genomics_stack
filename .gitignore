@@ -18,3 +18,4 @@ dist/
 .venv/
 venv/
 # <<< lint-tuning-v1
+/.env
