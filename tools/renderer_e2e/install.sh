@@ -1,3 +1,4 @@
+# shellcheck shell=bash
 [ -f /root/.pg_env ] && . /root/.pg_env
 #!/usr/bin/env bash
 set -euo pipefail

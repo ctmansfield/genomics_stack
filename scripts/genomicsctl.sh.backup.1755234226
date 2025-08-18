@@ -1,3 +1,4 @@
+# shellcheck disable=SC2034
 #!/usr/bin/env bash
 set -euo pipefail
 LC_ALL=C

@@ -1,3 +1,4 @@
+# shellcheck shell=bash
 task_install_prereqs() {
   say "Installing prerequisites (idempotent)"
   export DEBIAN_FRONTEND=noninteractive

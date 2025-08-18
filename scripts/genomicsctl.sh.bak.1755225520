@@ -1,3 +1,4 @@
+# shellcheck disable=SC2034
 #!/usr/bin/env bash
 # genomicsctl.sh — helper for ingestion & DB ops
 # minimal deps: bash, psql, docker, docker compose

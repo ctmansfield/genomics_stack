@@ -1,3 +1,4 @@
+# shellcheck shell=bash
 task_vep_cache() {
   require_cmd aria2c
   local ROOT="/mnt/nas_storage/genomics-stack/vep_cache"

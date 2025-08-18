@@ -1,3 +1,4 @@
+# shellcheck shell=bash
 task_apply_db_guards() {
   say "applying DB guards (idempotent)"
   PGPASSWORD="$PGPASS" psql -h "$DB_HOST" -p "$DB_PORT" -U "$PGUSER" -d "$PGDB" <<'SQL'

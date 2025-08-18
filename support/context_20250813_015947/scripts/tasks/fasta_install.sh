@@ -1,3 +1,4 @@
+# shellcheck shell=bash
 task_fasta_install() {
   sudo mkdir -p "$CACHE_ROOT"
   local gz="$CACHE_ROOT/$(basename "$FASTA_URL")"

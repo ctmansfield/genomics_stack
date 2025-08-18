@@ -1,3 +1,4 @@
+# shellcheck shell=bash
 task_db_schema() {
   say "Applying base schema (uploads + staging + guards)"
   PGPASSWORD="$PGPASS" psql -h "$DB_HOST" -p "$DB_PORT" -U "$PGUSER" -d "$PGDB" <<'SQL'

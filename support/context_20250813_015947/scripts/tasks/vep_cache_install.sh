@@ -1,3 +1,4 @@
+# shellcheck shell=bash
 task_vep_cache_install() {
   require_cmd aria2c
   sudo mkdir -p "$CACHE_ROOT/tmp" "$CACHE_ROOT/homo_sapiens"

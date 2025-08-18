@@ -1,3 +1,4 @@
+# shellcheck shell=bash
 task_restart() {
   local svc="${1:-ingest}"
   say "restarting $svc"; dc restart "$svc"; dc ps

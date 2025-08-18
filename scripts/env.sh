@@ -1,19 +1,27 @@
+# shellcheck shell=bash
 # Global settings
 STACK_DIR=/root/genomics-stack
+# shellcheck disable=SC2034
 COMPOSE_FILE="$STACK_DIR/compose.yml"
 UPLOADS=/mnt/nas_storage/genomics-stack/uploads
 BACKUP_DIR=/mnt/nas_storage/genomics-stack/backups
 CACHE_ROOT=/mnt/nas_storage/genomics-stack/vep_cache
+# shellcheck disable=SC2034
 DB_HOST=localhost
+# shellcheck disable=SC2034
 DB_PORT=5433
 EDITOR=${EDITOR:-vi}
 
 # Pull core creds from .env if present
 if [[ -f "$STACK_DIR/.env" ]]; then
+# shellcheck disable=SC2046
   export $(grep -E '^(POSTGRES_USER|POSTGRES_PASSWORD|POSTGRES_DB|UPLOAD_TOKEN)=' "$STACK_DIR/.env" | xargs -d '\n' -I{} echo {})
 fi
+# shellcheck disable=SC2034
 PGUSER="${POSTGRES_USER:-genouser}"
+# shellcheck disable=SC2034
 PGPASS="${POSTGRES_PASSWORD:-}"
+# shellcheck disable=SC2034
 PGDB="${POSTGRES_DB:-genomics}"
 
 # ---- Installer defaults (safe to tweak) ----

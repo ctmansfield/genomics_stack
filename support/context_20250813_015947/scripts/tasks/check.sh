@@ -1,3 +1,4 @@
+# shellcheck shell=bash
 task_check() {
   say "compose ps"; dc ps || true
   say "ports 8090/5433"; ss -lntp | egrep ':8090|:5433' || true

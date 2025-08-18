@@ -30,12 +30,12 @@ mkdir -p "$OUT"
 CTG="$OUT/add.contigs.hdr"
 awk -v OFS="" '{print "##contig=<ID="$1",length="$2">"}' "${FASTA}.fai" > "$CTG"
 docker run --rm -v "$OUT":/d -v "$CACHE":/r "$IMG_BCF" \
-  bcftools annotate -h /d/$(basename "$CTG") -Ov \
-  -o /d/$(basename "$LFT_HDR") /d/$(basename "$SRC")
+  bcftools annotate -h "/d/$(basename "$CTG")" -Ov \
+  -o "/d/$(basename "$LFT_HDR")" "/d/$(basename "$SRC")"
 
 # 2) normalize against GRCh38
 docker run --rm -v "$OUT":/d -v "$CACHE":/r "$IMG_BCF" \
-  bcftools norm -f /r/$(basename "$FASTA") -c x -Ov /d/$(basename "$LFT_HDR") > "$NORM"
+  bcftools norm -f "/r/$(basename "$FASTA")" -c x -Ov "/d/$(basename "$LFT_HDR")" > "$NORM"
 
 # 3) VEP → VCF (CSQ in INFO)
 cat "$NORM" | docker run --rm -i -v "$CACHE":/opt/vep/.vep:ro "$IMG_VEP:$TAG_VEP" \

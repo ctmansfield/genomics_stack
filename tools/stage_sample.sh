@@ -17,6 +17,7 @@ if [[ -z "${FILE_ID}" ]]; then
   FILE_ID="${FILE_ID:-0}"
 fi
 
+# shellcheck disable=SC2120
 PSQL(){ psql "$DB_DSN" -v ON_ERROR_STOP=1 "$@"; }
 
 # Header & column count (simple CSV; assumes no commas inside headers)
@@ -57,6 +58,7 @@ done
 [[ -n "$SAMPLE_IDX" ]] && SAMPLESEL="COALESCE(NULLIF(c${SAMPLE_IDX},''),'NA')" || SAMPLESEL="'NA'"
 
 # All in ONE session so TEMP tables survive
+# shellcheck disable=SC2120
 PSQL <<SQL
 \\set ON_ERROR_STOP on
 BEGIN;

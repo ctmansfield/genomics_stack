@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# shellcheck disable=SC2034
 set -euo pipefail
 # Verify that a DNA/variants file was fully imported into Postgres using libpq env vars.
 # Usage:

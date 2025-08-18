@@ -76,15 +76,16 @@ cmd_status() {
   require_repo
   local b ahead behind
   b="$(git rev-parse --abbrev-ref HEAD 2>/dev/null || echo detached)"
-  ahead="$(git rev-list --left-right --count @{u}...HEAD 2>/dev/null | awk '{print $2}' || echo 0)"
-  behind="$(git rev-list --left-right --count @{u}...HEAD 2>/dev/null | awk '{print $1}' || echo 0)"
+  ahead="$(git rev-list --left-right --count '@{u}'...HEAD 2>/dev/null | awk '{print $2}' || echo 0)"
+  behind="$(git rev-list --left-right --count '@{u}'...HEAD 2>/dev/null | awk '{print $1}' || echo 0)"
   say "branch: $b  (ahead:$ahead behind:$behind)"
   git status --porcelain=v1 -b
 }
 
 cmd_save() {
   require_repo
-  local msg=""
+  local msg
+  msg=""
   while [[ $# -gt 0 ]]; do
     case "$1" in
       -m|--message) msg="${2:-}"; shift;;
@@ -104,23 +105,28 @@ cmd_save() {
 
 cmd_push() {
   require_repo
-  local remote="${1:-$DEFAULT_REMOTE}"
-  local branch="${2:-$(git rev-parse --abbrev-ref HEAD)}"
+  local remote
+  remote="${1:-$DEFAULT_REMOTE}"
+  local branch
+  branch="${2:-$(git rev-parse --abbrev-ref HEAD)}"
   say "pushing $branch -> $remote"
   git push -u "$remote" "$branch"
 }
 
 cmd_pull() {
   require_repo
-  local remote="${1:-$DEFAULT_REMOTE}"
-  local branch="${2:-$(git rev-parse --abbrev-ref HEAD)}"
+  local remote
+  remote="${1:-$DEFAULT_REMOTE}"
+  local branch
+  branch="${2:-$(git rev-parse --abbrev-ref HEAD)}"
   say "pulling (rebase) $remote/$branch"
   git pull --rebase "$remote" "$branch"
 }
 
 cmd_set_identity() {
   require_repo
-  local name="${1:-}"; local email="${2:-}"
+  local name
+  name="${1:-}"; local email="${2:-}"
   [[ -n "$name" && -n "$email" ]] || die "Usage: set-identity NAME EMAIL"
   git config user.name  "$name"
   git config user.email "$email"
@@ -129,7 +135,8 @@ cmd_set_identity() {
 
 cmd_set_remote() {
   require_repo
-  local url="${1:-}"; [[ -n "$url" ]] || die "Usage: set-remote URL|PATH"
+  local url
+  url="${1:-}"; [[ -n "$url" ]]
   if git remote get-url origin >/dev/null 2>&1; then
     git remote set-url origin "$url"
   else
@@ -141,7 +148,8 @@ cmd_set_remote() {
 # ---------- release / backup helpers ----------
 mk_release_archive() {
   # args: TAG MSG INCLUDE_UNTRACKED(0/1) DRY(0/1) KEEP(optional)
-  local tag="$1" msg="$2" include_untracked="$3" dry="$4" keep="${5:-}"
+  local tag
+  tag="$1" msg="$2" include_untracked="$3" dry="$4" keep="${5:-}"
   mkdir -p "$BACKUPS_DIR"
   local branch shortsha ts out
   branch="$(git rev-parse --abbrev-ref HEAD || echo detached)"
@@ -152,7 +160,8 @@ mk_release_archive() {
   if git rev-parse -q --verify "refs/tags/$tag" >/dev/null; then
     tag="${tag}-${shortsha}"
   fi
-  local tagmsg="${msg:-"release $tag on $branch@$shortsha"}"
+  local tagmsg
+  tagmsg="${msg:-"release $tag on $branch@$shortsha"}"
 
   if [[ "$dry" -eq 0 ]]; then
     git tag -a "$tag" -m "$tagmsg"
@@ -205,7 +214,8 @@ EOF
 
 cmd_release() {
   require_repo
-  local tag="" msg="" keep="" include_untracked=0 dry=0
+  local tag
+  tag="" msg="" keep="" include_untracked=0 dry=0
   while [[ $# -gt 0 ]]; do
     case "$1" in
       -t|--tag) tag="${2:-}"; shift;;
@@ -225,14 +235,17 @@ cmd_list_releases() {
 }
 
 cmd_verify_release() {
-  local file="${1:-}"; [[ -n "$file" ]] || die "Usage: verify-release FILE.tgz"
+  local file
+  file="${1:-}"; [[ -n "$file" ]]
   sha256sum -c "${file}.sha256"
 }
 
 cmd_backup() {
   mkdir -p "$BACKUPS_DIR"
-  local name="${1:-backup-$(now_utc)}"
-  local out="${BACKUPS_DIR}/genomics-stack_${name}.tgz"
+  local name
+  name="${1:-backup-$(now_utc)}"
+  local out
+  out="${BACKUPS_DIR}/genomics-stack_${name}.tgz"
   tar --exclude='.git' -czf "$out" .
   sha256sum "$out" > "${out}.sha256"
   ok "backup: $out"
@@ -240,13 +253,15 @@ cmd_backup() {
 
 # ---------- restore / rollback ----------
 ask_yes_no() {
-  local p="${1:-Are you sure? [y/N]}"; read -r -p "$p " ans || true
+  local p
+  p="${1:-Are you sure? [y/N]}"; read -r -p "$p " ans
   [[ "$ans" == "y" || "$ans" == "Y" ]]
 }
 
 cmd_worktree() {
   require_repo
-  local tag="${1:-}"; local dir="${2:-}"
+  local tag
+  tag="${1:-}"; local dir="${2:-}"
   [[ -n "$tag" && -n "$dir" ]] || die "Usage: worktree TAG DIR"
   mkdir -p "$dir"
   git worktree add --detach "$dir" "$tag"
@@ -255,17 +270,20 @@ cmd_worktree() {
 
 cmd_checkout() {
   require_repo
-  local tag="${1:-}"; [[ -n "$tag" ]] || die "Usage: checkout TAG"
+  local tag
+  tag="${1:-}"; [[ -n "$tag" ]]
   git checkout --detach "$tag"
   ok "checked out $tag (detached)"
 }
 
 cmd_rollback() {
   require_repo
-  local ref="${1:-}"; [[ -n "$ref" ]] || die "Usage: rollback REF"
+  local ref
+  ref="${1:-}"; [[ -n "$ref" ]]
   warn "This will HARD reset current branch to $ref and discard uncommitted changes."
   if ask_yes_no "Proceed? [y/N]"; then
-    local safety="safety-rollback-$(now_utc)"
+  local safety
+  safety="safety-rollback-\$(now_utc)"
     git tag -a "$safety" -m "safety tag before rollback to $ref"
     git reset --hard "$ref"
     ok "reset to $ref (safety tag: $safety)"
@@ -275,7 +293,8 @@ cmd_rollback() {
 }
 
 cmd_extract() {
-  local file="${1:-}"; local dir="${2:-}"
+  local file
+  file="${1:-}"; local dir="${2:-}"
   [[ -n "$file" && -n "$dir" ]] || die "Usage: extract FILE.tgz DIR"
   mkdir -p "$dir"
   tar -xzf "$file" -C "$dir"

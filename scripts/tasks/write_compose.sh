@@ -1,3 +1,4 @@
+# shellcheck shell=bash
 source "$(dirname "$0")/../lib/overwrite.sh"
 task_write_compose() {
   local y="/root/genomics-stack/compose.yml"

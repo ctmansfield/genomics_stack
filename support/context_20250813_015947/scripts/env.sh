@@ -1,3 +1,4 @@
+# shellcheck shell=bash
 # Global settings
 STACK_DIR=/root/genomics-stack
 COMPOSE_FILE="$STACK_DIR/compose.yml"

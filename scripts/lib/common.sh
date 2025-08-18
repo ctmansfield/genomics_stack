@@ -27,6 +27,7 @@ require_readable(){ [[ -r "$1" ]] || die "Not readable: $1"; }
 
 load_env(){
   set -a
+# shellcheck source=/dev/null
   [[ -f "$ENV_FILE" ]] && . "$ENV_FILE"
   PGHOST=${PGHOST:-localhost}
   PGPORT=${PGPORT:-5433}

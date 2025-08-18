@@ -1,3 +1,4 @@
+# shellcheck shell=bash
 randhex() { openssl rand -hex 32; }
 task_write_env() {
   local f="$STACK_DIR/.env"

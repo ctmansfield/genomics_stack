@@ -95,6 +95,7 @@ exec 9>"$lockfile"
 flock -n 9 || { say "another process_incoming is running"; exit 0; }
 
 shopt -s nullglob
+# shellcheck disable=SC2206
 files=( "$INCOMING"/$PATTERN )
 if [ ${#files[@]} -eq 0 ]; then say "no files in $INCOMING matching $PATTERN"; exit 0; fi
 

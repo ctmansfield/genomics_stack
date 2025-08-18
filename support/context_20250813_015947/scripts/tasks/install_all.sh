@@ -1,3 +1,4 @@
+# shellcheck shell=bash
 task_install_all() {
   task_install_prereqs
   task_setup_dirs
