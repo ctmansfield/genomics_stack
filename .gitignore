@@ -1,40 +1,21 @@
-# env & secrets
-.env
-.env.local
-*.env
-
-# runtime artifacts
-/mnt/*
-/tmp/*
-reports/
-/mnt/nas_storage/genomics-stack/uploads/
-/mnt/nas_storage/genomics-stack/reports/
-/mnt/nas_storage/genomics-stack/backups/
-/mnt/nas_storage/genomics-stack/vep_cache/
-
-# docker + build
-*.log
-*.pid
-node_modules/
-dist/
-build/
-*.cache
-__pycache__/
+/.pgdata-*
+/risk_reports/out/
+/outgoing/
+/incoming/
+/__pycache__/
 *.pyc
 
-# editor/OS
-.DS_Store
-.idea/
-.vscode/
+# ignore lint-baseline backups
+*.bak.lint-baseline-v1.*
+
+# >>> lint-tuning-v1
+*.bak.lint-baseline-v1.*
+.ruff_cache/
+risk_reports/out/
+metabase_data/
+build/
+dist/
 .venv/
-.venv/
-.venv/
-.genomics_patches/
-.venv/
-.genomics_patches/
-!scripts/
-!scripts/reports/
-!scripts/reports/**
-.local_backups/
-*.bak
-*.bak-*
+venv/
+# <<< lint-tuning-v1
+/.env
