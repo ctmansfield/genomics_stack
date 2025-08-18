@@ -14,3 +14,10 @@ COPY --from=builder /wheels /wheels
 RUN python -m pip install --no-index --find-links=/wheels /wheels/* && rm -rf /wheels
 COPY . /app
 CMD ["python","-m","ingest_worker.main"]
+
+ENV PYTHONPATH=/app
+
+# include patched router
+COPY ingest/ingest_patch_upload.py /app/ingest_patch_upload.py
+
+COPY ingest_patch_upload.py /app/ingest_patch_upload.py
