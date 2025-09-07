@@ -29,3 +29,12 @@ env.d/*.env
 .venv*/
 __pycache__/
 *.py[cod]
+/db_data/
+/metabase_data/
+/support/context_*/
+*.bak
+*.bak-*
+.venv*/
+__pycache__/
+*.py[cod]
+

@@ -1,0 +1,19 @@
+name: Contract Gate
+on:
+  pull_request:
+    paths:
+      - 'contracts/**'
+jobs:
+  validate:
+    if: ${{ hashFiles('contracts/tools/validate_contracts.sh') != '' }}
+    runs-on: ubuntu-latest
+    env:
+      REPO_ROOT: ${{ github.workspace }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate contracts (exists)
+        run: |
+          bash contracts/tools/validate_contracts.sh || {
+            echo "::error::Contract validation failed. Bump versions.yaml if contracts changed."
+            exit 1
+          }
