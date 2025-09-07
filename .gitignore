@@ -25,3 +25,7 @@ env.d/*.env
 
 # local patch backups
 .patch_backups/
+
+.venv*/
+__pycache__/
+*.py[cod]
