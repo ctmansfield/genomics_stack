@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+set -euo pipefail
+id="$1"; comp="$2"; title="${3:-}"
+dir="patch_${id}_${comp}"
+mkdir -p "$dir"
+cat > "$dir/release_notes.md" <<RN
+# Patch ${id}: ${comp} — ${title}
+
+
+## Summary
+What changed and why.
+
+
+## Install
+```bash
+./install.sh
+```
+RN

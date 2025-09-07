@@ -1,0 +1,15 @@
+import os
+
+NAS_ROOT = os.environ.get("NAS_ROOT","/mnt/nas_storage")
+REPO_ROOT = os.environ.get("REPO_ROOT","/mnt/nas_storage/repos/genomics-stack")
+
+rule all:
+    input:
+        f"{NAS_ROOT}/duckdb/genomics.duckdb"
+
+rule hydrate_duckdb:
+    output:
+        f"{NAS_ROOT}/duckdb/genomics.duckdb"
+    shell:
+        "python3 {REPO_ROOT}/components/dbduck/duckdb_cli.py hydrate-from-parquet && " \
+        "touch {NAS_ROOT}/duckdb/genomics.duckdb"
