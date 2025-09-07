@@ -37,4 +37,6 @@ __pycache__/
 .venv*/
 __pycache__/
 *.py[cod]
+logs/patchctl/
+
 
