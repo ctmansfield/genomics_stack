@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 # shellcheck shell=bash
 # Exposed env: NAS_ROOT, REPO_ROOT, DUCKDB_PATH, PATCH_CODE, PATCH_DIR
-
 set -euo pipefail
 
 patch_install() {
