@@ -1,15 +1,29 @@
 import os
+from datetime import datetime
 
-NAS_ROOT = os.environ.get("NAS_ROOT","/mnt/nas_storage")
-REPO_ROOT = os.environ.get("REPO_ROOT","/mnt/nas_storage/repos/genomics-stack")
+NAS_ROOT  = os.environ.get("NAS_ROOT", "/mnt/nas_storage")
+REPO_ROOT = os.environ.get("REPO_ROOT", "/mnt/nas_storage/repos/genomics-stack")
+DATE      = datetime.now().strftime("%Y%m%d")
 
+# The end goal of this minimal DAG is a hydrated DuckDB file.
 rule all:
     input:
         f"{NAS_ROOT}/duckdb/genomics.duckdb"
 
+# Produce a manifest parquet for today's date (idempotent; safe if input dir is empty).
+rule ingest:
+    output:
+        f"{NAS_ROOT}/data/staging/{DATE}/staging_manifest.parquet"
+    shell:
+        "python3 {REPO_ROOT}/components/ingest/build_manifest.py {NAS_ROOT}/data/samples_raw"
+
+# Hydrate DuckDB from parquet, explicitly ensuring the schema is bootstrapped first.
 rule hydrate_duckdb:
+    input:
+        rules.ingest.output
     output:
         f"{NAS_ROOT}/duckdb/genomics.duckdb"
     shell:
-        "python3 {REPO_ROOT}/components/dbduck/duckdb_cli.py hydrate-from-parquet && " \
+        "python3 {REPO_ROOT}/components/dbduck/duckdb_cli.py bootstrap && "
+        "python3 {REPO_ROOT}/components/dbduck/duckdb_cli.py hydrate-from-parquet && "
         "touch {NAS_ROOT}/duckdb/genomics.duckdb"
