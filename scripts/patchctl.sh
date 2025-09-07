@@ -64,7 +64,7 @@ _run_stage() {
     ) 2>&1 | tee "$log"
   fi
 
-  info "[$code] $stage_ok"
+  info "[$code] ${stage}_ok"
 }
 
 _run_with_deps() {
