@@ -23,7 +23,14 @@ def _dsn() -> str:
     return f"host={host} port={port} dbname={db} user={user} password={pwd}"
 
 
-def _parse_array_stream(lines: Iterable[str]) -> Iterable[Tuple[str, str, str]]:
+def _parse_array_stream(lines: Iterable[str]) -> Iterable[Tuple[str, str, str, str]]:
+    """
+    Yield rows as (rsid, allele1, allele2, genotype)
+    Supports formats:
+      - AncestryDNA: rsid,chrom,pos,allele1,allele2 (tab/space delimited)
+      - 23andMe-like: rsid,chrom,pos,genotype (AG/TT/etc)
+    Lines starting with # are ignored.
+    """
     for raw in lines:
         if not raw or raw.startswith("#"):
             continue
@@ -35,20 +42,39 @@ def _parse_array_stream(lines: Iterable[str]) -> Iterable[Tuple[str, str, str]]:
             parts = re.split(r"\s+", line)
             if len(parts) < 4:
                 continue
-        rsid, genotype = parts[0], parts[3]
-        if genotype in {"--", "00", "NN"}:
-            a1, a2 = "N", "N"
-        elif len(genotype) == 2:
-            a1, a2 = genotype[0], genotype[1]
-        elif len(genotype) == 1:
-            a1, a2 = genotype, genotype
-        else:
+        rsid = parts[0].strip()
+        # Skip header row if present
+        if rsid.lower() == "rsid":
             continue
-        yield rsid, a1, a2
+        a1 = a2 = genotype = ""
+        try:
+            if len(parts) >= 5:
+                # AncestryDNA: allele1, allele2 are columns 3,4 (0-based)
+                a1 = (parts[3] or "").strip().upper() or "N"
+                a2 = (parts[4] or "").strip().upper() or "N"
+                genotype = f"{a1}{a2}" if a1 and a2 else "NN"
+            else:
+                # 4 columns: rsid, chrom, pos, genotype
+                g = (parts[3] or "").strip().upper()
+                if g in {"--", "00", "NN"} or g == "":
+                    a1, a2, genotype = "N", "N", "NN"
+                elif len(g) >= 2:
+                    a1, a2 = g[0], g[1]
+                    genotype = f"{a1}{a2}"
+                elif len(g) == 1:
+                    a1, a2 = g, g
+                    genotype = f"{a1}{a2}"
+                else:
+                    continue
+        except Exception:
+            continue
+        if not rsid:
+            continue
+        yield rsid, a1, a2, genotype
 
 
 def _stage_calls(
-    conn: psycopg.Connection, upload_id: int, rows: Iterable[Tuple[str, str, str]]
+    conn: psycopg.Connection, upload_id: int, rows: Iterable[Tuple[str, str, str, str]]
 ) -> int:
     with conn.cursor() as cur:
         cur.execute("SET search_path TO public, genomics")
@@ -56,14 +82,14 @@ def _stage_calls(
         cur.execute("DELETE FROM public.staging_array_calls WHERE upload_id = %s", (upload_id,))
         buf = io.StringIO()
         w = csv.writer(buf)
-        w.writerow(["upload_id", "sample_label", "rsid", "allele1", "allele2"])
+        w.writerow(["upload_id", "sample_label", "rsid", "allele1", "allele2", "genotype"])
         count = 0
-        for rsid, a1, a2 in rows:
-            w.writerow([upload_id, f"Sample_{upload_id}", rsid, a1, a2])
+        for rsid, a1, a2, gt in rows:
+            w.writerow([upload_id, f"Sample_{upload_id}", rsid, a1, a2, gt])
             count += 1
         buf.seek(0)
         with cur.copy(
-            "COPY public.staging_array_calls (upload_id,sample_label,rsid,allele1,allele2) FROM STDIN WITH (FORMAT csv, HEADER true)"
+            "COPY public.staging_array_calls (upload_id,sample_label,rsid,allele1,allele2,genotype) FROM STDIN WITH (FORMAT csv, HEADER true)"
         ) as cp:
             cp.write(buf.read())
     return count

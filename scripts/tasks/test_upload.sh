@@ -11,7 +11,7 @@ task_test_upload() {
   local url="${PORTAL_URL:-http://localhost:8090}"
 
   if [[ -z "$file" ]]; then
-    echo "Usage: genomicsctl.sh test-upload /path/to/file [sample_label]" >&2
+    echo "Usage: test-upload /path/to/file [sample_label]" >&2
     exit 2
   fi
   [[ -r "$file" ]] || { echo "File not readable: $file" >&2; exit 2; }
@@ -26,5 +26,14 @@ task_test_upload() {
   ok "Upload request sent"
 }
 
-register_task "test-upload" "Upload a file to the portal" task_test_upload \
-  "Usage: test-upload /path/to/file [sample_label]"
+# Allow standalone execution
+if [[ "${BASH_SOURCE[0]}" == "$0" ]]; then
+  task_test_upload "${1:-}" "${2:-John_Doe}"
+  exit $?
+fi
+
+# Register with task runner if available
+if declare -F register_task >/dev/null 2>&1; then
+  register_task "test-upload" "Upload a file to the portal" task_test_upload \
+    "Usage: test-upload /path/to/file [sample_label]"
+fi

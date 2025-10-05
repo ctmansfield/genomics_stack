@@ -2,7 +2,7 @@
 set -euo pipefail
 
 # ---------- Config ----------
-: "${HDB:=postgresql://genouser:a257272733aa65612215928f75083ae9621e9e3876b15f5e@localhost:5433/genomics}"
+: "${HDB:=postgresql://genouser:a257272733aa65612215928f75083ae9621e9e3876b15f5e@localhost:5432/genomics}"
 : "${STACK_DIR:=/root/genomics-stack}"
 : "${COMPOSE_FILE:=$STACK_DIR/compose.yml}"
 : "${WORKER_SERVICE:=ingest_worker}"
