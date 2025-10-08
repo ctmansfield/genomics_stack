@@ -24,7 +24,7 @@ CHROM_COL   ?= 1
 TABLE       ?= public.annotated_variants_staging
 
 # --- Helpers ------------------------------------------------------------------
-SHELL := /usr/bin/env bash
+SHELL := /bin/bash
 .SHELLFLAGS := -eu -o pipefail -c
 .ONESHELL:
 .DEFAULT_GOAL := help
@@ -105,14 +105,14 @@ import-verify:
 	PGURL="$(PGURL)" tools/import_verify/verify_import.sh "$(OUT_TSV)" "$(TABLE)"
 
 promote:
-	@echo "[make] promote staging → main"
-	psql "$(PGURL)" -v ON_ERROR_STOP=1 <<'SQL'
-BEGIN;
-TRUNCATE public.annotated_variants;
-INSERT INTO public.annotated_variants SELECT * FROM public.annotated_variants_staging;
-TRUNCATE public.annotated_variants_staging;
-COMMIT;
-SQL
+	 "[make] promote staging → main"
+	psql "1000 4 24 27 30 44 46 101 111 128 988 993 1000 1002PGURL)" -v ON_ERROR_STOP=1 <<-'SQL'
+	BEGIN;
+	TRUNCATE public.annotated_variants;
+	INSERT INTO public.annotated_variants SELECT * FROM public.annotated_variants_staging;
+	TRUNCATE public.annotated_variants_staging;
+	COMMIT;
+	SQL
 
 # --- End-to-end shortcut ------------------------------------------------------
 verify-all: annotate manifest import-schema import-verify
@@ -193,7 +193,7 @@ lint:
 
 format:
 	ruff --config pyproject.ruff.toml format .
-# <<< lint-baseline-v1
+	# <<< lint-baseline-v1
 
 # --- added by lint-hotfix-v1 ---
 # >>> lint-hotfix-v1
@@ -207,4 +207,16 @@ lint:
 
 format:
 	ruff format --config .ruff.toml .
-# <<< lint-hotfix-v1
+	# <<< lint-hotfix-v1
+	# # ---- ClinPGx (PharmGKB) ------------------------------------------------------
+
+PGHOST ?= 192.168.1.225
+PGPORT ?= 5432
+PGDATABASE ?= genome_db
+PGUSER ?= genouser
+PHARMGKB_LABELS ?= /mnt/nas_storage/ref/pharmgkb/drugLabels.tsv
+PHARMGKB_LICENSE ?= CC BY-SA 4.0
+PHARMGKB_VERSION ?= $(shell date +%Y-%m)
+
+
+include mk/clinpgx.mk
