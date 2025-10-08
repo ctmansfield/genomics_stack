@@ -1,0 +1,10 @@
++ [[ install == \i\n\s\t\a\l\l ]]
++ patch_install
++ echo '[A7] install: build manifest parquet'
+[A7] install: build manifest parquet
++ mkdir -p /mnt/nas_storage/data/samples_raw
++ python3 /mnt/nas_storage/repos/genomics-stack/components/ingest/build_manifest.py /mnt/nas_storage/data/samples_raw
+manifest_rows=1
+manifest_hash=f47bcefe
++ echo '[A7] install_ok'
+[A7] install_ok

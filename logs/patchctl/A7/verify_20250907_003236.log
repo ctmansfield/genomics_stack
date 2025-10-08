@@ -1,0 +1,9 @@
++ [[ verify == \i\n\s\t\a\l\l ]]
++ patch_verify
++ echo '[A7] verify: manifest rows/hash'
+[A7] verify: manifest rows/hash
++ python -
+manifest_rows=1
+manifest_hash=7bde48d3
++ echo '[A7] verify_ok'
+[A7] verify_ok

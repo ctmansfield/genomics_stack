@@ -21,6 +21,7 @@ fi
 # Run containerized vep; mount cache+ref and current working dir
 exec "$engine" run --rm \
   -v "$CACHE_DIR":"$CACHE_DIR":ro \
+  -v "$CACHE_DIR":/opt/vep/.vep:ro \
   -v "$REF_DIR":"$REF_DIR":ro \
   -v "$PWD":"$PWD" \
   -w "$PWD" \

@@ -1,0 +1,7 @@
++ [[ install == \i\n\s\t\a\l\l ]]
++ patch_install
++ echo '[D4] install: orchestrator check (+ optional noop)'
+[D4] install: orchestrator check (+ optional noop)
++ mkdir -p /mnt/nas_storage/data/samples_raw /mnt/nas_storage/duckdb
++ echo '[D4] install_ok'
+[D4] install_ok

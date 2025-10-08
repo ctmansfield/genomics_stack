@@ -1,0 +1,12 @@
++ [[ install == \i\n\s\t\a\l\l ]]
++ patch_install
++ echo '[B10] install: create/update latest-per-sample views'
+[B10] install: create/update latest-per-sample views
++ python3 /mnt/nas_storage/repos/genomics-stack/components/dbduck/duckdb_cli.py bootstrap
+bootstrap_ok
++ python3 /mnt/nas_storage/repos/genomics-stack/components/dbduck/run_sql.py /mnt/nas_storage/repos/genomics-stack/components/dbduck/sql/views_latest.sql
+Traceback (most recent call last):
+  File "/mnt/nas_storage/repos/genomics-stack/components/dbduck/run_sql.py", line 11, in <module>
+    with open(sql_path, "r", encoding="utf-8") as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/mnt/nas_storage/repos/genomics-stack/components/dbduck/sql/views_latest.sql'

@@ -1,0 +1,51 @@
+Assuming unrestricted shared filesystem usage.
+None
+host: llm
+Building DAG of jobs...
+Using shell: /usr/bin/bash
+Provided cores: 1 (use --cores to define parallelism)
+Rules claiming more threads will be scaled down.
+Job stats:
+job               count
+--------------  -------
+all                   1
+hydrate_duckdb        1
+total                 2
+
+Select jobs to execute...
+Execute 1 jobs...
+[Sat Sep  6 23:53:18 2025]
+localrule hydrate_duckdb:
+    input: /mnt/nas_storage/data/staging/20250906/staging_manifest.parquet
+    output: /mnt/nas_storage/duckdb/genomics.duckdb
+    jobid: 1
+    reason: Updated input files: /mnt/nas_storage/data/staging/20250906/staging_manifest.parquet
+    resources: tmpdir=/mnt/nas_storage/llmin/tmp
+RuleException:
+CalledProcessError in file "/mnt/nas_storage/repos/genomics-stack/components/orch/Snakefile", line 24:
+Command 'set -euo pipefail;  python3 /mnt/nas_storage/repos/genomics-stack/components/dbduck/duckdb_cli.py hydrate-from-parquet && touch /mnt/nas_storage/duckdb/genomics.duckdb' returned non-zero exit status 1.
+[Sat Sep  6 23:53:19 2025]
+Error in rule hydrate_duckdb:
+    message: None
+    jobid: 1
+    input: /mnt/nas_storage/data/staging/20250906/staging_manifest.parquet
+    output: /mnt/nas_storage/duckdb/genomics.duckdb
+    shell:
+        python3 /mnt/nas_storage/repos/genomics-stack/components/dbduck/duckdb_cli.py hydrate-from-parquet && touch /mnt/nas_storage/duckdb/genomics.duckdb
+        (command exited with non-zero exit code)
+Removing output files of failed job hydrate_duckdb since they might be corrupted:
+/mnt/nas_storage/duckdb/genomics.duckdb
+Shutting down, this might take some time.
+Exiting because a job execution failed. Look below for error messages
+[Sat Sep  6 23:53:19 2025]
+Error in rule hydrate_duckdb:
+    message: None
+    jobid: 1
+    input: /mnt/nas_storage/data/staging/20250906/staging_manifest.parquet
+    output: /mnt/nas_storage/duckdb/genomics.duckdb
+    shell:
+        python3 /mnt/nas_storage/repos/genomics-stack/components/dbduck/duckdb_cli.py hydrate-from-parquet && touch /mnt/nas_storage/duckdb/genomics.duckdb
+        (command exited with non-zero exit code)
+Complete log(s): /mnt/nas_storage/repos/genomics-stack/.snakemake/log/2025-09-06T235318.884378.snakemake.log
+WorkflowError:
+At least one job did not complete successfully.

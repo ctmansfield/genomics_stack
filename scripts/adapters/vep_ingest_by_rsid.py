@@ -35,16 +35,42 @@ import pysam
 IMPACT_RANK = {"HIGH": 4, "MODERATE": 3, "LOW": 2, "MODIFIER": 1}
 
 
+def maybe_load_env_files(paths: Sequence[str]) -> None:
+    """Best-effort: load KEY=VALUE from simple env files if present (no shell expansion)."""
+    for p in paths:
+        try:
+            if not os.path.exists(p):
+                continue
+            with open(p, "r", encoding="utf-8", errors="ignore") as fh:
+                for raw in fh:
+                    line = raw.strip()
+                    if not line or line.startswith("#"):
+                        continue
+                    if line.lower().startswith("export "):
+                        line = line[7:].strip()
+                    if "=" not in line:
+                        continue
+                    k, v = line.split("=", 1)
+                    k = k.strip()
+                    v = v.strip().strip('"').strip("'")
+                    if k and (k not in os.environ or os.environ.get(k, "") == ""):
+                        os.environ[k] = v
+        except Exception:
+            pass
+
+
 def dsn_from_env() -> str:
-    host = os.getenv("PGHOST", "localhost")
+    host = os.getenv("PGHOST", "127.0.0.1")
     port = os.getenv("PGPORT", "5432")
-    db = os.getenv("PGDATABASE", "genomics")
+    db = os.getenv("PGDATABASE", "genome_db")
     user = os.getenv("PGUSER", "genouser")
     pw = os.getenv("PGPASSWORD", "")
     return f"postgresql://{user}:{pw}@{host}:{port}/{db}"
 
 
 def parse_args() -> argparse.Namespace:
+    # Load common env files to avoid repeated exports in venv shells
+    maybe_load_env_files(("env.d/pg.env", "env.d/app.env", ".env", ".env.local"))
     ap = argparse.ArgumentParser(description="Ingest VEP CSQ by rsID into public.vep_by_rsid")
     ap.add_argument("--vep-vcf", dest="vep_vcf", help="Path to VEP VCF.gz", default=os.getenv("VEP_VCF"))
     ap.add_argument("--upload-id", type=int, help="Upload ID to source rsIDs from staging_array_calls", default=int(os.getenv("UPLOAD_ID", "0") or 0))

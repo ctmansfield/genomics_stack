@@ -1,0 +1,201 @@
+rsid,chromosome,position,allele1,allele2,ref_allele,genotype_class,gnomad_af_global,review_stars,clnsig_raw,conditions,clinvar_priority
+rs12121707,1,26126680,C,C,T,hom_alt,,1,Conflicting_classifications_of_pathogenicity,not specified; SEPN1-related disorder; not provided,2
+rs267606645,1,33478946,A,A,G,hom_alt,,1,Likely_pathogenic,Severe combined immunodeficiency disease; Reticular dysgenesis,2
+rs11581921,1,43215930,T,C,C,het_alt,,1,Conflicting_classifications_of_pathogenicity,not specified; Osteogenesis imperfecta type 8; Osteogenesis Imperfecta;  Recessive,2
+rs509504,1,55523033,G,G,A,hom_alt,,1,Conflicting_classifications_of_pathogenicity,Cardiovascular phenotype; Hypobetalipoproteinemia; Familial hypercholesterolemia; not specified; Hypercholesterolemia;  autosomal dominant;  3; not provided; Hypercholesterolemia;  familial;  1,2
+rs1801466,1,94476467,T,A,T,het_alt,,1,Conflicting_classifications_of_pathogenicity,ABCA4-related disorder; Stargardt Disease;  Recessive; Cone-Rod Dystrophy;  Recessive; Retinitis Pigmentosa;  Recessive; ABCA4-related retinopathy; Retinal dystrophy; not specified; not provided; Retinitis pigmentosa; Cone-rod dystrophy 3; Age related macular degeneration 2; Stargardt disease; Severe early-childhood-onset retinal dystrophy; Macular degeneration,2
+rs786202200,1,161298185,A,A,G,hom_alt,,1,Pathogenic/Likely_pathogenic,Hereditary pheochromocytoma-paraganglioma; Hereditary cancer-predisposing syndrome; Pheochromocytoma/paraganglioma syndrome 3; Gastrointestinal stromal tumor,2
+rs6030,1,169498975,T,C,T,het_alt,,1,Conflicting_classifications_of_pathogenicity,not specified; Congenital factor V deficiency; Thrombophilia due to activated protein C resistance; not provided,2
+rs4524,1,169511755,T,C,T,het_alt,,1,Conflicting_classifications_of_pathogenicity,not specified; not provided; Congenital factor V deficiency; Thrombophilia due to activated protein C resistance,2
+rs1061170,1,196659237,T,C,C,het_alt,,1,Conflicting_classifications_of_pathogenicity,not provided; Age related macular degeneration 4; Atypical hemolytic-uremic syndrome; Hemolytic uremic syndrome;  atypical;  susceptibility to;  1; Basal laminar drusen; Factor H deficiency; CFH-Related Dense Deposit Disease / Membranoproliferative Glomerulonephritis Type II,2
+rs1800896,1,206946897,C,C,T,hom_alt,,1,Pathogenic,Leprosy;  susceptibility to;  1; Hepatitis C virus;  susceptibility to,2
+rs41315858,1,237778082,A,G,G,het_alt,,1,Conflicting_classifications_of_pathogenicity,not provided; Arrhythmogenic right ventricular dysplasia 2; Catecholaminergic polymorphic ventricular tachycardia 1; Ventricular arrhythmias due to cardiac ryanodine receptor calcium release deficiency syndrome; Cardiovascular phenotype; Cardiomyopathy; Catecholaminergic polymorphic ventricular tachycardia,2
+rs790889,1,237946964,T,C,T,het_alt,,1,Conflicting_classifications_of_pathogenicity,Catecholaminergic polymorphic ventricular tachycardia 1; Cardiomyopathy; Catecholaminergic polymorphic ventricular tachycardia,2
+rs148818431,1,243434326,T,C,T,het_alt,,1,Conflicting_classifications_of_pathogenicity,not specified; Senior-Loken syndrome 7; not provided; Bardet-Biedl syndrome 16,2
+rs7918487,10,23482635,C,C,T,hom_alt,,1,Conflicting_classifications_of_pathogenicity,not provided; Permanent neonatal diabetes mellitus-pancreatic and cerebellar agenesis syndrome; not specified; Permanent neonatal diabetes mellitus; Pancreatic beta cell agenesis with neonatal diabetes mellitus; Pancreatic agenesis 2,2
+rs28933375,10,72358722,T,C,T,het_alt,,1,Conflicting_classifications_of_pathogenicity,Autoinflammatory syndrome; not specified; not provided; Familial hemophagocytic lymphohistiocytosis 2,2
+rs786201501,10,88649967,A,A,T,hom_alt,,1,Pathogenic,Hereditary cancer-predisposing syndrome; Juvenile polyposis syndrome,2
+rs553668,10,112839579,G,G,A,hom_alt,,1,Pathogenic,Lipodystrophy;  familial partial;  type 8,2
+rs757110,11,17418477,A,C,C,het_alt,,1,Conflicting_classifications_of_pathogenicity,not provided; Leucine-induced hypoglycemia; Hyperinsulinemic hypoglycemia;  familial;  1; Diabetes mellitus;  permanent neonatal 3; Diabetes mellitus;  transient neonatal;  2; Type 2 diabetes mellitus,2
+rs45547231,11,47469717,A,G,G,het_alt,,1,Conflicting_classifications_of_pathogenicity,Congenital myasthenic syndrome 11; Fetal akinesia deformation sequence 1; Congenital myasthenic syndrome,2
+rs121908671,11,68125269,A,A,G,hom_alt,,1,Pathogenic,not provided; Autosomal dominant osteopetrosis 1; Worth disease,2
+rs1126809,11,89017961,A,G,G,het_alt,,1,Conflicting_classifications_of_pathogenicity|other,Pigmentary skin disorders; Autosomal recessive ocular albinism; Albinism or congenital nystagmus; Foveal hypoplasia; Choroidal neovascularization; Albinism; Elevated circulating hepatic transaminase concentration; Slow decrease in visual acuity; Abnormality of metabolism/homeostasis; Temperature-sensitive oculocutaneous albinism type 1; not specified; not provided; Oculocutaneous albinism type 1; SKIN/HAIR/EYE PIGMENTATION 3;  LIGHT/DARK SKIN; Oculocutaneous albinism type 1B; Oculocutaneous albinism type 1A; Skin/hair/eye pigmentation 3;  blue/green eyes; Melanoma;  cutaneous malignant;  susceptibility to;  8; Malignant tumor of breast,2
+rs56348580,12,121432117,C,G,G,het_alt,,1,Conflicting_classifications_of_pathogenicity,not specified; Maturity onset diabetes mellitus in young; not provided; Maturity-onset diabetes of the young type 3; Nonpapillary renal cell carcinoma; Type 2 diabetes mellitus,2
+rs55834942,12,121437114,A,G,G,het_alt,,1,Conflicting_classifications_of_pathogenicity,not provided; Maturity-onset diabetes of the young type 3; Insulin-resistant diabetes mellitus; not specified; Maturity onset diabetes mellitus in young; Nonpapillary renal cell carcinoma,2
+rs144848,13,32906729,A,C,A,het_alt,,1,Conflicting_classifications_of_pathogenicity,Hereditary breast ovarian cancer syndrome; Hereditary cancer-predisposing syndrome,2
+rs121908538,13,48528645,A,G,G,het_alt,,1,Pathogenic/Likely_pathogenic,not provided; Mitochondrial DNA depletion syndrome;  encephalomyopathic form with methylmalonic aciduria,2
+rs771603301,13,52509760,C,C,A,hom_alt,,1,Pathogenic/Likely_pathogenic,not provided; Wilson disease,2
+rs45496496,14,23893148,G,C,C,het_alt,,1,Conflicting_classifications_of_pathogenicity,Cardiovascular phenotype; Primary dilated cardiomyopathy; MYH7-related skeletal myopathy; Dilated cardiomyopathy 1S; Myosin storage myopathy; Dilated Cardiomyopathy;  Dominant; Hypertrophic cardiomyopathy; Cardiomyopathy; Hypertrophic cardiomyopathy 1; not provided; not specified,2
+rs11549465,14,62207557,T,C,C,het_alt,,1,Conflicting_classifications_of_pathogenicity,Cholangiocarcinoma; not provided,2
+rs8010699,14,64522843,G,G,A,hom_alt,,1,Conflicting_classifications_of_pathogenicity,not provided; Emery-Dreifuss muscular dystrophy 5;  autosomal dominant,2
+rs34181110,14,64892470,A,G,G,het_alt,,1,Conflicting_classifications_of_pathogenicity,Combined immunodeficiency and megaloblastic anemia with or without hyperhomocysteinemia; not specified; Spina bifida;  folate-sensitive;  susceptibility to; not provided,2
+rs398607,14,88407888,A,G,A,het_alt,,1,Likely_pathogenic,Galactosylceramide beta-galactosidase deficiency,2
+rs587777807,14,89336544,C,C,T,hom_alt,,1,Pathogenic,Bardet-Biedl syndrome; Bardet-Biedl syndrome 8,2
+rs587781235,15,25601987,G,G,C,hom_alt,,1,Pathogenic,Angelman syndrome,2
+rs200586605,16,70287706,A,G,G,het_alt,,1,Conflicting_classifications_of_pathogenicity,Charcot-Marie-Tooth disease type 2; Inborn genetic diseases; not specified; not provided; Charcot-Marie-Tooth disease axonal type 2N,2
+rs203462,17,19812541,T,C,T,het_alt,,1,Conflicting_classifications_of_pathogenicity,Reclassified - variant of unknown significance; AKAP10-related disorder,2
+rs786203950,17,29527461,T,T,C,hom_alt,,1,Pathogenic,not provided; NF1-related disorder; Hereditary cancer-predisposing syndrome; Neurofibromatosis;  type 1; Juvenile myelomonocytic leukemia; not specified; Neurofibromatosis;  familial spinal; Neurofibromatosis-Noonan syndrome; Café-au-lait macules with pulmonary stenosis,2
+rs137854557,17,29541542,G,G,A,hom_alt,,1,Pathogenic,NF1-related disorder; Neurofibromatosis;  type 1; Tibial pseudarthrosis; Rhabdomyosarcoma; Hereditary cancer-predisposing syndrome; not provided; Juvenile myelomonocytic leukemia; Café-au-lait macules with pulmonary stenosis; Neurofibromatosis-Noonan syndrome; Neurofibromatosis;  familial spinal; Abnormality of the skin,2
+rs16941,17,41244435,T,C,T,het_alt,,1,Conflicting_classifications_of_pathogenicity,not specified; Hereditary breast ovarian cancer syndrome; not provided; Hereditary cancer-predisposing syndrome; Malignant tumor of breast; Breast and/or ovarian cancer; Familial cancer of breast,2
+rs799917,17,41244936,A,G,G,het_alt,,1,Conflicting_classifications_of_pathogenicity,Hereditary cancer-predisposing syndrome; Hereditary breast ovarian cancer syndrome; Breast-ovarian cancer;  familial;  susceptibility to;  1; not provided,2
+rs4889991,17,78158063,A,A,G,hom_alt,,1,Conflicting_classifications_of_pathogenicity,not provided; not specified; Pityriasis rubra pilaris; Psoriasis 2,2
+rs11652075,17,78178893,T,C,C,het_alt,,1,Conflicting_classifications_of_pathogenicity,Autoinflammatory syndrome; not specified; Pityriasis rubra pilaris; Psoriasis 2; not provided,2
+rs3729841,19,55665410,T,C,C,het_alt,,1,Conflicting_classifications_of_pathogenicity,Familial Hypertrophic Cardiomyopathy with Wolff-Parkinson-White Syndrome; Cardiovascular phenotype; not specified; Primary ciliary dyskinesia; Cardiomyopathy; Dilated cardiomyopathy 2A; Cardiomyopathy;  familial restrictive;  1; Hypertrophic cardiomyopathy 7; Hypertrophic cardiomyopathy,2
+rs7252610,19,55665584,C,C,A,hom_alt,,1,Conflicting_classifications_of_pathogenicity,Familial Hypertrophic Cardiomyopathy with Wolff-Parkinson-White Syndrome; Nemaline Myopathy;  Recessive; not specified; Primary ciliary dyskinesia; not provided; Cardiomyopathy; Primary familial hypertrophic cardiomyopathy; Cardiomyopathy;  familial restrictive;  1; Dilated cardiomyopathy 2A; Hypertrophic cardiomyopathy 7; Hypertrophic cardiomyopathy,2
+rs63750955,2,48025773,A,A,T,hom_alt,,1,Pathogenic,Endometrial carcinoma; Hereditary cancer-predisposing syndrome; Hereditary nonpolyposis colon cancer; MSH6-related disorder; Mismatch repair cancer syndrome 3; Lynch syndrome 5; not provided; Hereditary nonpolyposis colorectal neoplasms; Lynch syndrome; Lynch syndrome 1,2
+rs4672457,2,62066927,G,G,A,hom_alt,,1,Pathogenic/Likely_pathogenic,not provided; Retinitis pigmentosa 28; Retinitis pigmentosa,2
+rs2515401,2,113820476,C,C,T,hom_alt,,1,Conflicting_classifications_of_pathogenicity,Generalized pustular psoriasis; Acrodermatitis continua suppurativa of Hallopeau; not provided,2
+rs10172023,2,152476028,G,G,C,hom_alt,,1,Pathogenic,Nemaline myopathy 2,2
+rs144147038,2,170145661,T,C,C,het_alt,,1,Conflicting_classifications_of_pathogenicity,not specified; not provided; Donnai-Barrow syndrome,2
+rs192861143,2,172305177,T,C,C,het_alt,,1,Conflicting_classifications_of_pathogenicity,not specified; not provided; Woodhouse-Sakati syndrome,2
+rs587779497,2,189854177,G,G,T,hom_alt,,1,Pathogenic,Ehlers-Danlos syndrome;  type 4,2
+rs397515572,2,231081564,G,G,T,hom_alt,,1,Pathogenic,Hepatic veno-occlusive disease-immunodeficiency syndrome,2
+rs3827075,20,3214819,T,G,T,het_alt,,1,Conflicting_classifications_of_pathogenicity,not provided; Corneal dystrophy-perceptive deafness syndrome; not specified; Corneal dystrophy; Congenital hereditary endothelial dystrophy of cornea,2
+rs1044396,20,61981134,A,A,G,hom_alt,,1,Conflicting_classifications_of_pathogenicity,not provided; Autosomal dominant nocturnal frontal lobe epilepsy,2
+rs2070426,21,47850484,C,G,G,het_alt,,1,Conflicting_classifications_of_pathogenicity,not provided,2
+rs483352911,22,19164633,A,A,C,hom_alt,,1,Pathogenic/Likely_pathogenic,D; L-2-hydroxyglutaric aciduria; 2-hydroxyglutaric aciduria; not provided,2
+rs864309499,22,41922323,T,T,C,hom_alt,,1,Conflicting_classifications_of_pathogenicity,not provided; Optic atrophy 9; Infantile cerebellar-retinal degeneration,2
+rs72558469,23,38271187,A,A,G,hom_alt,,1,Pathogenic,not provided,2
+rs606231196,23,48760070,G,G,C,hom_alt,,1,Likely_pathogenic,not provided,2
+rs9697983,23,120183030,G,G,T,hom_alt,,1,Conflicting_classifications_of_pathogenicity,Parkinson disease;  late-onset; See cases; GLUD2-related disorder,2
+rs267606893,26,12706,C,C,T,hom_alt,,1,Likely_pathogenic,Leber optic atrophy; Leigh syndrome; Leigh syndrome due to mitochondrial complex I deficiency; Mitochondrial disease,2
+rs13078881,3,15686693,C,G,G,het_alt,,1,Conflicting_classifications_of_pathogenicity,BTD-related disorder; Inborn genetic diseases; not provided; Biotinidase deficiency,2
+rs6122,3,93646095,A,A,G,hom_alt,,1,Conflicting_classifications_of_pathogenicity,Thrombophilia due to protein S deficiency;  autosomal recessive; Thrombophilia due to protein S deficiency;  autosomal dominant; not provided; Protein S deficiency disease; PROS1-related disorder; Deep venous thrombosis,2
+rs376003468,3,128200692,A,A,G,hom_alt,,1,Pathogenic/Likely_pathogenic,Monocytopenia with susceptibility to infections; Deafness-lymphedema-leukemia syndrome; not provided; GATA2 deficiency with susceptibility to MDS/AML,2
+rs1680778,3,128614185,A,C,A,het_alt,,1,Likely_pathogenic,Acyl-CoA dehydrogenase 9 deficiency,2
+rs199476393,3,169482741,C,C,G,hom_alt,,1,Pathogenic,Dyskeratosis congenita;  autosomal dominant 1,2
+rs1801206,4,6302707,T,C,C,het_alt,,1,Conflicting_classifications_of_pathogenicity,WFS1-Related Spectrum Disorders; Wolfram syndrome 1; Autosomal dominant nonsyndromic hearing loss 6; not provided; not specified,2
+rs1801214,4,6303022,T,C,C,het_alt,,1,Conflicting_classifications_of_pathogenicity,WFS1-Related Spectrum Disorders; not specified; not provided; Type 2 diabetes mellitus; Autosomal dominant nonsyndromic hearing loss 6,2
+rs6535454,4,84191031,A,G,A,het_alt,,1,Conflicting_classifications_of_pathogenicity,Coenzyme Q10 deficiency;  primary;  1; not provided,2
+rs121912706,4,114294462,T,C,C,het_alt,,1,Conflicting_classifications_of_pathogenicity,Cardiovascular phenotype; Cardiac arrhythmia; ANK2-related disorder; not specified; Long QT syndrome; not provided; Cardiomyopathy; Long QT syndrome 4; Cardiac arrhythmia;  ankyrin-B-related; Death in infancy,2
+rs139854607,5,68715712,A,G,A,het_alt,,1,Conflicting_classifications_of_pathogenicity,MARVELD2-related disorder; not specified; not provided; Autosomal recessive nonsyndromic hearing loss 49,2
+rs375380414,5,112175715,T,T,C,hom_alt,,1,Conflicting_classifications_of_pathogenicity,Colorectal cancer;  susceptibility to; Hereditary cancer-predisposing syndrome; not specified; Familial adenomatous polyposis 1; Classic or attenuated familial adenomatous polyposis; not provided,2
+rs459552,5,112176756,A,A,T,hom_alt,,1,Conflicting_classifications_of_pathogenicity,not specified; Hereditary cancer-predisposing syndrome; Familial adenomatous polyposis 1; not provided,2
+rs17876032,5,176830627,A,A,G,hom_alt,,1,Conflicting_classifications_of_pathogenicity,Hereditary angioedema type 3; Factor XII deficiency disease; F12-related disorder,2
+rs5982,6,6174866,A,G,G,het_alt,,1,Conflicting_classifications_of_pathogenicity,not specified; Hereditary factor XIII deficiency disease; Factor XIII;  A subunit;  deficiency of; not provided,2
+rs36044314,6,129571272,A,G,G,het_alt,,1,Pathogenic,LAMA2-related muscular dystrophy,2
+rs1044498,6,132172368,A,C,A,het_alt,,1,Conflicting_classifications_of_pathogenicity,Type 2 diabetes mellitus; Hypopigmentation-punctate palmoplantar keratoderma syndrome; Hypophosphatemic rickets;  autosomal recessive;  2; Inherited obesity; Arterial calcification;  generalized;  of infancy;  1; ENPP1-related disorder; Hypophosphatemic rickets; not provided; not specified; Diabetes mellitus type 2;  susceptibility to; Obesity; Insulin resistance;  susceptibility to,2
+rs4880,6,160113872,A,G,A,het_alt,,1,Conflicting_classifications_of_pathogenicity|risk_factor,SOD2 POLYMORPHISM; Microvascular complications of diabetes;  susceptibility to;  6,2
+rs10274334,7,47925331,C,G,C,het_alt,,1,Conflicting_classifications_of_pathogenicity,not provided,2
+rs56342240,7,103234828,C,G,G,het_alt,,1,Conflicting_classifications_of_pathogenicity,Norman-Roberts syndrome; Familial temporal lobe epilepsy 7; not specified; not provided,2
+rs587777123,7,121755194,G,G,T,hom_alt,,1,Pathogenic,Hyperlysinemia,2
+rs712701,7,127251188,T,G,T,het_alt,,1,Conflicting_classifications_of_pathogenicity,not provided; not specified; Maturity onset diabetes mellitus in young; Type 2 diabetes mellitus,2
+rs121913357,7,140481403,T,T,C,hom_alt,,1,Pathogenic/Likely_pathogenic,Non-small cell lung carcinoma; Noonan syndrome and Noonan-related syndrome,2
+rs78223661,7,146805228,G,G,T,hom_alt,,1,Conflicting_classifications_of_pathogenicity,not provided; Cortical dysplasia-focal epilepsy syndrome; not specified,2
+rs77025884,7,148106477,G,C,C,het_alt,,1,Conflicting_classifications_of_pathogenicity,Cortical dysplasia-focal epilepsy syndrome; not provided; Autism;  susceptibility to;  15; not specified,2
+rs1137617,7,150648198,A,G,A,het_alt,,1,Pathogenic,Long QT syndrome; not provided,2
+rs140806590,7,156521410,T,C,C,het_alt,,1,Conflicting_classifications_of_pathogenicity,Polydactyly of a triphalangeal thumb; not provided,2
+rs6471482,8,87679303,C,C,A,hom_alt,,1,Pathogenic,Achromatopsia 3,2
+rs61752937,9,12694274,A,G,G,het_alt,,1,Conflicting_classifications_of_pathogenicity,not specified; not provided; Oculocutaneous albinism type 3,2
+rs1063192,9,22003367,A,G,G,het_alt,,1,Likely_pathogenic|protective,Malignant tumor of breast; Three Vessel Coronary Disease,2
+rs357564,9,98209594,A,G,G,het_alt,,1,Conflicting_classifications_of_pathogenicity,Gorlin syndrome; not provided; Hereditary cancer-predisposing syndrome,2
+rs786204537,9,133370313,T,T,C,hom_alt,,1,Pathogenic,Citrullinemia; Citrullinemia type I,2
+rs2057094,1,17405949,T,C,C,het_alt,,1,association,Rheumatoid arthritis; Abnormal pulmonary interstitial morphology,3
+rs1005753,1,17444769,T,T,G,hom_alt,,1,association,Rheumatoid arthritis; Abnormal pulmonary interstitial morphology,3
+rs11203366,1,17657534,A,G,G,het_alt,,1,Benign|association,PADI4-related disorder; Rheumatoid arthritis; Abnormal pulmonary interstitial morphology,3
+rs11203367,1,17657616,T,C,T,het_alt,,1,Benign|association,PADI4-related disorder; Rheumatoid arthritis; Abnormal pulmonary interstitial morphology,3
+rs2240340,1,17662639,T,C,T,het_alt,,1,association,Rheumatoid arthritis,3
+rs1748033,1,17662662,T,C,T,het_alt,,1,Benign|association,PADI4-related disorder; Rheumatoid arthritis; Abnormal pulmonary interstitial morphology,3
+rs5174,1,53712727,T,T,C,hom_alt,,1,risk_factor,Myocardial infarction;  susceptibility to;  1,3
+rs12740374,1,109817590,T,G,G,het_alt,,1,association,LOW DENSITY LIPOPROTEIN CHOLESTEROL LEVEL QUANTITATIVE TRAIT LOCUS 6,3
+rs759330,1,156213257,A,G,G,het_alt,,1,association,Nephrolithiasis;  calcium oxalate,3
+rs3766379,1,160807715,C,C,T,hom_alt,,1,risk_factor,Rheumatoid arthritis,3
+rs2274700,1,196682947,A,G,G,het_alt,,1,risk_factor,Age related macular degeneration 4,3
+rs1410996,1,196696933,A,G,G,het_alt,,1,risk_factor,Age related macular degeneration 4,3
+rs4950928,1,203155882,C,C,G,hom_alt,,1,risk_factor,Asthma-related traits;  susceptibility to;  7,3
+rs5744168,1,223285200,A,G,G,het_alt,,1,protective|risk_factor,Systemic lupus erythematosus;  resistance to;  1; Legionnaire disease;  susceptibility to; Melioidosis;  resistance to,3
+rs4748011,10,12941157,T,C,T,het_alt,,1,association_not_found,Lip and oral cavity carcinoma,3
+rs2435357,10,43582056,C,C,T,hom_alt,,1,Benign|risk_factor,not provided; not specified; Aganglionic megacolon; Hirschsprung disease;  susceptibility to;  1; Multiple endocrine neoplasia;  type 2,3
+rs10993994,10,51549496,C,C,T,hom_alt,,1,risk_factor,Prostate cancer;  hereditary;  13,3
+rs1341667,10,70641860,C,C,T,hom_alt,,1,risk_factor,Preeclampsia/eclampsia 4,3
+rs10887800,10,90075843,G,G,A,hom_alt,,1,association,Family history,3
+rs1934953,10,96797470,T,C,C,het_alt,,1,association,Pulmonary disease;  chronic obstructive;  susceptibility to,3
+rs1801253,10,115805056,G,C,G,het_alt,,1,Benign|association,ADRB1-related disorder; not provided; Pulmonary disease;  chronic obstructive;  susceptibility to,3
+rs3741240,11,62186542,A,G,G,het_alt,,1,association,Chronic obstructive pulmonary disease,3
+rs35264875,11,68846399,T,A,A,het_alt,,1,association,SKIN/HAIR/EYE PIGMENTATION;  VARIATION IN;  10,3
+rs3829241,11,68855363,A,G,G,het_alt,,1,association,SKIN/HAIR/EYE PIGMENTATION;  VARIATION IN;  10,3
+rs497116,11,104763117,A,A,G,hom_alt,,1,risk_factor,Sepsis;  susceptibility to,3
+rs1913263,12,16505296,A,A,G,hom_alt,,1,association,Pulmonary disease;  chronic obstructive;  susceptibility to,3
+rs642742,12,89299746,T,C,C,het_alt,,1,Affects,SKIN/HAIR/EYE PIGMENTATION 7;  DARK/LIGHT SKIN,3
+rs12821256,12,89328335,T,C,T,het_alt,,1,Affects,SKIN/HAIR/EYE PIGMENTATION 7;  DARK/LIGHT SKIN,3
+rs155370,12,130077096,T,C,T,het_alt,,1,association,Vascular endothelial growth factor (VEGF) inhibitor response,3
+rs1407995,13,95096013,C,C,T,hom_alt,,1,association,Age related macular degeneration 7,3
+rs12896399,14,92773663,T,T,G,hom_alt,,1,association,SKIN/HAIR/EYE PIGMENTATION 6;  BLOND/BROWN HAIR,3
+rs12913832,15,28365618,A,G,A,het_alt,,1,association,SKIN/HAIR/EYE PIGMENTATION 1;  BLUE/NONBLUE EYES,3
+rs916977,15,28513364,C,C,T,hom_alt,,1,Affects,SKIN/HAIR/EYE PIGMENTATION 1;  BLUE/NONBLUE EYES,3
+rs1667394,15,28530182,T,T,C,hom_alt,,1,association,SKIN/HAIR/EYE PIGMENTATION 1;  BLUE/NONBLUE EYES,3
+rs2073711,15,65494212,A,G,A,het_alt,,1,Benign|risk_factor,CILP-related disorder; Lumbar disc disease;  susceptibility to,3
+rs2165241,15,74222202,C,C,T,hom_alt,,1,risk_factor,Exfoliation syndrome;  susceptibility to,3
+rs8041826,15,80702986,A,G,A,het_alt,,1,association,Pulmonary disease;  chronic obstructive;  susceptibility to,3
+rs3901896,15,80734097,T,C,C,het_alt,,1,association,Pulmonary disease;  chronic obstructive;  susceptibility to,3
+rs4148353,16,16171148,T,G,G,het_alt,,1,association,Familial cancer of breast,3
+rs4795895,17,32611446,G,G,A,hom_alt,,1,protective,Susceptibility to HIV infection,3
+rs4939827,18,46453463,T,C,T,het_alt,,1,risk_factor,Colorectal cancer;  susceptibility to;  3,3
+rs1551570,19,10218030,T,T,C,hom_alt,,1,association,Cataplexy and narcolepsy,3
+rs12460842,19,10222195,G,G,A,hom_alt,,1,association,Cataplexy and narcolepsy,3
+rs2305795,19,10226052,A,A,G,hom_alt,,1,association,Cataplexy and narcolepsy,3
+rs6548238,2,634905,C,C,T,hom_alt,,1,risk_factor,Obesity,3
+rs11692304,2,103095404,A,A,G,hom_alt,,1,association,Ascending aortic dissection,3
+rs1143634,2,113590390,A,A,G,hom_alt,,1,Benign|Affects|association|other,Cholangiocarcinoma; Endometriosis; IL1B-related disorder; Antisynthetase syndrome,3
+rs1143627,2,113594387,A,A,G,hom_alt,,1,risk_factor,Gastric cancer susceptibility after h. pylori infection,3
+rs16944,2,113594867,G,G,A,hom_alt,,1,association,Antisynthetase syndrome,3
+rs4988235,2,136608646,A,G,G,het_alt,,1,association,LACTASE PERSISTENCE,3
+rs182549,2,136616754,T,C,C,het_alt,,1,association,LACTASE PERSISTENCE,3
+rs7574865,2,191964633,G,G,T,hom_alt,,1,risk_factor,Systemic lupus erythematosus;  susceptibility to;  11,3
+rs2276631,2,219249013,T,T,C,hom_alt,,1,risk_factor,Mycobacterium tuberculosis;  susceptibility to infection by,3
+rs1884302,20,7106289,T,C,T,het_alt,,1,risk_factor,Craniosynostosis 7,3
+rs7291467,22,37972628,A,A,G,hom_alt,,1,risk_factor,Myocardial infarction;  susceptibility to,3
+rs414171,3,50649499,A,T,A,het_alt,,1,risk_factor,Bacteremia;  susceptibility to;  2; Malaria;  susceptibility to; Tuberculosis;  susceptibility to,3
+rs4402960,3,185511687,T,T,G,hom_alt,,1,risk_factor,Diabetes mellitus type 2;  susceptibility to,3
+rs1670533,4,1078187,A,G,G,het_alt,,1,association,RECOMBINATION RATE QUANTITATIVE TRAIT LOCUS 1,3
+rs3796619,4,1095281,A,G,A,het_alt,,1,association,RECOMBINATION RATE QUANTITATIVE TRAIT LOCUS 1,3
+rs6449213,4,9994215,T,T,C,hom_alt,,1,association,Uric acid concentration;  serum;  quantitative trait locus 2,3
+rs5743810,4,38830350,G,G,A,hom_alt,,1,protective,Leprosy;  susceptibility to;  1,3
+rs279871,4,46305733,C,C,T,hom_alt,,1,risk_factor,Alcoholism;  susceptibility to,3
+rs279845,4,46329723,A,A,T,hom_alt,,1,risk_factor,Alcoholism;  susceptibility to,3
+rs279836,4,46339070,A,A,T,hom_alt,,1,risk_factor,Alcoholism;  susceptibility to,3
+rs2609255,4,89811195,T,T,G,hom_alt,,1,Uncertain_significance|association,Interstitial lung disease 2; Chronic obstructive pulmonary disease; Combined pulmonary fibrosis-emphysema syndrome; Susceptibility to severe coronavirus disease (COVID-19),3
+rs1903003,4,89886297,T,T,C,hom_alt,,1,association,Chronic obstructive pulmonary disease,3
+rs1229984,4,100239319,C,C,T,hom_alt,,1,protective,Alcohol dependence; Aerodigestive tract cancer;  squamous cell;  alcohol-related;  protection against,3
+rs283413,4,100268190,C,C,A,hom_alt,,1,risk_factor,Parkinson disease;  mitochondrial,3
+rs13147758,4,145460230,A,G,A,het_alt,,1,association,Chronic obstructive pulmonary disease;  biomass related; Chronic obstructive pulmonary disease,3
+rs1828591,4,145480780,A,G,A,het_alt,,1,association,Chronic obstructive pulmonary disease;  biomass related; Chronic obstructive pulmonary disease,3
+rs20541,5,131995964,A,G,A,het_alt,,1,Benign|risk_factor,Allergic rhinitis;  susceptibility to; IL13-related disorder; Inherited susceptibility to asthma,3
+rs12203592,6,396321,T,C,C,het_alt,,1,Affects,Skin/hair/eye pigmentation;  variation in;  8,3
+rs9264942,6,31274380,T,C,T,het_alt,,1,risk_factor,HIV-1 VIREMIA;  SUSCEPTIBILITY TO,3
+rs2071592,6,31515340,A,T,T,het_alt,,1,risk_factor,Rheumatoid arthritis,3
+rs909253,6,31540313,A,G,A,het_alt,,1,risk_factor,Psoriatic arthritis;  susceptibility to; Myocardial infarction;  susceptibility to,3
+rs1041981,6,31540784,A,C,C,het_alt,,1,Benign|risk_factor,LTA-related disorder; Myocardial infarction;  susceptibility to,3
+rs2227956,6,31778272,A,G,G,het_alt,,1,association,Chronic obstructive pulmonary disease,3
+rs3127334,6,166574246,A,A,G,hom_alt,,1,risk_factor,Neural tube defects;  susceptibility to,3
+rs1800795,7,22766645,G,G,C,hom_alt,,1,other|risk_factor,Cholangiocarcinoma; Crohn disease-associated growth failure;  susceptibility to; .; .; Diabetes mellitus type 2;  susceptibility to; Diabetes mellitus;  type 1;  susceptibility to; Kaposi sarcoma,3
+rs12700428,7,23436427,A,A,G,hom_alt,,1,association,Vascular endothelial growth factor (VEGF) inhibitor response,3
+rs2282983,7,92279363,T,C,T,het_alt,,1,association,Behcet disease,3
+rs4646450,7,99266318,A,G,G,het_alt,,1,association,appendicular lean mass relative to body height,3
+rs1617640,7,100317298,A,A,C,hom_alt,,1,risk_factor,Microvascular complications of diabetes;  susceptibility to;  2,3
+rs2070197,7,128589000,T,C,T,het_alt,,1,risk_factor,SYSTEMIC LUPUS ERYTHEMATOSUS;  ASSOCIATION WITH SUSCEPTIBILITY TO;  10,3
+rs10954213,7,128589427,A,G,G,het_alt,,1,risk_factor,Systemic lupus erythematosus;  susceptibility to;  10,3
+rs2070744,7,150690079,T,C,C,het_alt,,1,protective,Metabolic syndrome;  susceptibility to,3
+rs2272620,8,61452046,A,G,A,het_alt,,1,association,Vascular endothelial growth factor (VEGF) inhibitor response,3
+rs4512367,8,68927592,T,C,C,het_alt,,1,association,Lip and oral cavity carcinoma,3
+rs2919408,8,73739252,A,G,G,het_alt,,1,risk_factor,Colorectal cancer,3
+rs13266634,8,118184783,T,C,C,het_alt,,1,Benign|risk_factor,Diabetes mellitus type 2;  susceptibility to; SLC30A8-related disorder,3
+rs10090787,8,121810549,T,C,C,het_alt,,1,association,Lip and oral cavity carcinoma,3
+rs180195,8,133877623,A,G,A,het_alt,,1,risk_factor,Autoimmune thyroid disease;  susceptibility to;  3,3
+rs10757274,9,22096055,A,G,A,het_alt,,1,risk_factor,Three Vessel Coronary Disease,3
+rs4977574,9,22098574,A,G,A,het_alt,,1,risk_factor,Three Vessel Coronary Disease,3
+rs1333042,9,22103813,A,G,A,het_alt,,1,protective,Three Vessel Coronary Disease,3
+rs1333049,9,22125503,G,C,G,het_alt,,1,risk_factor,Three Vessel Coronary Disease,3
+rs144245019,1,986732,A,G,G,het_alt,,1,Uncertain_significance,Congenital myasthenic syndrome 8,8
+rs1061622,1,12252955,T,G,T,het_alt,,1,Uncertain_significance,Susceptibility to severe coronavirus disease (COVID-19) due to high plasma levels of TNF;  TNFR;  and/or TNFR2; Susceptibility to severe coronavirus disease (COVID-19); Associated with severe COVID-19 disease,8
+rs650616,1,20978058,A,A,G,hom_alt,,1,Uncertain_risk_allele,Leprosy;  susceptibility to;  1,8
+rs10794501,1,27699449,A,T,A,het_alt,,1,Uncertain_significance,Rheumatic heart disease,8
+rs10888382,1,150531008,C,C,T,hom_alt,,1,Uncertain_significance,Ectopia lentis et pupillae; Ectopia lentis 2;  isolated;  autosomal recessive; not provided,8
+rs1205,1,159682233,T,C,C,het_alt,,1,Uncertain_significance,Inflammation,8
+rs5082,1,161193683,A,A,G,hom_alt,,1,Uncertain_significance,Apolipoprotein A-II amyloidosis; Hypercholesterolemia;  familial;  1,8
+rs10127939,1,161518333,A,T,A,het_alt,,1,Uncertain_significance,not specified; not provided; Autosomal recessive primary immunodeficiency with defective spontaneous natural killer cell cytotoxicity,8
+rs8722,1,234744250,A,G,G,het_alt,,1,Uncertain_significance,not provided,8
+rs2229276,1,237054569,A,G,A,het_alt,,1,Uncertain_significance,Disorders of Intracellular Cobalamin Metabolism,8
+rs12139390,1,248059476,C,C,A,hom_alt,,1,Uncertain_significance,not provided,8
+rs782469310,10,48389641,C,C,G,hom_alt,,1,Uncertain_significance,Retinal dystrophy; not provided,8
+rs1049550,10,81926702,A,G,G,het_alt,,1,Uncertain_significance,Inborn genetic diseases,8

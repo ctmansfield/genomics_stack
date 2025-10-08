@@ -1,0 +1,50 @@
+Assuming unrestricted shared filesystem usage.
+None
+host: llm
+Building DAG of jobs...
+Using shell: /usr/bin/bash
+Provided cores: 1 (use --cores to define parallelism)
+Rules claiming more threads will be scaled down.
+Job stats:
+job               count
+--------------  -------
+all                   1
+hydrate_duckdb        1
+ingest                1
+total                 3
+
+Select jobs to execute...
+Execute 1 jobs...
+[Sun Sep  7 00:07:21 2025]
+localrule ingest:
+    output: /mnt/nas_storage/data/staging/20250907/staging_manifest.parquet
+    jobid: 2
+    reason: Missing output files: /mnt/nas_storage/data/staging/20250907/staging_manifest.parquet
+    resources: tmpdir=/mnt/nas_storage/llmin/tmp
+[Sun Sep  7 00:07:22 2025]
+Finished jobid: 2 (Rule: ingest)
+1 of 3 steps (33%) done
+Select jobs to execute...
+Execute 1 jobs...
+[Sun Sep  7 00:07:22 2025]
+localrule hydrate_duckdb:
+    input: /mnt/nas_storage/data/staging/20250907/staging_manifest.parquet
+    output: /mnt/nas_storage/duckdb/genomics.duckdb
+    jobid: 1
+    reason: Forced execution
+    resources: tmpdir=/mnt/nas_storage/llmin/tmp
+[Sun Sep  7 00:07:22 2025]
+Finished jobid: 1 (Rule: hydrate_duckdb)
+2 of 3 steps (67%) done
+Select jobs to execute...
+Execute 1 jobs...
+[Sun Sep  7 00:07:22 2025]
+localrule all:
+    input: /mnt/nas_storage/duckdb/genomics.duckdb
+    jobid: 0
+    reason: Input files updated by another job: /mnt/nas_storage/duckdb/genomics.duckdb
+    resources: tmpdir=/mnt/nas_storage/llmin/tmp
+[Sun Sep  7 00:07:22 2025]
+Finished jobid: 0 (Rule: all)
+3 of 3 steps (100%) done
+Complete log(s): /mnt/nas_storage/repos/genomics-stack/.snakemake/log/2025-09-07T000721.483990.snakemake.log

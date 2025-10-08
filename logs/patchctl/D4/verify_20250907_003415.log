@@ -1,0 +1,19 @@
++ [[ verify == \i\n\s\t\a\l\l ]]
++ patch_verify
++ echo '[D4] verify: dry-run + execute DAG'
+[D4] verify: dry-run + execute DAG
++ _snake -n
++ command -v python
++ python -m snakemake -s /mnt/nas_storage/repos/genomics-stack/components/orch/Snakefile -n
+host: llm
+Building DAG of jobs...
+Nothing to be done (all requested files are present and up to date).
++ _snake --rerun-triggers mtime -j1
++ command -v python
++ python -m snakemake -s /mnt/nas_storage/repos/genomics-stack/components/orch/Snakefile --rerun-triggers mtime -j1
+Assuming unrestricted shared filesystem usage.
+host: llm
+Building DAG of jobs...
+Nothing to be done (all requested files are present and up to date).
++ echo '[D4] verify_ok'
+[D4] verify_ok

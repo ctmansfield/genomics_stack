@@ -1,0 +1,8 @@
++ [[ verify == \i\n\s\t\a\l\l ]]
++ patch_verify
++ echo '[B7] verify: computing schema fingerprint'
+[B7] verify: computing schema fingerprint
++ python -
+schema_hash:7262b1e1
++ echo '[B7] verify_ok'
+[B7] verify_ok

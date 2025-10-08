@@ -1,0 +1,7 @@
++ [[ install == \i\n\s\t\a\l\l ]]
++ patch_install
++ echo '[B8] install: ensure data dirs (variants/annotations)'
+[B8] install: ensure data dirs (variants/annotations)
++ mkdir -p /mnt/nas_storage/data/variants /mnt/nas_storage/data/annotations
++ echo '[B8] install_ok'
+[B8] install_ok

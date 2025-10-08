@@ -1,0 +1,16 @@
++ [[ verify == \i\n\s\t\a\l\l ]]
++ patch_verify
++ echo '[B8] verify: bootstrap + hydrate + row counts'
+[B8] verify: bootstrap + hydrate + row counts
++ python3 /mnt/nas_storage/repos/genomics-stack/components/dbduck/duckdb_cli.py bootstrap
+bootstrap_ok
++ python3 /mnt/nas_storage/repos/genomics-stack/components/dbduck/duckdb_cli.py hydrate-from-parquet
+hydrate_stats: files=2 samples=1 variants=0 annotations=0
+hydrate_ok
++ python -
+rows(core.files):2
+rows(core.samples):1
+rows(core.variants):0
+rows(core.annotations):0
++ echo '[B8] verify_ok'
+[B8] verify_ok

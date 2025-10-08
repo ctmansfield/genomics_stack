@@ -1,0 +1,8 @@
++ [[ install == \i\n\s\t\a\l\l ]]
++ patch_install
++ echo '[B7] install: bootstrapping DuckDB schema'
+[B7] install: bootstrapping DuckDB schema
++ python3 /mnt/nas_storage/repos/genomics-stack/components/dbduck/duckdb_cli.py bootstrap
+bootstrap_ok
++ echo '[B7] install_ok'
+[B7] install_ok
