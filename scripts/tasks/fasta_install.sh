@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+set -Eeuo pipefail
 # shellcheck shell=bash
 task_fasta_install() {
   sudo mkdir -p "$CACHE_ROOT"

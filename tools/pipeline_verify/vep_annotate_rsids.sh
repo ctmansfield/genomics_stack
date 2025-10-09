@@ -17,7 +17,7 @@ if [[ -z "${PG_DSN:-}" && -f "$REPO_DIR/env.d/pg.env" ]]; then set -a; source "$
 # Defaults
 UPLOAD_ID=""
 ASSEMBLY="${ASSEMBLY:-GRCh38}"
-VEP_IMAGE="${VEP_IMAGE:-ensemblorg/ensembl-vep:release_111}"
+VEP_IMAGE="${VEP_IMAGE:-ensemblorg/ensembl-vep:release_114.2}"
 VEP_CACHE="${VEP_CACHE:-}"   # e.g. /mnt/nas_storage/vep_cache  or  $REPO_DIR/.vep_cache
 
 usage(){ echo "Usage: $0 --file-id ID [--assembly GRCh38|GRCh37] [--cache-dir /path/.vep] [--image repo/image:tag]"; }

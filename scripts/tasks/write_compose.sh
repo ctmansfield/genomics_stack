@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+set -Eeuo pipefail
 # shellcheck shell=bash
 source "$(dirname "$0")/../lib/overwrite.sh"
 task_write_compose() {

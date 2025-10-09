@@ -1,3 +1,6 @@
+#!/usr/bin/env bash
+VEP_FASTA="${VEP_FASTA:-/mnt/nas_storage/vep/reference/GRCh38.fa}"
+set -Eeuo pipefail
 # shellcheck shell=bash
 task_vep_selftest() {
   local out="$CACHE_ROOT/out"
@@ -7,10 +10,10 @@ task_vep_selftest() {
   docker run --rm -u 1000:1000 \
     -v "$CACHE_ROOT":/opt/vep/.vep:ro \
     -v "$out":/out \
-    ensemblorg/ensembl-vep:latest \
+    ensemblorg/ensembl-vep:release_114.2 \
     vep --offline --cache --assembly GRCh38 \
         --dir_cache /opt/vep/.vep \
-        --fasta /opt/vep/.vep/Homo_sapiens.GRCh38.dna.primary_assembly.fa \
+        --fasta "$VEP_FASTA" \
         -i /opt/vep/.vep/test.vcf -o /out/test_vep.vcf --vcf \
         --pick --symbol --af --max_af --everything \
         --stats_text --force_overwrite --fork 2

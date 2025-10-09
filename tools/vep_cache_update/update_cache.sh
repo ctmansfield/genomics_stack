@@ -5,8 +5,8 @@ CACHE_DIR="${CACHE_DIR:-/mnt/nas_storage/vep/cache}"
 REF_DIR="${REF_DIR:-/mnt/nas_storage/vep/reference}"
 ASSEMBLY="${ASSEMBLY:-GRCh38}"
 SPECIES="${SPECIES:-homo_sapiens}"
-VEP_IMAGE="${VEP_IMAGE:-ensemblorg/ensembl-vep:release_111.0}"
-CACHE_OPTS="${CACHE_OPTS:--a cf -s ${SPECIES} -y ${ASSEMBLY} --REFSEQ}"  # adjust as needed
+VEP_IMAGE="${VEP_IMAGE:-ensemblorg/ensembl-vep:release_114.2}"
+CACHE_OPTS="${CACHE_OPTS:--a cf -s ${SPECIES} -y ${ASSEMBLY}}"  # adjust as needed
 
 mkdir -p "$CACHE_DIR" "$REF_DIR"
 
@@ -29,6 +29,6 @@ echo "[update_cache] Running INSTALL.pl (this can take a while)"
   -v "$REF_DIR":"$REF_DIR" \
   -e "PERL5LIB=/opt/vep/.vep" \
   "$VEP_IMAGE" \
-  perl INSTALL.pl $CACHE_OPTS --CACHE_DIR "$CACHE_DIR" --FASTA "$REF_DIR/${ASSEMBLY}.fa"
+  perl /opt/vep/src/ensembl-vep/INSTALL.pl $CACHE_OPTS --CACHE_DIR "$CACHE_DIR" --FASTA "$REF_DIR/${ASSEMBLY}.fa"
 
 echo "[update_cache] Done."

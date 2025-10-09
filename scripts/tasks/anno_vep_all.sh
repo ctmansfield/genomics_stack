@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -Eeuo pipefail
 # shellcheck shell=bash
 
 # Call the already-registered task functions directly (we're sourced into the same shell)

@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -Eeuo pipefail
 # shellcheck shell=bash
 
 cmd_anno_vep_import(){

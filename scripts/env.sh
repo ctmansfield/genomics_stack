@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+set -Eeuo pipefail
 # shellcheck shell=bash
 # Global settings
 STACK_DIR=/root/genomics-stack

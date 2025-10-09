@@ -5,7 +5,7 @@ set -euo pipefail
 CACHE_DIR="${CACHE_DIR:-/mnt/nas_storage/vep/cache}"
 REF_DIR="${REF_DIR:-/mnt/nas_storage/vep/reference}"
 ASSEMBLY="${ASSEMBLY:-GRCh38}"
-VEP_IMAGE="${VEP_IMAGE:-ensemblorg/ensembl-vep:release_111.0}"
+VEP_IMAGE="${VEP_IMAGE:-ensemblorg/ensembl-vep:release_114.2}"
 
 mkdir -p "$CACHE_DIR" "$REF_DIR"
 

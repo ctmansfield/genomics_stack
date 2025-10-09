@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -Eeuo pipefail
 # shellcheck shell=bash
 
 # Print exact report paths for an upload_id (and sizes if present)

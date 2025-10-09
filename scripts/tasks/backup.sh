@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+set -Eeuo pipefail
 # shellcheck shell=bash
 task_backup() {
   require_cmd tar

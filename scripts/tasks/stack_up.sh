@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+set -Eeuo pipefail
 # shellcheck shell=bash
 task_stack_up() {
   say "Compose config check"; dc config >/dev/null && ok "OK"

@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+set -Eeuo pipefail
 # shellcheck shell=bash
 randhex() { openssl rand -hex 32; }
 task_write_env() {

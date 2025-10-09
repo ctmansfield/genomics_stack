@@ -1,0 +1,11 @@
+system_tag,rsid,gene_symbol,effect_kind,direction,genotype_class,zygosity_scaled_effect,cv_weight,gnomad_af_global,af_soft_weight,final_score_evidenceheavy,final_score_balanced,final_score_afheavy,n_evidence,example_citation_id,example_title,example_year,example_url,rnk
+Cardiovascular,rs4880,SOD2,protein_traffic,unknown,het_alt,0.15,0.3,0.46916401386260986,0.1,0.045,0.0045,0.015,0,12,SOD2 Val16Ala functional summary (placeholder),2002,https://pubmed.ncbi.nlm.nih.gov/1111/,1
+Cardiovascular,rs4880,SOD2,protein_traffic,unknown,het_alt,0.15,0.3,0.46916401386260986,0.1,0.045,0.0045,0.015,1,12,SOD2 Val16Ala functional summary (placeholder),2002,https://pubmed.ncbi.nlm.nih.gov/1111/,1
+Detox/Liver,rs4880,SOD2,protein_traffic,unknown,het_alt,0.15,0.3,0.46916401386260986,0.1,0.045,0.0045,0.015,1,12,SOD2 Val16Ala functional summary (placeholder),2002,https://pubmed.ncbi.nlm.nih.gov/1111/,1
+Detox/Liver,rs4880,SOD2,protein_traffic,unknown,het_alt,0.15,0.3,0.46916401386260986,0.1,0.045,0.0045,0.015,0,12,SOD2 Val16Ala functional summary (placeholder),2002,https://pubmed.ncbi.nlm.nih.gov/1111/,1
+Neuro,rs1801133,MTHFR,enzyme_activity,decrease,het_alt,0.3,0.3,0.25728100538253784,0.1,0.09,0.009,0.03,2,6,MTHFR C677T functional summary (placeholder),2010,https://pubmed.ncbi.nlm.nih.gov/00000000/,1
+Neuro,rs1801394,MTRR,enzyme_activity,decrease,hom_alt,0.3,0.3,0.4621959924697876,0.1,0.09,0.009,0.03,1,13,MTRR A66G functional summary (placeholder),2003,https://pubmed.ncbi.nlm.nih.gov/2222/,1
+Neuro,rs4880,SOD2,protein_traffic,unknown,het_alt,0.15,0.3,0.46916401386260986,0.1,0.045,0.0045,0.015,0,12,SOD2 Val16Ala functional summary (placeholder),2002,https://pubmed.ncbi.nlm.nih.gov/1111/,2
+Neuro,rs4880,SOD2,protein_traffic,unknown,het_alt,0.15,0.3,0.46916401386260986,0.1,0.045,0.0045,0.015,1,12,SOD2 Val16Ala functional summary (placeholder),2002,https://pubmed.ncbi.nlm.nih.gov/1111/,2
+Nutrient Metabolism,rs1801394,MTRR,enzyme_activity,decrease,hom_alt,0.3,0.3,0.4621959924697876,0.1,0.09,0.009,0.03,1,13,MTRR A66G functional summary (placeholder),2003,https://pubmed.ncbi.nlm.nih.gov/2222/,1
+Nutrient Metabolism,rs1801133,MTHFR,enzyme_activity,decrease,het_alt,0.3,0.3,0.25728100538253784,0.1,0.09,0.009,0.03,2,6,MTHFR C677T functional summary (placeholder),2010,https://pubmed.ncbi.nlm.nih.gov/00000000/,1

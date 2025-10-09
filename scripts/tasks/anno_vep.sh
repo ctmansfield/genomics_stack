@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -Eeuo pipefail
 # shellcheck shell=bash
 
 : "${VEP_IMAGE:=ensemblorg/ensembl-vep}"

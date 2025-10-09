@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+set -Eeuo pipefail
 # shellcheck shell=bash
 task_apply_db_guards() {
   say "applying DB guards (idempotent)"

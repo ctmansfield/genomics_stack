@@ -20,7 +20,7 @@ sed -i 's/ \+/\t/g' "$TMPDIR/canary.vcf"
 
 OUT="$TMPDIR/out.tsv"
 # Use the wrapper; pass explicit paths so VEP can find cache and FASTA in-container
-scripts/vep/vep_annotate.py \
+python scripts/vep/vep_annotate.py \
   --vcf "$TMPDIR/canary.vcf" \
   --out-tsv "$OUT" \
   --assembly "$ASSEMBLY" \

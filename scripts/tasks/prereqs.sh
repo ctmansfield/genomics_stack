@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+set -Eeuo pipefail
 # shellcheck shell=bash
 task_prereqs() {
   say "Installing prerequisites (curl jq aria2 rsync unzip p7zip-full ca-certificates vi)…"

@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+set -Eeuo pipefail
 # shellcheck shell=bash
 task_check_prev() {
   say "compose exists?"; [[ -f "$COMPOSE_FILE" ]] && ok "$COMPOSE_FILE present" || warn "missing compose.yml"

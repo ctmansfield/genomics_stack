@@ -7,7 +7,7 @@ CACHE_DIR="${CACHE_DIR:-$ROOT/vep/cache}"
 REF_DIR="${REF_DIR:-$ROOT/vep/reference}"
 
 # Default to known-good; can be overridden by env
-VEP_IMAGE="${VEP_IMAGE:-ensemblorg/ensembl-vep:release_111.0}"
+VEP_IMAGE="${VEP_IMAGE:-ensemblorg/ensembl-vep:release_114.2}"
 
 FORCE=0
 if [[ "${1:-}" == "--force" ]]; then FORCE=1; shift; fi

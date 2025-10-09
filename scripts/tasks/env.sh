@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -Eeuo pipefail
 . "$(dirname "${BASH_SOURCE[0]}")/../lib/common.sh"
 task_env_dump() {
   cat <<EOF

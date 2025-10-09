@@ -3,7 +3,7 @@ set -euo pipefail
 # Wrapper: try native 'vep' first; otherwise run Docker image with mounted cache/reference.
 CACHE_DIR="${CACHE_DIR:-/mnt/nas_storage/vep/cache}"
 REF_DIR="${REF_DIR:-/mnt/nas_storage/vep/reference}"
-VEP_IMAGE="${VEP_IMAGE:-ensemblorg/ensembl-vep:release_111.0}"
+VEP_IMAGE="${VEP_IMAGE:-ensemblorg/ensembl-vep:release_114.2}"
 
 if command -v vep >/dev/null 2>&1; then
   exec vep "$@"

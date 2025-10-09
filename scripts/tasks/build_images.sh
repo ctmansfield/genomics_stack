@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+set -Eeuo pipefail
 # shellcheck shell=bash
 task_build_images() {
   say "Building images (ingest, ingest_worker)"

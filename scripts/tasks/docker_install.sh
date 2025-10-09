@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+set -Eeuo pipefail
 # shellcheck shell=bash
 task_docker_install() {
   if command -v docker >/dev/null 2>&1; then ok "docker present"; else
