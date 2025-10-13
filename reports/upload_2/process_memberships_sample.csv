@@ -1,0 +1,7 @@
+process_key,label,gene_symbol,system_tag,weight
+272,272,EGFR,reactome,0.6
+272,272,GRB2,reactome,0.6
+272,272,SHC1,reactome,0.6
+273,273,KRAS,reactome,0.6
+273,273,RAF1,reactome,0.6
+273,273,MAPK1,reactome,0.6
