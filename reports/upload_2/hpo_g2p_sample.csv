@@ -1,0 +1,101 @@
+gene_symbol,hp_id,label,evidence
+NAT2,HP:0000007,Autosomal recessive inheritance,-
+NAT2,HP:0001939,Abnormality of metabolism/homeostasis,-
+AARS1,HP:0002460,Distal muscle weakness,15/15
+AARS1,HP:0002451,Limb dystonia,3/3
+AARS1,HP:0008619,Bilateral sensorineural hearing impairment,HP:0040283
+AARS1,HP:0001197,Abnormality of prenatal development or birth,HP:0040283
+AARS1,HP:0410219,Hypoplasia of mandible relative to maxilla,HP:0040283
+AARS1,HP:0007266,Cerebral dysmyelination,HP:0040283
+AARS1,HP:0007256,Abnormal pyramidal sign,HP:0040283
+AARS1,HP:0010871,Sensory ataxia,1/2
+AARS1,HP:0009886,Trichorrhexis nodosa,1/2
+AARS1,HP:0002421,Poor head control,HP:0040283
+AARS1,HP:0001298,Encephalopathy,HP:0040281
+AARS1,HP:0001290,Generalized hypotonia,HP:0040282
+AARS1,HP:0001290,Generalized hypotonia,HP:0040283
+AARS1,HP:0001276,Hypertonia,HP:0040283
+AARS1,HP:0001273,Abnormal corpus callosum morphology,HP:0040283
+AARS1,HP:0001268,Mental deterioration,HP:0040283
+AARS1,HP:0001268,Mental deterioration,2/2
+AARS1,HP:0002599,Head titubation,1/2
+AARS1,HP:0001288,Gait disturbance,HP:0040283
+AARS1,HP:0001288,Gait disturbance,2/2
+AARS1,HP:0001284,Areflexia,3/3
+AARS1,HP:0001284,Areflexia,1/2
+AARS1,HP:0001284,Areflexia,-
+AARS1,HP:0001250,Seizure,HP:0040282
+AARS1,HP:0001251,Ataxia,HP:0040283
+AARS1,HP:0001249,Intellectual disability,HP:0040282
+AARS1,HP:0001265,Hyporeflexia,HP:0040282
+AARS1,HP:0001265,Hyporeflexia,HP:0040283
+AARS1,HP:0001265,Hyporeflexia,3/7
+AARS1,HP:0001264,Spastic diplegia,1/2
+AARS1,HP:0001260,Dysarthria,HP:0040283
+AARS1,HP:0001263,Global developmental delay,2/2
+AARS1,HP:0001263,Global developmental delay,HP:0040282
+AARS1,HP:0001263,Global developmental delay,HP:0040283
+AARS1,HP:0001263,Global developmental delay,3/3
+AARS1,HP:0001257,Spasticity,3/3
+AARS1,HP:0001257,Spasticity,HP:0040283
+AARS1,HP:0001257,Spasticity,HP:0040283
+AARS1,HP:0001257,Spasticity,1/2
+AARS1,HP:0002562,Low-set nipples,HP:0040283
+AARS1,HP:0100876,Infra-orbital crease,1/2
+AARS1,HP:0007381,Congenital exfoliative erythroderma,HP:0040283
+AARS1,HP:0007340,Lower limb muscle weakness,4/7
+AARS1,HP:0001217,Clubbing,HP:0040283
+AARS1,HP:0002521,Hypsarrhythmia,HP:0040283
+AARS1,HP:0002509,Limb hypertonia,HP:0040284
+AARS1,HP:0001373,Joint dislocation,HP:0040283
+AARS1,HP:0001363,Craniosynostosis,HP:0040283
+AARS1,HP:0000028,Cryptorchidism,HP:0040283
+AARS1,HP:0007495,Prematurely aged appearance,HP:0040283
+AARS1,HP:0007485,Absence of subcutaneous fat,HP:0040283
+AARS1,HP:0001332,Dystonia,1/2
+AARS1,HP:0001338,Partial agenesis of the corpus callosum,HP:0040283
+AARS1,HP:0000007,Autosomal recessive inheritance,-
+AARS1,HP:0000007,Autosomal recessive inheritance,-
+AARS1,HP:0001337,Tremor,HP:0040283
+AARS1,HP:0000006,Autosomal dominant inheritance,-
+AARS1,HP:0000006,Autosomal dominant inheritance,-
+AARS1,HP:0001336,Myoclonus,HP:0040283
+AARS1,HP:0001315,Reduced tendon reflexes,HP:0040283
+AARS1,HP:0012196,Cheyne-Stokes respiration,1/2
+AARS1,HP:0012179,Craniofacial dystonia,1/2
+AARS1,HP:0007633,Bilateral microphthalmos,HP:0040283
+AARS1,HP:0008936,Axial hypotonia,2/3
+AARS1,HP:0008944,Distal lower limb amyotrophy,4/7
+AARS1,HP:0002705,"High, narrow palate",HP:0040283
+AARS1,HP:0006297,Enamel hypoplasia,HP:0040283
+AARS1,HP:0007587,Numerous pigmented freckles,HP:0040283
+AARS1,HP:0000133,Gonadal dysgenesis,HP:0040283
+AARS1,HP:0002750,Delayed skeletal maturation,HP:0040283
+AARS1,HP:0002719,Recurrent infections,HP:0040283
+AARS1,HP:0002020,Gastroesophageal reflux,HP:0040283
+AARS1,HP:0030903,Grasp reflex,1/2
+AARS1,HP:0002080,Intention tremor,HP:0040283
+AARS1,HP:0002066,Gait ataxia,HP:0040283
+AARS1,HP:0002063,Rigidity,HP:0040283
+AARS1,HP:0002063,Rigidity,2/2
+AARS1,HP:0002072,Chorea,3/3
+AARS1,HP:0002059,Cerebral atrophy,3/3
+AARS1,HP:0002059,Cerebral atrophy,HP:0040283
+AARS1,HP:0003477,Peripheral axonal neuropathy,-
+AARS1,HP:0003487,Babinski sign,1/2
+AARS1,HP:0002120,Cerebral cortical atrophy,HP:0040283
+AARS1,HP:0002119,Ventriculomegaly,HP:0040283
+AARS1,HP:0002133,Status epilepticus,HP:0040284
+AARS1,HP:0003431,Decreased motor nerve conduction velocity,-
+AARS1,HP:0003429,CNS hypomyelination,2/3
+AARS1,HP:0003438,Absent Achilles reflex,4/7
+AARS1,HP:0002188,Delayed CNS myelination,1/2
+AARS1,HP:0002197,Generalized-onset seizure,HP:0040283
+AARS1,HP:0010551,Paraplegia/paraparesis,HP:0040283
+AARS1,HP:0003596,Middle age onset,2/17
+AARS1,HP:0003593,Infantile onset,2/3
+AARS1,HP:0003593,Infantile onset,2/2
+AARS1,HP:0003577,Congenital onset,11/13
+AARS1,HP:0003581,Adult onset,2/2
+AARS1,HP:0100710,Impulsivity,HP:0040283
+AARS1,HP:0002224,Woolly hair,2/2

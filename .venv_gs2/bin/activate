@@ -68,3 +68,5 @@ fi
 # Call hash to forget past commands. Without forgetting
 # past commands the $PATH changes we made may not be respected
 hash -r 2> /dev/null
+## genomics-stack PG env
+[ -f /repos/genomics-stack/tools/db/pgenv.sh ] && . /repos/genomics-stack/tools/db/pgenv.sh || true

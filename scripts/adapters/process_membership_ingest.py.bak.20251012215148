@@ -1,0 +1,174 @@
+#!/usr/bin/env python3
+"""
+Reactome GMT → gene_to_process edges
+
+- Upserts processes (process_id/slug derived from label)
+- Inserts gene→process edges (role=member, sign=+1, weight=arg)
+- Canonicalizes symbols via public.canonical_gene_symbol(sym) when available
+- Best-effort DDL: attempts to create tables/indexes, but continues if lacking ownership
+- Connects via PGURL if set, else uses PG* envs / ~/.pgpass
+
+CLI:
+  python3 scripts/adapters/process_membership_ingest.py \
+    --upload-id 2 \
+    --reactome /mnt/nas_storage/ref/processes/reactome/reactome.gmt \
+    --version "Reactome 2025-09 (GMT export)" \
+    --weight 0.6 --system-tag reactome
+"""
+import os, re, csv, argparse, itertools
+from typing import Optional, List, Tuple
+import psycopg
+
+DDL = """
+CREATE TABLE IF NOT EXISTS public.bio_processes(
+  process_id text PRIMARY KEY,
+  slug       text UNIQUE,
+  label      text
+);
+CREATE TABLE IF NOT EXISTS public.gene_to_process(
+  id          bigserial PRIMARY KEY,
+  gene_symbol text NOT NULL,
+  process_id  text NOT NULL REFERENCES public.bio_processes(process_id) ON DELETE CASCADE,
+  role        text DEFAULT 'member',
+  sign        integer DEFAULT 1,
+  weight      double precision DEFAULT 0.6
+);
+CREATE UNIQUE INDEX IF NOT EXISTS ix_gene_to_process_unique ON public.gene_to_process (gene_symbol, process_id);
+CREATE TABLE IF NOT EXISTS public.process_to_system(
+  process_id  text NOT NULL REFERENCES public.bio_processes(process_id) ON DELETE CASCADE,
+  system_tag  text NOT NULL,
+  weight      double precision DEFAULT 1.0,
+  PRIMARY KEY (process_id, system_tag)
+);
+CREATE INDEX IF NOT EXISTS ix_bio_processes_slug        ON public.bio_processes(slug);
+CREATE INDEX IF NOT EXISTS ix_gene_to_process_process   ON public.gene_to_process(process_id);
+CREATE INDEX IF NOT EXISTS ix_gene_to_process_gene      ON public.gene_to_process(gene_symbol);
+"""
+
+def slugify(label: str) -> str:
+    s = re.sub(r'[^A-Za-z0-9]+','-',label.strip()).strip('-').lower()
+    return re.sub(r'-{2,}','-',s)[:200]
+
+def canonicalize(cur, sym: str) -> str:
+    try:
+        cur.execute("SELECT public.canonical_gene_symbol(%s)", (sym,))
+        r = cur.fetchone()
+        if r and r[0]:
+            return r[0]
+    except Exception:
+        pass
+    return sym
+
+def parse_gmt(path: str) -> List[Tuple[str, Optional[str], List[str]]]:
+    out = []
+    with open(path, 'r') as f:
+        for line in f:
+            if not line.strip() or line.startswith('#'):
+                continue
+            parts = line.rstrip('\n').split('\t')
+            if len(parts) < 3:
+                continue
+            name, desc, *genes = parts
+            label = name.replace('REACTOME_','').replace('_',' ').title()
+            url = desc if desc.startswith('http') else None
+            genes = [g.strip() for g in genes if g.strip()]
+            out.append((label, url, genes))
+    return out
+
+def chunked(it, n):
+    it = iter(it)
+    while True:
+        chunk = list(itertools.islice(it, n))
+        if not chunk:
+            break
+        yield chunk
+
+def upsert_processes(cur, processes, system_tag: Optional[str]):
+    cur.executemany(
+        "INSERT INTO public.bio_processes (process_id, slug, label) VALUES (%s,%s,%s) "
+        "ON CONFLICT (process_id) DO UPDATE SET slug=EXCLUDED.slug, label=EXCLUDED.label",
+        processes
+    )
+    if system_tag:
+        cur.executemany(
+            "INSERT INTO public.process_to_system (process_id, system_tag, weight) VALUES (%s,%s,%s) "
+            "ON CONFLICT (process_id, system_tag) DO NOTHING",
+            [(pid, system_tag, 1.0) for (pid, _, _) in processes]
+        )
+
+def insert_edges(cur, edges, weight: float, chunk_size: int):
+    for ch in chunked(edges, chunk_size):
+        cur.executemany(
+            "INSERT INTO public.gene_to_process (gene_symbol, process_id, role, sign, weight) "
+            "VALUES (%s,%s,'member',1,%s) "
+            "ON CONFLICT (gene_symbol, process_id) DO NOTHING",
+            [(g, p, weight) for (g, p) in ch]
+        )
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--upload-id", required=True, type=int)
+    ap.add_argument("--reactome", required=True)
+    ap.add_argument("--version", required=True)
+    ap.add_argument("--system-tag", default="reactome")
+    ap.add_argument("--weight", type=float, default=0.6)
+    ap.add_argument("--chunk", type=int, default=5000)
+    args = ap.parse_args()
+
+    if not os.path.exists(args.reactome):
+        raise FileNotFoundError(args.reactome)
+
+    sets = parse_gmt(args.reactome)
+    print(f"[process] parsed {len(sets)} gene sets", flush=True)
+
+    pgurl = os.environ.get("PGURL")
+    conn = psycopg.connect(pgurl) if pgurl else psycopg.connect("")
+
+    processes = []
+    edges = []
+
+    with conn:
+        # Best-effort DDL
+        try:
+            with conn.cursor() as cur:
+                cur.execute(DDL)
+        except Exception as e:
+            print(f"[process] DDL skipped ({e.__class__.__name__}: {e})", flush=True)
+
+        # Upsert processes
+        with conn.cursor() as cur:
+            for (label, url, genes) in sets:
+                pid = slugify(label)
+                processes.append((pid, pid, label))
+            if processes:
+                upsert_processes(cur, processes, args.system_tag)
+
+        # Build edges (canonicalized)
+        with conn.cursor() as cur:
+            added = 0
+            for (label, url, genes) in sets:
+                pid = slugify(label)
+                for g in genes:
+                    edges.append((canonicalize(cur, g), pid))
+                    added += 1
+                    if added % 100000 == 0:
+                        print(f"[process] queued {added} edges…", flush=True)
+
+        # Insert edges
+        with conn.cursor() as cur:
+            if edges:
+                insert_edges(cur, edges, args.weight, args.chunk)
+
+    os.makedirs(f"reports/upload_{args.upload_id}", exist_ok=True)
+    sample = f"reports/upload_{args.upload_id}/process_memberships_sample.csv"
+    with open(sample, "w", newline="") as f:
+        w = csv.writer(f)
+        w.writerow(["process_id","label","gene_symbol","system_tag","weight"])
+        label_by_pid = {pid: lbl for (pid, _, lbl) in processes}
+        for (g, pid) in edges[:200]:
+            w.writerow([pid, label_by_pid.get(pid, pid), g, args.system_tag, args.weight])
+    print(f"[process] wrote sample: {sample}", flush=True)
+    print(f"[process] DONE: processes={len(processes)}, edges={len(edges)}", flush=True)
+
+if __name__ == "__main__":
+    main()
