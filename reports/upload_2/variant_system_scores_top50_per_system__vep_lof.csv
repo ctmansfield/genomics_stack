@@ -1,0 +1,8 @@
+system_tag,rsid,gene_symbol,effect_kind,direction,genotype_class,zygosity_scaled_effect,clnsig_raw,review_stars,cv_weight,gnomad_af_global,vep_impact,vep_consequence,vep_transcript,sift_pred,polyphen_pred,vep_weight,lof_flag,consequence_class,final_score_vep_lof,rnk
+Cardiovascular,rs4880,SOD2,protein_traffic,unknown,het_alt,0.15,"conflicting_classifications_of_pathogenicity, risk_factor",0,0.3,0.46916401386260986,MODERATE,missense_variant,ENST00000538183,tolerated,benign,0.7,f,Missense,0.0315,1
+Detox/Liver,rs4880,SOD2,protein_traffic,unknown,het_alt,0.15,"conflicting_classifications_of_pathogenicity, risk_factor",0,0.3,0.46916401386260986,MODERATE,missense_variant,ENST00000538183,tolerated,benign,0.7,f,Missense,0.0315,1
+Neuro,rs1801394,MTRR,enzyme_activity,decrease,hom_alt,0.3,benign/likely_benign,0,0.3,0.4621959924697876,MODERATE,missense_variant,ENST00000264668,deleterious,probably_damaging,0.9,f,Missense,0.081,1
+Neuro,rs1801133,MTHFR,enzyme_activity,decrease,het_alt,0.3,drug_response,0,0.3,0.25728100538253784,MODERATE,missense_variant,ENST00000376592,deleterious,probably_damaging,0.9,f,Missense,0.081,1
+Neuro,rs4880,SOD2,protein_traffic,unknown,het_alt,0.15,"conflicting_classifications_of_pathogenicity, risk_factor",0,0.3,0.46916401386260986,MODERATE,missense_variant,ENST00000538183,tolerated,benign,0.7,f,Missense,0.0315,2
+Nutrient Metabolism,rs1801133,MTHFR,enzyme_activity,decrease,het_alt,0.3,drug_response,0,0.3,0.25728100538253784,MODERATE,missense_variant,ENST00000376592,deleterious,probably_damaging,0.9,f,Missense,0.081,1
+Nutrient Metabolism,rs1801394,MTRR,enzyme_activity,decrease,hom_alt,0.3,benign/likely_benign,0,0.3,0.4621959924697876,MODERATE,missense_variant,ENST00000264668,deleterious,probably_damaging,0.9,f,Missense,0.081,1

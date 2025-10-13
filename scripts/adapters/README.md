@@ -68,3 +68,10 @@ SELECT impact, COUNT(*) FROM public.vep_by_rsid GROUP BY 1 ORDER BY 2 DESC;
 ## Notes
 - For ClinVar VCF, use a stable symlink such as `/mnt/nas_storage/data/clinvar/GRCh38/current/clinvar.vcf.gz` (see tools/clinvar_sync.sh).
 - Ensure `.tbi` indices are present next to `.vcf.gz` files.
+
+
+2025-10-10 — Gene symbol canonicalization
+- Built alias map (many-to-many), added unambiguous alias view.
+- Added override table with safety guard (override must exist in gene_identifiers).
+- canonical_gene_symbol() now: exact → valid override → unambiguous alias → fallback.
+- Coverage vs ClinVar: 5,368 total, 5,358 direct, 8 alias-only, 1 unresolved (LOC126860278).

@@ -286,3 +286,45 @@ Acceptance Verification (observed)
 - v_evidence_counts shows ≥1 evidence row attached to at least one known variant_effect (column name n_evidence in this schema).
 - No schema migration errors; reruns are idempotent (ON CONFLICT prevents duplicates).
 
+2025-10-10: dbSNP adapter
+- Ingested dbSNP b151 (GRCh37p13) for upload 2 rsIDs using bcftools query (ID filter).
+- Created public.dbsnp_by_rsid (677,406 rows); added (chromosome,position) index; ANALYZE.
+- Sample CSV at reports/upload_2/dbsnp_sample.csv.
+- ~30 rsIDs not present in b151 GRCh37; tracked via EXCEPT query above.
+## 2025-10-10
+
+### Added — dbSNP adapter
+- Script: `scripts/adapters/dbsnp_ingest_refs.py`
+- Purpose: Populate `public.dbsnp_by_rsid` (GRCh37) with `chromosome, position, ref, alts, build`.
+- Input: dbSNP b151 (GRCh37p13) `All_20180423.vcf.gz` (+ `.tbi`).
+- Scope: rsIDs present in current upload (`staging_array_calls`).
+- Method: `bcftools query -i 'ID=@ids.txt' -f '%CHROM\t%POS\t%ID\t%REF\t%ALT\n'`.
+- Rows ingested (upload 2): **677,406**.
+- Sample export: `reports/upload_2/dbsnp_sample.csv`.
+- Indices: `ix_dbsnp_by_rsid_chr_pos (chromosome, position)`.
+
+### Added — Gene identifiers adapter (HGNC / Ensembl / UniProt)
+- Script: `scripts/adapters/gene_identifiers_ingest.py`
+- Target: `public.gene_identifiers(gene_symbol PK, hgnc_id, ensembl_gene_id, uniprot_id, aliases[])`
+- Input: **HGNC complete set** (2025-10-06, CC0). Optional Ensembl GRCh37 Biomart + UniProt reviewed map.
+- Rows ingested: **44,537**.
+- Sample export: `reports/upload_2/gene_identifiers_sample.csv`.
+- Indices: `ensembl_gene_id`, `uniprot_id`, `aliases (GIN)`.
+
+### Added — Canonical gene symbol resolution
+- Tables/Views:
+  - `gene_identifier_aliases(alias, canonical)` (many-to-many; composite PK)
+  - `v_gene_alias_unambiguous` (aliases with a single canonical)
+  - `v_gene_alias_ambiguous` (aliases with >1 canonical)
+  - `v_clinvar_gene_symbols_resolved` (raw → resolved symbol + method)
+  - `gene_identifier_overrides(alias PK, canonical)` (manual, guarded)
+- Function:
+  - `canonical_gene_symbol(sym)` — exact → valid override → unambiguous alias → fallback to input.
+- Coverage vs ClinVar genes:
+  - Total symbols: **5,368**; Direct hits: **5,358**; Alias-only: **8**; Unresolved: **1** (`LOC126860278`).
+- Notes: Overrides are only honored if the canonical target exists in `gene_identifiers`.
+
+### Ops notes
+- DB creds from `.env` (PGPASSWORD set) — no changes.
+- Preferred env var: `PGURL="postgresql://$PGUSER:$PGPASSWORD@$PGHOST:$PGPORT/$PGDATABASE"`.
+- Verify SQL and small CSVs emitted to `reports/upload_2/`.
