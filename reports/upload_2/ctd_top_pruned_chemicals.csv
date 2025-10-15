@@ -1,0 +1,201 @@
+chem_id,chem_name,n_pruned
+MESH:C005445,triphenyl phosphate,7409
+MESH:D014635,Valproic Acid,6718
+MESH:C065087,di-n-butylphosphoric acid,5761
+MESH:D008070,Lipopolysaccharides,2531
+MESH:D014028,Tobacco Smoke Pollution,2327
+MESH:C006780,bisphenol A,2298
+MESH:D000393,Air Pollutants,2131
+MESH:D010126,Ozone,2067
+MESH:C039961,"S-(1,2-dichlorovinyl)cysteine",1999
+MESH:D006861,Hydrogen Peroxide,1995
+MESH:D002220,Carbamazepine,1984
+MESH:C044887,beta-methylcholine,1699
+MESH:D007854,Lead,1614
+MESH:D016604,Aflatoxin B1,1609
+MESH:C012589,trichostatin A,1334
+MESH:D002945,Cisplatin,1319
+MESH:D000077209,Decitabine,1135
+MESH:D013749,Tetrachlorodibenzodioxin,1119
+MESH:D004317,Doxorubicin,1074
+MESH:D010634,Phenobarbital,1045
+MESH:D024483,Vitamin K 3,1032
+MESH:D004958,Estradiol,966
+MESH:C017947,sodium arsenite,913
+MESH:C013320,tris(2-butoxyethyl) phosphate,862
+MESH:D005472,Fluorouracil,671
+MESH:D052638,Particulate Matter,642
+MESH:D001151,Arsenic,597
+MESH:C004648,testosterone enanthate,507
+MESH:C585473,"theaflavin-3,3'-digallate",464
+MESH:D001335,Vehicle Emissions,409
+MESH:D017638,"Asbestos, Crocidolite",402
+MESH:D004008,Diclofenac,381
+MESH:C100187,chloropicrin,380
+MESH:D001564,Benzo(a)pyrene,355
+MESH:D011078,Polychlorinated Biphenyls,344
+MESH:D000082,Acetaminophen,303
+MESH:D009267,Naled,303
+MESH:C472349,oxidized-L-alpha-1-palmitoyl-2-arachidonoyl-sn-glycero-3-phosphorylcholine,288
+MESH:D000395,"Air Pollutants, Occupational",286
+MESH:D013629,Tamoxifen,272
+MESH:D016572,Cyclosporine,267
+MESH:D015123,"7,8-Dihydro-7,8-dihydroxybenzo(a)pyrene 9,10-oxide",257
+MESH:D014212,Tretinoin,256
+MESH:D009532,Nickel,248
+MESH:C533410,eprenetapopt,241
+MESH:D008727,Methotrexate,237
+MESH:D019772,Topotecan,234
+MESH:C005460,uranyl acetate,230
+MESH:D014501,Uranium,229
+MESH:C027579,periodate-oxidized adenosine,221
+MESH:D017239,Paclitaxel,200
+MESH:D005047,Etoposide,197
+MESH:D014747,Vinblastine,193
+MESH:C543008,bisphenol S,190
+MESH:D005492,Folic Acid,189
+MESH:D020849,Raloxifene Hydrochloride,186
+MESH:D004997,Ethinyl Estradiol,185
+MESH:D008942,Mitoxantrone,185
+MESH:D000077204,Temozolomide,180
+MESH:C061133,tamibarotene,178
+MESH:D002330,Carmustine,173
+MESH:D016685,Mitomycin,167
+MESH:D015655,1-Methyl-4-phenylpyridinium,166
+MESH:C008437,"2,2'-methylenebis(4-methyl-6-tert-butylphenol)",160
+MESH:D000077237,Arsenic Trioxide,156
+MESH:D015032,Zinc,153
+MESH:C015001,arsenite,146
+MESH:D004121,Dimethyl Sulfoxide,145
+MESH:D013755,Tetradecanoylphorbol Acetate,140
+MESH:C074702,chromium hexavalent ion,138
+MESH:D000077767,Panobinostat,137
+MESH:D011794,Quercetin,135
+MESH:D004785,Environmental Pollutants,134
+MESH:D000171,Acrolein,133
+MESH:C045037,testosterone-3-carboxymethyloxime-bovine serum albumin conjugate,132
+MESH:C033674,benazol P,130
+MESH:D002793,Cholic Acids,130
+MESH:D019308,Palmitic Acid,127
+MESH:D019344,Lactic Acid,125
+MESH:D020122,tert-Butylhydroperoxide,125
+MESH:D019327,Copper Sulfate,124
+MESH:C039175,methacrylaldehyde,123
+MESH:C005451,alpha-pinene,122
+MESH:D009822,"Oils, Volatile",121
+MESH:C000713927,ginger extract,118
+MESH:D019833,Genistein,118
+MESH:C561695,(+)-JQ1 compound,115
+MESH:C060540,polyhexamethyleneguanidine,112
+MESH:D000077484,Vemurafenib,107
+MESH:C009618,"O,O-diethyl O-3,5,6-trichloro-2-pyridyl phosphate",106
+MESH:D015058,1-Naphthylisothiocyanate,103
+MESH:D003520,Cyclophosphamide,100
+MESH:D000077185,Resveratrol,97
+MESH:D010100,Oxygen,96
+MESH:D012822,Silicon Dioxide,96
+MESH:C010902,decabromobiphenyl ether,94
+MESH:D019256,Cadmium Chloride,94
+MESH:C008493,methylselenic acid,85
+MESH:D010936,Plant Extracts,83
+MESH:D001194,Asbestos,80
+MESH:D055549,Volatile Organic Compounds,79
+MESH:C004656,chloroacetaldehyde,78
+MESH:C119536,nickel acetate,77
+MESH:D002104,Cadmium,77
+MESH:D001554,Benzene,74
+MESH:D003907,Dexamethasone,73
+MESH:C492448,ICG 001,72
+MESH:D000077154,Rosiglitazone,72
+MESH:D001241,Aspirin,72
+MESH:D019301,Oleic Acid,70
+MESH:C540278,enzalutamide,69
+MESH:D003300,Copper,69
+MESH:D011084,Polycyclic Aromatic Hydrocarbons,68
+MESH:D037742,"Nanotubes, Carbon",68
+MESH:D000077337,Vorinostat,67
+MESH:C113580,U 0126,66
+MESH:D012645,Selenomethionine,66
+MESH:C014175,"pyrazolo(3,4-d)pyrimidine",64
+MESH:C031927,hydroquinone,63
+MESH:C014024,"2,4,5,2',4',5'-hexachlorobiphenyl",60
+MESH:D014580,Ursodeoxycholic Acid,59
+MESH:D011374,Progesterone,58
+MESH:C511295,"2,2',4,4'-tetrabromodiphenyl ether",57
+MESH:D000093542,Gemcitabine,57
+MESH:C482492,"3,4,5,4'-tetramethoxystilbene",56
+MESH:C028473,N-acetyl-4-benzoquinoneimine,55
+MESH:C410733,scriptaid,55
+MESH:D010269,Paraquat,55
+MESH:D012402,Rotenone,55
+MESH:C012526,quercitrin,54
+MESH:D000077146,Irinotecan,54
+MESH:D003630,Daunorubicin,54
+MESH:D019319,Okadaic Acid,54
+MESH:D008694,Methamphetamine,53
+MESH:D007052,Ibuprofen,52
+MESH:D008628,Mercury,52
+MESH:C016599,mono-(2-ethylhexyl)phthalate,51
+MESH:D014859,Warfarin,51
+MESH:D019821,Simvastatin,51
+MESH:C076994,perfluorooctane sulfonic acid,50
+MESH:D002101,Cacodylic Acid,50
+MESH:D000431,Ethanol,49
+MESH:D007529,Isoflavones,49
+MESH:C016805,"tris(1,3-dichloro-2-propyl)phosphate",48
+MESH:D002614,Chelating Agents,46
+MESH:D003042,Cocaine,46
+MESH:C058120,cordycepin,45
+MESH:C028451,"3,4,3',4'-tetrachlorobiphenyl",44
+MESH:D000077150,Oxaliplatin,44
+MESH:D014520,Urethane,44
+MESH:C006703,benzo(b)fluoranthene,43
+MESH:D000077404,Cidofovir,43
+MESH:D002794,Choline,43
+MESH:D000077156,Gefitinib,42
+MESH:D009151,Mustard Gas,42
+MESH:D017382,Reactive Oxygen Species,42
+MESH:D017632,"Asbestos, Serpentine",42
+MESH:C023035,"3,4,5,3',4'-pentachlorobiphenyl",41
+MESH:D004051,Diethylhexyl Phthalate,41
+MESH:D012906,Smoke,41
+MESH:C000708871,pradimicin-IRD,40
+MESH:D002185,Cannabidiol,40
+MESH:D002746,Chlorpromazine,40
+MESH:D005576,Colforsin,39
+MESH:D014260,Triclosan,39
+MESH:D015570,Josamycin,39
+MESH:C406082,monomethylarsonous acid,38
+MESH:D018501,Antirheumatic Agents,38
+MESH:D000077288,Troglitazone,37
+MESH:D000111,Acetylcysteine,37
+MESH:D005230,"Fatty Acids, Nonesterified",37
+MESH:D013792,Thalidomide,37
+MESH:D003024,Clozapine,36
+MESH:D005947,Glucose,36
+MESH:D008777,Methyltestosterone,36
+MESH:D013759,Dronabinol,36
+MESH:D015056,1-Methyl-3-isobutylxanthine,36
+MESH:C026486,"1,2,5,6-dibenzanthracene",35
+MESH:C007262,deoxynivalenol,34
+MESH:C009495,titanium dioxide,34
+MESH:C018021,cobaltous chloride,34
+MESH:D004390,Chlorpyrifos,34
+MESH:D015215,Zidovudine,34
+MESH:C023036,perfluorooctanoic acid,33
+MESH:C085911,2-(4-morpholinyl)-8-phenyl-4H-1-benzopyran-4-one,33
+MESH:C410127,PCB 180,33
+MESH:D010042,Ouabain,32
+MESH:D020123,Sirolimus,32
+MESH:C020300,monomethylarsonic acid,31
+MESH:D001374,Azacitidine,31
+MESH:D003513,Cycloheximide,31
+MESH:D017313,Fenretinide,31
+MESH:C116926,rofecoxib,30
+MESH:D014807,Vitamin D,30
+MESH:C003898,2-anisidine,29
+MESH:D000077267,Fulvestrant,29
+MESH:D002117,Calcitriol,29
+MESH:C005266,quinomethionate,28
+MESH:C007738,fluoranthene,28
+MESH:C029892,cupric chloride,28

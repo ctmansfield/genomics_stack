@@ -1,0 +1,110 @@
+increase expression	activates
+increase activity	activates
+activate	activates
+upregulate	activates
+enhance	activates
+agonist	activates
+positive regulation	activates
+
+decrease expression	inhibits
+decrease activity	inhibits
+inhibit	inhibits
+downregulate	inhibits
+antagonist	inhibits
+block	inhibits
+negative regulation	inhibits
+suppress	inhibits
+
+binding	binds
+bind	binds
+association	binds
+interact	binds
+sequester	binds
+complex formation	binds
+occupancy	binds
+
+phosphorylation	modifies
+dephosphorylation	modifies
+acetylation	modifies
+deacetylation	modifies
+ubiquitination	modifies
+methylation	modifies
+demethylation	modifies
+glycosylation	modifies
+sumoylation	modifies
+palmitoylation	modifies
+oxidation	modifies
+reduction	modifies
+cleavage	modifies
+proteolysis	modifies
+stabilization	modifies
+destabilization	modifies
+aggregation	modifies
+translocation	modifies
+localization	modifies
+processing	modifies
+modification	modifies
+affects^binding	binds
+affects^phosphorylation	modifies
+affects^expression	other
+affects^splicing	modifies
+affects^transport	modifies
+affects^secretion	modifies
+affects^uptake	modifies
+affects^export	modifies
+affects^oxidation	modifies
+affects^glucuronidation	modifies
+affects^chemical synthesis	modifies
+affects^abundance	modifies
+affects^binding	binds
+affects^phosphorylation	modifies
+affects^splicing	modifies
+affects^transport	modifies
+affects^secretion	modifies
+affects^uptake	modifies
+affects^export	modifies
+affects^import	modifies
+affects^oxidation	modifies
+affects^hydrolysis	modifies
+affects^hydroxylation	modifies
+affects^sulfation	modifies
+affects^glucuronidation	modifies
+affects^chemical synthesis	modifies
+affects^abundance	modifies
+affects^degradation	modifies
+affects^stability	modifies
+affects^farnesylation	modifies
+affects^alkylation	modifies
+affects^glutathionylation	modifies
+affects^expression|increases^abundance	activates
+affects^response to substance|increases^expression	activates
+affects^expression|increases^reaction	activates
+affects^expression|decreases^reaction	inhibits
+affects^response to substance|decreases^expression	inhibits
+affects^cotreatment|affects^expression	other
+affects^expression|affects^reaction	other
+affects^expression|affects^response to substance	other
+affects^expression|increases^abundance	activates
+affects^expression|increases^reaction	activates
+affects^response to substance|increases^expression	activates
+
+affects^expression|decreases^reaction	inhibits
+affects^response to substance|decreases^expression	inhibits
+
+affects^expression|affects^reaction	other
+affects^expression|affects^response to substance	other
+affects^cotreatment|affects^expression	other
+affects^cotreatment|affects^response to substance	other
+affects^cotreatment|affects^expression|affects^reaction	other
+affects^activity	modifies
+affects^activity|affects^cotreatment	modifies
+affects^activity|affects^reaction	modifies
+affects^activity|affects^expression	modifies
+affects^activity|affects^response to substance	modifies
+affects^activity|affects^cotreatment|affects^expression	modifies
+affects^activity|affects^cotreatment|affects^reaction	modifies
+affects^activity|affects^expression|affects^reaction	modifies
+affects^activity|affects^expression|affects^response to substance	modifies
+affects^activity|affects^cotreatment|affects^expression|affects^reaction	modifies
+
+affects^reaction	modifies

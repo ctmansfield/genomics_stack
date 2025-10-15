@@ -1,0 +1,4 @@
+gene_symbol,inc,dec,total_expr,inc_frac,dec_frac,balance_flag
+TP53,1380,382,1762,0.783,0.217,balanced
+APOE,65,61,126,0.516,0.484,balanced
+PCSK9,33,62,95,0.347,0.653,balanced

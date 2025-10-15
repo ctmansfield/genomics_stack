@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+set -Eeuo pipefail
+trap 'echo [error] $0 failed at line $LINENO; exit 1' ERR
+set -euo pipefail
+OUTDIR="reports/upload_2"
+HTML="$OUTDIR/ctd_report_v2.html"
+BODY="$OUTDIR/ctd_expr_balance_body.html"
+
+[[ -f "$HTML" ]] || { echo "[error] missing $HTML"; exit 1; }
+[[ -f "$BODY" ]] || { echo "[warn] no $BODY to inject; skipping"; exit 0; }
+
+# Prefer inserting after the Family distribution H2 if present; otherwise before </body>
+tmp="${HTML}.tmp"
+awk -v body="$(sed -e 's/[&]/\\&/g' -e 's/\\/\\\\/g' "$BODY")" '
+  BEGIN{done=0}
+  /<h2>Family distribution \(STRICT only\)<\/h2>/ && !done {
+    print; print "<!-- BEGIN: Expression Balance embed -->"; print body; print "<!-- END: Expression Balance embed -->"; done=1; next
+  }
+  { print }
+  END{
+    if(!done){
+      print "<!-- BEGIN: Expression Balance embed -->"
+      print body
+      print "<!-- END: Expression Balance embed -->"
+    }
+  }
+' "$HTML" > "$tmp" && mv "$tmp" "$HTML"
+
+echo "[ok] injected Expression Balance into $HTML"

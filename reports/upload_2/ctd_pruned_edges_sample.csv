@@ -1,0 +1,1001 @@
+gene_symbol,chem_id,chem_name,action_norm,action_family
+A1BG,MESH:C033674,benazol P,affects^expression,other
+A1BG,MESH:D008628,Mercury,affects^expression,other
+A1BG,MESH:D013749,Tetrachlorodibenzodioxin,affects^expression,other
+A1BG,MESH:D014635,Valproic Acid,affects^expression,other
+A1CF,MESH:C027579,periodate-oxidized adenosine,affects^expression,other
+A1CF,MESH:D006861,Hydrogen Peroxide,affects^expression,other
+A1CF,MESH:D014635,Valproic Acid,affects^expression,other
+A1CF,MESH:D016604,Aflatoxin B1,affects^expression,other
+A2M,MESH:C005445,triphenyl phosphate,affects^expression,other
+A2M,MESH:C006780,bisphenol A,affects^expression,other
+A2M,MESH:C007738,fluoranthene,affects^cotreatment|affects^expression,other
+A2M,MESH:C013320,tris(2-butoxyethyl) phosphate,affects^expression,other
+A2M,MESH:C026486,"1,2,5,6-dibenzanthracene",affects^cotreatment|affects^expression,other
+A2M,MESH:C041507,1-methylphenanthrene,affects^cotreatment|affects^expression,other
+A2M,MESH:C041517,"dibenzo(a,l)pyrene",affects^cotreatment|affects^expression,other
+A2M,MESH:D001564,Benzo(a)pyrene,affects^cotreatment|affects^expression,other
+A2M,MESH:D010042,Ouabain,affects^expression,other
+A2M,MESH:D010634,Phenobarbital,affects^expression,other
+A2M,MESH:D014028,Tobacco Smoke Pollution,affects^expression,other
+A2M,MESH:D014635,Valproic Acid,affects^expression,other
+A2M,MESH:D024483,Vitamin K 3,affects^expression,other
+A2M-AS1,MESH:D014635,Valproic Acid,affects^expression,other
+A2ML1,MESH:D014028,Tobacco Smoke Pollution,affects^expression,other
+A3GALT2,MESH:D000393,Air Pollutants,affects^expression|increases^abundance,activates
+A3GALT2,MESH:D010126,Ozone,affects^expression|increases^abundance,activates
+A4GALT,MESH:C039961,"S-(1,2-dichlorovinyl)cysteine",affects^response to substance|increases^expression,activates
+A4GALT,MESH:D000077209,Decitabine,affects^expression,other
+A4GALT,MESH:D002235,Carbofuran,affects^response to substance,other
+A4GALT,MESH:D002945,Cisplatin,affects^expression,other
+A4GALT,MESH:D008070,Lipopolysaccharides,affects^response to substance|increases^expression,activates
+A4GALT,MESH:D014028,Tobacco Smoke Pollution,affects^expression,other
+AAAS,MESH:D010269,Paraquat,affects^response to substance,other
+AACS,MESH:C483161,beta-hydroxy simvastatin acid,affects^expression,other
+AACS,MESH:D002220,Carbamazepine,affects^expression,other
+AACS,MESH:D014635,Valproic Acid,affects^expression,other
+AACSP1,MESH:D014635,Valproic Acid,affects^expression,other
+AADAC,MESH:C033674,benazol P,affects^expression,other
+AADACP1,MESH:D014028,Tobacco Smoke Pollution,affects^expression,other
+AADAT,MESH:C005460,uranyl acetate,affects^expression,other
+AADAT,MESH:D014501,Uranium,affects^expression,other
+AADAT,MESH:D014635,Valproic Acid,affects^expression,other
+AAGAB,MESH:C065087,di-n-butylphosphoric acid,affects^expression,other
+AAGAB,MESH:D007854,Lead,affects^expression,other
+AAGAB,MESH:D008070,Lipopolysaccharides,affects^expression|affects^response to substance,other
+AAGAB,MESH:D014635,Valproic Acid,affects^expression,other
+AAK1,MESH:C005445,triphenyl phosphate,affects^expression,other
+AAK1,MESH:C006780,bisphenol A,affects^expression,other
+AAK1,MESH:D002220,Carbamazepine,affects^expression,other
+AAK1,MESH:D014635,Valproic Acid,affects^expression,other
+AAMDC,MESH:C005445,triphenyl phosphate,affects^expression,other
+AAMDC,MESH:C006780,bisphenol A,affects^expression,other
+AAMDC,MESH:C065087,di-n-butylphosphoric acid,affects^expression,other
+AAMDC,MESH:D004317,Doxorubicin,affects^response to substance,other
+AAMDC,MESH:D014635,Valproic Acid,affects^expression,other
+AAMP,MESH:C005445,triphenyl phosphate,affects^expression,other
+AAMP,MESH:C065087,di-n-butylphosphoric acid,affects^expression,other
+AAMP,MESH:D000393,Air Pollutants,affects^expression|increases^abundance,activates
+AAMP,MESH:D010126,Ozone,affects^expression|increases^abundance,activates
+AANAT,MESH:C005460,uranyl acetate,affects^expression,other
+AANAT,MESH:D014501,Uranium,affects^expression,other
+AAR2,MESH:C065087,di-n-butylphosphoric acid,affects^expression,other
+AARS1,MESH:C005445,triphenyl phosphate,affects^expression,other
+AARS1,MESH:C006780,bisphenol A,affects^expression,other
+AARS1,MESH:C065087,di-n-butylphosphoric acid,affects^expression,other
+AARS1,MESH:D000077209,Decitabine,affects^expression,other
+AARS1,MESH:D002220,Carbamazepine,affects^expression,other
+AARS1,MESH:D002945,Cisplatin,affects^expression,other
+AARS1,MESH:D008070,Lipopolysaccharides,affects^expression|affects^response to substance,other
+AARS1,MESH:D010634,Phenobarbital,affects^expression,other
+AARS1,MESH:D014635,Valproic Acid,affects^expression,other
+AARS2,MESH:C005445,triphenyl phosphate,affects^expression,other
+AARS2,MESH:C065087,di-n-butylphosphoric acid,affects^expression,other
+AARS2,MESH:D014635,Valproic Acid,affects^expression,other
+AASDH,MESH:C005445,triphenyl phosphate,affects^expression,other
+AASDH,MESH:C005451,alpha-pinene,affects^cotreatment|affects^expression|increases^abundance,activates
+AASDH,MESH:C005451,alpha-pinene,affects^cotreatment|affects^expression,other
+AASDH,MESH:C039175,methacrylaldehyde,affects^cotreatment|affects^expression|increases^abundance,activates
+AASDH,MESH:C039175,methacrylaldehyde,affects^cotreatment|affects^expression,other
+AASDH,MESH:D000171,Acrolein,affects^cotreatment|affects^expression|increases^abundance,activates
+AASDH,MESH:D000171,Acrolein,affects^cotreatment|affects^expression,other
+AASDH,MESH:D000393,Air Pollutants,affects^expression|increases^abundance,activates
+AASDH,MESH:D000393,Air Pollutants,affects^cotreatment|affects^expression|increases^abundance,activates
+AASDH,MESH:D010126,Ozone,affects^cotreatment|affects^expression,other
+AASDH,MESH:D010126,Ozone,affects^expression|increases^abundance,activates
+AASDH,MESH:D010126,Ozone,affects^cotreatment|affects^expression|increases^abundance,activates
+AASDH,MESH:D055549,Volatile Organic Compounds,affects^cotreatment|affects^expression,other
+AASDHPPT,MESH:C005445,triphenyl phosphate,affects^expression,other
+AASDHPPT,MESH:C005460,uranyl acetate,affects^expression,other
+AASDHPPT,MESH:C044887,beta-methylcholine,affects^expression,other
+AASDHPPT,MESH:C065087,di-n-butylphosphoric acid,affects^expression,other
+AASDHPPT,MESH:D000395,"Air Pollutants, Occupational",affects^expression,other
+AASDHPPT,MESH:D014028,Tobacco Smoke Pollution,affects^expression,other
+AASDHPPT,MESH:D014501,Uranium,affects^expression,other
+AASS,MESH:C005445,triphenyl phosphate,affects^expression,other
+AASS,MESH:D006861,Hydrogen Peroxide,affects^expression,other
+AASS,MESH:D014635,Valproic Acid,affects^expression,other
+AATBC,MESH:C039961,"S-(1,2-dichlorovinyl)cysteine",affects^response to substance|increases^expression,activates
+AATBC,MESH:D008070,Lipopolysaccharides,affects^response to substance|increases^expression,activates
+AATF,MESH:C005445,triphenyl phosphate,affects^expression,other
+AATF,MESH:C006780,bisphenol A,affects^expression,other
+AATF,MESH:D000393,Air Pollutants,affects^expression|increases^abundance,activates
+AATF,MESH:D010126,Ozone,affects^expression|increases^abundance,activates
+AATK,MESH:C005445,triphenyl phosphate,affects^expression,other
+AATK,MESH:C016805,"tris(1,3-dichloro-2-propyl)phosphate",affects^expression,other
+AATK,MESH:C039961,"S-(1,2-dichlorovinyl)cysteine",affects^response to substance|increases^expression,activates
+AATK,MESH:C065087,di-n-butylphosphoric acid,affects^expression,other
+AATK,MESH:D000393,Air Pollutants,affects^expression|increases^abundance,activates
+AATK,MESH:D008070,Lipopolysaccharides,affects^response to substance|increases^expression,activates
+AATK,MESH:D010126,Ozone,affects^expression|increases^abundance,activates
+AATK,MESH:D014028,Tobacco Smoke Pollution,affects^expression,other
+ABAT,MESH:C006780,bisphenol A,affects^expression,other
+ABAT,MESH:C033674,benazol P,affects^expression,other
+ABAT,MESH:D000393,Air Pollutants,affects^expression|increases^abundance,activates
+ABAT,MESH:D001335,Vehicle Emissions,affects^expression|increases^abundance,activates
+ABAT,MESH:D004317,Doxorubicin,affects^expression,other
+ABAT,MESH:D004958,Estradiol,affects^expression,other
+ABAT,MESH:D004997,Ethinyl Estradiol,affects^expression,other
+ABAT,MESH:D016604,Aflatoxin B1,affects^expression,other
+ABAT,MESH:D052638,Particulate Matter,affects^expression|increases^abundance,activates
+ABCA1,MESH:C005445,triphenyl phosphate,affects^expression,other
+ABCA1,MESH:C023035,"3,4,5,3',4'-pentachlorobiphenyl",affects^expression,other
+ABCA1,MESH:C039961,"S-(1,2-dichlorovinyl)cysteine",affects^response to substance|increases^expression,activates
+ABCA1,MESH:C060540,polyhexamethyleneguanidine,affects^expression,other
+ABCA1,MESH:C065087,di-n-butylphosphoric acid,affects^expression,other
+ABCA1,MESH:D000077154,Rosiglitazone,affects^response to substance,other
+ABCA1,MESH:D000077205,Pioglitazone,affects^expression,other
+ABCA1,MESH:D000077340,Fluvastatin,affects^cotreatment|affects^response to substance,other
+ABCA1,MESH:D001151,Arsenic,affects^response to substance,other
+ABCA1,MESH:D002220,Carbamazepine,affects^expression,other
+ABCA1,MESH:D002994,Clofibrate,affects^expression,other
+ABCA1,MESH:D008070,Lipopolysaccharides,affects^response to substance|increases^expression,activates
+ABCA1,MESH:D008628,Mercury,affects^expression,other
+ABCA1,MESH:D008767,Methylmercury Compounds,affects^expression,other
+ABCA1,MESH:D008942,Mitoxantrone,affects^response to substance,other
+ABCA1,MESH:D010100,Oxygen,affects^expression|affects^reaction,other
+ABCA1,MESH:D010100,Oxygen,affects^expression,other
+ABCA1,MESH:D014635,Valproic Acid,affects^expression,other
+ABCA1,MESH:D016604,Aflatoxin B1,affects^expression,other
+ABCA1,MESH:D019301,Oleic Acid,affects^cotreatment|affects^expression,other
+ABCA1,MESH:D019308,Palmitic Acid,affects^cotreatment|affects^expression,other
+ABCA10,MESH:C017947,sodium arsenite,affects^expression,other
+ABCA12,MESH:C039961,"S-(1,2-dichlorovinyl)cysteine",affects^response to substance|increases^expression,activates
+ABCA12,MESH:D000077143,Docetaxel,affects^expression|decreases^response to substance,inhibits
+ABCA12,MESH:D008070,Lipopolysaccharides,affects^response to substance|increases^expression,activates
+ABCA12,MESH:D014028,Tobacco Smoke Pollution,affects^expression,other
+ABCA12,MESH:D014241,Trichloroethylene,affects^response to substance,other
+ABCA12,MESH:D016604,Aflatoxin B1,affects^expression,other
+ABCA13,MESH:C039961,"S-(1,2-dichlorovinyl)cysteine",affects^response to substance|increases^expression,activates
+ABCA13,MESH:D003078,Colchicine,affects^response to substance,other
+ABCA13,MESH:D008070,Lipopolysaccharides,affects^response to substance|increases^expression,activates
+ABCA2,MESH:D007854,Lead,affects^expression,other
+ABCA2,MESH:D019308,Palmitic Acid,affects^expression,other
+ABCA3,MESH:C005445,triphenyl phosphate,affects^expression,other
+ABCA3,MESH:C044887,beta-methylcholine,affects^expression,other
+ABCA3,MESH:D004958,Estradiol,affects^expression,other
+ABCA3,MESH:D006861,Hydrogen Peroxide,affects^expression,other
+ABCA3,MESH:D007854,Lead,affects^expression,other
+ABCA3,MESH:D014635,Valproic Acid,affects^expression,other
+ABCA5,MESH:D004317,Doxorubicin,affects^expression,other
+ABCA5,MESH:D013749,Tetrachlorodibenzodioxin,affects^expression,other
+ABCA5,MESH:D014635,Valproic Acid,affects^expression,other
+ABCA5,MESH:D014750,Vincristine,affects^expression|decreases^response to substance,inhibits
+ABCA5,MESH:D016572,Cyclosporine,affects^expression,other
+ABCA6,MESH:D002220,Carbamazepine,affects^expression,other
+ABCA6,MESH:D002945,Cisplatin,affects^response to substance,other
+ABCA6,MESH:D010634,Phenobarbital,affects^expression,other
+ABCA7,MESH:C004648,testosterone enanthate,affects^expression,other
+ABCA7,MESH:C005445,triphenyl phosphate,affects^expression,other
+ABCA7,MESH:C006780,bisphenol A,affects^expression,other
+ABCA7,MESH:C012589,trichostatin A,affects^expression,other
+ABCA7,MESH:D000393,Air Pollutants,affects^expression|increases^abundance,activates
+ABCA7,MESH:D010126,Ozone,affects^expression|increases^abundance,activates
+ABCA8,MESH:D014635,Valproic Acid,affects^expression,other
+ABCA8,MESH:D014750,Vincristine,affects^expression|decreases^response to substance,inhibits
+ABCA8,MESH:D015123,"7,8-Dihydro-7,8-dihydroxybenzo(a)pyrene 9,10-oxide",affects^expression,other
+ABCA8,MESH:D016604,Aflatoxin B1,affects^expression,other
+ABCB1,MESH:C005445,triphenyl phosphate,affects^expression,other
+ABCB1,MESH:C006780,bisphenol A,affects^expression,other
+ABCB1,MESH:C012589,trichostatin A,affects^expression|affects^methylation,modifies
+ABCB1,MESH:C012589,trichostatin A,affects^cotreatment|affects^expression|affects^methylation,modifies
+ABCB1,MESH:C012596,turmeric extract,affects^response to substance,other
+ABCB1,MESH:C017947,sodium arsenite,affects^expression,other
+ABCB1,MESH:C025483,estradiol-17 beta-glucuronide,affects^response to substance,other
+ABCB1,MESH:C045037,testosterone-3-carboxymethyloxime-bovine serum albumin conjugate,affects^expression,other
+ABCB1,MESH:C052659,gambogic acid,affects^reaction|affects^response to substance,other
+ABCB1,MESH:C052659,gambogic acid,affects^cleavage|affects^reaction|affects^response to substance,modifies
+ABCB1,MESH:C072553,benzyloxycarbonylleucyl-leucyl-leucine aldehyde,affects^expression|decreases^reaction,inhibits
+ABCB1,MESH:C093230,fexofenadine,affects^response to substance,other
+ABCB1,MESH:C093230,fexofenadine,affects^response to substance|increases^reaction,activates
+ABCB1,MESH:C106263,rostafuroxin,affects^cotreatment|affects^response to substance,other
+ABCB1,MESH:C402769,tipifarnib,affects^response to substance,other
+ABCB1,MESH:C482205,nutlin 3,affects^response to substance,other
+ABCB1,MESH:C492847,"1-(4-chlorophenyl)-3-(3-(4-chlorophenyl)-5,5-dimethyl-1-(3-(5-nitrofuran-2-yl)allyldienehydrazinocarbonylmethyl)-2-oxoimidazolidin-4-yl)-1-hydroxyurea",affects^expression|decreases^reaction,inhibits
+ABCB1,MESH:C498826,nilotinib,affects^response to substance,other
+ABCB1,MESH:C510718,cambinol,affects^expression,other
+ABCB1,MESH:C543008,bisphenol S,affects^expression|affects^reaction,other
+ABCB1,MESH:C543008,bisphenol S,affects^expression,other
+ABCB1,MESH:C550547,"6-chloro-2,3,4,9-tetrahydro-1H-carbazole-1-carboxamide",affects^expression,other
+ABCB1,MESH:D000068338,Everolimus,affects^response to substance,other
+ABCB1,MESH:D000068877,Imatinib Mesylate,affects^response to substance,other
+ABCB1,MESH:D000069059,Atorvastatin,affects^reaction|affects^response to substance,other
+ABCB1,MESH:D000069286,Bortezomib,affects^expression|decreases^reaction,inhibits
+ABCB1,MESH:D000074,Acenocoumarol,affects^response to substance,other
+ABCB1,MESH:D000077143,Docetaxel,affects^response to substance,other
+ABCB1,MESH:D000077144,Clopidogrel,affects^reaction|affects^response to substance,other
+ABCB1,MESH:D000077144,Clopidogrel,affects^response to substance,other
+ABCB1,MESH:D000077146,Irinotecan,affects^response to substance,other
+ABCB1,MESH:D000077146,Irinotecan,affects^metabolic processing|affects^response to substance,modifies
+ABCB1,MESH:D000077157,Sorafenib,affects^expression|affects^response to substance,other
+ABCB1,MESH:D000077209,Decitabine,affects^expression|affects^methylation,modifies
+ABCB1,MESH:D000077209,Decitabine,affects^cotreatment|affects^expression|affects^methylation,modifies
+ABCB1,MESH:D000082,Acetaminophen,affects^response to substance,other
+ABCB1,MESH:D000111,Acetylcysteine,affects^cleavage|affects^reaction|affects^response to substance,modifies
+ABCB1,MESH:D000927,Anticonvulsants,affects^response to substance,other
+ABCB1,MESH:D001151,Arsenic,affects^response to substance,other
+ABCB1,MESH:D001379,Azathioprine,affects^response to substance,other
+ABCB1,MESH:D001554,Benzene,affects^response to substance,other
+ABCB1,MESH:D002220,Carbamazepine,affects^response to substance,other
+ABCB1,MESH:D002945,Cisplatin,affects^reaction|affects^response to substance,other
+ABCB1,MESH:D002945,Cisplatin,affects^response to substance,other
+ABCB1,MESH:D002945,Cisplatin,affects^cotreatment|affects^response to substance,other
+ABCB1,MESH:D003474,Curcumin,affects^response to substance,other
+ABCB1,MESH:D003520,Cyclophosphamide,affects^cotreatment|affects^response to substance,other
+ABCB1,MESH:D003561,Cytarabine,affects^response to substance,other
+ABCB1,MESH:D003630,Daunorubicin,affects^response to substance,other
+ABCB1,MESH:D003907,Dexamethasone,affects^response to substance,other
+ABCB1,MESH:D004121,Dimethyl Sulfoxide,affects^expression,other
+ABCB1,MESH:D004294,Domperidone,affects^response to substance,other
+ABCB1,MESH:D004317,Doxorubicin,affects^response to substance,other
+ABCB1,MESH:D004317,Doxorubicin,affects^reaction|affects^response to substance,other
+ABCB1,MESH:D004317,Doxorubicin,affects^expression|affects^response to substance,other
+ABCB1,MESH:D004317,Doxorubicin,affects^cleavage|affects^reaction|affects^response to substance,modifies
+ABCB1,MESH:D004317,Doxorubicin,affects^response to substance|increases^transport,activates
+ABCB1,MESH:D005047,Etoposide,affects^response to substance,other
+ABCB1,MESH:D005472,Fluorouracil,affects^cotreatment|affects^response to substance,other
+ABCB1,MESH:D005978,Glutathione,affects^expression|decreases^reaction,inhibits
+ABCB1,MESH:D006034,Glycyrrhetinic Acid,affects^activity|affects^response to substance,modifies
+ABCB1,MESH:D006843,"Hydrocarbons, Chlorinated",affects^response to substance,other
+ABCB1,MESH:D006861,Hydrogen Peroxide,affects^expression|decreases^reaction,inhibits
+ABCB1,MESH:D006861,Hydrogen Peroxide,affects^expression,other
+ABCB1,MESH:D007559,Ivermectin,affects^response to substance,other
+ABCB1,MESH:D007654,Ketoconazole,affects^expression|decreases^reaction,inhibits
+ABCB1,MESH:D008628,Mercury,affects^abundance|affects^response to substance,modifies
+ABCB1,MESH:D008691,Methadone,affects^response to substance,other
+ABCB1,MESH:D008727,Methotrexate,affects^response to substance,other
+ABCB1,MESH:D008727,Methotrexate,affects^cotreatment|affects^response to substance,other
+ABCB1,MESH:D008767,Methylmercury Compounds,affects^response to substance,other
+ABCB1,MESH:D008775,Methylprednisolone,affects^cotreatment|affects^response to substance,other
+ABCB1,MESH:D009288,Naproxen,affects^expression,other
+ABCB1,MESH:D009661,Nortriptyline,affects^response to substance,other
+ABCB1,MESH:D009943,Organophosphorus Compounds,affects^response to substance,other
+ABCB1,MESH:D010575,Pesticides,affects^response to substance,other
+ABCB1,MESH:D010634,Phenobarbital,affects^expression,other
+ABCB1,MESH:D010672,Phenytoin,affects^response to substance,other
+ABCB1,MESH:D014635,Valproic Acid,affects^expression,other
+ABCB1,MESH:D014635,Valproic Acid,affects^response to substance,other
+ABCB1,MESH:D014747,Vinblastine,affects^activity|affects^response to substance,modifies
+ABCB1,MESH:D014750,Vincristine,affects^expression|decreases^response to substance,inhibits
+ABCB1,MESH:D014750,Vincristine,affects^response to substance,other
+ABCB1,MESH:D014859,Warfarin,affects^response to substance,other
+ABCB1,MESH:D015251,Epirubicin,affects^cotreatment|affects^response to substance,other
+ABCB1,MESH:D015767,Mefloquine,affects^binding|affects^secretion|affects^uptake,modifies
+ABCB1,MESH:D016559,Tacrolimus,affects^response to substance,other
+ABCB1,MESH:D016572,Cyclosporine,affects^expression,other
+ABCB1,MESH:D016572,Cyclosporine,affects^response to substance,other
+ABCB1,MESH:D017239,Paclitaxel,affects^response to substance,other
+ABCB1,MESH:D017239,Paclitaxel,affects^response to substance|increases^export,activates
+ABCB1,MESH:D017964,Itraconazole,affects^response to substance|increases^reaction,activates
+ABCB1,MESH:D018967,Risperidone,affects^response to substance,other
+ABCB1,MESH:D019821,Simvastatin,affects^reaction|affects^response to substance,other
+ABCB1,MESH:D019821,Simvastatin,affects^response to substance,other
+ABCB1,MESH:D019888,Nelfinavir,affects^response to substance,other
+ABCB1,MESH:D064747,Lansoprazole,affects^response to substance,other
+ABCB10,MESH:C005445,triphenyl phosphate,affects^expression,other
+ABCB10,MESH:C065087,di-n-butylphosphoric acid,affects^expression,other
+ABCB10,MESH:C543008,bisphenol S,affects^expression,other
+ABCB10,MESH:D002945,Cisplatin,affects^response to substance,other
+ABCB11,MESH:C029790,"2,2',3',4,4',5-hexachlorobiphenyl",affects^expression,other
+ABCB11,MESH:C076994,perfluorooctane sulfonic acid,affects^expression,other
+ABCB11,MESH:D002746,Chlorpromazine,affects^cotreatment|affects^expression,other
+ABCB11,MESH:D002793,Cholic Acids,affects^cotreatment|affects^expression,other
+ABCB11,MESH:D004977,Ethambutol,affects^cotreatment|affects^expression,other
+ABCB11,MESH:D004997,Ethinyl Estradiol,affects^cotreatment|affects^expression,other
+ABCB11,MESH:D007538,Isoniazid,affects^cotreatment|affects^expression,other
+ABCB11,MESH:D008777,Methyltestosterone,affects^cotreatment|affects^expression,other
+ABCB11,MESH:D011718,Pyrazinamide,affects^cotreatment|affects^expression,other
+ABCB11,MESH:D012293,Rifampin,affects^cotreatment|affects^expression,other
+ABCB11,MESH:D015058,1-Naphthylisothiocyanate,affects^cotreatment|affects^expression,other
+ABCB4,MESH:C005445,triphenyl phosphate,affects^expression,other
+ABCB4,MESH:C015001,arsenite,affects^expression,other
+ABCB4,MESH:D002746,Chlorpromazine,affects^cotreatment|affects^expression,other
+ABCB4,MESH:D002793,Cholic Acids,affects^cotreatment|affects^expression,other
+ABCB4,MESH:D004997,Ethinyl Estradiol,affects^cotreatment|affects^expression,other
+ABCB4,MESH:D008777,Methyltestosterone,affects^cotreatment|affects^expression,other
+ABCB4,MESH:D014635,Valproic Acid,affects^expression,other
+ABCB4,MESH:D014750,Vincristine,affects^expression|decreases^response to substance,inhibits
+ABCB4,MESH:D015058,1-Naphthylisothiocyanate,affects^cotreatment|affects^expression,other
+ABCB4,MESH:D016604,Aflatoxin B1,affects^expression,other
+ABCB5,MESH:C039961,"S-(1,2-dichlorovinyl)cysteine",affects^response to substance|increases^expression,activates
+ABCB5,MESH:D008070,Lipopolysaccharides,affects^response to substance|increases^expression,activates
+ABCB5,MESH:D015125,Oxyquinoline,affects^response to substance,other
+ABCB6,MESH:C004656,chloroacetaldehyde,affects^expression,other
+ABCB6,MESH:D002945,Cisplatin,affects^response to substance,other
+ABCB6,MESH:D010634,Phenobarbital,affects^expression,other
+ABCB6,MESH:D013749,Tetrachlorodibenzodioxin,affects^expression,other
+ABCB6,MESH:D014635,Valproic Acid,affects^expression,other
+ABCB6,MESH:D014750,Vincristine,affects^expression|decreases^response to substance,inhibits
+ABCB7,MESH:C005445,triphenyl phosphate,affects^expression,other
+ABCB7,MESH:D002945,Cisplatin,affects^response to substance,other
+ABCB7,MESH:D014635,Valproic Acid,affects^expression,other
+ABCB7,MESH:D024483,Vitamin K 3,affects^expression,other
+ABCB8,MESH:C543008,bisphenol S,affects^expression,other
+ABCB9,MESH:C039961,"S-(1,2-dichlorovinyl)cysteine",affects^response to substance|increases^expression,activates
+ABCB9,MESH:D002945,Cisplatin,affects^expression,other
+ABCB9,MESH:D008070,Lipopolysaccharides,affects^response to substance|increases^expression,activates
+ABCB9,MESH:D020849,Raloxifene Hydrochloride,affects^expression,other
+ABCC1,MESH:C008437,"2,2'-methylenebis(4-methyl-6-tert-butylphenol)",affects^expression|affects^response to substance,other
+ABCC1,MESH:C009277,sodium arsenate,affects^expression|affects^response to substance,other
+ABCC1,MESH:C017947,sodium arsenite,affects^response to substance,other
+ABCC1,MESH:C020300,monomethylarsonic acid,affects^expression,other
+ABCC1,MESH:C041747,nitazoxanide,affects^response to substance,other
+ABCC1,MESH:C045651,epigallocatechin gallate,affects^expression|affects^reaction,other
+ABCC1,MESH:C063449,zileuton,affects^response to substance,other
+ABCC1,MESH:C093875,montelukast,affects^response to substance,other
+ABCC1,MESH:C120029,homocamptothecin,affects^response to substance,other
+ABCC1,MESH:C543008,bisphenol S,affects^expression,other
+ABCC1,MESH:D000077157,Sorafenib,affects^response to substance,other
+ABCC1,MESH:D000077291,Terbinafine,affects^response to substance,other
+ABCC1,MESH:D000966,Antimony Potassium Tartrate,affects^response to substance,other
+ABCC1,MESH:D000966,Antimony Potassium Tartrate,affects^expression|affects^response to substance,other
+ABCC1,MESH:D001151,Arsenic,affects^expression,other
+ABCC1,MESH:D001151,Arsenic,affects^cotreatment|affects^expression,other
+ABCC1,MESH:D002945,Cisplatin,affects^response to substance,other
+ABCC1,MESH:D002945,Cisplatin,affects^reaction|affects^response to substance,other
+ABCC1,MESH:D003520,Cyclophosphamide,affects^cotreatment|affects^response to substance,other
+ABCC1,MESH:D003561,Cytarabine,affects^response to substance,other
+ABCC1,MESH:D003630,Daunorubicin,affects^response to substance,other
+ABCC1,MESH:D004317,Doxorubicin,affects^response to substance,other
+ABCC1,MESH:D004317,Doxorubicin,affects^expression|affects^response to substance,other
+ABCC1,MESH:D004317,Doxorubicin,affects^expression|affects^reaction,other
+ABCC1,MESH:D004317,Doxorubicin,affects^activity|affects^response to substance,modifies
+ABCC1,MESH:D005047,Etoposide,affects^response to substance,other
+ABCC1,MESH:D005047,Etoposide,affects^expression|affects^response to substance,other
+ABCC1,MESH:D005472,Fluorouracil,affects^cotreatment|affects^response to substance,other
+ABCC1,MESH:D005492,Folic Acid,affects^expression,other
+ABCC1,MESH:D005978,Glutathione,affects^activity|affects^binding|affects^folding,modifies
+ABCC1,MESH:D006034,Glycyrrhetinic Acid,affects^activity|affects^response to substance,modifies
+ABCC1,MESH:D007654,Ketoconazole,affects^response to substance,other
+ABCC1,MESH:D008628,Mercury,affects^response to substance,other
+ABCC1,MESH:D008628,Mercury,affects^abundance|affects^response to substance,modifies
+ABCC1,MESH:D008727,Methotrexate,affects^response to substance,other
+ABCC1,MESH:D008767,Methylmercury Compounds,affects^response to substance,other
+ABCC1,MESH:D014028,Tobacco Smoke Pollution,affects^expression,other
+ABCC1,MESH:D014635,Valproic Acid,affects^expression,other
+ABCC1,MESH:D014747,Vinblastine,affects^response to substance,other
+ABCC1,MESH:D014750,Vincristine,affects^response to substance,other
+ABCC1,MESH:D014750,Vincristine,affects^expression|affects^response to substance,other
+ABCC1,MESH:D015251,Epirubicin,affects^cotreatment|affects^response to substance,other
+ABCC1,MESH:D019308,Palmitic Acid,affects^cotreatment|affects^expression,other
+ABCC10,MESH:D002220,Carbamazepine,affects^expression,other
+ABCC10,MESH:D014635,Valproic Acid,affects^expression,other
+ABCC11,MESH:D000068437,Pemetrexed,affects^response to substance,other
+ABCC11,MESH:D014635,Valproic Acid,affects^expression,other
+ABCC12,MESH:D005437,Flucytosine,affects^response to substance,other
+ABCC2,MESH:C005445,triphenyl phosphate,affects^expression,other
+ABCC2,MESH:C006780,bisphenol A,affects^expression,other
+ABCC2,MESH:C017947,sodium arsenite,affects^expression,other
+ABCC2,MESH:C065087,di-n-butylphosphoric acid,affects^expression,other
+ABCC2,MESH:C585473,"theaflavin-3,3'-digallate",affects^expression,other
+ABCC2,MESH:D000077146,Irinotecan,affects^response to substance,other
+ABCC2,MESH:D000077157,Sorafenib,affects^response to substance,other
+ABCC2,MESH:D000077157,Sorafenib,affects^expression|affects^response to substance,other
+ABCC2,MESH:D000077204,Temozolomide,affects^response to substance,other
+ABCC2,MESH:D000077291,Terbinafine,affects^response to substance,other
+ABCC2,MESH:D000393,Air Pollutants,affects^response to substance|increases^abundance,activates
+ABCC2,MESH:D002220,Carbamazepine,affects^response to substance,other
+ABCC2,MESH:D002330,Carmustine,affects^response to substance,other
+ABCC2,MESH:D002945,Cisplatin,affects^response to substance,other
+ABCC2,MESH:D003630,Daunorubicin,affects^response to substance,other
+ABCC2,MESH:D005472,Fluorouracil,affects^response to substance,other
+ABCC2,MESH:D006861,Hydrogen Peroxide,affects^expression,other
+ABCC2,MESH:D007654,Ketoconazole,affects^response to substance,other
+ABCC2,MESH:D008628,Mercury,affects^abundance|affects^response to substance,modifies
+ABCC2,MESH:D008727,Methotrexate,affects^response to substance,other
+ABCC2,MESH:D008727,Methotrexate,affects^metabolic processing|affects^response to substance,modifies
+ABCC2,MESH:D008767,Methylmercury Compounds,affects^response to substance,other
+ABCC2,MESH:D009569,Nitric Oxide,affects^response to substance|increases^abundance,activates
+ABCC2,MESH:D009585,Nitrogen Dioxide,affects^response to substance|increases^abundance,activates
+ABCC2,MESH:D010634,Phenobarbital,affects^expression,other
+ABCC2,MESH:D010672,Phenytoin,affects^response to substance,other
+ABCC2,MESH:D013629,Tamoxifen,affects^response to substance,other
+ABCC2,MESH:D015058,1-Naphthylisothiocyanate,affects^response to substance,other
+ABCC2,MESH:D016572,Cyclosporine,affects^expression,other
+ABCC2,MESH:D016604,Aflatoxin B1,affects^expression,other
+ABCC2,MESH:D017239,Paclitaxel,affects^expression,other
+ABCC2,MESH:D017239,Paclitaxel,affects^response to substance,other
+ABCC2,MESH:D019821,Simvastatin,affects^response to substance,other
+ABCC2,MESH:D052638,Particulate Matter,affects^response to substance|increases^abundance,activates
+ABCC3,MESH:C005445,triphenyl phosphate,affects^expression,other
+ABCC3,MESH:C006780,bisphenol A,affects^expression,other
+ABCC3,MESH:C013320,tris(2-butoxyethyl) phosphate,affects^expression,other
+ABCC3,MESH:C028009,diallyl disulfide,affects^expression,other
+ABCC3,MESH:C038491,allyl sulfide,affects^expression,other
+ABCC3,MESH:C046943,brequinar,affects^expression,other
+ABCC3,MESH:C065087,di-n-butylphosphoric acid,affects^expression,other
+ABCC3,MESH:C119536,nickel acetate,affects^expression,other
+ABCC3,MESH:C510718,cambinol,affects^expression,other
+ABCC3,MESH:C550547,"6-chloro-2,3,4,9-tetrahydro-1H-carbazole-1-carboxamide",affects^expression,other
+ABCC3,MESH:C571256,diglycolic acid,affects^expression,other
+ABCC3,MESH:D000077157,Sorafenib,affects^response to substance,other
+ABCC3,MESH:D002793,Cholic Acids,affects^cotreatment|affects^expression,other
+ABCC3,MESH:D002945,Cisplatin,affects^response to substance,other
+ABCC3,MESH:D006861,Hydrogen Peroxide,affects^expression,other
+ABCC3,MESH:D008727,Methotrexate,affects^response to substance,other
+ABCC3,MESH:D008727,Methotrexate,affects^expression,other
+ABCC3,MESH:D008777,Methyltestosterone,affects^cotreatment|affects^expression,other
+ABCC3,MESH:D014415,Tunicamycin,affects^expression,other
+ABCC3,MESH:D014635,Valproic Acid,affects^expression,other
+ABCC3,MESH:D016572,Cyclosporine,affects^expression,other
+ABCC3,MESH:D024483,Vitamin K 3,affects^expression,other
+ABCC4,MESH:C005445,triphenyl phosphate,affects^expression,other
+ABCC4,MESH:C005451,alpha-pinene,affects^cotreatment|affects^expression,other
+ABCC4,MESH:C005451,alpha-pinene,affects^cotreatment|affects^expression|increases^abundance,activates
+ABCC4,MESH:C008493,methylselenic acid,affects^expression,other
+ABCC4,MESH:C011864,7-hydroxymethotrexate,affects^response to substance,other
+ABCC4,MESH:C039175,methacrylaldehyde,affects^cotreatment|affects^expression|increases^abundance,activates
+ABCC4,MESH:C039175,methacrylaldehyde,affects^cotreatment|affects^expression,other
+ABCC4,MESH:D000171,Acrolein,affects^cotreatment|affects^expression|increases^abundance,activates
+ABCC4,MESH:D000171,Acrolein,affects^cotreatment|affects^expression,other
+ABCC4,MESH:D000393,Air Pollutants,affects^cotreatment|affects^expression|increases^abundance,activates
+ABCC4,MESH:D002220,Carbamazepine,affects^expression,other
+ABCC4,MESH:D004008,Diclofenac,affects^expression,other
+ABCC4,MESH:D008727,Methotrexate,affects^response to substance,other
+ABCC4,MESH:D010126,Ozone,affects^cotreatment|affects^expression,other
+ABCC4,MESH:D010126,Ozone,affects^cotreatment|affects^expression|increases^abundance,activates
+ABCC4,MESH:D013749,Tetrachlorodibenzodioxin,affects^expression,other
+ABCC4,MESH:D016572,Cyclosporine,affects^expression,other
+ABCC4,MESH:D055549,Volatile Organic Compounds,affects^cotreatment|affects^expression,other
+ABCC5,MESH:C044887,beta-methylcholine,affects^expression,other
+ABCC5,MESH:C065087,di-n-butylphosphoric acid,affects^expression,other
+ABCC5,MESH:C074702,chromium hexavalent ion,affects^expression,other
+ABCC5,MESH:D000077150,Oxaliplatin,affects^response to substance,other
+ABCC5,MESH:D000082,Acetaminophen,affects^expression,other
+ABCC5,MESH:D006861,Hydrogen Peroxide,affects^expression,other
+ABCC5,MESH:D013196,Dihydrotestosterone,affects^expression,other
+ABCC5,MESH:D014635,Valproic Acid,affects^expression,other
+ABCC5,MESH:D014750,Vincristine,affects^expression|decreases^response to substance,inhibits
+ABCC5-AS1,MESH:C039961,"S-(1,2-dichlorovinyl)cysteine",affects^response to substance|increases^expression,activates
+ABCC5-AS1,MESH:D008070,Lipopolysaccharides,affects^response to substance|increases^expression,activates
+ABCC6,MESH:C005445,triphenyl phosphate,affects^expression,other
+ABCC6,MESH:C006780,bisphenol A,affects^expression,other
+ABCC6,MESH:C065087,di-n-butylphosphoric acid,affects^expression,other
+ABCC6,MESH:D000077143,Docetaxel,affects^expression|decreases^response to substance,inhibits
+ABCC6,MESH:D000077143,Docetaxel,affects^response to substance,other
+ABCC6,MESH:D004785,Environmental Pollutants,affects^expression,other
+ABCC6,MESH:D005472,Fluorouracil,affects^response to substance,other
+ABCC6,MESH:D015127,"9,10-Dimethyl-1,2-benzanthracene",affects^response to substance,other
+ABCC6,MESH:D016604,Aflatoxin B1,affects^expression,other
+ABCC6P2,MESH:C006780,bisphenol A,affects^expression,other
+ABCC8,MESH:C005460,uranyl acetate,affects^expression,other
+ABCC8,MESH:D002945,Cisplatin,affects^response to substance,other
+ABCC8,MESH:D014501,Uranium,affects^expression,other
+ABCC9,MESH:C039961,"S-(1,2-dichlorovinyl)cysteine",affects^response to substance|increases^expression,activates
+ABCC9,MESH:D008070,Lipopolysaccharides,affects^response to substance|increases^expression,activates
+ABCC9,MESH:D013749,Tetrachlorodibenzodioxin,affects^expression,other
+ABCD1,MESH:C005445,triphenyl phosphate,affects^expression,other
+ABCD1,MESH:D014212,Tretinoin,affects^expression,other
+ABCD2,MESH:C005445,triphenyl phosphate,affects^expression,other
+ABCD2,MESH:D016604,Aflatoxin B1,affects^expression,other
+ABCD3,MESH:C005445,triphenyl phosphate,affects^expression,other
+ABCD3,MESH:C065087,di-n-butylphosphoric acid,affects^expression,other
+ABCD3,MESH:C543008,bisphenol S,affects^expression,other
+ABCD3,MESH:D004785,Environmental Pollutants,affects^expression,other
+ABCD3,MESH:D004958,Estradiol,affects^expression,other
+ABCD3,MESH:D014635,Valproic Acid,affects^expression,other
+ABCD3,MESH:D019772,Topotecan,affects^response to substance,other
+ABCE1,MESH:C005445,triphenyl phosphate,affects^expression,other
+ABCE1,MESH:C044887,beta-methylcholine,affects^expression,other
+ABCE1,MESH:D004785,Environmental Pollutants,affects^expression,other
+ABCE1,MESH:D013749,Tetrachlorodibenzodioxin,affects^expression,other
+ABCF1,MESH:C005445,triphenyl phosphate,affects^expression,other
+ABCF1,MESH:C044887,beta-methylcholine,affects^expression,other
+ABCF1,MESH:C045816,arsenic trisulfide,affects^expression,other
+ABCF1,MESH:C065087,di-n-butylphosphoric acid,affects^expression,other
+ABCF1,MESH:D002220,Carbamazepine,affects^expression,other
+ABCF1,MESH:D004785,Environmental Pollutants,affects^expression,other
+ABCF2,MESH:C005460,uranyl acetate,affects^expression,other
+ABCF2,MESH:C006780,bisphenol A,affects^expression,other
+ABCF2,MESH:C017947,sodium arsenite,affects^expression,other
+ABCF2,MESH:C065087,di-n-butylphosphoric acid,affects^expression,other
+ABCF2,MESH:D006861,Hydrogen Peroxide,affects^expression,other
+ABCF2,MESH:D014501,Uranium,affects^expression,other
+ABCF2,MESH:D014635,Valproic Acid,affects^expression,other
+ABCF3,MESH:C005445,triphenyl phosphate,affects^expression,other
+ABCF3,MESH:D000393,Air Pollutants,affects^expression|increases^abundance,activates
+ABCF3,MESH:D004785,Environmental Pollutants,affects^expression,other
+ABCF3,MESH:D010126,Ozone,affects^expression|increases^abundance,activates
+ABCG1,MESH:C005445,triphenyl phosphate,affects^expression,other
+ABCG1,MESH:C065087,di-n-butylphosphoric acid,affects^expression,other
+ABCG1,MESH:D000077143,Docetaxel,affects^response to substance,other
+ABCG1,MESH:D000077209,Decitabine,affects^expression,other
+ABCG1,MESH:D002945,Cisplatin,affects^expression,other
+ABCG1,MESH:D014635,Valproic Acid,affects^expression,other
+ABCG1,MESH:D020849,Raloxifene Hydrochloride,affects^expression,other
+ABCG2,MESH:C009618,"O,O-diethyl O-3,5,6-trichloro-2-pyridyl phosphate",affects^expression,other
+ABCG2,MESH:C009618,"O,O-diethyl O-3,5,6-trichloro-2-pyridyl phosphate",affects^expression|affects^reaction,other
+ABCG2,MESH:C017947,sodium arsenite,affects^expression,other
+ABCG2,MESH:C025589,ochratoxin A,affects^response to substance,other
+ABCG2,MESH:C045037,testosterone-3-carboxymethyloxime-bovine serum albumin conjugate,affects^expression,other
+ABCG2,MESH:C078814,anandamide,affects^expression|affects^reaction,other
+ABCG2,MESH:C457499,2-chloro-5-nitrobenzanilide,affects^cotreatment|affects^expression,other
+ABCG2,MESH:C457499,2-chloro-5-nitrobenzanilide,affects^expression,other
+ABCG2,MESH:C488250,oleoylethanolamide,affects^expression|affects^reaction,other
+ABCG2,MESH:C498826,nilotinib,affects^response to substance,other
+ABCG2,MESH:D000077146,Irinotecan,affects^metabolic processing|affects^response to substance,modifies
+ABCG2,MESH:D000077146,Irinotecan,affects^response to substance,other
+ABCG2,MESH:D000077209,Decitabine,affects^expression,other
+ABCG2,MESH:D000077237,Arsenic Trioxide,affects^expression,other
+ABCG2,MESH:D000077267,Fulvestrant,affects^response to substance,other
+ABCG2,MESH:D002945,Cisplatin,affects^expression|affects^response to substance,other
+ABCG2,MESH:D003520,Cyclophosphamide,affects^cotreatment|affects^response to substance,other
+ABCG2,MESH:D004317,Doxorubicin,affects^response to substance,other
+ABCG2,MESH:D004390,Chlorpyrifos,affects^cotreatment|affects^expression,other
+ABCG2,MESH:D004958,Estradiol,affects^expression,other
+ABCG2,MESH:D005472,Fluorouracil,affects^cotreatment|affects^response to substance,other
+ABCG2,MESH:D005492,Folic Acid,affects^expression|affects^localization,modifies
+ABCG2,MESH:D006861,Hydrogen Peroxide,affects^expression,other
+ABCG2,MESH:D008070,Lipopolysaccharides,affects^expression|affects^reaction,other
+ABCG2,MESH:D008070,Lipopolysaccharides,affects^expression,other
+ABCG2,MESH:D008727,Methotrexate,affects^response to substance,other
+ABCG2,MESH:D008748,Methylcholanthrene,affects^response to substance,other
+ABCG2,MESH:D008942,Mitoxantrone,affects^response to substance,other
+ABCG2,MESH:D009288,Naproxen,affects^expression,other
+ABCG2,MESH:D010634,Phenobarbital,affects^expression,other
+ABCG2,MESH:D010936,Plant Extracts,affects^expression|affects^reaction,other
+ABCG2,MESH:D011374,Progesterone,affects^expression,other
+ABCG2,MESH:D011794,Quercetin,affects^expression,other
+ABCG2,MESH:D013629,Tamoxifen,affects^response to substance,other
+ABCG2,MESH:D014028,Tobacco Smoke Pollution,affects^expression,other
+ABCG2,MESH:D014635,Valproic Acid,affects^expression,other
+ABCG2,MESH:D014859,Warfarin,affects^response to substance,other
+ABCG2,MESH:D015251,Epirubicin,affects^cotreatment|affects^response to substance,other
+ABCG2,MESH:D016572,Cyclosporine,affects^expression,other
+ABCG2,MESH:D016604,Aflatoxin B1,affects^expression,other
+ABCG2,MESH:D024483,Vitamin K 3,affects^expression,other
+ABCG2,MESH:D047630,Depsipeptides,affects^expression,other
+ABCG4,MESH:D007854,Lead,affects^expression,other
+ABCG5,MESH:D000077204,Temozolomide,affects^response to substance,other
+ABCG5,MESH:D000077300,Bosentan,affects^expression,other
+ABCG5,MESH:D002330,Carmustine,affects^response to substance,other
+ABCG5,MESH:D002793,Cholic Acids,affects^cotreatment|affects^expression,other
+ABCG5,MESH:D008777,Methyltestosterone,affects^cotreatment|affects^expression,other
+ABCG5,MESH:D015058,1-Naphthylisothiocyanate,affects^cotreatment|affects^expression,other
+ABCG5,MESH:D016604,Aflatoxin B1,affects^expression,other
+ABCG8,MESH:D002746,Chlorpromazine,affects^cotreatment|affects^expression,other
+ABCG8,MESH:D002793,Cholic Acids,affects^cotreatment|affects^expression,other
+ABCG8,MESH:D004397,Fonofos,affects^response to substance,other
+ABCG8,MESH:D004997,Ethinyl Estradiol,affects^cotreatment|affects^expression,other
+ABCG8,MESH:D015058,1-Naphthylisothiocyanate,affects^cotreatment|affects^expression,other
+ABCG8,MESH:D016604,Aflatoxin B1,affects^expression,other
+ABHD10,MESH:C005445,triphenyl phosphate,affects^expression,other
+ABHD10,MESH:C039961,"S-(1,2-dichlorovinyl)cysteine",affects^response to substance|increases^expression,activates
+ABHD10,MESH:C065087,di-n-butylphosphoric acid,affects^expression,other
+ABHD10,MESH:D008070,Lipopolysaccharides,affects^response to substance|increases^expression,activates
+ABHD10,MESH:D014635,Valproic Acid,affects^expression,other
+ABHD11,MESH:C005445,triphenyl phosphate,affects^expression,other
+ABHD11,MESH:C065087,di-n-butylphosphoric acid,affects^expression,other
+ABHD11,MESH:D002945,Cisplatin,affects^response to substance,other
+ABHD12,MESH:D014635,Valproic Acid,affects^expression,other
+ABHD12B,MESH:D014028,Tobacco Smoke Pollution,affects^expression,other
+ABHD12B,MESH:D014635,Valproic Acid,affects^expression,other
+ABHD13,MESH:C065087,di-n-butylphosphoric acid,affects^expression,other
+ABHD13,MESH:D013749,Tetrachlorodibenzodioxin,affects^expression,other
+ABHD14A,MESH:C065087,di-n-butylphosphoric acid,affects^expression,other
+ABHD14A,MESH:D000395,"Air Pollutants, Occupational",affects^expression,other
+ABHD14A,MESH:D014635,Valproic Acid,affects^expression,other
+ABHD14B,MESH:C065087,di-n-butylphosphoric acid,affects^expression,other
+ABHD14B,MESH:D006861,Hydrogen Peroxide,affects^expression,other
+ABHD14B,MESH:D014028,Tobacco Smoke Pollution,affects^expression,other
+ABHD14B,MESH:D024483,Vitamin K 3,affects^expression,other
+ABHD15,MESH:C065087,di-n-butylphosphoric acid,affects^expression,other
+ABHD15,MESH:D014635,Valproic Acid,affects^expression,other
+ABHD16A,MESH:C005445,triphenyl phosphate,affects^expression,other
+ABHD16A,MESH:C065087,di-n-butylphosphoric acid,affects^expression,other
+ABHD16A,MESH:D014635,Valproic Acid,affects^expression,other
+ABHD17A,MESH:C012589,trichostatin A,affects^expression,other
+ABHD17A,MESH:C065087,di-n-butylphosphoric acid,affects^expression,other
+ABHD17A,MESH:D001151,Arsenic,affects^expression,other
+ABHD17AP5,MESH:C039961,"S-(1,2-dichlorovinyl)cysteine",affects^response to substance|increases^expression,activates
+ABHD17AP5,MESH:D008070,Lipopolysaccharides,affects^response to substance|increases^expression,activates
+ABHD17B,MESH:C005445,triphenyl phosphate,affects^expression,other
+ABHD17B,MESH:C012589,trichostatin A,affects^expression,other
+ABHD17B,MESH:C065087,di-n-butylphosphoric acid,affects^expression,other
+ABHD17B,MESH:D014635,Valproic Acid,affects^expression,other
+ABHD17C,MESH:C065087,di-n-butylphosphoric acid,affects^expression,other
+ABHD17C,MESH:D014635,Valproic Acid,affects^expression,other
+ABHD17C,MESH:D015123,"7,8-Dihydro-7,8-dihydroxybenzo(a)pyrene 9,10-oxide",affects^expression,other
+ABHD18,MESH:D002945,Cisplatin,affects^response to substance,other
+ABHD2,MESH:C004648,testosterone enanthate,affects^expression,other
+ABHD2,MESH:C012589,trichostatin A,affects^expression,other
+ABHD2,MESH:C017947,sodium arsenite,affects^expression,other
+ABHD2,MESH:C065087,di-n-butylphosphoric acid,affects^expression,other
+ABHD2,MESH:D002945,Cisplatin,affects^response to substance,other
+ABHD2,MESH:D007854,Lead,affects^expression,other
+ABHD2,MESH:D014635,Valproic Acid,affects^expression,other
+ABHD3,MESH:C005445,triphenyl phosphate,affects^expression,other
+ABHD3,MESH:D000393,Air Pollutants,affects^expression|increases^abundance,activates
+ABHD3,MESH:D010634,Phenobarbital,affects^expression,other
+ABHD3,MESH:D014635,Valproic Acid,affects^expression,other
+ABHD3,MESH:D019327,Copper Sulfate,affects^expression,other
+ABHD3,MESH:D052638,Particulate Matter,affects^expression|increases^abundance,activates
+ABHD4,MESH:C004656,chloroacetaldehyde,affects^expression,other
+ABHD4,MESH:C005445,triphenyl phosphate,affects^expression,other
+ABHD4,MESH:C006780,bisphenol A,affects^expression,other
+ABHD5,MESH:C005445,triphenyl phosphate,affects^expression,other
+ABHD5,MESH:C065087,di-n-butylphosphoric acid,affects^expression,other
+ABHD5,MESH:D000077209,Decitabine,affects^expression,other
+ABHD5,MESH:D002945,Cisplatin,affects^expression,other
+ABHD5,MESH:D010634,Phenobarbital,affects^expression,other
+ABHD5,MESH:D011794,Quercetin,affects^expression,other
+ABHD5,MESH:D014635,Valproic Acid,affects^expression,other
+ABHD5,MESH:D020849,Raloxifene Hydrochloride,affects^expression,other
+ABHD5,MESH:D024483,Vitamin K 3,affects^expression,other
+ABHD6,MESH:C065087,di-n-butylphosphoric acid,affects^expression,other
+ABHD6,MESH:D014635,Valproic Acid,affects^expression,other
+ABHD8,MESH:C005445,triphenyl phosphate,affects^expression,other
+ABHD8,MESH:C044887,beta-methylcholine,affects^expression,other
+ABHD8,MESH:C065087,di-n-butylphosphoric acid,affects^expression,other
+ABHD8,MESH:D007854,Lead,affects^expression,other
+ABHD8,MESH:D020849,Raloxifene Hydrochloride,affects^response to substance,other
+ABI1,MESH:C005445,triphenyl phosphate,affects^expression,other
+ABI1,MESH:C017947,sodium arsenite,affects^expression,other
+ABI1,MESH:D000393,Air Pollutants,affects^expression|increases^abundance,activates
+ABI1,MESH:D010126,Ozone,affects^expression|increases^abundance,activates
+ABI1,MESH:D010634,Phenobarbital,affects^expression,other
+ABI1,MESH:D014635,Valproic Acid,affects^expression,other
+ABI2,MESH:C005445,triphenyl phosphate,affects^expression,other
+ABI2,MESH:C017947,sodium arsenite,affects^expression,other
+ABI3,MESH:C039961,"S-(1,2-dichlorovinyl)cysteine",affects^response to substance|increases^expression,activates
+ABI3,MESH:C065087,di-n-butylphosphoric acid,affects^expression,other
+ABI3,MESH:D008070,Lipopolysaccharides,affects^response to substance|increases^expression,activates
+ABI3BP,MESH:D014028,Tobacco Smoke Pollution,affects^expression,other
+ABL1,MESH:C005445,triphenyl phosphate,affects^expression,other
+ABL1,MESH:C017558,nickel sulfide,affects^cotreatment|affects^expression|decreases^expression|increases^methylation,inhibits
+ABL1,MESH:C044887,beta-methylcholine,affects^expression,other
+ABL1,MESH:C410127,PCB 180,affects^expression,other
+ABL1,MESH:D000077237,Arsenic Trioxide,affects^response to substance,other
+ABL1,MESH:D000077767,Panobinostat,affects^cotreatment|affects^expression,other
+ABL1,MESH:D002945,Cisplatin,affects^cotreatment|affects^expression,other
+ABL1,MESH:D004317,Doxorubicin,affects^expression|affects^response to substance,other
+ABL1,MESH:D006861,Hydrogen Peroxide,affects^expression,other
+ABL1,MESH:D014635,Valproic Acid,affects^expression,other
+ABL1,MESH:D015032,Zinc,affects^expression,other
+ABL2,MESH:C005445,triphenyl phosphate,affects^expression,other
+ABL2,MESH:C065087,di-n-butylphosphoric acid,affects^expression,other
+ABL2,MESH:D001335,Vehicle Emissions,affects^expression|increases^abundance,activates
+ABL2,MESH:D002220,Carbamazepine,affects^expression,other
+ABL2,MESH:D004008,Diclofenac,affects^expression,other
+ABL2,MESH:D010634,Phenobarbital,affects^expression,other
+ABL2,MESH:D013749,Tetrachlorodibenzodioxin,affects^expression,other
+ABL2,MESH:D017638,"Asbestos, Crocidolite",affects^expression,other
+ABL2,MESH:D052638,Particulate Matter,affects^expression,other
+ABL2,MESH:D052638,Particulate Matter,affects^expression|increases^abundance,activates
+ABLIM1,MESH:C005445,triphenyl phosphate,affects^expression,other
+ABLIM1,MESH:C044887,beta-methylcholine,affects^expression,other
+ABLIM1,MESH:D004317,Doxorubicin,affects^response to substance,other
+ABLIM1,MESH:D004958,Estradiol,affects^expression,other
+ABLIM1,MESH:D007854,Lead,affects^expression,other
+ABLIM1,MESH:D014747,Vinblastine,affects^response to substance,other
+ABLIM1,MESH:D016685,Mitomycin,affects^response to substance,other
+ABLIM2,MESH:D007854,Lead,affects^expression,other
+ABLIM2,MESH:D010634,Phenobarbital,affects^expression,other
+ABLIM2,MESH:D012822,Silicon Dioxide,affects^expression,other
+ABLIM3,MESH:C004648,testosterone enanthate,affects^expression,other
+ABLIM3,MESH:C005445,triphenyl phosphate,affects^expression,other
+ABLIM3,MESH:C006780,bisphenol A,affects^expression,other
+ABLIM3,MESH:C014024,"2,4,5,2',4',5'-hexachlorobiphenyl",affects^expression,other
+ABLIM3,MESH:D013629,Tamoxifen,affects^expression,other
+ABLIM3,MESH:D014635,Valproic Acid,affects^expression,other
+ABLIM3,MESH:D020849,Raloxifene Hydrochloride,affects^expression,other
+ABR,MESH:C005445,triphenyl phosphate,affects^expression,other
+ABR,MESH:C044887,beta-methylcholine,affects^expression,other
+ABR,MESH:D000393,Air Pollutants,affects^expression|increases^abundance,activates
+ABR,MESH:D002945,Cisplatin,affects^response to substance,other
+ABR,MESH:D006861,Hydrogen Peroxide,affects^expression,other
+ABR,MESH:D010126,Ozone,affects^expression|increases^abundance,activates
+ABR,MESH:D014635,Valproic Acid,affects^expression,other
+ABR,MESH:D024483,Vitamin K 3,affects^expression,other
+ABRA,MESH:D004317,Doxorubicin,affects^expression,other
+ABRACL,MESH:C013320,tris(2-butoxyethyl) phosphate,affects^expression,other
+ABRACL,MESH:C065087,di-n-butylphosphoric acid,affects^expression,other
+ABRACL,MESH:D002220,Carbamazepine,affects^expression,other
+ABRACL,MESH:D011794,Quercetin,affects^expression,other
+ABRACL,MESH:D014028,Tobacco Smoke Pollution,affects^expression,other
+ABRACL,MESH:D016572,Cyclosporine,affects^expression,other
+ABRACL,MESH:D016604,Aflatoxin B1,affects^expression,other
+ABRACL,MESH:D019344,Lactic Acid,affects^expression,other
+ABRAXAS1,MESH:C005445,triphenyl phosphate,affects^expression,other
+ABRAXAS1,MESH:C012589,trichostatin A,affects^expression,other
+ABRAXAS2,MESH:C005445,triphenyl phosphate,affects^expression,other
+ABRAXAS2,MESH:C065087,di-n-butylphosphoric acid,affects^expression,other
+ABT1,MESH:C005445,triphenyl phosphate,affects^expression,other
+ABT1,MESH:D007854,Lead,affects^expression,other
+ABTB1,MESH:C005445,triphenyl phosphate,affects^expression,other
+ABTB1,MESH:D000077209,Decitabine,affects^expression,other
+ABTB1,MESH:D000393,Air Pollutants,affects^expression|increases^abundance,activates
+ABTB1,MESH:D002945,Cisplatin,affects^expression,other
+ABTB1,MESH:D010126,Ozone,affects^expression|increases^abundance,activates
+ABTB1,MESH:D013749,Tetrachlorodibenzodioxin,affects^expression,other
+ABTB2,MESH:C005445,triphenyl phosphate,affects^expression,other
+ABTB2,MESH:C039961,"S-(1,2-dichlorovinyl)cysteine",affects^response to substance|increases^expression,activates
+ABTB2,MESH:D004317,Doxorubicin,affects^expression,other
+ABTB2,MESH:D006861,Hydrogen Peroxide,affects^expression,other
+ABTB2,MESH:D008070,Lipopolysaccharides,affects^response to substance|increases^expression,activates
+ABTB2,MESH:D010634,Phenobarbital,affects^expression,other
+ABTB3,MESH:C013320,tris(2-butoxyethyl) phosphate,affects^expression,other
+ABTB3,MESH:C044887,beta-methylcholine,affects^expression,other
+ABTB3,MESH:D002220,Carbamazepine,affects^expression,other
+ABTB3,MESH:D014635,Valproic Acid,affects^expression,other
+ABTB3,MESH:D016604,Aflatoxin B1,affects^expression,other
+ACAA1,MESH:C005445,triphenyl phosphate,affects^expression,other
+ACAA1,MESH:C006780,bisphenol A,affects^expression,other
+ACAA1,MESH:D014635,Valproic Acid,affects^expression,other
+ACAA1,MESH:D016604,Aflatoxin B1,affects^expression,other
+ACAA1A,MESH:C013966,dioctyl adipate,affects^response to substance|increases^expression,activates
+ACAA1A,MESH:D003993,Dibutyl Phthalate,affects^response to substance|increases^expression,activates
+ACAA1A,MESH:D004051,Diethylhexyl Phthalate,affects^response to substance|increases^expression,activates
+ACAA2,MESH:C006780,bisphenol A,affects^expression,other
+ACAA2,MESH:C065087,di-n-butylphosphoric acid,affects^expression,other
+ACAA2,MESH:D000393,Air Pollutants,affects^expression|increases^abundance,activates
+ACAA2,MESH:D010042,Ouabain,affects^expression,other
+ACAA2,MESH:D010126,Ozone,affects^expression|increases^abundance,activates
+ACACA,MESH:C005445,triphenyl phosphate,affects^expression,other
+ACACA,MESH:C016599,mono-(2-ethylhexyl)phthalate,affects^expression,other
+ACACA,MESH:C044887,beta-methylcholine,affects^expression,other
+ACACA,MESH:C560077,trametinib,affects^expression|affects^reaction|affects^response to substance,other
+ACACA,MESH:D000077209,Decitabine,affects^expression,other
+ACACA,MESH:D000077484,Vemurafenib,affects^expression|affects^reaction|affects^response to substance,other
+ACACA,MESH:D000077484,Vemurafenib,affects^expression|affects^response to substance,other
+ACACA,MESH:D002945,Cisplatin,affects^expression,other
+ACACA,MESH:D006861,Hydrogen Peroxide,affects^expression,other
+ACACA,MESH:D014635,Valproic Acid,affects^expression,other
+ACACA,MESH:D015215,Zidovudine,affects^expression,other
+ACACA,MESH:D016604,Aflatoxin B1,affects^expression,other
+ACACB,MESH:C039961,"S-(1,2-dichlorovinyl)cysteine",affects^response to substance|increases^expression,activates
+ACACB,MESH:C082360,fipronil,affects^expression,other
+ACACB,MESH:D000068698,Tenofovir,affects^expression,other
+ACACB,MESH:D008070,Lipopolysaccharides,affects^response to substance|increases^expression,activates
+ACACB,MESH:D012967,Sodium Dodecyl Sulfate,affects^response to substance,other
+ACACB,MESH:D014635,Valproic Acid,affects^expression,other
+ACACB,MESH:D015215,Zidovudine,affects^expression,other
+ACACB,MESH:D016604,Aflatoxin B1,affects^expression,other
+ACAD11,MESH:D000077209,Decitabine,affects^expression,other
+ACAD11,MESH:D002945,Cisplatin,affects^expression,other
+ACAD11,MESH:D014635,Valproic Acid,affects^expression,other
+ACAD11,MESH:D016604,Aflatoxin B1,affects^expression,other
+ACAD8,MESH:C039961,"S-(1,2-dichlorovinyl)cysteine",affects^response to substance|increases^expression,activates
+ACAD8,MESH:D008070,Lipopolysaccharides,affects^response to substance|increases^expression,activates
+ACAD9,MESH:C005445,triphenyl phosphate,affects^expression,other
+ACAD9,MESH:C065087,di-n-butylphosphoric acid,affects^expression,other
+ACADL,MESH:D010634,Phenobarbital,affects^expression,other
+ACADM,MESH:C005445,triphenyl phosphate,affects^expression,other
+ACADM,MESH:C013966,dioctyl adipate,affects^response to substance|increases^expression,activates
+ACADM,MESH:C044887,beta-methylcholine,affects^expression,other
+ACADM,MESH:C065087,di-n-butylphosphoric acid,affects^expression,other
+ACADM,MESH:C074702,chromium hexavalent ion,affects^expression,other
+ACADM,MESH:D004051,Diethylhexyl Phthalate,affects^response to substance|increases^expression,activates
+ACADM,MESH:D005047,Etoposide,affects^response to substance,other
+ACADM,MESH:D007854,Lead,affects^expression,other
+ACADS,MESH:C009407,"2,5,2',5'-tetrachlorobiphenyl",affects^expression,other
+ACADS,MESH:C065087,di-n-butylphosphoric acid,affects^expression,other
+ACADS,MESH:C410127,PCB 180,affects^expression,other
+ACADSB,MESH:C005445,triphenyl phosphate,affects^expression,other
+ACADSB,MESH:C006780,bisphenol A,affects^expression,other
+ACADSB,MESH:C012589,trichostatin A,affects^expression,other
+ACADSB,MESH:C060540,polyhexamethyleneguanidine,affects^expression,other
+ACADVL,MESH:C005445,triphenyl phosphate,affects^expression,other
+ACADVL,MESH:C006780,bisphenol A,affects^expression,other
+ACADVL,MESH:C013966,dioctyl adipate,affects^response to substance|increases^expression,activates
+ACADVL,MESH:D001629,Bezafibrate,affects^response to substance,other
+ACADVL,MESH:D003993,Dibutyl Phthalate,affects^response to substance|increases^expression,activates
+ACADVL,MESH:D004051,Diethylhexyl Phthalate,affects^response to substance|increases^expression,activates
+ACADVL,MESH:D004317,Doxorubicin,affects^expression,other
+ACADVL,MESH:D014635,Valproic Acid,affects^expression,other
+ACAN,MESH:C061133,tamibarotene,affects^expression,other
+ACAN,MESH:D005944,Glucosamine,affects^expression,other
+ACAN,MESH:D013749,Tetrachlorodibenzodioxin,affects^expression,other
+ACAP1,MESH:C005445,triphenyl phosphate,affects^expression,other
+ACAP1,MESH:C039961,"S-(1,2-dichlorovinyl)cysteine",affects^response to substance|increases^expression,activates
+ACAP1,MESH:C065087,di-n-butylphosphoric acid,affects^expression,other
+ACAP1,MESH:D008070,Lipopolysaccharides,affects^response to substance|increases^expression,activates
+ACAP1,MESH:D018501,Antirheumatic Agents,affects^expression,other
+ACAP2,MESH:D011078,Polychlorinated Biphenyls,affects^expression,other
+ACAP3,MESH:C005445,triphenyl phosphate,affects^expression,other
+ACAP3,MESH:D000393,Air Pollutants,affects^expression|increases^abundance,activates
+ACAP3,MESH:D010126,Ozone,affects^expression|increases^abundance,activates
+ACAT1,MESH:C027579,periodate-oxidized adenosine,affects^expression,other
+ACAT1,MESH:C065087,di-n-butylphosphoric acid,affects^expression,other
+ACAT1,MESH:D014635,Valproic Acid,affects^expression,other
+ACAT2,MESH:C005460,uranyl acetate,affects^expression,other
+ACAT2,MESH:C006780,bisphenol A,affects^expression,other
+ACAT2,MESH:C027579,periodate-oxidized adenosine,affects^expression,other
+ACAT2,MESH:C065087,di-n-butylphosphoric acid,affects^expression,other
+ACAT2,MESH:D000077209,Decitabine,affects^expression,other
+ACAT2,MESH:D002945,Cisplatin,affects^expression,other
+ACAT2,MESH:D014028,Tobacco Smoke Pollution,affects^expression,other
+ACAT2,MESH:D014501,Uranium,affects^expression,other
+ACAT2,MESH:D014635,Valproic Acid,affects^expression,other
+ACAT2,MESH:D014747,Vinblastine,affects^response to substance,other
+ACAT2,MESH:D019772,Topotecan,affects^response to substance,other
+ACAT2,MESH:D024483,Vitamin K 3,affects^expression,other
+ACBD3,MESH:C004648,testosterone enanthate,affects^expression,other
+ACBD3,MESH:D006861,Hydrogen Peroxide,affects^expression,other
+ACBD3,MESH:D010634,Phenobarbital,affects^expression,other
+ACBD4,MESH:C065087,di-n-butylphosphoric acid,affects^expression,other
+ACBD4,MESH:D007854,Lead,affects^expression,other
+ACBD4,MESH:D016604,Aflatoxin B1,affects^expression,other
+ACBD5,MESH:D006861,Hydrogen Peroxide,affects^expression,other
+ACBD5,MESH:D007854,Lead,affects^expression,other
+ACBD5,MESH:D014635,Valproic Acid,affects^expression,other
+ACBD6,MESH:C065087,di-n-butylphosphoric acid,affects^expression,other
+ACBD6,MESH:D014635,Valproic Acid,affects^expression,other
+ACBD7,MESH:C012589,trichostatin A,affects^expression,other
+ACBD7,MESH:C017947,sodium arsenite,affects^expression,other
+ACCS,MESH:D000077209,Decitabine,affects^expression,other
+ACCS,MESH:D002945,Cisplatin,affects^expression,other
+ACCS,MESH:D014635,Valproic Acid,affects^expression,other
+ACCSL,MESH:C585473,"theaflavin-3,3'-digallate",affects^expression,other
+ACCSL,MESH:D014028,Tobacco Smoke Pollution,affects^expression,other
+ACD,MESH:C005445,triphenyl phosphate,affects^expression,other
+ACD,MESH:C065087,di-n-butylphosphoric acid,affects^expression,other
+ACD,MESH:D006861,Hydrogen Peroxide,affects^expression,other
+ACD,MESH:D012645,Selenomethionine,affects^expression,other
+ACE,MESH:C044946,benazepril,affects^response to substance,other
+ACE,MESH:D001241,Aspirin,affects^response to substance,other
+ACE,MESH:D004656,Enalapril,affects^cotreatment|affects^response to substance,other
+ACE,MESH:D006861,Hydrogen Peroxide,affects^cotreatment|affects^response to substance,other
+ACE,MESH:D008790,Metoprolol,affects^response to substance,other
+ACE,MESH:D009151,Mustard Gas,affects^response to substance,other
+ACE,MESH:D010656,Phenylephrine,affects^response to substance,other
+ACE,MESH:D012965,Sodium Chloride,affects^cotreatment|affects^response to substance,other
+ACE,MESH:D017315,Cilazapril,affects^response to substance,other
+ACE,MESH:D020913,Perindopril,affects^response to substance,other
+ACE2,MESH:C044946,benazepril,affects^cotreatment|affects^response to substance,other
+ACE2,MESH:C044946,benazepril,affects^response to substance,other
+ACE2,MESH:D000077405,Irbesartan,affects^response to substance,other
+ACE2,MESH:D014635,Valproic Acid,affects^expression,other
+ACER2,MESH:C005445,triphenyl phosphate,affects^expression,other
+ACER2,MESH:C006780,bisphenol A,affects^expression,other
+ACER3,MESH:C012589,trichostatin A,affects^expression,other
+ACER3,MESH:D011794,Quercetin,affects^expression,other
+ACER3,MESH:D014635,Valproic Acid,affects^expression,other
+ACHE,MESH:C039961,"S-(1,2-dichlorovinyl)cysteine",affects^response to substance|increases^expression,activates
+ACHE,MESH:D007854,Lead,affects^expression,other
+ACHE,MESH:D008070,Lipopolysaccharides,affects^response to substance|increases^expression,activates
+ACHE,MESH:D009943,Organophosphorus Compounds,affects^response to substance,other
+ACHE,MESH:D010575,Pesticides,affects^response to substance,other
+ACHE,MESH:D019311,Staurosporine,affects^response to substance|increases^activity,activates
+ACIN1,MESH:C065087,di-n-butylphosphoric acid,affects^expression,other
+ACIN1,MESH:C080276,mono(2-ethyl-5-oxohexyl)phthalate,affects^expression,other
+ACIN1,MESH:D002220,Carbamazepine,affects^expression,other
+ACIN1,MESH:D004008,Diclofenac,affects^expression,other
+ACIN1,MESH:D014635,Valproic Acid,affects^expression,other
+ACKR3,MESH:C005445,triphenyl phosphate,affects^expression,other
+ACKR3,MESH:C015001,arsenite,affects^expression,other
+ACKR3,MESH:C065087,di-n-butylphosphoric acid,affects^expression,other
+ACKR3,MESH:C539933,pevonedistat,affects^expression,other
+ACKR3,MESH:D001151,Arsenic,affects^cotreatment|affects^expression,other
+ACKR3,MESH:D001151,Arsenic,affects^expression,other
+ACKR3,MESH:D002220,Carbamazepine,affects^expression,other
+ACKR3,MESH:D005492,Folic Acid,affects^expression,other
+ACKR3,MESH:D008070,Lipopolysaccharides,affects^expression|affects^reaction,other
+ACKR3,MESH:D008070,Lipopolysaccharides,affects^expression,other
+ACKR3,MESH:D010634,Phenobarbital,affects^expression,other
+ACKR3,MESH:D010936,Plant Extracts,affects^expression|affects^reaction,other
+ACKR3,MESH:D013629,Tamoxifen,affects^expression,other
+ACKR3,MESH:D016604,Aflatoxin B1,affects^expression,other
+ACKR3,MESH:D019308,Palmitic Acid,affects^cotreatment|affects^expression,other
+ACKR3,MESH:D020849,Raloxifene Hydrochloride,affects^expression,other
+ACKR4,MESH:D005492,Folic Acid,affects^expression,other
+ACLY,MESH:C005445,triphenyl phosphate,affects^expression,other
+ACLY,MESH:C006780,bisphenol A,affects^expression,other
+ACLY,MESH:C017947,sodium arsenite,affects^expression,other
+ACLY,MESH:C560077,trametinib,affects^expression|affects^reaction|affects^response to substance,other
+ACLY,MESH:D000077484,Vemurafenib,affects^expression|affects^reaction|affects^response to substance,other
+ACLY,MESH:D000077484,Vemurafenib,affects^expression|affects^response to substance,other
+ACLY,MESH:D014028,Tobacco Smoke Pollution,affects^expression,other
+ACLY,MESH:D014635,Valproic Acid,affects^expression,other
+ACLY,MESH:D015570,Josamycin,affects^response to substance,other
+ACMSD,MESH:D016604,Aflatoxin B1,affects^expression,other
+ACO1,MESH:C012589,trichostatin A,affects^expression,other
+ACO1,MESH:C119536,nickel acetate,affects^expression,other
+ACO1,MESH:D000393,Air Pollutants,affects^expression|increases^abundance,activates
+ACO1,MESH:D004317,Doxorubicin,affects^response to substance,other
+ACO1,MESH:D006861,Hydrogen Peroxide,affects^expression,other
+ACO1,MESH:D010126,Ozone,affects^expression|increases^abundance,activates
+ACO1,MESH:D010634,Phenobarbital,affects^expression,other
+ACO1,MESH:D014028,Tobacco Smoke Pollution,affects^expression,other
+ACO1,MESH:D014635,Valproic Acid,affects^expression,other
+ACO1,MESH:D016685,Mitomycin,affects^response to substance,other
+ACO2,MESH:D004317,Doxorubicin,affects^expression,other
+ACO2,MESH:D012645,Selenomethionine,affects^expression,other
+ACO2,MESH:D014028,Tobacco Smoke Pollution,affects^expression,other
+ACO2,MESH:D024483,Vitamin K 3,affects^expression,other
+ACOT1,MESH:C013320,tris(2-butoxyethyl) phosphate,affects^expression,other
+ACOT1,MESH:D013749,Tetrachlorodibenzodioxin,affects^expression,other
+ACOT11,MESH:C005445,triphenyl phosphate,affects^expression,other
+ACOT11,MESH:C013320,tris(2-butoxyethyl) phosphate,affects^expression,other
+ACOT11,MESH:D006861,Hydrogen Peroxide,affects^expression,other
+ACOT12,MESH:D013749,Tetrachlorodibenzodioxin,affects^expression,other
+ACOT13,MESH:C044887,beta-methylcholine,affects^expression,other
+ACOT13,MESH:C065087,di-n-butylphosphoric acid,affects^expression,other
+ACOT13,MESH:D000077209,Decitabine,affects^expression,other
+ACOT13,MESH:D002220,Carbamazepine,affects^expression,other
+ACOT13,MESH:D002945,Cisplatin,affects^expression,other
+ACOT13,MESH:D005472,Fluorouracil,affects^response to substance,other
+ACOT13,MESH:D006861,Hydrogen Peroxide,affects^expression,other
+ACOT13,MESH:D014028,Tobacco Smoke Pollution,affects^expression,other
+ACOT13,MESH:D014635,Valproic Acid,affects^expression,other
+ACOT13,MESH:D014747,Vinblastine,affects^response to substance,other
+ACOT13,MESH:D015123,"7,8-Dihydro-7,8-dihydroxybenzo(a)pyrene 9,10-oxide",affects^expression,other
+ACOT13,MESH:D024483,Vitamin K 3,affects^expression,other
+ACOT2,MESH:C005445,triphenyl phosphate,affects^expression,other
+ACOT2,MESH:D004317,Doxorubicin,affects^expression,other
+ACOT2,MESH:D016685,Mitomycin,affects^response to substance,other
+ACOT4,MESH:C065087,di-n-butylphosphoric acid,affects^expression,other
+ACOT4,MESH:D016604,Aflatoxin B1,affects^expression,other
+ACOT6,MESH:C585473,"theaflavin-3,3'-digallate",affects^expression,other
+ACOT7,MESH:C005445,triphenyl phosphate,affects^expression,other
+ACOT7,MESH:C065087,di-n-butylphosphoric acid,affects^expression,other
+ACOT7,MESH:D000082,Acetaminophen,affects^response to substance,other
+ACOT7,MESH:D005472,Fluorouracil,affects^response to substance,other
+ACOT7,MESH:D014635,Valproic Acid,affects^expression,other
+ACOT8,MESH:C005445,triphenyl phosphate,affects^expression,other
+ACOT8,MESH:D000393,Air Pollutants,affects^expression|increases^abundance,activates
+ACOT8,MESH:D010126,Ozone,affects^expression|increases^abundance,activates
+ACOT9,MESH:C005445,triphenyl phosphate,affects^expression,other
+ACOT9,MESH:C065087,di-n-butylphosphoric acid,affects^expression,other
+ACOT9,MESH:D002220,Carbamazepine,affects^expression,other
+ACOX1,MESH:C005445,triphenyl phosphate,affects^expression,other
+ACOX1,MESH:C009618,"O,O-diethyl O-3,5,6-trichloro-2-pyridyl phosphate",affects^expression,other
+ACOX1,MESH:C009618,"O,O-diethyl O-3,5,6-trichloro-2-pyridyl phosphate",affects^expression|affects^reaction,other
+ACOX1,MESH:C065087,di-n-butylphosphoric acid,affects^expression,other
+ACOX1,MESH:C078814,anandamide,affects^expression|affects^reaction,other
+ACOX1,MESH:C488250,oleoylethanolamide,affects^expression|affects^reaction,other
+ACOX1,MESH:D005230,"Fatty Acids, Nonesterified",affects^expression,other
+ACOX1,MESH:D014635,Valproic Acid,affects^expression,other
+ACOX2,MESH:D000077209,Decitabine,affects^expression,other
+ACOX2,MESH:D002945,Cisplatin,affects^expression,other
+ACOX2,MESH:D014635,Valproic Acid,affects^expression,other
+ACOX2,MESH:D016604,Aflatoxin B1,affects^expression,other
+ACOX3,MESH:C005445,triphenyl phosphate,affects^expression,other
+ACOX3,MESH:D000082,Acetaminophen,affects^response to substance,other
+ACP1,MESH:D000393,Air Pollutants,affects^expression|increases^abundance,activates
+ACP1,MESH:D000395,"Air Pollutants, Occupational",affects^expression,other
+ACP1,MESH:D004317,Doxorubicin,affects^response to substance,other
+ACP1,MESH:D010126,Ozone,affects^expression|increases^abundance,activates
+ACP1,MESH:D014635,Valproic Acid,affects^expression,other
+ACP1,MESH:D014747,Vinblastine,affects^response to substance,other
+ACP2,MESH:C005445,triphenyl phosphate,affects^expression,other
+ACP2,MESH:C006780,bisphenol A,affects^expression,other
+ACP2,MESH:C030984,pyrene,affects^expression,other
+ACP2,MESH:C030984,pyrene,affects^cotreatment|affects^expression,other
+ACP2,MESH:C031181,phenanthrene,affects^cotreatment|affects^expression,other
+ACP2,MESH:C031181,phenanthrene,affects^expression,other
+ACP2,MESH:C031721,naphthalene,affects^cotreatment|affects^expression,other
+ACP2,MESH:C031721,naphthalene,affects^expression,other
+ACP2,MESH:C034020,anthracene,affects^expression,other
+ACP2,MESH:C034020,anthracene,affects^cotreatment|affects^expression,other
+ACP2,MESH:C065087,di-n-butylphosphoric acid,affects^expression,other
+ACP2,MESH:D002220,Carbamazepine,affects^expression,other
+ACP2,MESH:D014028,Tobacco Smoke Pollution,affects^expression,other
+ACP2,MESH:D015655,1-Methyl-4-phenylpyridinium,affects^expression,other
+ACP3,MESH:C005445,triphenyl phosphate,affects^expression,other
+ACP3,MESH:C008493,methylselenic acid,affects^expression,other
+ACP3,MESH:C065087,di-n-butylphosphoric acid,affects^expression,other
+ACP3,MESH:D000395,"Air Pollutants, Occupational",affects^expression,other
+ACP3,MESH:D014028,Tobacco Smoke Pollution,affects^expression,other
+ACP3,MESH:D014212,Tretinoin,affects^expression,other
+ACP3,MESH:D014635,Valproic Acid,affects^expression,other
+ACP3,MESH:D015123,"7,8-Dihydro-7,8-dihydroxybenzo(a)pyrene 9,10-oxide",affects^expression,other
+ACP5,MESH:C008437,"2,2'-methylenebis(4-methyl-6-tert-butylphenol)",affects^expression|affects^response to substance,other
+ACP5,MESH:C065087,di-n-butylphosphoric acid,affects^expression,other
+ACP5,MESH:C101816,perfluoro-n-nonanoic acid,affects^expression,other
+ACP5,MESH:D000077209,Decitabine,affects^expression,other
+ACP5,MESH:D011078,Polychlorinated Biphenyls,affects^expression,other
+ACP5,MESH:D014028,Tobacco Smoke Pollution,affects^expression,other
+ACP6,MESH:C039961,"S-(1,2-dichlorovinyl)cysteine",affects^response to substance|increases^expression,activates
+ACP6,MESH:C065087,di-n-butylphosphoric acid,affects^expression,other
+ACP6,MESH:D008070,Lipopolysaccharides,affects^response to substance|increases^expression,activates
+ACRBP,MESH:C005445,triphenyl phosphate,affects^expression,other
+ACRBP,MESH:C065087,di-n-butylphosphoric acid,affects^expression,other
+ACRBP,MESH:C585473,"theaflavin-3,3'-digallate",affects^expression,other
+ACSBG1,MESH:C005445,triphenyl phosphate,affects^expression,other
+ACSBG1,MESH:C017947,sodium arsenite,affects^expression,other
+ACSBG1,MESH:D002220,Carbamazepine,affects^expression,other
+ACSF2,MESH:C005445,triphenyl phosphate,affects^expression,other
+ACSF2,MESH:C006780,bisphenol A,affects^expression,other
+ACSF2,MESH:C013320,tris(2-butoxyethyl) phosphate,affects^expression,other
+ACSF2,MESH:C039961,"S-(1,2-dichlorovinyl)cysteine",affects^response to substance|increases^expression,activates

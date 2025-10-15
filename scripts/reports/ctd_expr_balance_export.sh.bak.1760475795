@@ -1,0 +1,156 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+: "${OUTDIR:=reports/upload_2}"
+mkdir -p "$OUTDIR"
+
+: "${PSQL:=psql -qAtX}"
+
+# 70% majority threshold
+THRESH=0.70
+
+# Common CTE for gene-level balance on STRICT edges only
+read -r -d '' GENE_SQL <<'SQL'
+WITH e AS (
+  SELECT gene_symbol,
+         CASE
+           WHEN action_norm ~* '(^|\\|)increases\\^expression(\\||$)' THEN 'inc'
+           WHEN action_norm ~* '(^|\\|)decreases\\^expression(\\||$)' THEN 'dec'
+           ELSE NULL
+         END AS dir
+  FROM public.v_ctd_enriched_strict_v2
+  WHERE is_strict
+),
+agg AS (
+  SELECT gene_symbol,
+         COALESCE(SUM((dir='inc')::int),0) AS inc,
+         COALESCE(SUM((dir='dec')::int),0) AS dec,
+         COALESCE(SUM((dir IN ('inc','dec'))::int),0) AS total_expr
+  FROM e
+  GROUP BY 1
+)
+SELECT gene_symbol,
+       inc, dec, total_expr,
+       CASE
+         WHEN total_expr=0 THEN 'none'
+         WHEN inc >= GREATEST(1, CEIL(total_expr * ${THRESH})) THEN 'inc_majority'
+         WHEN dec >= GREATEST(1, CEIL(total_expr * ${THRESH})) THEN 'dec_majority'
+         ELSE 'balanced'
+       END AS balance_bucket,
+       ROUND(100.0*inc/GREATEST(total_expr,1),1) AS inc_pct,
+       ROUND(100.0*dec/GREATEST(total_expr,1),1) AS dec_pct
+FROM agg
+SQL
+
+# Chemical-level, join chemical name
+read -r -d '' CHEM_SQL <<'SQL'
+WITH e AS (
+  SELECT chem_id,
+         CASE
+           WHEN action_norm ~* '(^|\\|)increases\\^expression(\\||$)' THEN 'inc'
+           WHEN action_norm ~* '(^|\\|)decreases\\^expression(\\||$)' THEN 'dec'
+           ELSE NULL
+         END AS dir
+  FROM public.v_ctd_enriched_strict_v2
+  WHERE is_strict
+),
+agg AS (
+  SELECT chem_id,
+         COALESCE(SUM((dir='inc')::int),0) AS inc,
+         COALESCE(SUM((dir='dec')::int),0) AS dec,
+         COALESCE(SUM((dir IN ('inc','dec'))::int),0) AS total_expr
+  FROM e
+  GROUP BY 1
+)
+SELECT a.chem_id,
+       c.name AS chem_name,
+       a.inc, a.dec, a.total_expr,
+       CASE
+         WHEN a.total_expr=0 THEN 'none'
+         WHEN a.inc >= GREATEST(1, CEIL(a.total_expr * ${THRESH})) THEN 'inc_majority'
+         WHEN a.dec >= GREATEST(1, CEIL(a.total_expr * ${THRESH})) THEN 'dec_majority'
+         ELSE 'balanced'
+       END AS balance_bucket,
+       ROUND(100.0*a.inc/GREATEST(a.total_expr,1),1) AS inc_pct,
+       ROUND(100.0*a.dec/GREATEST(a.total_expr,1),1) AS dec_pct
+FROM agg a
+LEFT JOIN public.chemicals c ON c.chem_id = a.chem_id
+SQL
+
+# KPIs: how many genes in each bucket (+ non-zero totals)
+read -r -d '' KPI_SQL <<'SQL'
+WITH base AS ( /* same as GENE_SQL above */ 
+  WITH e AS (
+    SELECT gene_symbol,
+           CASE
+             WHEN action_norm ~* '(^|\\|)increases\\^expression(\\||$)' THEN 'inc'
+             WHEN action_norm ~* '(^|\\|)decreases\\^expression(\\||$)' THEN 'dec'
+             ELSE NULL
+           END AS dir
+    FROM public.v_ctd_enriched_strict_v2
+    WHERE is_strict
+  ),
+  agg AS (
+    SELECT gene_symbol,
+           COALESCE(SUM((dir='inc')::int),0) AS inc,
+           COALESCE(SUM((dir='dec')::int),0) AS dec,
+           COALESCE(SUM((dir IN ('inc','dec'))::int),0) AS total_expr
+    FROM e GROUP BY 1
+  )
+  SELECT *
+  FROM agg
+)
+SELECT bucket, COUNT(*) AS n
+FROM (
+  SELECT CASE
+           WHEN total_expr=0 THEN 'none'
+           WHEN inc >= GREATEST(1, CEIL(total_expr * ${THRESH})) THEN 'inc_majority'
+           WHEN dec >= GREATEST(1, CEIL(total_expr * ${THRESH})) THEN 'dec_majority'
+           ELSE 'balanced'
+         END AS bucket
+  FROM base
+) t
+GROUP BY 1
+ORDER BY 1
+SQL
+
+# Write CSVs
+$PSQL -c "\copy ( ${GENE_SQL}   ORDER BY total_expr DESC, gene_symbol ) TO STDOUT WITH CSV HEADER" > "$OUTDIR/ctd_expr_balance_genes.csv"
+$PSQL -c "\copy ( ${CHEM_SQL}   ORDER BY total_expr DESC, chem_name NULLS LAST, chem_id ) TO STDOUT WITH CSV HEADER" > "$OUTDIR/ctd_expr_balance_chemicals.csv"
+$PSQL -c "\copy ( ${KPI_SQL} ) TO STDOUT WITH CSV HEADER" > "$OUTDIR/ctd_expr_balance_kpis.csv"
+
+# Optional sentinel cut
+$PSQL -c "\copy ( SELECT * FROM ( ${GENE_SQL} ) AS base WHERE gene_symbol IN ('TP53','APOE','PCSK9') ORDER BY total_expr DESC ) TO STDOUT WITH CSV HEADER" > "$OUTDIR/ctd_expr_balance_sentinels.csv"
+
+echo "[ok] Wrote:"
+ls -lh "$OUTDIR"/ctd_expr_balance_*.csv
+
+# --- KPI export (adds the badges row inputs) ---
+# Based on the same gene aggregation used above; thresholds:
+# - inc_majority: inc >= 70% of (inc+dec)
+# - dec_majority: dec >= 70% of (inc+dec)
+# - balanced: neither side >= 70% and total_expr > 0
+# - none: total_expr = 0
+$PSQL -c "\copy (
+WITH base AS (
+  SELECT gtc.gene_symbol,
+         SUM( (gtc.action_norm ~* '(^|\\|)increases\\^expression(\\||$)' )::int ) AS inc,
+         SUM( (gtc.action_norm ~* '(^|\\|)decreases\\^expression(\\||$)' )::int ) AS dec
+  FROM public.gene_to_chemical gtc
+  GROUP BY 1
+),
+agg AS (
+  SELECT gene_symbol,
+         inc, dec,
+         (inc+dec) AS total_expr,
+         CASE WHEN (inc+dec)>0 THEN inc::float/(inc+dec) ELSE 0 END AS inc_frac,
+         CASE WHEN (inc+dec)>0 THEN dec::float/(inc+dec) ELSE 0 END AS dec_frac
+  FROM base
+)
+SELECT
+  SUM( (inc_frac >= 0.70 AND total_expr > 0)::int ) AS inc_majority,
+  SUM( (dec_frac >= 0.70 AND total_expr > 0)::int ) AS dec_majority,
+  SUM( (inc_frac < 0.70 AND dec_frac < 0.70 AND total_expr > 0)::int ) AS balanced,
+  SUM( (total_expr = 0)::int ) AS none
+FROM agg
+) TO STDOUT WITH CSV HEADER" > "$OUTDIR/ctd_expr_balance_kpis.csv"

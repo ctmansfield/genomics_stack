@@ -1,0 +1,26 @@
+chem_id,chem_name,inc,dec,total_expr,inc_frac,dec_frac,balance_flag
+MESH:C017947,sodium arsenite,11489,10860,22349,0.514,0.486,balanced
+MESH:D014635,Valproic Acid,9632,7131,16763,0.575,0.425,balanced
+MESH:D052638,Particulate Matter,5381,6821,12202,0.441,0.559,balanced
+MESH:D019256,Cadmium Chloride,5859,5840,11699,0.501,0.499,balanced
+MESH:D014028,Tobacco Smoke Pollution,5553,5555,11108,0.500,0.500,balanced
+MESH:C006780,bisphenol A,5414,5582,10996,0.492,0.508,balanced
+MESH:D004958,Estradiol,5990,4598,10588,0.566,0.434,balanced
+MESH:D002945,Cisplatin,5598,4705,10303,0.543,0.457,balanced
+MESH:D000393,Air Pollutants,3950,5920,9870,0.400,0.600,balanced
+MESH:D014212,Tretinoin,4664,4574,9238,0.505,0.495,balanced
+MESH:D012906,Smoke,2194,7013,9207,0.238,0.762,balanced
+MESH:D016572,Cyclosporine,4395,4669,9064,0.485,0.515,balanced
+MESH:D000082,Acetaminophen,4079,4606,8685,0.470,0.530,balanced
+MESH:D001564,Benzo(a)pyrene,4150,4413,8563,0.485,0.515,balanced
+MESH:C459179,"4-(5-benzo(1,3)dioxol-5-yl-4-pyridin-2-yl-1H-imidazol-2-yl)benzamide",4230,3730,7960,0.531,0.469,balanced
+MESH:D004317,Doxorubicin,2067,5618,7685,0.269,0.731,balanced
+MESH:C544151,jinfukang,3987,3641,7628,0.523,0.477,balanced
+MESH:C000228,aristolochic acid I,3788,3768,7556,0.501,0.499,balanced
+MESH:D000077185,Resveratrol,4099,3412,7511,0.546,0.454,balanced
+MESH:D008070,Lipopolysaccharides,5152,2120,7272,0.708,0.292,balanced
+MESH:C496492,abrine,3644,3507,7151,0.510,0.490,balanced
+MESH:D001151,Arsenic,3453,3494,6947,0.497,0.503,balanced
+MESH:D019319,Okadaic Acid,3404,3450,6854,0.497,0.503,balanced
+MESH:C012589,trichostatin A,3691,3109,6800,0.543,0.457,balanced
+MESH:C516138,dorsomorphin,3531,3217,6748,0.523,0.477,balanced

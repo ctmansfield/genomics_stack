@@ -1,0 +1,52 @@
+<!doctype html><meta charset="utf-8"><title>CTD — Expression Balance</title>
+<body>
+
+<style>
+  .kpi{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0 16px}
+  .badge{border:1px solid #ddd;border-radius:999px;padding:4px 10px;font:500 12px/1.4 system-ui,Segoe UI,Roboto,Helvetica,Arial}
+  .badge.inc{background:#fff4f4;border-color:#ffd8d8}
+  .badge.dec{background:#f4f8ff;border-color:#d8e6ff}
+  .badge.bal{background:#e8f7e8;border-color:#c5ebc5}
+  .badge.none{background:#f2f2f2;border-color:#e0e0e0}
+  .tblwrap{overflow:auto;margin:6px 0 18px}
+  table{border-collapse:collapse;width:100%}
+  th,td{border:1px solid #eee;padding:6px 8px;font:12px/1.35 system-ui,Segoe UI,Roboto,Helvetica,Arial;white-space:nowrap}
+  th{background:#fafafa;text-align:left}
+  td.num{text-align:right}
+  .subtle{color:#666;font-size:11px;margin-top:2px}
+</style>
+
+<h2>Expression Balance (CTD)</h2>
+<div class="kpi">
+  <span class="badge inc">↑ majority: 3749,3687,19286,876</span>
+  <span class="badge dec">↓ majority: </span>
+  <span class="badge bal">balanced: </span>
+  <span class="badge none">no expr edges: </span>
+</div>
+
+
+  <section>
+    <h3>Top genes by expression-edge volume</h3>
+    <div class="subtle">Flag legend: inc_majority ≥70% ↑; dec_majority ≥70% ↓; balanced otherwise. Sorted by total_expr.</div>
+    <div class="tblwrap">
+      <table>
+        <thead><tr><th>gene_symbol</th><th>inc</th><th>dec</th><th>total_expr</th><th>inc_frac</th><th>dec_frac</th><th>balance_flag</th></tr></thead>
+        <tbody><tr><td>BCL2</td><td class="num">525</td><td class="num">1702</td><td class="num">2227</td><td class="num">0.236</td><td class="num">0.764</td><td>balanced</td></tr><tr><td>TNF</td><td class="num">1746</td><td class="num">414</td><td class="num">2160</td><td class="num">0.808</td><td class="num">0.192</td><td>inc_majority</td></tr><tr><td>BAX</td><td class="num">1647</td><td class="num">289</td><td class="num">1936</td><td class="num">0.851</td><td class="num">0.149</td><td>inc_majority</td></tr><tr><td>CXCL8</td><td class="num">1501</td><td class="num">327</td><td class="num">1828</td><td class="num">0.821</td><td class="num">0.179</td><td>inc_majority</td></tr><tr><td>TP53</td><td class="num">1380</td><td class="num">382</td><td class="num">1762</td><td class="num">0.783</td><td class="num">0.217</td><td>balanced</td></tr><tr><td>HMOX1</td><td class="num">1463</td><td class="num">294</td><td class="num">1757</td><td class="num">0.833</td><td class="num">0.167</td><td>inc_majority</td></tr><tr><td>IL1B</td><td class="num">1442</td><td class="num">284</td><td class="num">1726</td><td class="num">0.835</td><td class="num">0.165</td><td>inc_majority</td></tr><tr><td>CDPF1</td><td class="num">1302</td><td class="num">299</td><td class="num">1601</td><td class="num">0.813</td><td class="num">0.187</td><td>inc_majority</td></tr><tr><td>CDKN1A</td><td class="num">1301</td><td class="num">291</td><td class="num">1592</td><td class="num">0.817</td><td class="num">0.183</td><td>inc_majority</td></tr><tr><td>IL6</td><td class="num">1278</td><td class="num">299</td><td class="num">1577</td><td class="num">0.810</td><td class="num">0.190</td><td>inc_majority</td></tr><tr><td>PTGS2</td><td class="num">1158</td><td class="num">302</td><td class="num">1460</td><td class="num">0.793</td><td class="num">0.207</td><td>balanced</td></tr><tr><td>CYP1A1</td><td class="num">1200</td><td class="num">170</td><td class="num">1370</td><td class="num">0.876</td><td class="num">0.124</td><td>inc_majority</td></tr><tr><td>NFE2L2</td><td class="num">926</td><td class="num">333</td><td class="num">1259</td><td class="num">0.736</td><td class="num">0.264</td><td>balanced</td></tr><tr><td>CASP3</td><td class="num">951</td><td class="num">284</td><td class="num">1235</td><td class="num">0.770</td><td class="num">0.230</td><td>balanced</td></tr><tr><td>CCND1</td><td class="num">480</td><td class="num">754</td><td class="num">1234</td><td class="num">0.389</td><td class="num">0.611</td><td>balanced</td></tr></tbody>
+      </table>
+    </div>
+  </section>
+  
+
+
+  <section>
+    <h3>Top chemicals by expression-edge volume</h3>
+    <div class="subtle">Includes chemical name when available. Sorted by total_expr.</div>
+    <div class="tblwrap">
+      <table>
+        <thead><tr><th>chem_id</th><th>chem_name</th><th>inc</th><th>dec</th><th>total_expr</th><th>inc_frac</th><th>dec_frac</th><th>balance_flag</th></tr></thead>
+        <tbody><tr><td>MESH:C017947</td><td>sodium arsenite</td><td class="num">11489</td><td class="num">10860</td><td class="num">22349</td><td class="num">0.514</td><td class="num">0.486</td><td>balanced</td></tr><tr><td>MESH:D014635</td><td>Valproic Acid</td><td class="num">9632</td><td class="num">7131</td><td class="num">16763</td><td class="num">0.575</td><td class="num">0.425</td><td>balanced</td></tr><tr><td>MESH:D052638</td><td>Particulate Matter</td><td class="num">5381</td><td class="num">6821</td><td class="num">12202</td><td class="num">0.441</td><td class="num">0.559</td><td>balanced</td></tr><tr><td>MESH:D019256</td><td>Cadmium Chloride</td><td class="num">5859</td><td class="num">5840</td><td class="num">11699</td><td class="num">0.501</td><td class="num">0.499</td><td>balanced</td></tr><tr><td>MESH:D014028</td><td>Tobacco Smoke Pollution</td><td class="num">5553</td><td class="num">5555</td><td class="num">11108</td><td class="num">0.500</td><td class="num">0.500</td><td>balanced</td></tr><tr><td>MESH:C006780</td><td>bisphenol A</td><td class="num">5414</td><td class="num">5582</td><td class="num">10996</td><td class="num">0.492</td><td class="num">0.508</td><td>balanced</td></tr><tr><td>MESH:D004958</td><td>Estradiol</td><td class="num">5990</td><td class="num">4598</td><td class="num">10588</td><td class="num">0.566</td><td class="num">0.434</td><td>balanced</td></tr><tr><td>MESH:D002945</td><td>Cisplatin</td><td class="num">5598</td><td class="num">4705</td><td class="num">10303</td><td class="num">0.543</td><td class="num">0.457</td><td>balanced</td></tr><tr><td>MESH:D000393</td><td>Air Pollutants</td><td class="num">3950</td><td class="num">5920</td><td class="num">9870</td><td class="num">0.400</td><td class="num">0.600</td><td>balanced</td></tr><tr><td>MESH:D014212</td><td>Tretinoin</td><td class="num">4664</td><td class="num">4574</td><td class="num">9238</td><td class="num">0.505</td><td class="num">0.495</td><td>balanced</td></tr><tr><td>MESH:D012906</td><td>Smoke</td><td class="num">2194</td><td class="num">7013</td><td class="num">9207</td><td class="num">0.238</td><td class="num">0.762</td><td>balanced</td></tr><tr><td>MESH:D016572</td><td>Cyclosporine</td><td class="num">4395</td><td class="num">4669</td><td class="num">9064</td><td class="num">0.485</td><td class="num">0.515</td><td>balanced</td></tr><tr><td>MESH:D000082</td><td>Acetaminophen</td><td class="num">4079</td><td class="num">4606</td><td class="num">8685</td><td class="num">0.470</td><td class="num">0.530</td><td>balanced</td></tr><tr><td>MESH:D001564</td><td>Benzo(a)pyrene</td><td class="num">4150</td><td class="num">4413</td><td class="num">8563</td><td class="num">0.485</td><td class="num">0.515</td><td>balanced</td></tr><tr><td>MESH:C459179</td><td>"4-(5-benzo(1</td><td>3)dioxol-5-yl-4-pyridin-2-yl-1H-imidazol-2-yl)benzamide"</td><td class="num">4230</td><td class="num">3730</td><td class="num">7960</td><td class="num">0.531</td><td class="num">0.469</td><td>balanced</td></tr></tbody>
+      </table>
+    </div>
+  </section>
+  
+</body>

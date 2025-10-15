@@ -1,0 +1,100 @@
+#!/usr/bin/env bash
+set -euo pipefail
+OUTDIR="reports/upload_2"
+GENES_CSV="$OUTDIR/ctd_expr_balance_genes.csv"
+CHEMS_CSV="$OUTDIR/ctd_expr_balance_chemicals.csv"
+KPIS_CSV="$OUTDIR/ctd_expr_balance_kpis.csv"
+SENT_CSV="$OUTDIR/ctd_expr_balance_sentinels.csv"
+
+hdr() { echo "<thead><tr>$1</tr></thead>"; }
+row() {
+  # right-align numeric cells
+  awk -F',' -v OFS=',' 'BEGIN{q="\""} NR>1{
+    print "<tr>" \
+          "<td>" $1 "</td>" \
+          "<td>" $2 "</td>" \
+          "<td class=\"num\">" $3 "</td>" \
+          "<td class=\"num\">" $4 "</td>" \
+          "<td class=\"num\">" $5 "</td>" \
+          "<td><span class=\"badge " $6 "\">" $6 "</span></td>" \
+          "<td class=\"num\">" $7 "%</td>" \
+          "<td class=\"num\">" $8 "%</td>" \
+          "</tr>"
+  }'
+}
+
+render_table() {
+  local title=$1 file=$2 id=$3 first_col=$4
+  cat <<HTML
+<section id="$id">
+  <h2>$title</h2>
+  <div class="note">Bucket = 'inc_majority' or 'dec_majority' if one side is ≥70% of expression edges; else 'balanced'. 'none' = no inc/dec expression edges under STRICT.</div>
+  <div class="tblwrap"><table>
+    $(hdr "<th>${first_col}</th><th>name</th><th>↑</th><th>↓</th><th>total</th><th>bucket</th><th>↑%</th><th>↓%</th>")
+    <tbody>
+$(tail -n +2 "$file" | row)
+    </tbody>
+  </table></div>
+</section>
+HTML
+}
+
+# KPIs for badges row
+kpi_json=$(awk -F',' 'NR>1{print $1":"$2}' "$KPIS_CSV" | tr '\n' ' ')
+inc=$(echo "$kpi_json" | sed -n 's/.*inc_majority:\([0-9]\+\).*/\1/p')
+dec=$(echo "$kpi_json" | sed -n 's/.*dec_majority:\([0-9]\+\).*/\1/p')
+bal=$(echo "$kpi_json" | sed -n 's/.*balanced:\([0-9]\+\).*/\1/p')
+none=$(echo "$kpi_json" | sed -n 's/.*none:\([0-9]\+\).*/\1/p')
+
+read -r -d '' STYLE <<'CSS'
+<style>
+body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;margin:24px}
+h1{margin:0 0 2px} h2{margin-top:28px} small{color:#555}
+.tblwrap{overflow-x:auto;max-height:60vh;border:1px solid #ddd}
+table{border-collapse:collapse;width:100%;font-size:13px}
+th,td{padding:6px 8px;border-bottom:1px solid #eee;vertical-align:top}
+thead th{position:sticky;top:0;background:#fff;border-bottom:1px solid #ccc}
+tr:nth-child(even) td{background:#fafafa}
+td.num{text-align:right;white-space:nowrap}
+.note{color:#444;margin:6px 0 10px}
+.kpis{display:flex;gap:10px;margin:10px 0 14px;flex-wrap:wrap}
+.card{border:1px solid #ddd;border-radius:8px;padding:8px 10px}
+.badge{display:inline-block;padding:2px 6px;border-radius:6px;border:1px solid #ccd;margin-left:6px;font-size:11px}
+.badge.inc_majority{background:#fff3f0;border-color:#ffc9bd}
+.badge.dec_majority{background:#eef5ff;border-color:#cfe0ff}
+.badge.balanced{background:#e8f7e8;border-color:#c5ebc5}
+.badge.none{background:#f2f2f2;border-color:#e0e0e0}
+.legend{font-size:12px;color:#555}
+</style>
+CSS
+
+read -r -d '' BODY <<HTML
+${STYLE}
+<h1>CTD — Expression Balance</h1>
+<div class="legend">STRICT-only view of increases/decreases of expression. Use to see whether a gene or chemical skews ↑ or ↓, or is balanced.</div>
+<div class="kpis">
+  <div class="card"><b>Genes (↑ majority)</b><br>${inc:-0}</div>
+  <div class="card"><b>Genes (↓ majority)</b><br>${dec:-0}</div>
+  <div class="card"><b>Genes (balanced)</b><br>${bal:-0}</div>
+  <div class="card"><b>Genes (none)</b><br>${none:-0}</div>
+</div>
+<div class="note"><b>Actionable:</b> 
+Use <i>balanced</i> genes/chemicals to prioritize consistency checks (look for binds/modifies in STRICT for mechanistic support). 
+For <i>↑ or ↓ majorities</i>, sanity-check sample context (dose/time/cell type) before ranking; very skewed signals may reflect specific experimental regimes.</div>
+$(render_table "Top genes by expression edges"      "$GENES_CSV" genes "gene")
+$(render_table "Top chemicals by expression edges"  "$CHEMS_CSV" chems "chem_id")
+<section id="sentinels">
+  <h2>Sentinel genes (TP53, APOE, PCSK9)</h2>
+  <div class="tblwrap"><table>
+    $(hdr "<th>gene</th><th></th><th>↑</th><th>↓</th><th>total</th><th>bucket</th><th>↑%</th><th>↓%</th>")
+    <tbody>
+$(tail -n +2 "$SENT_CSV" | row)
+    </tbody>
+  </table></div>
+</section>
+HTML
+
+# Full page + embeddable fragment
+printf '%s\n' "<!doctype html><html><head><meta charset='utf-8'><title>CTD — Expression Balance</title></head><body>${BODY}</body></html>" > "$OUTDIR/ctd_expr_balance.html"
+printf '%s\n' "${BODY}" > "$OUTDIR/ctd_expr_balance_body.html"
+echo "[ok] Wrote $OUTDIR/ctd_expr_balance.html"
