@@ -17,336 +17,11 @@ footer{margin-top:30px;font-size:12px;color:#555}
 .badge{display:inline-block;padding:2px 6px;border-radius:6px;background:#eef;border:1px solid #ccd;margin-left:6px;font-size:11px;color:#224}
 </style></head><body>
 <h1>CTD Action Taxonomy Report</h1>
-<div><small>Generated: 2025-10-15 02:09:46 UTC</small></div>
+<div><small>Generated: 2025-10-16 02:00:21 UTC</small></div>
 <div class="kpi">  <div class="card"><b>Total CTD edges</b><br>1109476</div>  <div class="card"><b>STRICT edges</b><br>1028760</div>  <div class="card"><b>Pruned edges</b><br>80716</div>  <div class="card"><b>Pruned %</b><br>7.28%</div></div>
 <legend>STRICT = edges after removing generic “affects^expression / response to substance / multi-affects chains”. Families kept: activates | inhibits | binds | modifies. Focus on <b>binds/modifies</b> for mechanistic leads.</legend>
 <section>
   <h2>Family distribution (STRICT only)</h2>
-<!-- BEGIN: CTD Addons -->
-<style>
-.tblwrap{overflow:auto;max-height:520px;border:1px solid #eee}
-table{border-collapse:collapse;width:100%;font:14px/1.4 system-ui,Segoe UI,Arial}
-th,td{border:1px solid #ddd;padding:6px 8px}
-th{background:#f7f7f7;text-align:left}
-h2{margin:28px 0 6px}
-.note{color:#666;font-size:12px;margin:0 0 10px}
-.kv{display:grid;grid-template-columns:auto auto;gap:6px 16px;max-width:420px}
-.kv div{padding:2px 0;border-bottom:1px dashed #eee}
-.badge{display:inline-block;padding:2px 8px;border:1px solid #ccc;border-radius:999px;font-size:12px}
-.badge.warn{background:#fff4e6;border-color:#ffd6a6}
-.badge.ok{background:#e8f7e8;border-color:#c5ebc5}
-</style>
-<h2>Dataset shape (FULL vs STRICT)</h2><div class="kv"><div>Edges (FULL)</div><div>1109476</div><div>Edges (STRICT)</div><div>1028760</div><div>Edges pruned</div><div>80716</div><div>Pairs (FULL)</div><div>841342</div><div>Pairs (STRICT)</div><div>789969</div><div>Pairs pruned</div><div>51373</div></div>
-<h2>DDI badges (top 150)</h2><div class="note">Badge logic combines STRICT “activates/inhibits” and FULL ↑/↓ expression on key ADME genes (CYPs, ABCB1, SLCO1B1, UGTs).\
- <span class="badge warn">Check DDI: ↑/↓/mixed</span> indicates potential induction/inhibition risk worth ADME/Tox review.</div>
-<div class="tblwrap"><table><thead>
-<tr><th>chem_id</th><th>chem_name</th><th>induces_n</th><th>inhibits_n</th><th>induces_genes</th><th>inhibits_genes</th><th>badge</th></tr></thead><tbody>
-<tr><td>MESH:C076994</td><td>perfluorooctane sulfonic acid</td><td>5</td><td>10</td><td>CYP2C19|CYP3A4|SLCO1B1|UGT1A1|UGT2B7</td><td>ABCB1|CYP1A2|CYP2C19|CYP2C9|CYP2D6|CYP3A4|CYP3A5|SLCO1B1|UGT1A1|UGT2B7</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:D011794</td><td>Quercetin</td><td>7</td><td>10</td><td>ABCB1|CYP1A2|CYP2C9|CYP3A4|CYP3A5|SLCO1B1|UGT1A1</td><td>ABCB1|CYP1A2|CYP2C19|CYP2C9|CYP2D6|CYP3A4|CYP3A5|SLCO1B1|UGT1A1|UGT2B7</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:D012293</td><td>Rifampin</td><td>10</td><td>5</td><td>ABCB1|CYP1A2|CYP2C19|CYP2C9|CYP2D6|CYP3A4|CYP3A5|SLCO1B1|UGT1A1|UGT2B7</td><td>ABCB1|CYP1A2|CYP2C9|CYP3A4|SLCO1B1</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:D000082</td><td>Acetaminophen</td><td>6</td><td>9</td><td>ABCB1|CYP1A2|CYP2C9|CYP3A4|CYP3A5|UGT1A1</td><td>ABCB1|CYP1A2|CYP2C19|CYP2C9|CYP3A4|CYP3A5|SLCO1B1|UGT1A1|UGT2B7</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:D016604</td><td>Aflatoxin B1</td><td>8</td><td>9</td><td>ABCB1|CYP1A2|CYP2C9|CYP2D6|CYP3A4|CYP3A5|UGT1A1|UGT2B7</td><td>ABCB1|CYP1A2|CYP2C19|CYP2C9|CYP3A4|CYP3A5|SLCO1B1|UGT1A1|UGT2B7</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:C006780</td><td>bisphenol A</td><td>9</td><td>5</td><td>ABCB1|CYP1A2|CYP2C19|CYP2C9|CYP2D6|CYP3A4|CYP3A5|UGT1A1|UGT2B7</td><td>CYP1A2|CYP2C19|CYP3A4|SLCO1B1|UGT1A1</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:D002635</td><td>Chenodeoxycholic Acid</td><td>4</td><td>9</td><td>CYP1A2|CYP3A4|SLCO1B1|UGT1A1</td><td>ABCB1|CYP1A2|CYP2C19|CYP2C9|CYP3A4|CYP3A5|SLCO1B1|UGT1A1|UGT2B7</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:D016572</td><td>Cyclosporine</td><td>3</td><td>9</td><td>ABCB1|CYP3A4|CYP3A5</td><td>ABCB1|CYP1A2|CYP2C19|CYP2C9|CYP3A4|CYP3A5|SLCO1B1|UGT1A1|UGT2B7</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:D007654</td><td>Ketoconazole</td><td>7</td><td>9</td><td>ABCB1|CYP1A2|CYP2C19|CYP2C9|CYP2D6|CYP3A4|CYP3A5</td><td>ABCB1|CYP1A2|CYP2C19|CYP2C9|CYP2D6|CYP3A4|CYP3A5|SLCO1B1|UGT1A1</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:D019319</td><td>Okadaic Acid</td><td>3</td><td>9</td><td>ABCB1|CYP1A2|SLCO1B1</td><td>CYP1A2|CYP2C19|CYP2C9|CYP2D6|CYP3A4|CYP3A5|SLCO1B1|UGT1A1|UGT2B7</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:C017947</td><td>sodium arsenite</td><td>4</td><td>9</td><td>ABCB1|CYP1A2|CYP3A4|UGT2B7</td><td>ABCB1|CYP1A2|CYP2C19|CYP2C9|CYP2D6|CYP3A4|CYP3A5|SLCO1B1|UGT2B7</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:D014260</td><td>Triclosan</td><td>9</td><td>1</td><td>ABCB1|CYP1A2|CYP2C19|CYP2C9|CYP2D6|CYP3A4|CYP3A5|UGT1A1|UGT2B7</td><td>SLCO1B1</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:D014635</td><td>Valproic Acid</td><td>9</td><td>9</td><td>ABCB1|CYP1A2|CYP2C19|CYP2C9|CYP2D6|CYP3A4|SLCO1B1|UGT1A1|UGT2B7</td><td>ABCB1|CYP1A2|CYP2C19|CYP2C9|CYP2D6|CYP3A4|CYP3A5|SLCO1B1|UGT2B7</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:C090768</td><td>"1-(4-hydroxyphenyl)-1</td><td>2-diphenyl-1-butene"</td><td>8</td><td>1</td><td>CYP1A2|CYP2C19|CYP2C9|CYP2D6|CYP3A4|CYP3A5|UGT1A1|UGT2B7</td><td>CYP2D6</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:D000069446</td><td>Atazanavir Sulfate</td><td>2</td><td>8</td><td>ABCB1|CYP3A4</td><td>ABCB1|CYP1A2|CYP2C19|CYP2C9|CYP3A4|CYP3A5|SLCO1B1|UGT1A1</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:D001564</td><td>Benzo(a)pyrene</td><td>8</td><td>8</td><td>ABCB1|CYP1A2|CYP2C19|CYP2D6|CYP3A4|CYP3A5|UGT1A1|UGT2B7</td><td>CYP1A2|CYP2C19|CYP2C9|CYP2D6|CYP3A4|CYP3A5|SLCO1B1|UGT1A1</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:D002220</td><td>Carbamazepine</td><td>8</td><td>2</td><td>ABCB1|CYP1A2|CYP2C19|CYP2C9|CYP3A4|CYP3A5|SLCO1B1|UGT1A1</td><td>ABCB1|CYP3A4</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:D003840</td><td>Deoxycholic Acid</td><td>4</td><td>8</td><td>ABCB1|CYP1A2|CYP3A4|SLCO1B1</td><td>ABCB1|CYP1A2|CYP2C19|CYP2C9|CYP3A4|CYP3A5|SLCO1B1|UGT1A1</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:D004997</td><td>Ethinyl Estradiol</td><td>8</td><td>6</td><td>ABCB1|CYP1A2|CYP2C19|CYP2C9|CYP3A4|CYP3A5|UGT1A1|UGT2B7</td><td>ABCB1|CYP1A2|CYP2C19|CYP3A4|UGT1A1|UGT2B7</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:D005978</td><td>Glutathione</td><td>8</td><td>6</td><td>ABCB1|CYP1A2|CYP2C19|CYP2C9|CYP2D6|CYP3A4|CYP3A5|SLCO1B1</td><td>ABCB1|CYP1A2|CYP2C9|CYP2D6|CYP3A4|CYP3A5</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:D005999</td><td>Glycochenodeoxycholic Acid</td><td>3</td><td>8</td><td>CYP1A2|CYP3A4|SLCO1B1</td><td>ABCB1|CYP1A2|CYP2C19|CYP2C9|CYP3A4|CYP3A5|SLCO1B1|UGT1A1</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:D006000</td><td>Glycocholic Acid</td><td>2</td><td>8</td><td>CYP1A2|SLCO1B1</td><td>ABCB1|CYP1A2|CYP2C19|CYP2C9|CYP3A4|CYP3A5|SLCO1B1|UGT1A1</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:D006002</td><td>Glycodeoxycholic Acid</td><td>2</td><td>8</td><td>CYP1A2|CYP3A4</td><td>ABCB1|CYP1A2|CYP2C19|CYP2C9|CYP3A4|CYP3A5|SLCO1B1|UGT1A1</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:D047311</td><td>Luteolin</td><td>3</td><td>8</td><td>ABCB1|CYP1A2|UGT1A1</td><td>ABCB1|CYP1A2|CYP2C19|CYP2C9|CYP3A4|CYP3A5|SLCO1B1|UGT1A1</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:C040015</td><td>myricetin</td><td>1</td><td>8</td><td>ABCB1</td><td>ABCB1|CYP1A2|CYP2C19|CYP2C9|CYP2D6|CYP3A4|UGT1A1|UGT2B7</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:C023036</td><td>perfluorooctanoic acid</td><td>6</td><td>8</td><td>CYP2C19|CYP3A4|CYP3A5|SLCO1B1|UGT1A1|UGT2B7</td><td>ABCB1|CYP1A2|CYP2C19|CYP2D6|CYP3A4|SLCO1B1|UGT1A1|UGT2B7</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:D010634</td><td>Phenobarbital</td><td>8</td><td>7</td><td>ABCB1|CYP1A2|CYP2C19|CYP2C9|CYP3A4|CYP3A5|UGT1A1|UGT2B7</td><td>ABCB1|CYP1A2|CYP2C19|CYP2C9|CYP2D6|CYP3A4|UGT2B7</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:C016583</td><td>4-(N-methyl-N-nitrosamino)-1-(3-pyridyl)-1-butanone</td><td>7</td><td>1</td><td>CYP1A2|CYP2C19|CYP2D6|CYP3A4|CYP3A5|SLCO1B1|UGT2B7</td><td>UGT2B7</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:C016601</td><td>afimoxifene</td><td>7</td><td>4</td><td>ABCB1|CYP1A2|CYP2C19|CYP2C9|CYP2D6|CYP3A4|CYP3A5</td><td>ABCB1|CYP3A4|CYP3A5|UGT1A1</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:D000638</td><td>Amiodarone</td><td>3</td><td>7</td><td>CYP2C9|CYP2D6|CYP3A4</td><td>ABCB1|CYP1A2|CYP2C19|CYP2C9|CYP2D6|CYP3A4|CYP3A5</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:D016718</td><td>Arachidonic Acid</td><td>7</td><td>4</td><td>CYP1A2|CYP2C19|CYP2C9|CYP2D6|CYP3A4|UGT1A1|UGT2B7</td><td>CYP1A2|CYP2C19|CYP2C9|CYP3A4</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:C583074</td><td>bisphenol AF</td><td>7</td><td>2</td><td>ABCB1|CYP1A2|CYP2C19|CYP2C9|CYP3A4|UGT1A1|UGT2B7</td><td>UGT1A1|UGT2B7</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:C092451</td><td>CGP 52608</td><td>7</td><td>0</td><td>CYP1A2|CYP2C19|CYP2C9|CYP3A4|CYP3A5|UGT1A1|UGT2B7</td><td>""</td><td>Check DDI: ↑</td></tr>
-<tr><td>MESH:D002746</td><td>Chlorpromazine</td><td>4</td><td>7</td><td>ABCB1|CYP1A2|CYP2D6|CYP3A4</td><td>ABCB1|CYP1A2|CYP2C19|CYP2C9|CYP2D6|CYP3A4|CYP3A5</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:D004390</td><td>Chlorpyrifos</td><td>7</td><td>5</td><td>ABCB1|CYP1A2|CYP2C19|CYP2D6|CYP3A4|CYP3A5|UGT1A1</td><td>ABCB1|CYP1A2|CYP2C19|CYP2D6|CYP3A4</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:D000077144</td><td>Clopidogrel</td><td>7</td><td>7</td><td>ABCB1|CYP1A2|CYP2C19|CYP2C9|CYP2D6|CYP3A4|CYP3A5</td><td>ABCB1|CYP1A2|CYP2C19|CYP2C9|CYP3A4|SLCO1B1|UGT2B7</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:D003024</td><td>Clozapine</td><td>7</td><td>5</td><td>CYP1A2|CYP2C19|CYP2C9|CYP2D6|CYP3A4|CYP3A5|UGT1A1</td><td>ABCB1|CYP1A2|CYP2C9|CYP3A4|SLCO1B1</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:D003976</td><td>Diazinon</td><td>7</td><td>4</td><td>ABCB1|CYP1A2|CYP2C19|CYP2C9|CYP2D6|CYP3A4|CYP3A5</td><td>ABCB1|CYP1A2|CYP2C19|CYP3A4</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:D004008</td><td>Diclofenac</td><td>7</td><td>6</td><td>CYP1A2|CYP2C19|CYP2C9|CYP2D6|CYP3A4|UGT1A1|UGT2B7</td><td>CYP1A2|CYP2C9|CYP3A4|SLCO1B1|UGT1A1|UGT2B7</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:D004642</td><td>Emodin</td><td>5</td><td>7</td><td>CYP1A2|CYP2C19|CYP3A4|CYP3A5|UGT1A1</td><td>ABCB1|CYP1A2|CYP2C19|CYP2C9|CYP2D6|CYP3A4|UGT2B7</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:D004958</td><td>Estradiol</td><td>7</td><td>5</td><td>ABCB1|CYP1A2|CYP2C19|CYP2C9|CYP3A4|UGT1A1|UGT2B7</td><td>ABCB1|CYP1A2|CYP2C9|CYP3A4|UGT1A1</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:D007069</td><td>Ifosfamide</td><td>7</td><td>2</td><td>ABCB1|CYP1A2|CYP2C19|CYP2C9|CYP2D6|CYP3A4|CYP3A5</td><td>CYP3A4|CYP3A5</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:C006552</td><td>kaempferol</td><td>4</td><td>7</td><td>ABCB1|CYP1A2|CYP3A4|UGT1A1</td><td>ABCB1|CYP1A2|CYP2C9|CYP3A4|SLCO1B1|UGT1A1|UGT2B7</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:C070840</td><td>licochalcone A</td><td>0</td><td>7</td><td>""</td><td>CYP1A2|CYP2C19|CYP2C9|CYP3A4|SLCO1B1|UGT1A1|UGT2B7</td><td>Check DDI: ↓</td></tr>
-<tr><td>MESH:C013592</td><td>mangiferin</td><td>3</td><td>7</td><td>ABCB1|CYP1A2|UGT1A1</td><td>ABCB1|CYP1A2|CYP2C9|CYP2D6|CYP3A4|UGT1A1|UGT2B7</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:D010936</td><td>Plant Extracts</td><td>5</td><td>7</td><td>ABCB1|CYP1A2|CYP2D6|CYP3A4|UGT2B7</td><td>ABCB1|CYP1A2|CYP2C19|CYP2C9|CYP2D6|CYP3A4|CYP3A5</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:D013629</td><td>Tamoxifen</td><td>7</td><td>4</td><td>ABCB1|CYP1A2|CYP2C19|CYP2C9|CYP2D6|CYP3A4|CYP3A5</td><td>ABCB1|CYP2D6|CYP3A4|CYP3A5</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:D013749</td><td>Tetrachlorodibenzodioxin</td><td>7</td><td>6</td><td>ABCB1|CYP1A2|CYP2C19|CYP3A4|CYP3A5|UGT1A1|UGT2B7</td><td>CYP1A2|CYP2C19|CYP2C9|CYP3A4|SLCO1B1|UGT1A1</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:D013988</td><td>Ticlopidine</td><td>7</td><td>7</td><td>CYP1A2|CYP2C19|CYP2C9|CYP2D6|CYP3A4|CYP3A5|UGT1A1</td><td>CYP1A2|CYP2C19|CYP2C9|CYP2D6|CYP3A4|SLCO1B1|UGT2B7</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:D014028</td><td>Tobacco Smoke Pollution</td><td>5</td><td>7</td><td>CYP1A2|CYP2C9|CYP3A5|UGT1A1|UGT2B7</td><td>ABCB1|CYP1A2|CYP2C19|CYP2C9|CYP3A4|CYP3A5|SLCO1B1</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:C495657</td><td>"1</td><td>1</td><td>1-trichloro-2-(4-hydroxyphenyl)-2-(4-methoxyphenyl)ethane"</td><td>6</td><td>0</td><td>CYP1A2|CYP2C19|CYP2C9|CYP2D6|CYP3A4|CYP3A5</td><td>""</td><td>Check DDI: ↑</td></tr>
-<tr><td>MESH:C035342</td><td>"1</td><td>4-naphthoquinone"</td><td>6</td><td>0</td><td>CYP1A2|CYP2C19|CYP2C9|CYP2D6|CYP3A4|CYP3A5</td><td>""</td><td>Check DDI: ↑</td></tr>
-<tr><td>MESH:C029350</td><td>1-naphthol</td><td>6</td><td>1</td><td>CYP1A2|CYP2C19|CYP2C9|CYP2D6|CYP3A4|CYP3A5</td><td>CYP1A2</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:C586542</td><td>2'-(glutathion-S-yl)-deschlorodiclofenac</td><td>6</td><td>1</td><td>CYP1A2|CYP2C19|CYP2C9|CYP2D6|CYP3A4|CYP3A5</td><td>CYP3A4</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:D019324</td><td>beta-Naphthoflavone</td><td>3</td><td>6</td><td>CYP1A2|CYP3A4|UGT1A1</td><td>CYP1A2|CYP2C19|CYP2C9|CYP2D6|CYP3A4|CYP3A5</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:D020148</td><td>Butyric Acid</td><td>6</td><td>1</td><td>ABCB1|CYP1A2|CYP2C9|CYP2D6|CYP3A5|UGT1A1</td><td>CYP2C9</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:D002185</td><td>Cannabidiol</td><td>0</td><td>6</td><td>""</td><td>CYP1A2|CYP2C19|CYP2C9|CYP2D6|CYP3A4|CYP3A5</td><td>Check DDI: ↓</td></tr>
-<tr><td>MESH:C088453</td><td>Celsior</td><td>2</td><td>6</td><td>CYP1A2|CYP3A4</td><td>CYP1A2|CYP2C19|CYP2C9|CYP2D6|CYP3A4|CYP3A5</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:D020111</td><td>Chlorodiphenyl (54% Chlorine)</td><td>6</td><td>0</td><td>CYP1A2|CYP2C19|CYP3A4|CYP3A5|UGT1A1|UGT2B7</td><td>""</td><td>Check DDI: ↑</td></tr>
-<tr><td>MESH:D003520</td><td>Cyclophosphamide</td><td>6</td><td>2</td><td>ABCB1|CYP2C19|CYP2C9|CYP2D6|CYP3A4|CYP3A5</td><td>CYP2C19|CYP2C9</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:C093628</td><td>cyproconazole</td><td>3</td><td>6</td><td>CYP1A2|CYP2C19|CYP3A4</td><td>ABCB1|CYP2C19|CYP2C9|CYP2D6|CYP3A4|UGT2B7</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:C561627</td><td>dabrafenib</td><td>1</td><td>6</td><td>CYP3A4</td><td>ABCB1|CYP1A2|CYP2C19|CYP2C9|CYP3A4|CYP3A5</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:D003671</td><td>DEET</td><td>6</td><td>1</td><td>CYP1A2|CYP2C19|CYP2C9|CYP2D6|CYP3A4|CYP3A5</td><td>CYP2C19</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:C047386</td><td>desethylamodiaquine</td><td>6</td><td>3</td><td>CYP1A2|CYP2C19|CYP2C9|CYP2D6|CYP3A4|CYP3A5</td><td>CYP1A2|CYP2C19|CYP2C9</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:D003907</td><td>Dexamethasone</td><td>6</td><td>4</td><td>ABCB1|CYP1A2|CYP2C9|CYP3A4|CYP3A5|UGT1A1</td><td>ABCB1|CYP1A2|CYP3A4|CYP3A5</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:D019833</td><td>Genistein</td><td>4</td><td>6</td><td>ABCB1|CYP1A2|CYP3A4|UGT1A1</td><td>ABCB1|CYP1A2|CYP2C19|CYP2C9|CYP3A4|UGT1A1</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:C048393</td><td>germacrone</td><td>2</td><td>6</td><td>ABCB1|CYP3A4</td><td>ABCB1|CYP1A2|CYP2C19|CYP2C9|CYP2D6|CYP3A4</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:C058309</td><td>hypaconitine</td><td>6</td><td>1</td><td>ABCB1|CYP1A2|CYP2C19|CYP2D6|CYP3A4|CYP3A5</td><td>ABCB1</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:C005273</td><td>naringenin</td><td>3</td><td>6</td><td>ABCB1|CYP3A4|UGT1A1</td><td>ABCB1|CYP1A2|CYP2C19|CYP2C9|CYP3A4|SLCO1B1</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:C051752</td><td>nefazodone</td><td>1</td><td>6</td><td>CYP3A4</td><td>CYP1A2|CYP2C19|CYP2C9|CYP3A4|CYP3A5|SLCO1B1</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:D009529</td><td>Nicardipine</td><td>2</td><td>6</td><td>CYP1A2|CYP3A4</td><td>ABCB1|CYP1A2|CYP2C19|CYP2C9|CYP2D6|CYP3A4</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:C012655</td><td>nimesulide</td><td>6</td><td>1</td><td>ABCB1|CYP1A2|CYP2C19|CYP2C9|CYP2D6|CYP3A4</td><td>ABCB1</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:C574385</td><td>"N</td><td>N-didesmethyl-4-hydroxytamoxifen"</td><td>6</td><td>2</td><td>CYP1A2|CYP2C19|CYP2C9|CYP2D6|CYP3A4|CYP3A5</td><td>CYP2C19|CYP2C9</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:C058272</td><td>norclozapine</td><td>6</td><td>2</td><td>CYP1A2|CYP2C19|CYP2C9|CYP2D6|CYP3A4|CYP3A5</td><td>CYP1A2|CYP3A4</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:C464660</td><td>obeticholic acid</td><td>2</td><td>6</td><td>CYP2D6|UGT1A1</td><td>CYP1A2|CYP2C9|CYP3A4|CYP3A5|SLCO1B1|UGT2B7</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:D009853</td><td>Omeprazole</td><td>6</td><td>4</td><td>ABCB1|CYP1A2|CYP2C19|CYP3A4|CYP3A5|UGT1A1</td><td>CYP1A2|CYP2C19|CYP2C9|CYP3A4</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:D010100</td><td>Oxygen</td><td>5</td><td>6</td><td>ABCB1|CYP1A2|CYP2D6|CYP3A4|UGT1A1</td><td>ABCB1|CYP1A2|CYP2C9|CYP2D6|CYP3A4|UGT1A1</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:D010672</td><td>Phenytoin</td><td>6</td><td>4</td><td>ABCB1|CYP2C19|CYP2C9|CYP3A4|CYP3A5|UGT1A1</td><td>ABCB1|CYP2C19|CYP2C9|CYP3A4</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:D011374</td><td>Progesterone</td><td>6</td><td>2</td><td>ABCB1|CYP2C19|CYP2C9|CYP3A4|CYP3A5|UGT1A1</td><td>ABCB1|CYP2C9</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:D000077185</td><td>Resveratrol</td><td>5</td><td>6</td><td>ABCB1|CYP1A2|CYP3A4|UGT1A1|UGT2B7</td><td>ABCB1|CYP1A2|CYP2C19|CYP2C9|CYP2D6|CYP3A4</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:C016101</td><td>shikonin</td><td>0</td><td>6</td><td>""</td><td>CYP1A2|CYP2C9|CYP2D6|CYP3A4|UGT1A1|UGT2B7</td><td>Check DDI: ↓</td></tr>
-<tr><td>MESH:D012822</td><td>Silicon Dioxide</td><td>2</td><td>6</td><td>CYP1A2|CYP3A5</td><td>CYP1A2|CYP2C9|CYP3A4|CYP3A5|SLCO1B1|UGT2B7</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:D014212</td><td>Tretinoin</td><td>4</td><td>6</td><td>ABCB1|CYP1A2|CYP2C9|CYP3A4</td><td>ABCB1|CYP1A2|CYP2C19|CYP2C9|CYP2D6|CYP3A4</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:C585955</td><td>1-(3-(4-phenoxyphenoxy)-2-oxopropyl)indole-5-carboxylic acid</td><td>5</td><td>5</td><td>CYP1A2|CYP2C19|CYP2C9|CYP2D6|CYP3A4</td><td>CYP1A2|CYP2C19|CYP2C9|CYP2D6|CYP3A4</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:C517215</td><td>13-hydroxyellipticine</td><td>5</td><td>1</td><td>CYP1A2|CYP2C19|CYP2C9|CYP2D6|CYP3A4</td><td>CYP3A4</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:C000626967</td><td>1-(4-ethylphenyl-)-N-((2-methoxyphenyl)methyl) propane-2-amine</td><td>5</td><td>2</td><td>CYP1A2|CYP2C19|CYP2C9|CYP2D6|CYP3A4</td><td>CYP1A2|CYP3A4</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:C033020</td><td>1-aminobenzotriazole</td><td>1</td><td>5</td><td>CYP3A5</td><td>CYP1A2|CYP2C9|CYP2D6|CYP3A4|CYP3A5</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:C024336</td><td>1-phenylazo-2-naphthol</td><td>5</td><td>2</td><td>CYP1A2|CYP2C19|CYP2C9|CYP2D6|CYP3A4</td><td>CYP2C19|CYP2D6</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:C049584</td><td>"2-amino-1-methyl-6-phenylimidazo(4</td><td>5-b)pyridine"</td><td>5</td><td>2</td><td>CYP1A2|CYP2C19|CYP2D6|CYP3A4|UGT1A1</td><td>CYP1A2|UGT1A1</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:C109602</td><td>"3-(2-(4-(3-chloro-2-methylphenyl)1-piperazinyl)ethyl)5</td><td>6-dimethoxy-1-(4-imidazolylmethyl)-1H-indazol dihydrochloride 3.5 hydrate"</td><td>0</td><td>5</td><td>""</td><td>CYP1A2|CYP2C19|CYP2C9|CYP2D6|CYP3A4</td><td>Check DDI: ↓</td></tr>
-<tr><td>MESH:C545880</td><td>"4</td><td>5-dihydropyrazole-1</td><td>5-dicarboxylic acid 1-((4-chlorophenyl)-amide) 5-(2-oxo-2H-(1</td><td>3')bipyridinyl-6'-yl)-amide"</td><td>5</td><td>3</td><td>CYP1A2|CYP2C19|CYP2C9|CYP2D6|CYP3A4</td><td>CYP2C19|CYP2C9|CYP3A4</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:D015127</td><td>"9</td><td>10-Dimethyl-1</td><td>2-benzanthracene"</td><td>5</td><td>1</td><td>CYP1A2|CYP2C19|CYP2C9|CYP2D6|CYP3A4</td><td>CYP1A2</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:D000111</td><td>Acetylcysteine</td><td>5</td><td>5</td><td>ABCB1|CYP1A2|CYP2C19|CYP2C9|CYP3A4</td><td>ABCB1|CYP1A2|CYP2C19|CYP2C9|CYP3A4</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:D000157</td><td>Aconitine</td><td>4</td><td>5</td><td>CYP2C9|CYP2D6|CYP3A4|CYP3A5</td><td>ABCB1|CYP1A2|CYP2C19|CYP2C9|CYP2D6</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:D000639</td><td>Amitriptyline</td><td>5</td><td>1</td><td>CYP1A2|CYP2C19|CYP2D6|CYP3A4|CYP3A5</td><td>CYP2D6</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:D000655</td><td>Amodiaquine</td><td>5</td><td>5</td><td>CYP1A2|CYP2C19|CYP2D6|CYP3A4|CYP3A5</td><td>CYP1A2|CYP2C19|CYP2C9|CYP3A4|UGT2B7</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:C006680</td><td>baicalein</td><td>3</td><td>5</td><td>ABCB1|CYP1A2|CYP3A4</td><td>ABCB1|CYP1A2|CYP2C19|CYP2C9|CYP3A4</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:C061004</td><td>benidipine</td><td>2</td><td>5</td><td>CYP1A2|CYP3A4</td><td>ABCB1|CYP2C19|CYP2C9|CYP2D6|CYP3A4</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:C046943</td><td>brequinar</td><td>5</td><td>0</td><td>CYP1A2|CYP2C9|CYP3A4|CYP3A5|UGT1A1</td><td>""</td><td>Check DDI: ↑</td></tr>
-<tr><td>MESH:C053083</td><td>bromfenac</td><td>5</td><td>1</td><td>CYP1A2|CYP2C19|CYP2C9|CYP3A4|UGT2B7</td><td>UGT2B7</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:D002117</td><td>Calcitriol</td><td>5</td><td>2</td><td>ABCB1|CYP2C19|CYP3A4|CYP3A5|UGT1A1</td><td>ABCB1|CYP3A4</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:D002211</td><td>Capsaicin</td><td>2</td><td>5</td><td>ABCB1|UGT1A1</td><td>CYP1A2|CYP2C19|CYP2C9|CYP2D6|CYP3A4</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:C068623</td><td>carnosol</td><td>0</td><td>5</td><td>""</td><td>CYP1A2|CYP2C19|CYP2C9|CYP2D6|CYP3A4</td><td>Check DDI: ↓</td></tr>
-<tr><td>MESH:D000068579</td><td>Celecoxib</td><td>2</td><td>5</td><td>ABCB1|CYP2C9</td><td>ABCB1|CYP1A2|CYP3A4|SLCO1B1|UGT2B7</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:D002738</td><td>Chloroquine</td><td>3</td><td>5</td><td>CYP2D6|CYP3A4|SLCO1B1</td><td>ABCB1|CYP1A2|CYP2D6|CYP3A4|SLCO1B1</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:C007033</td><td>chlortoluron</td><td>0</td><td>5</td><td>""</td><td>ABCB1|CYP1A2|CYP2C19|CYP2C9|CYP2D6</td><td>Check DDI: ↓</td></tr>
-<tr><td>MESH:C043561</td><td>chrysin</td><td>4</td><td>5</td><td>ABCB1|CYP1A2|CYP3A4|UGT1A1</td><td>ABCB1|CYP1A2|CYP2C9|CYP3A4|UGT1A1</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:D002945</td><td>Cisplatin</td><td>5</td><td>4</td><td>ABCB1|CYP1A2|CYP3A4|CYP3A5|UGT2B7</td><td>ABCB1|CYP1A2|CYP3A4|SLCO1B1</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:C079149</td><td>clozapine N-oxide</td><td>5</td><td>2</td><td>CYP1A2|CYP2C19|CYP2D6|CYP3A4|CYP3A5</td><td>CYP1A2|CYP3A4</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:D003474</td><td>Curcumin</td><td>3</td><td>5</td><td>ABCB1|CYP3A4|UGT1A1</td><td>ABCB1|CYP1A2|CYP2D6|CYP3A4|UGT1A1</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:D036381</td><td>Diarylheptanoids</td><td>1</td><td>5</td><td>CYP3A4</td><td>CYP1A2|CYP2C19|CYP2C9|CYP2D6|CYP3A4</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:C041517</td><td>"dibenzo(a</td><td>l)pyrene"</td><td>5</td><td>0</td><td>ABCB1|CYP1A2|CYP2C19|UGT1A1|UGT2B7</td><td>""</td><td>Check DDI: ↑</td></tr>
-<tr><td>MESH:D004121</td><td>Dimethyl Sulfoxide</td><td>2</td><td>5</td><td>CYP1A2|CYP3A4</td><td>CYP1A2|CYP2C19|CYP2C9|CYP2D6|CYP3A4</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:C039602</td><td>diosmetin</td><td>1</td><td>5</td><td>CYP1A2</td><td>CYP1A2|CYP2C19|CYP2C9|CYP3A4|CYP3A5</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:C034192</td><td>ellipticine</td><td>5</td><td>2</td><td>CYP1A2|CYP2C19|CYP2C9|CYP2D6|CYP3A4</td><td>CYP1A2|CYP3A4</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:D004970</td><td>Estrone</td><td>5</td><td>2</td><td>ABCB1|CYP1A2|CYP3A4|UGT1A1|UGT2B7</td><td>ABCB1|CYP3A4</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:D000431</td><td>Ethanol</td><td>5</td><td>2</td><td>ABCB1|CYP1A2|CYP2C9|CYP2D6|CYP3A4</td><td>ABCB1|CYP2C9</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:D005473</td><td>Fluoxetine</td><td>4</td><td>5</td><td>CYP2C19|CYP2C9|CYP2D6|CYP3A4</td><td>CYP2C19|CYP2D6|CYP3A4|CYP3A5|SLCO1B1</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:C037032</td><td>galangin</td><td>4</td><td>5</td><td>ABCB1|CYP1A2|CYP3A4|UGT1A1</td><td>ABCB1|CYP1A2|CYP2C9|CYP3A4|UGT2B7</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:C001654</td><td>hyperforin</td><td>5</td><td>2</td><td>ABCB1|CYP2C9|CYP3A4|CYP3A5|UGT1A1</td><td>ABCB1|CYP3A4</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:C001449</td><td>inermin</td><td>0</td><td>5</td><td>""</td><td>CYP1A2|CYP2C19|CYP2C9|CYP2D6|CYP3A4</td><td>Check DDI: ↓</td></tr>
-<tr><td>MESH:C549713</td><td>isocarbophos</td><td>0</td><td>5</td><td>""</td><td>CYP1A2|CYP2C19|CYP2C9|CYP2D6|CYP3A4</td><td>Check DDI: ↓</td></tr>
-<tr><td>MESH:C040920</td><td>isoliquiritigenin</td><td>2</td><td>5</td><td>CYP1A2|UGT1A1</td><td>CYP1A2|CYP2C19|CYP2C9|CYP3A4|SLCO1B1</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:D008095</td><td>Lithocholic Acid</td><td>5</td><td>3</td><td>ABCB1|CYP3A4|CYP3A5|SLCO1B1|UGT2B7</td><td>CYP3A4|CYP3A5|UGT2B7</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:C501277</td><td>Mangifera indica extract</td><td>2</td><td>5</td><td>CYP1A2|UGT1A1</td><td>ABCB1|CYP1A2|CYP2C9|CYP2D6|CYP3A4</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:C050699</td><td>mepirodipine</td><td>0</td><td>5</td><td>""</td><td>ABCB1|CYP2C19|CYP2C9|CYP2D6|CYP3A4</td><td>Check DDI: ↓</td></tr>
-<tr><td>MESH:D008730</td><td>Methoxsalen</td><td>2</td><td>5</td><td>ABCB1|CYP3A4</td><td>ABCB1|CYP1A2|CYP2C9|CYP2D6|CYP3A4</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:D008731</td><td>Methoxychlor</td><td>5</td><td>5</td><td>CYP1A2|CYP2C19|CYP2C9|CYP3A4|UGT1A1</td><td>CYP1A2|CYP2C19|CYP2C9|CYP2D6|CYP3A4</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:D008748</td><td>Methylcholanthrene</td><td>5</td><td>3</td><td>CYP1A2|CYP3A4|CYP3A5|UGT1A1|UGT2B7</td><td>CYP1A2|CYP3A4|UGT1A1</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:C000632506</td><td>mHA11</td><td>5</td><td>0</td><td>CYP1A2|CYP2C19|CYP2C9|CYP2D6|CYP3A4</td><td>""</td><td>Check DDI: ↑</td></tr>
-<tr><td>MESH:D008939</td><td>Mitotane</td><td>3</td><td>5</td><td>ABCB1|CYP1A2|CYP3A4</td><td>ABCB1|CYP2C19|CYP2D6|CYP3A4|UGT2B7</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:D009249</td><td>NADP</td><td>5</td><td>5</td><td>CYP1A2|CYP2C19|CYP2C9|CYP2D6|CYP3A4</td><td>CYP1A2|CYP2C19|CYP2C9|CYP2D6|CYP3A4</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:C031721</td><td>naphthalene</td><td>5</td><td>2</td><td>CYP2C19|CYP2C9|CYP2D6|CYP3A4|CYP3A5</td><td>ABCB1|CYP1A2</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:C005274</td><td>naringin</td><td>0</td><td>5</td><td>""</td><td>ABCB1|CYP1A2|CYP2C9|CYP3A4|SLCO1B1</td><td>Check DDI: ↓</td></tr>
-<tr><td>MESH:C082412</td><td>notopterol</td><td>5</td><td>2</td><td>CYP1A2|CYP2C19|CYP2C9|CYP2D6|CYP3A4</td><td>CYP2D6|CYP3A4</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:D017239</td><td>Paclitaxel</td><td>3</td><td>5</td><td>ABCB1|CYP2C9|CYP3A4</td><td>ABCB1|CYP1A2|CYP2C9|CYP2D6|CYP3A4</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:C006253</td><td>pirinixic acid</td><td>5</td><td>0</td><td>ABCB1|CYP1A2|CYP3A4|CYP3A5|UGT1A1</td><td>""</td><td>Check DDI: ↑</td></tr>
-<tr><td>MESH:D011433</td><td>Propranolol</td><td>5</td><td>2</td><td>ABCB1|CYP2C19|CYP2C9|CYP2D6|CYP3A4</td><td>ABCB1|CYP2D6</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:C432165</td><td>pyrazolanthrone</td><td>5</td><td>5</td><td>ABCB1|CYP1A2|CYP2C9|CYP3A4|UGT1A1</td><td>ABCB1|CYP1A2|CYP2C9|CYP3A4|UGT1A1</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:D011802</td><td>Quinidine</td><td>5</td><td>4</td><td>ABCB1|CYP1A2|CYP2C19|CYP2D6|CYP3A4</td><td>ABCB1|CYP1A2|CYP2D6|CYP3A4</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:D000077154</td><td>Rosiglitazone</td><td>5</td><td>4</td><td>ABCB1|CYP1A2|CYP2C9|CYP3A4|UGT1A1</td><td>CYP2D6|CYP3A4|SLCO1B1|UGT2B7</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:D000077385</td><td>Silybin</td><td>0</td><td>5</td><td>""</td><td>ABCB1|CYP2C9|CYP3A4|UGT1A1|UGT2B7</td><td>Check DDI: ↓</td></tr>
-<tr><td>MESH:D013426</td><td>Sulfaphenazole</td><td>1</td><td>5</td><td>CYP2C9</td><td>CYP1A2|CYP2C19|CYP2C9|CYP3A4|CYP3A5</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:D013645</td><td>Tartrazine</td><td>0</td><td>5</td><td>""</td><td>ABCB1|CYP2C9|CYP3A4|CYP3A5|SLCO1B1</td><td>Check DDI: ↓</td></tr>
-<tr><td>MESH:C417209</td><td>thiacloprid</td><td>5</td><td>1</td><td>CYP1A2|CYP2C19|CYP2C9|CYP3A4|CYP3A5</td><td>CYP2C19</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:D008063</td><td>Thioctic Acid</td><td>0</td><td>5</td><td>""</td><td>CYP1A2|CYP2C19|CYP2C9|CYP2D6|CYP3A4</td><td>Check DDI: ↓</td></tr>
-<tr><td>MESH:C507866</td><td>"trans-1</td><td>2-dihydro-1</td><td>2-naphthalenediol"</td><td>5</td><td>0</td><td>CYP1A2|CYP2C19|CYP2C9|CYP2D6|CYP3A4</td><td>""</td><td>Check DDI: ↑</td></tr>
-<tr><td>MESH:D014191</td><td>Tranylcypromine</td><td>5</td><td>2</td><td>CYP1A2|CYP2C19|CYP2C9|CYP2D6|CYP3A4</td><td>CYP1A2|CYP2C19</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:C023957</td><td>triflumuron</td><td>5</td><td>3</td><td>CYP1A2|CYP2C19|CYP2C9|CYP2D6|CYP3A4</td><td>CYP1A2|CYP2C19|CYP3A4</td><td>Check DDI: mixed</td></tr>
-<tr><td>MESH:D000077288</td><td>Troglitazone</td><td>5</td><td>4</td><td>CYP2C19|CYP3A4|CYP3A5|SLCO1B1|UGT1A1</td><td>CYP2C19|CYP2C9|CYP3A4|CYP3A5</td><td>Check DDI: mixed</td></tr>
-</tbody></table></div>
-<h2>Top-3 Reactome pathways per chemical (top 150)</h2><div class="note">Top-3 Reactome pathways per compound using STRICT edges (distinct genes per pathway).</div>
-<div class="tblwrap"><table><thead>
-<tr><th>chem_id</th><th>chem_name</th><th>top3</th></tr></thead><tbody>
-<tr><td>MESH:C534883</td><td>10074-G5</td><td>Signal Transduction (2); Generic Transcription Pathway (2); Cellular responses to stress (2)</td></tr>
-<tr><td>MESH:C112297</td><td>"10</td><td>10-bis(4-pyridinylmethyl)-9(10H)-anthracenone"</td><td>Neuronal System (3); Potassium Channels (3); Voltage gated Potassium channels (3)</td></tr>
-<tr><td>MESH:C004822</td><td>"10</td><td>11-dihydro-10</td><td>11-dihydroxy-5H-dibenzazepine-5-carboxamide"</td><td>Metabolism (1); Biological oxidations (1); Phase I - Functionalization of compounds (1)</td></tr>
-<tr><td>MESH:C039775</td><td>"10</td><td>11-dihydro-10-hydroxycarbamazepine"</td><td>Drug ADME (2); Metabolism (1); Biological oxidations (1)</td></tr>
-<tr><td>MESH:C496879</td><td>103D5R</td><td>Cytokine Signaling in Immune system (3); Signal Transduction (3); Cell Cycle (3)</td></tr>
-<tr><td>MESH:C553100</td><td>10-(4'-(N-diethylamino)butyl)-2-chlorophenoxazine</td><td>"Hemostasis (4); Platelet activation</td><td> signaling and aggregation (3); Platelet Aggregation (Plug Formation) (3)"</td></tr>
-<tr><td>MESH:C532038</td><td>10-(6'-plastoquinonyl)decyltriphenylphosphonium</td><td>Disease (4); Metabolism of proteins (4); Post-translational protein modification (4)</td></tr>
-<tr><td>MESH:C095360</td><td>10-deacetylpaclitaxel</td><td>Abacavir transmembrane transport (1); Abacavir ADME (1); Transport of small molecules (1)</td></tr>
-<tr><td>MESH:C067795</td><td>10-decarbamoylmitomycin C</td><td>Immune System (12); Signal Transduction (11); Cytokine Signaling in Immune system (9)</td></tr>
-<tr><td>MESH:C403065</td><td>10-(fluoroethoxyphosphinyl)-N-(biotinamidopentyl)decanamide</td><td>Hemostasis (2); Immune System (2); Developmental Biology (1)</td></tr>
-<tr><td>MESH:C010161</td><td>10-formyltetrahydropteroylglutamic acid</td><td>Metabolism (1); Metabolism of folate and pterines (1); Metabolism of water-soluble vitamins and cofactors (1)</td></tr>
-<tr><td>MESH:C013567</td><td>10-hydroxynortriptyline</td><td>Metabolism (1); Biological oxidations (1); Cytochrome P450 - arranged by substrate type (1)</td></tr>
-<tr><td>MESH:C065719</td><td>10-hydroxywarfarin</td><td>Metabolism (3); Biological oxidations (3); Drug ADME (3)</td></tr>
-<tr><td>MESH:C554291</td><td>"10-methoxy-2</td><td>2-dimethyl-2</td><td>6-dihydropyrano(3</td><td>2-c)quinolin-5-one"</td><td>Signal Transduction (4); Disease (3); Immune System (3)</td></tr>
-<tr><td>MESH:C476829</td><td>"10-methoxy-5-(2-propenyl)-2</td><td>5-dihydro-2</td><td>2</td><td>4-trimethyl-1H-(1)benzopyrano(3</td><td>4-f)quinoline"</td><td>Generic Transcription Pathway (1); Nuclear Receptor transcription pathway (1); RNA Polymerase II Transcription (1)</td></tr>
-<tr><td>MESH:C549914</td><td>"10-methyl-3-(6-methylpyridin-3-yl)-9</td><td>10</td><td>11</td><td>12-tetrahydro-8H-(1</td><td>4)diazepino(5'</td><td>6'-4</td><td>5)thieno(3</td><td>2-f)quinolin-8-one"</td><td>Cytokine Signaling in Immune system (2); Immune System (2); Signaling by Interleukins (2)</td></tr>
-<tr><td>MESH:C521487</td><td>10-nitro-oleic acid</td><td>Immune System (13); Signal Transduction (12); Cytokine Signaling in Immune system (11)</td></tr>
-<tr><td>MESH:C552819</td><td>10-(octyloxy)decyl-2-(trimethylammonium)ethyl phosphate</td><td>Signal Transduction (8); Disease (8); Immune System (7)</td></tr>
-<tr><td>MESH:C471674</td><td>"10'(Z)</td><td>13'(E)</td><td>15'(E)-heptadecatrienylhydroquinone"</td><td>Signal Transduction (7); Disease (5); Generic Transcription Pathway (5)</td></tr>
-<tr><td>MESH:C025205</td><td>"1</td><td>10-phenanthroline"</td><td>Metabolism (26); Signal Transduction (18); Immune System (17)</td></tr>
-<tr><td>MESH:C490191</td><td>"11</td><td>11'-dideoxyverticilin"</td><td>Metabolism (1); Glycerophospholipid biosynthesis (1); Synthesis of PI (1)</td></tr>
-<tr><td>MESH:C046783</td><td>"11</td><td>12-epoxy-5</td><td>8</td><td>14-eicosatrienoic acid"</td><td>Metabolism (8); Biological oxidations (5); Cytochrome P450 - arranged by substrate type (5)</td></tr>
-<tr><td>MESH:C575715</td><td>"1</td><td>1</td><td>1</td><td>3</td><td>3</td><td>3-hexafluoro-2-(2-fluoro-4'-((4-(pyridin-4-ylmethyl)piperazin-1-yl)methyl)-(1</td><td>1'-biphenyl)-4-yl)propan-2-ol"</td><td>Generic Transcription Pathway (1); RNA Polymerase II Transcription (1); Gene expression (Transcription) (1)</td></tr>
-<tr><td>MESH:C527346</td><td>"11</td><td>15-dioxo-9-hydroxy-2</td><td>3</td><td>4</td><td>5-tetranorprostan-1</td><td>20-dioic acid"</td><td>COX reactions (1); Metabolism (1); Biological oxidations (1)</td></tr>
-<tr><td>MESH:C507387</td><td>111In-DOTA-TOC</td><td>Signal Transduction (1); Signaling by GPCR (1); Class A/1 (Rhodopsin-like receptors) (1)</td></tr>
-<tr><td>MESH:C495657</td><td>"1</td><td>1</td><td>1-trichloro-2-(4-hydroxyphenyl)-2-(4-methoxyphenyl)ethane"</td><td>Metabolism (10); Biological oxidations (10); Cytochrome P450 - arranged by substrate type (10)</td></tr>
-<tr><td>MESH:C024566</td><td>"1</td><td>1</td><td>1-trichloroethane"</td><td>Neurotransmitter receptors and postsynaptic signal transmission (3); Transmission across Chemical Synapses (3); Neuronal System (3)</td></tr>
-<tr><td>MESH:C006718</td><td>"1</td><td>12-benzoperylene"</td><td>Disease (23); Signal Transduction (22); Gene expression (Transcription) (22)</td></tr>
-<tr><td>MESH:C532626</td><td>"1-(1'-(2-methylbenzyl)-1</td><td>4'-bipiperidin-4-yl)-1H-benzo(d)imidazol-2-(3H)-one"</td><td>Signal Transduction (1); Signaling by GPCR (1); Class A/1 (Rhodopsin-like receptors) (1)</td></tr>
-<tr><td>MESH:C561234</td><td>"11-(2-pyrrolidin-1-ylethoxy)-14</td><td>19-dioxa-5</td><td>7</td><td>26-triazatetracyclo(19.3.1.1(2</td><td>6).1(8</td><td>12))heptacosa-1(25)</td><td>2(26)</td><td>3</td><td>5</td><td>8</td><td>10</td><td>12(27)</td><td>16</td><td>21</td><td>23-decaene"</td><td>Signal Transduction (4); Disease (4); Immune System (4)</td></tr>
-<tr><td>MESH:C572723</td><td>"1-(1</td><td>3-carboxypropyl)-4</td><td>7-carboxymethyl-1</td><td>4</td><td>7-triazacyclononane"</td><td>Metabolism (1); Signal Transduction (1); Signaling by GPCR (1)</td></tr>
-<tr><td>MESH:C557705</td><td>1-(1-acetyl-piperidine-4-yl)-3-adamantan-1-yl-urea</td><td>Metabolism (1); Synthesis of epoxy (EET) and dihydroxyeicosatrienoic acids (DHET) (1); Arachidonate metabolism (1)</td></tr>
-<tr><td>MESH:C552530</td><td>"1</td><td>1-bis(3'-indolyl)-1-(4-hydroxyphenyl)methane"</td><td>Cellular responses to stimuli (12); Signal Transduction (11); Disease (11)</td></tr>
-<tr><td>MESH:C492909</td><td>"1</td><td>1-bis(3'-indolyl)-1-(4-trifluoromethylphenyl)methane"</td><td>Disease (7); Gene expression (Transcription) (7); Generic Transcription Pathway (6)</td></tr>
-<tr><td>MESH:C000705689</td><td>"1</td><td>1-bis(4-hydroxyphenyl)-2</td><td>2-dichloroethylene"</td><td>Signal Transduction (2); Developmental Biology (1); Signaling by WNT (1)</td></tr>
-<tr><td>MESH:C052383</td><td>"1</td><td>1-bis(4-hydroxyphenyl)-2-phenylbut-1-ene"</td><td>Signal Transduction (4); Cytokine Signaling in Immune system (3); Immune System (3)</td></tr>
-<tr><td>MESH:C054400</td><td>11-(dansylamino)undecanoic acid</td><td>Metabolism (2); Innate Immune System (2); Immune System (2)</td></tr>
-<tr><td>MESH:C049235</td><td>11-dehydro-thromboxane B2</td><td>"Metabolism (1); Plasma lipoprotein assembly</td><td> remodeling</td><td> and clearance (1); Metabolism of vitamins and cofactors (1)"</td></tr>
-<tr><td>MESH:C034008</td><td>11-deoxyprostaglandin E1</td><td>Cytokine Signaling in Immune system (1); Metabolism (1); Signal Transduction (1)</td></tr>
-<tr><td>MESH:C084012</td><td>"1</td><td>1-diethyl-2-hydroxy-2-nitrosohydrazine"</td><td>Hemostasis (2); Nitric oxide stimulates guanylate cyclase (2); Muscle contraction (2)</td></tr>
-<tr><td>MESH:C432747</td><td>"1</td><td>1-dimethylbutyl-1-deoxy-Delta(9)-THC"</td><td>Signal Transduction (12); Cytokine Signaling in Immune system (9); Disease (9)</td></tr>
-<tr><td>MESH:C037220</td><td>"1</td><td>1-diphenylhydrazine"</td><td>Metabolism (1); Biological oxidations (1); Cytochrome P450 - arranged by substrate type (1)</td></tr>
-<tr><td>MESH:C547593</td><td>1-(1H-indol-3-yl)-3-(3H-indol-3-ylidene)propan-2-one</td><td>Metabolism (3); Biological oxidations (2); Phase I - Functionalization of compounds (2)</td></tr>
-<tr><td>MESH:C027356</td><td>"11-hydroxy-5</td><td>8</td><td>12</td><td>14-eicosatetraenoic acid"</td><td>Metabolism (2); Arachidonate metabolism (2); Synthesis of Prostaglandins (PG) and Thromboxanes (TX) (2)</td></tr>
-<tr><td>MESH:C003582</td><td>11-hydroxyandrostenedione</td><td>Metabolism (1); Glyoxylate metabolism and glycine degradation (1); Metabolism of amino acids and derivatives (1)</td></tr>
-<tr><td>MESH:C001427</td><td>11-hydroxy-delta(9)-tetrahydrocannabinol</td><td>Metabolism (1); Triglyceride catabolism (1); Metabolism of porphyrins (1)</td></tr>
-<tr><td>MESH:C000593259</td><td>"1-(1-(imidazo(1</td><td>2-a)pyridin-6-yl)ethyl)-6-(1-methyl-1H-pyrazol-4-yl)-1H-(1</td><td>2</td><td>3)triazolo(4</td><td>5-b)pyrazine"</td><td>PIP3 activates AKT signaling (1); Developmental Biology (1); Signal Transduction (1)</td></tr>
-<tr><td>MESH:C447943</td><td>11-keto-boswellic acid</td><td>SUMOylation (2); SUMO E3 ligases SUMOylate target proteins (2); Metabolism of proteins (2)</td></tr>
-<tr><td>MESH:C561619</td><td>1-(1-methanesulfonylpiperidin-4-yl)-3-(4-trifluoromethoxyphenyl)urea</td><td>Cytokine Signaling in Immune system (4); Immune System (4); Cellular responses to stress (4)</td></tr>
-<tr><td>MESH:C519817</td><td>"1-(1-methylethyl)-4-((1-(6-(trifluoromethyl)-3-pyridinyl)-4-piperidinyl)carbonyl)hexahydro-1H-1</td><td>4-diazepine"</td><td>Signal Transduction (1); Signaling by GPCR (1); Class A/1 (Rhodopsin-like receptors) (1)</td></tr>
-<tr><td>MESH:C471568</td><td>11-Mrp-14-Nal-18-Cys-22-Asp-beta-MSH(11-22)NH2</td><td>Developmental Biology (1); Signal Transduction (1); Signaling by GPCR (1)</td></tr>
-<tr><td>MESH:C048241</td><td>1-(1-naphthyl)piperazine</td><td>Cytokine Signaling in Immune system (1); Metabolism (1); Immune System (1)</td></tr>
-<tr><td>MESH:C016780</td><td>11-nor-delta(9)-tetrahydrocannabinol-9-carboxylic acid</td><td>Signal Transduction (60); Developmental Biology (37); Disease (31)</td></tr>
-<tr><td>MESH:C435044</td><td>1-((1-O-octadecyl-2-O-methylglycero)phospho)-3-deoxy-myo-inositol</td><td>Cytokine Signaling in Immune system (6); Immune System (6); Signaling by Interleukins (6)</td></tr>
-<tr><td>MESH:C571448</td><td>11-oxoeicosatetraenoic acid</td><td>Metabolism (1); Biosynthesis of Lipoxins (LX) (1); Arachidonate metabolism (1)</td></tr>
-<tr><td>MESH:C569194</td><td>1-(1- pentyl-1H-indol-3-yl)-2-(2-methoxyphenyl)ethanone</td><td>Signal Transduction (1); Signaling by GPCR (1); Class A/1 (Rhodopsin-like receptors) (1)</td></tr>
-<tr><td>MESH:C586414</td><td>1-(1-pentyl-1H-indol-3-yl)-2-o-tolylethanone</td><td>Signal Transduction (3); Signaling by GPCR (3); Class A/1 (Rhodopsin-like receptors) (3)</td></tr>
-<tr><td>MESH:C402363</td><td>1-(1-propynyl)pyrene</td><td>Metabolism (1); Disease (1); Biological oxidations (1)</td></tr>
-<tr><td>MESH:C530925</td><td>1-(2-(1-adamantyl)ethyl)-1-pentyl-3-(3-(4-pyridyl)propyl)urea</td><td>Signal Transduction (1); Signaling by GPCR (1); Class B/2 (Secretin family receptors) (1)</td></tr>
-<tr><td>MESH:C046839</td><td>"1</td><td>2</td><td>3</td><td>4</td><td>6</td><td>7</td><td>8-heptachlorodibenzodioxin"</td><td>Metabolism (3); PPARA activates gene expression (3); Biological oxidations (3)</td></tr>
-<tr><td>MESH:C473650</td><td>"1</td><td>2</td><td>3</td><td>4</td><td>6</td><td>7</td><td>8-heptachlorodibenzofuran"</td><td>Metabolism (3); PPARA activates gene expression (3); Biological oxidations (3)</td></tr>
-<tr><td>MESH:C412791</td><td>"1</td><td>2</td><td>3</td><td>4</td><td>6</td><td>7-hexachlorinated naphthalene"</td><td>Metabolism (2); PPARA activates gene expression (2); Biological oxidations (2)</td></tr>
-<tr><td>MESH:C051412</td><td>"1</td><td>2</td><td>3</td><td>4</td><td>7</td><td>8-hexachlorodibenzofuran"</td><td>Metabolism (3); PPARA activates gene expression (3); Biological oxidations (3)</td></tr>
-<tr><td>MESH:C501656</td><td>"1</td><td>2</td><td>3</td><td>4</td><td>8</td><td>9</td><td>10</td><td>10a-octahydro-7bH-cyclopenta(b)(1</td><td>4)diazepino(6</td><td>7</td><td>1hj)indole"</td><td>Signal Transduction (1); Signaling by GPCR (1); Class A/1 (Rhodopsin-like receptors) (1)</td></tr>
-<tr><td>MESH:C093337</td><td>"1-(2-(3</td><td>4-dichlorophenyl)ethyl)-4-methylpiperazine"</td><td>Innate Immune System (9); Immune System (9); Neutrophil degranulation (5)</td></tr>
-<tr><td>MESH:C063159</td><td>1-(2-(3-(4-methoxyphenyl)propoxy)-4-methoxyphenylethyl)-1H-imidazole</td><td>Signal Transduction (5); Immune System (4); Hemostasis (3)</td></tr>
-<tr><td>MESH:C084924</td><td>"1</td><td>2</td><td>3</td><td>4-tetrahydro-1-(phenylmethyl)isoquinoline"</td><td>Antiviral mechanism by IFN-stimulated genes (1); Cytokine Signaling in Immune system (1); Immune System (1)</td></tr>
-<tr><td>MESH:C014843</td><td>"1</td><td>2</td><td>3</td><td>4-tetrahydroisoquinoline"</td><td>Signal Transduction (2); Interleukin-6 signaling (1); MAPK3 (ERK1) activation (1)</td></tr>
-<tr><td>MESH:C078986</td><td>"1</td><td>2</td><td>3</td><td>4-tetrahydroisoquinoline-3-carboxylic acid"</td><td>Developmental Biology (1); Signal Transduction (1); Macroautophagy (1)</td></tr>
-<tr><td>MESH:C575652</td><td>"1</td><td>2</td><td>3</td><td>5</td><td>6</td><td>7-hexachloronaphthalene"</td><td>Metabolism (2); PPARA activates gene expression (2); Biological oxidations (2)</td></tr>
-<tr><td>MESH:C030387</td><td>"1</td><td>2</td><td>3</td><td>5-tetrachlorobenzene"</td><td>Metabolism (2); Biological oxidations (2); Cytochrome P450 - arranged by substrate type (2)</td></tr>
-<tr><td>MESH:C046838</td><td>"1</td><td>2</td><td>3</td><td>6</td><td>7</td><td>8-hexachlorodibenzodioxin"</td><td>Metabolism (2); PPARA activates gene expression (2); Biological oxidations (2)</td></tr>
-<tr><td>MESH:C051452</td><td>"1</td><td>2</td><td>3</td><td>7</td><td>8-pentachlorodibenzo-p-dioxin"</td><td>Metabolism (4); Biological oxidations (4); Cytochrome P450 - arranged by substrate type (4)</td></tr>
-<tr><td>MESH:C504897</td><td>12-(3-adamantan-1-ylureido)dodecanoic acid</td><td>Developmental Biology (4); Signal Transduction (4); Disease (4)</td></tr>
-<tr><td>MESH:C570533</td><td>"1-(2</td><td>3-dihydrobenzo(b)(1</td><td>4)dioxin-6-yl)-4-((6-fluoropyridin-3-yl)methyl)piperazine"</td><td>Signal Transduction (1); Signaling by GPCR (1); Class A/1 (Rhodopsin-like receptors) (1)</td></tr>
-<tr><td>MESH:C099060</td><td>1-(2-(3-methoxyphenyl)ethyl)phenoxy-3-(dimethylamino)-2-propanol</td><td>Signal Transduction (3); Signaling by GPCR (3); Class A/1 (Rhodopsin-like receptors) (3)</td></tr>
-<tr><td>MESH:C009536</td><td>"1</td><td>2</td><td>3-trichloropropane"</td><td>Cytokine Signaling in Immune system (2); Signal Transduction (2); Immune System (2)</td></tr>
-<tr><td>MESH:C013721</td><td>"1</td><td>24</td><td>25-trihydroxyvitamin D3"</td><td>Metabolism (2); Vitamin D (calciferol) metabolism (2); Metabolism of lipids (2)</td></tr>
-<tr><td>MESH:C539551</td><td>"1</td><td>2</td><td>4</td><td>5-benzenetetraamine"</td><td>Developmental Biology (4); Cellular responses to stimuli (4); Hemostasis (3)</td></tr>
-<tr><td>MESH:C063087</td><td>"1</td><td>24-dihydroxyvitamin D2"</td><td>Metabolism (1); Vitamin D (calciferol) metabolism (1); Generic Transcription Pathway (1)</td></tr>
-<tr><td>MESH:C045575</td><td>"1</td><td>2</td><td>4-triazole"</td><td>Metabolism (3); Erythrocytes take up carbon dioxide and release oxygen (2); Erythrocytes take up oxygen and release carbon dioxide (2)</td></tr>
-<tr><td>MESH:C494034</td><td>"1</td><td>2</td><td>4-triazolo(1</td><td>5-c)pyrimidine"</td><td>Signal Transduction (1); Signaling by NTRKs (1); Activation of TRKA receptors (1)</td></tr>
-<tr><td>MESH:C009947</td><td>"1</td><td>2</td><td>4-trichlorobenzene"</td><td>Metabolism (3); Biological oxidations (3); Cytochrome P450 - arranged by substrate type (3)</td></tr>
-<tr><td>MESH:C026486</td><td>"1</td><td>2</td><td>5</td><td>6-dibenzanthracene"</td><td>Metabolism (21); Metabolism of proteins (14); Signal Transduction (13)</td></tr>
-<tr><td>MESH:C101879</td><td>"(1</td><td>2</td><td>5</td><td>6-tetrahydropyridin-4-yl)methylphosphinic acid"</td><td>Neurotransmitter receptors and postsynaptic signal transmission (1); Transmission across Chemical Synapses (1); Neuronal System (1)</td></tr>
-<tr><td>MESH:C543211</td><td>"1</td><td>2</td><td>5</td><td>8-tetrahydroxy anthraquinone"</td><td>Signal Transduction (11); Disease (11); Cell Cycle (9)</td></tr>
-<tr><td>MESH:C087630</td><td>"1</td><td>25-dihydroxy-16-ene-vitamin D3"</td><td>Metabolism (1); Disease (1); Vitamin D (calciferol) metabolism (1)</td></tr>
-<tr><td>MESH:C046127</td><td>"1</td><td>25-dihydroxy-26</td><td>27-dimethylcholecalciferol"</td><td>Metabolism (3); Disease (3); Generic Transcription Pathway (3)</td></tr>
-<tr><td>MESH:C003564</td><td>"1</td><td>25-dihydroxyergocalciferol"</td><td>Metabolism (2); Disease (2); Vitamin D (calciferol) metabolism (2)</td></tr>
-<tr><td>MESH:C097949</td><td>"1</td><td>25-dihydroxyvitamin D"</td><td>Disease (17); Signal Transduction (15); Generic Transcription Pathway (13)</td></tr>
-<tr><td>MESH:C408047</td><td>"1</td><td>25(OH)2-16-ene-23-yne-26</td><td>27-hexafluoro-19-nor-D3"</td><td>Metabolism (4); Metabolism of lipids (4); Gene expression (Transcription) (4)</td></tr>
-<tr><td>MESH:C078328</td><td>"1</td><td>2</td><td>7</td><td>8-tetrachlorodibenzofuran"</td><td>Metabolism (1); PPARA activates gene expression (1); Biological oxidations (1)</td></tr>
-<tr><td>MESH:C503634</td><td>1-(2-amino-3-methyl-butyryl)-azetidine-2-carbonitrile</td><td>"Peptide hormone metabolism (1); Synthesis</td><td> secretion</td><td> and inactivation of Glucagon-like Peptide-1 (GLP-1) (1); Metabolism of proteins (1)"</td></tr>
-<tr><td>MESH:C106973</td><td>"1</td><td>2-benzisothiazol-3(2H)-one</td><td> 2-(4-(4-(7-chloro-2</td><td>3-dihydro-1</td><td>4-benzodioxin-5-yl)-1-piperazinyl)butyl)-</td><td> 1</td><td>1-dioxide"</td><td>Signal Transduction (1); Signaling by GPCR (1); Class A/1 (Rhodopsin-like receptors) (1)</td></tr>
-<tr><td>MESH:C015699</td><td>"1</td><td>2-benzisothiazoline-3-one"</td><td>Cellular responses to stimuli (4); Cellular responses to stress (3); Metabolism (2)</td></tr>
-<tr><td>MESH:C478160</td><td>"(1</td><td>2-bis(1</td><td>2-benzisoselenazolone-3(2H)-ketone))ethane"</td><td>Disease (11); Generic Transcription Pathway (11); RNA Polymerase II Transcription (11)</td></tr>
-<tr><td>MESH:C025603</td><td>"1</td><td>2-bis(2-aminophenoxy)ethane-N</td><td>N</td><td>N'</td><td>N'-tetraacetic acid"</td><td>Immune System (16); Cellular responses to stimuli (15); Disease (12)</td></tr>
-<tr><td>MESH:C070379</td><td>"1</td><td>2-bis(2-aminophenoxy)ethane N</td><td>N</td><td>N'</td><td>N'-tetraacetic acid acetoxymethyl ester"</td><td>Immune System (30); Signal Transduction (25); Cytokine Signaling in Immune system (21)</td></tr>
-<tr><td>MESH:C579148</td><td>"1</td><td>2-bis(isothiazol-5-yl)disulfane"</td><td>Signal Transduction (6); Metabolism of proteins (5); Disease (4)</td></tr>
-<tr><td>MESH:C482518</td><td>"1</td><td>2-bis-N-cytisinylethane"</td><td>Neurotransmitter receptors and postsynaptic signal transmission (3); Transmission across Chemical Synapses (3); Neuronal System (3)</td></tr>
-<tr><td>MESH:C569107</td><td>"1-(2-chlorobenzyl)-5'-phenyl-3'H-spiro(indoline-3</td><td>2'-(1</td><td>3</td><td>4)thiadiazol)-2-one"</td><td>Immune System (14); Signal Transduction (13); Disease (13)</td></tr>
-<tr><td>MESH:C017139</td><td>1-(2-chloroethyl)-1-nitrosourea</td><td>Regulation of gene expression by Hypoxia-inducible Factor (1); Cellular response to hypoxia (1); Oxygen-dependent proline hydroxylation of Hypoxia-inducible Factor Alpha (1)</td></tr>
-<tr><td>MESH:C472829</td><td>"1-(2-cyano-3</td><td>12-dioxooleana-1</td><td>9-dien-28-oyl) imidazole"</td><td>Disease (7); Cellular responses to stimuli (7); Signal Transduction (6)</td></tr>
-<tr><td>MESH:C000596114</td><td>1-(2-cyclohexylethyl)-3-(2-methoxyphenylacetyl)indole</td><td>Signal Transduction (3); Signaling by GPCR (3); Class A/1 (Rhodopsin-like receptors) (3)</td></tr>
-<tr><td>MESH:C029705</td><td>12-deoxyphorbolphenylacetate-20-acetate</td><td>Hemostasis (3); Signal Transduction (3); Immune System (3)</td></tr>
-<tr><td>MESH:C012277</td><td>"1</td><td>2-diamino-4-nitrobenzene"</td><td>Cellular responses to stress (6); Cellular responses to stimuli (6); Metabolism (5)</td></tr>
-<tr><td>MESH:C034193</td><td>"1</td><td>2-diaminobenzene"</td><td>Innate Immune System (2); Immune System (2); Neutrophil degranulation (2)</td></tr>
-<tr><td>MESH:C039411</td><td>"1</td><td>2-dibromo-2</td><td>4-dicyanobutane"</td><td>Immune System (5); Cytokine Signaling in Immune system (4); Cellular responses to stress (4)</td></tr>
-<tr><td>MESH:C007318</td><td>"1</td><td>2-dibromo-3-chloropropane"</td><td>Metabolism (2); Phase II - Conjugation of compounds (2); Glutathione conjugation (2)</td></tr>
-<tr><td>MESH:C517232</td><td>"1</td><td>2-dibromo-4-(1</td><td>2-dibromoethyl)cyclohexane"</td><td>Metabolism (6); Metabolism of steroid hormones (5); Metabolism of proteins (5)</td></tr>
-<tr><td>MESH:C035384</td><td>"1</td><td>2-dichloroethylene"</td><td>Metabolism (1); Synthesis of glycosylphosphatidylinositol (GPI) (1); Post-translational modification: synthesis of GPI-anchored proteins (1)</td></tr>
-<tr><td>MESH:C044297</td><td>"1</td><td>2-didecanoylglycerol"</td><td>Developmental Biology (1); Metabolism (1); Digestion of dietary lipid (1)</td></tr>
-<tr><td>MESH:C020888</td><td>"1</td><td>2-dielaidoylphosphatidylethanolamine"</td><td>Metabolism of proteins (6); Signal Transduction (4); Disease (3)</td></tr>
-<tr><td>MESH:C068543</td><td>"1</td><td>2-diethyl-3-hydroxypyridin-4-one"</td><td>Metabolism (3); Signal Transduction (3); Metabolism of proteins (3)</td></tr>
-<tr><td>MESH:C017229</td><td>"1</td><td>2-dihydro-1</td><td>2-dihydroxy-5-methylchrysene"</td><td>Metabolism (1); Phase II - Conjugation of compounds (1); Glucuronidation (1)</td></tr>
-<tr><td>MESH:C044985</td><td>"1'</td><td>2'-dihydrorotenone"</td><td>"Cell Cycle (12); Cell Cycle</td><td> Mitotic (12); Disease (11)"</td></tr>
-<tr><td>MESH:C038546</td><td>"1</td><td>2-dihydrostilbene"</td><td>Generic Transcription Pathway (1); Nuclear Receptor transcription pathway (1); RNA Polymerase II Transcription (1)</td></tr>
-<tr><td>MESH:D014013</td><td>"1</td><td>2-Dihydroxybenzene-3</td><td>5-Disulfonic Acid Disodium Salt"</td><td>Immune System (30); Signal Transduction (22); Cytokine Signaling in Immune system (20)</td></tr>
-<tr><td>MESH:C050642</td><td>"1</td><td>2-dihydroxynaphthalene"</td><td>Cellular responses to stress (5); Cellular responses to stimuli (5); Cellular response to chemical stress (5)</td></tr>
-<tr><td>MESH:C015153</td><td>"1</td><td>2-dilauroylphosphatidylcholine"</td><td>Metabolism (2); Metabolism of lipids (2); Drug ADME (2)</td></tr>
-<tr><td>MESH:C117619</td><td>"1</td><td>2-dimethylnaphthalene"</td><td>Metabolism (1); Phase II - Conjugation of compounds (1); Methylation (1)</td></tr>
-<tr><td>MESH:C040234</td><td>"1</td><td>2-dinitrobenzene"</td><td>Metabolism (1); Metabolism of amine-derived hormones (1); Thyroxine biosynthesis (1)</td></tr>
-<tr><td>MESH:C512968</td><td>"1</td><td>2-dioleoyl-3-phosphoethanolamine-n-(poly(ethyleneglycol))-hydroxy succinamide"</td><td>PIP3 activates AKT signaling (2); Signal Transduction (2); Disease (2)</td></tr>
-<tr><td>MESH:C070046</td><td>"1</td><td>2-dioleoyloxy-3-(trimethylammonium)propane"</td><td>Hemostasis (1); Platelet degranulation  (1); Cytokine Signaling in Immune system (1)</td></tr>
-<tr><td>MESH:C051388</td><td>"1</td><td>2-dioleoyl-sn-glycero-3-phosphoglycerol"</td><td>Metabolism (1); Synthesis of 5-eicosatetraenoic acids (1); Arachidonate metabolism (1)</td></tr>
-<tr><td>MESH:D015060</td><td>"1</td><td>2-Dipalmitoylphosphatidylcholine"</td><td>Cytokine Signaling in Immune system (2); Signal Transduction (2); Disease (2)</td></tr>
-<tr><td>MESH:C030345</td><td>"1</td><td>2-dipalmitoylphosphatidylglycerol"</td><td>Metabolism (1); Synthesis of 5-eicosatetraenoic acids (1); Arachidonate metabolism (1)</td></tr>
-<tr><td>MESH:C032041</td><td>"1</td><td>2-diphenylhydrazine"</td><td>Hemostasis (1); Neurotransmitter receptors and postsynaptic signal transmission (1); Transmission across Chemical Synapses (1)</td></tr>
-<tr><td>MESH:C039737</td><td>1-(2-(diphenylmethoxy)ethyl)-4-(3-phenyl-2-propenyl)piperazine</td><td>Neurotransmitter clearance (1); Transmission across Chemical Synapses (1); Neuronal System (1)</td></tr>
-<tr><td>MESH:C010942</td><td>"1</td><td>2-distearoyllecithin"</td><td>PIP3 activates AKT signaling (2); Signal Transduction (2); Disease (2)</td></tr>
-<tr><td>MESH:C519184</td><td>"1</td><td>2-distearoyl-sn-glycero-3-phosphoethanolamine-N-methoxy-poly(ethylene glycol 2000)"</td><td>PIP3 activates AKT signaling (2); Signal Transduction (2); Disease (2)</td></tr>
-<tr><td>MESH:C049325</td><td>"1</td><td>2-dithiol-3-thione"</td><td>Cellular responses to stress (6); Cellular responses to stimuli (6); Cellular response to chemical stress (6)</td></tr>
-<tr><td>MESH:C007606</td><td>"1</td><td>2-epoxy-3-(p-nitrophenoxy)propane"</td><td>Metabolism (1); Phase II - Conjugation of compounds (1); Glutathione conjugation (1)</td></tr>
-<tr><td>MESH:C568514</td><td>"1-(2-fluorophenyl)-3-(2-(morpholin-2-yl)ethyl)-1</td><td>3-dihydro-2</td><td>1</td><td>3-benzothiadiazole 2</td><td>2-dioxide"</td><td>Disease (1); Transport of small molecules (1); SLC-mediated transmembrane transport (1)</td></tr>
-<tr><td>MESH:C021201</td><td>12-HPETE</td><td>Metabolism (2); Metabolism of lipids (2); Synthesis of 5-eicosatetraenoic acids (1)</td></tr>
-<tr><td>MESH:D019377</td><td>"12-Hydroxy-5</td><td>8</td><td>10</td><td>14-eicosatetraenoic Acid"</td><td>Metabolism (3); Metabolism of lipids (3); Golgi Cisternae Pericentriolar Stack Reorganization (2)</td></tr>
-<tr><td>MESH:C008033</td><td>"12-hydroxy-5</td><td>8</td><td>10-heptadecatrienoic acid"</td><td>Metabolism (2); Biological oxidations (2); Phase I - Functionalization of compounds (2)</td></tr>
-<tr><td>MESH:C031263</td><td>12-hydroxydodecanoic acid</td><td>Metabolism (2); Biological oxidations (2); Phase I - Functionalization of compounds (2)</td></tr>
-<tr><td>MESH:C517214</td><td>12-hydroxyellipticine</td><td>Metabolism (6); Biological oxidations (6); Cytochrome P450 - arranged by substrate type (6)</td></tr>
-<tr><td>MESH:C041597</td><td>12-ketoendrin</td><td>Neurotransmitter receptors and postsynaptic signal transmission (1); Transmission across Chemical Synapses (1); Neuronal System (1)</td></tr>
-<tr><td>MESH:C002448</td><td>"1</td><td>2-linoleoylphosphatidylcholine"</td><td>Signal Transduction (5); Disease (4); Hemostasis (3)</td></tr>
-<tr><td>MESH:C058895</td><td>1-(2-methoxyphenyl)-4-(4-(2-phthalimido)butyl)piperazine</td><td>Signal Transduction (1); Signaling by GPCR (1); Class A/1 (Rhodopsin-like receptors) (1)</td></tr>
-<tr><td>MESH:C040083</td><td>1-(2-methoxyphenyl)piperazine</td><td>Neurotransmitter receptors and postsynaptic signal transmission (3); Transmission across Chemical Synapses (3); Neuronal System (3)</td></tr>
-<tr><td>MESH:C439392</td><td>"1-(2-methyl-4-methoxyphenyl)-4-((2-hydroxyethyl)amino)-6-trifluoromethoxy-2</td><td>3-dihydropyrrolo(3</td><td>2-c)quinoline"</td><td>Metabolism (4); Biological oxidations (4); Cytochrome P450 - arranged by substrate type (4)</td></tr>
-<tr><td>MESH:C572052</td><td>1-((2-methylbenzofuran-3-yl)methyl)-3-(thiophen-2-ylmethyl)urea</td><td>Generic Transcription Pathway (1); SUMOylation (1); SUMO E3 ligases SUMOylate target proteins (1)</td></tr>
-<tr><td>MESH:C420062</td><td>"1-(2-methylbenzoxazol-6-yl)-3-(1</td><td>5)naphthyridin-4-yl urea"</td><td>Signal Transduction (1); Signaling by GPCR (1); Class A/1 (Rhodopsin-like receptors) (1)</td></tr>
-<tr><td>MESH:C527637</td><td>"(1-(2-morpholin-4-yl-ethyl)-1H-indol-3-yl)-(2</td><td>2</td><td>3</td><td>3-tetramethylcyclopropyl)methanone"</td><td>Signal Transduction (4); Signaling by GPCR (4); Class A/1 (Rhodopsin-like receptors) (4)</td></tr>
-<tr><td>MESH:C040756</td><td>"1</td><td>2-naphthoquinone"</td><td>Immune System (11); Metabolism (10); Cellular responses to stimuli (10)</td></tr>
-<tr><td>MESH:C017251</td><td>"1</td><td>2-oleoylphosphatidylcholine"</td><td>Metabolism (2); Metabolism of lipids (2); Drug ADME (2)</td></tr>
-<tr><td>MESH:C554292</td><td>"12-O-tetradecanoylphorbol-1</td><td>3-acetate"</td><td>Disease (2); Generic Transcription Pathway (2); Cellular responses to stress (2)</td></tr>
-</tbody></table></div>
-<!-- END: CTD Addons -->
   <div class="note">Counts after STRICT pruning.</div>
   <div class="tblwrap"><table><thead><tr>
 <th>---------------+---------</th>
@@ -22924,3 +22599,32 @@ h2{margin:28px 0 6px}
 </section>
 <footer><b>Methods:</b> public.ctd_action_family; STRICT excludes generic affects^expression/response chains. Sources: CTD chemicals & chem–gene edges already ingested.</footer>
 </body></html>
+<!-- BEGIN: DDI Overlay embed -->
+<!doctype html><meta charset="utf-8"><title>DDI overlay (patient)</title>
+<style>
+.tblwrap{overflow:auto;max-height:520px;border:1px solid #eee}
+table{border-collapse:collapse;width:100%;font:14px/1.45 system-ui,Segoe UI,Arial}
+th,td{border:1px solid #ddd;padding:6px 8px}
+th{background:#f7f7f7;text-align:left}
+.badge{display:inline-block;padding:2px 8px;border:1px solid #ccc;border-radius:999px;font-size:12px}
+.badge.up{background:#fff4e6;border-color:#ffd6a6}
+.badge.down{background:#ffecec;border-color:#ffbdbd}
+.badge.mix{background:#e6f2ff;border-color:#b5d5ff}
+.note{color:#666;font-size:12px;margin:0 0 10px}
+</style>
+<h2>Patient-specific DDI overlay</h2>
+<div class='note'>Badges summarize likely direction on patient ADME genes (rare/high-impact variants). “Up” ≈ mostly increases-expression edges on those genes; “Down” ≈ mostly decreases-expression; “Mix” ≈ neither direction dominates.</div>
+<div class='tblwrap'><table><thead><tr>
+<th>Drug</th><th>Badge</th><th>↑ inc</th><th>↓ dec</th><th>± affects</th><th>Total ADME hits</th>
+</tr></thead><tbody>
+<tr><td>MESH:C006780</td><td><span class="badge bisphenol A">bisphenol A</span></td><td class="num">2</td><td class="num">4</td><td class="num">1</td><td class="num">5</td></tr>
+<tr><td>MESH:D014212</td><td><span class="badge Tretinoin">Tretinoin</span></td><td class="num">2</td><td class="num">4</td><td class="num">1</td><td class="num">5</td></tr>
+<tr><td>MESH:D006710</td><td><span class="badge Homocysteine">Homocysteine</span></td><td class="num">1</td><td class="num">3</td><td class="num">0</td><td class="num">3</td></tr>
+<tr><td>MESH:C017947</td><td><span class="badge sodium arsenite">sodium arsenite</span></td><td class="num">3</td><td class="num">3</td><td class="num">5</td><td class="num">8</td></tr>
+<tr><td>MESH:D008727</td><td><span class="badge Methotrexate">Methotrexate</span></td><td class="num">2</td><td class="num">4</td><td class="num">2</td><td class="num">6</td></tr>
+<tr><td>MESH:D000082</td><td><span class="badge Acetaminophen">Acetaminophen</span></td><td class="num">3</td><td class="num">4</td><td class="num">3</td><td class="num">7</td></tr>
+<tr><td>MESH:D004958</td><td><span class="badge Estradiol">Estradiol</span></td><td class="num">3</td><td class="num">4</td><td class="num">3</td><td class="num">7</td></tr>
+<tr><td>MESH:D001205</td><td><span class="badge Ascorbic Acid">Ascorbic Acid</span></td><td class="num">1</td><td class="num">2</td><td class="num">1</td><td class="num">3</td></tr>
+<tr><td>MESH:D004317</td><td><span class="badge Doxorubicin">Doxorubicin</span></td><td class="num">2</td><td class="num">4</td><td class="num">4</td><td class="num">8</td></tr>
+</tbody></table></div>
+<!-- END: DDI Overlay embed -->

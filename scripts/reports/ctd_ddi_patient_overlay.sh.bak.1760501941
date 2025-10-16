@@ -1,0 +1,76 @@
+WHITELIST_REGEX=${WHITELIST_REGEX:-}
+#!/usr/bin/env bash
+set -euo pipefail
+
+TOPN="${TOPN:-300}"
+BAL_THR="${BAL_THR:-0.70}"
+MIN_TOTAL="${MIN_TOTAL:-5}"
+MIN_GENES="${MIN_GENES:-2}"
+OUTDIR="${OUTDIR:-reports/upload_2}"
+mkdir -p "$OUTDIR"
+
+# Exclude obvious non-medication exposures by default.
+# Set EXCLUDE_REGEX="" to disable.
+EXCLUDE_REGEX="${EXCLUDE_REGEX:-^(Reactive Oxygen Species|Oxygen|Plant Extracts|Lipopolysaccharides|Particulate Matter|Glucose|Deoxycholic Acid|Glycocholic Acid|Taurocholic Acid)$}"
+
+# Build a single SQL-safe filter clause
+if [[ -n "${EXCLUDE_REGEX}" ]]; then
+  # escape single quotes for SQL literal
+  re_sql=${EXCLUDE_REGEX//\'/\'\'}
+  FILTER_CLAUSE="(drug_name IS NULL OR drug_name !~* '${re_sql}')"
+else
+  FILTER_CLAUSE="TRUE"
+fi
+
+psql -v ON_ERROR_STOP=1 -c "\copy (
+WITH expr AS (
+  SELECT
+    gtc.gene_symbol,
+    gtc.chem_id,
+    (gtc.action_norm ~* '(^|\\|)increases\\^expression(\\||$)')::int AS inc,
+    (gtc.action_norm ~* '(^|\\|)decreases\\^expression(\\||$)')::int AS dec
+  FROM public.v_ctd_enriched_strict_v2 gtc
+  WHERE gtc.is_strict
+    AND (
+      gtc.action_norm ~* '(^|\\|)increases\\^expression(\\||$)'
+      OR gtc.action_norm ~* '(^|\\|)decreases\\^expression(\\||$)'
+    )
+    AND gtc.gene_symbol IN (SELECT gene_symbol FROM public.v_patient_genes_active)
+),
+roll AS (
+  SELECT
+    e.chem_id,
+    COUNT(DISTINCT e.gene_symbol) AS genes_covered,
+    SUM(e.inc)                    AS inc_n,
+    SUM(e.dec)                    AS dec_n,
+    SUM(e.inc + e.dec)            AS total_n,
+    CASE WHEN SUM(e.inc + e.dec) > 0 THEN SUM(e.inc)::float / SUM(e.inc + e.dec) ELSE 0 END AS inc_frac,
+    CASE WHEN SUM(e.inc + e.dec) > 0 THEN SUM(e.dec)::float / SUM(e.inc + e.dec) ELSE 0 END AS dec_frac
+  FROM expr e
+  GROUP BY e.chem_id
+),
+scored AS (
+  SELECT
+    r.chem_id,
+    c.name AS drug_name,
+    r.genes_covered,
+    r.inc_n, r.dec_n, r.total_n, r.inc_frac, r.dec_frac,
+    (r.total_n * (abs(r.inc_frac - 0.5)*2.0))::numeric(10,4) AS score,
+    CASE
+      WHEN r.inc_frac >= ${BAL_THR} THEN 'inc_majority'
+      WHEN r.dec_frac >= ${BAL_THR} THEN 'dec_majority'
+      ELSE 'balanced'
+    END AS balance_flag
+  FROM roll r
+  LEFT JOIN public.chemicals c ON c.chem_id = r.chem_id
+)
+SELECT chem_id, drug_name, genes_covered, inc_n, dec_n, total_n, inc_frac, dec_frac, score, balance_flag
+FROM scored
+WHERE total_n >= ${MIN_TOTAL}
+  AND genes_covered >= ${MIN_GENES}
+  AND (${FILTER_CLAUSE})
+ORDER BY score DESC, total_n DESC, genes_covered DESC, drug_name NULLS LAST
+LIMIT ${TOPN}
+) TO STDOUT WITH CSV HEADER" > "${OUTDIR}/ctd_ddi_patient_overlay.csv"
+
+echo "[ok] Wrote ${OUTDIR}/ctd_ddi_patient_overlay.csv"

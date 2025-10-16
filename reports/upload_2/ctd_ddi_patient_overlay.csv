@@ -1,0 +1,10 @@
+chem_id,drug_name,genes_covered,inc_n,dec_n,total_n,inc_frac,dec_frac,score,balance_flag,include_reason
+MESH:C006780,bisphenol A,2,4,1,5,0.8,0.2,3.0000,inc_majority,meets_thresholds
+MESH:D014212,Tretinoin,2,4,1,5,0.8,0.2,3.0000,inc_majority,meets_thresholds
+MESH:D006710,Homocysteine,1,3,0,3,1,0,3.0000,inc_majority,whitelist
+MESH:C017947,sodium arsenite,3,3,5,8,0.375,0.625,2.0000,balanced,meets_thresholds
+MESH:D008727,Methotrexate,2,4,2,6,0.6666666666666666,0.3333333333333333,2.0000,balanced,meets_thresholds
+MESH:D000082,Acetaminophen,3,4,3,7,0.5714285714285714,0.42857142857142855,1.0000,balanced,meets_thresholds
+MESH:D004958,Estradiol,3,4,3,7,0.5714285714285714,0.42857142857142855,1.0000,balanced,whitelist
+MESH:D001205,Ascorbic Acid,1,2,1,3,0.6666666666666666,0.3333333333333333,1.0000,balanced,whitelist
+MESH:D004317,Doxorubicin,2,4,4,8,0.5,0.5,0.0000,balanced,meets_thresholds

@@ -1,66 +1,122 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-: "${TOPN:=300}"
-OUTDIR="reports/upload_2"
-CSV="$OUTDIR/ctd_ddi_patient_overlay.csv"
-SQLFILE="$OUTDIR/_ctd_ddi_overlay.sql"
-
+# ---------------------------
+# Tunables (env overrides OK)
+# ---------------------------
+TOPN="${TOPN:-300}"
+BAL_THR="${BAL_THR:-0.70}"
+MIN_TOTAL="${MIN_TOTAL:-5}"
+MIN_GENES="${MIN_GENES:-2}"
+OUTDIR="${OUTDIR:-reports/upload_2}"
 mkdir -p "$OUTDIR"
 
-cat > "$SQLFILE" <<'SQL'
-\set ON_ERROR_STOP on
-\echo [psql] building DDI overlay (TOPN=:topn) → :csv
+# Exclude obvious non-medication exposures by default.
+# Set EXCLUDE_REGEX="" to disable.
+EXCLUDE_REGEX="${EXCLUDE_REGEX:-^(Reactive Oxygen Species|Oxygen|Plant Extracts|Lipopolysaccharides|Particulate Matter|Glucose|Deoxycholic Acid|Glycocholic Acid|Taurocholic Acid)$}"
 
-\copy (
-WITH adme AS (
-  -- Fallback ADME/PK core genes. Replace with your patient view later.
-  SELECT * FROM (VALUES
-    ('CYP2D6'),('CYP3A4'),('CYP2C19'),('CYP2C9'),
-    ('SLCO1B1'),('UGT1A1'),('VKORC1'),('DPYD'),
-    ('TPMT'),('NAT2'),('CYP1A2'),('CYP2B6')
-  ) AS t(gene_symbol)
-),
-edges AS (
-  SELECT g.gene_symbol,
-         g.chem_id,
-         COALESCE(c.name, g.chem_id) AS drug_name,
-         g.action_norm
-  FROM public.v_ctd_enriched_strict_v2 g
-  JOIN adme a ON a.gene_symbol = g.gene_symbol
-  LEFT JOIN public.chemicals c ON c.chem_id = g.chem_id
-),
-marks AS (
-  SELECT drug_name,
-         COUNT(*) FILTER (WHERE action_norm ~* '(^|\\|)increases\\^expression(\\||$)') AS inc_n,
-         COUNT(*) FILTER (WHERE action_norm ~* '(^|\\|)decreases\\^expression(\\||$)') AS dec_n,
-         COUNT(*) FILTER (WHERE action_norm ~* '(^|\\|)affects\\^expression(\\||$)')   AS ambig_n,
-         COUNT(*)                                                                      AS hits_n
-  FROM edges
-  GROUP BY drug_name
-),
-badges AS (
+# Optional force-include by drug name (case-insensitive regex). Empty -> disabled.
+# Example:
+#   WHITELIST_REGEX='^(Homocysteine|Ascorbic Acid|Estradiol)$'
+WHITELIST_REGEX="${WHITELIST_REGEX:-}"
+
+# -------------------------------------------------------
+# Helpers: SQL predicates for exclude + whitelist
+# -------------------------------------------------------
+build_filter_clause() {
+  if [[ -n "${EXCLUDE_REGEX}" ]]; then
+    # SQL-escape single quotes
+    local re_sql="${EXCLUDE_REGEX//\'/\'\'}"
+    FILTER_CLAUSE="(drug_name IS NULL OR drug_name !~* '${re_sql}')"
+  else
+    FILTER_CLAUSE="TRUE"
+  fi
+}
+
+build_wl_sql() {
+  # WL_SQL expands to a SQL predicate or FALSE (never matches)
+  if [[ -n "${WHITELIST_REGEX}" ]]; then
+    local wl_sql="${WHITELIST_REGEX//\'/\'\'}"   # SQL-escape single quotes
+    WL_SQL="drug_name ~* '${wl_sql}'"
+  else
+    WL_SQL="FALSE"
+  fi
+}
+
+build_filter_clause
+build_wl_sql
+
+# -------------------------------------------------------
+# Export: patient-specific CTD DDI overlay
+# Requires: public.v_patient_genes_active
+# (honors PGOPTIONS='-c app.patient_upload_id=…')
+# -------------------------------------------------------
+psql -v ON_ERROR_STOP=1 \
+     -v min_total="$MIN_TOTAL" \
+     -v min_genes="$MIN_GENES" \
+     -v bal_thr="$BAL_THR" \
+     -v topn="$TOPN" \
+     -v filter_clause="$FILTER_CLAUSE" \
+     -v wl_sql="$WL_SQL" \
+     > "${OUTDIR}/ctd_ddi_patient_overlay.csv" <<'SQL'
+COPY (
+WITH expr AS (
   SELECT
-    drug_name,
-    inc_n, dec_n, ambig_n, hits_n,
+    gtc.gene_symbol,
+    gtc.chem_id,
+    (gtc.action_norm ~* '(^|\|)increases\^expression(\||$)')::int AS inc,
+    (gtc.action_norm ~* '(^|\|)decreases\^expression(\||$)')::int AS dec
+  FROM public.v_ctd_enriched_strict_v2 gtc
+  WHERE gtc.is_strict
+    AND (
+      gtc.action_norm ~* '(^|\|)increases\^expression(\||$)'
+      OR gtc.action_norm ~* '(^|\|)decreases\^expression(\||$)'
+    )
+    AND gtc.gene_symbol IN (SELECT gene_symbol FROM public.v_patient_genes_active)
+),
+roll AS (
+  SELECT
+    e.chem_id,
+    COUNT(DISTINCT e.gene_symbol) AS genes_covered,
+    SUM(e.inc)                    AS inc_n,
+    SUM(e.dec)                    AS dec_n,
+    SUM(e.inc + e.dec)            AS total_n,
+    CASE WHEN SUM(e.inc + e.dec) > 0
+         THEN SUM(e.inc)::float / SUM(e.inc + e.dec) ELSE 0 END AS inc_frac,
+    CASE WHEN SUM(e.inc + e.dec) > 0
+         THEN SUM(e.dec)::float / SUM(e.inc + e.dec) ELSE 0 END AS dec_frac
+  FROM expr e
+  GROUP BY e.chem_id
+),
+scored AS (
+  SELECT
+    r.chem_id,
+    c.name AS drug_name,
+    r.genes_covered, r.inc_n, r.dec_n, r.total_n, r.inc_frac, r.dec_frac,
+    (r.total_n * (abs(r.inc_frac - 0.5)*2.0))::numeric(10,4) AS score,
     CASE
-      WHEN hits_n = 0 THEN 'none'
-      WHEN inc_n::float/hits_n >= 0.70 THEN 'up'
-      WHEN dec_n::float/hits_n >= 0.70 THEN 'down'
-      ELSE 'mix'
-    END AS badge
-  FROM marks
+      WHEN r.inc_frac >= :bal_thr THEN 'inc_majority'
+      WHEN r.dec_frac >= :bal_thr THEN 'dec_majority'
+      ELSE 'balanced'
+    END AS balance_flag
+  FROM roll r
+  LEFT JOIN public.chemicals c ON c.chem_id = r.chem_id
 )
 SELECT
-  COALESCE(drug_name,'(unknown)') AS drug_name,
-  badge, inc_n, dec_n, ambig_n, hits_n
-FROM badges
-ORDER BY hits_n DESC, drug_name
+  chem_id, drug_name, genes_covered, inc_n, dec_n, total_n,
+  inc_frac, dec_frac, score, balance_flag,
+  CASE
+    WHEN (:wl_sql) THEN 'whitelist'
+    WHEN (total_n >= :min_total AND genes_covered >= :min_genes) THEN 'meets_thresholds'
+    ELSE 'filtered'
+  END AS include_reason
+FROM scored
+WHERE (
+        (total_n >= :min_total AND genes_covered >= :min_genes)
+        OR (:wl_sql)
+      )
+  AND ( :filter_clause )
+ORDER BY score DESC, total_n DESC, genes_covered DESC, drug_name NULLS LAST
 LIMIT :topn
-) TO :'csv' WITH CSV HEADER;
+) TO STDOUT WITH CSV HEADER;
 SQL
-
-# Run (psql expands :topn and :csv inside the sql file)
-psql -v topn="$TOPN" -v csv="$CSV" -f "$SQLFILE" >/dev/null
-
-echo "[ok] Wrote $CSV"
