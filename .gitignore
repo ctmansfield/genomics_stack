@@ -1,3 +1,43 @@
-# Large reference genomes (keep out of git)
-*.fa.gz
-*.fa.gz.*
+# Python / venv
+.venv*/ 
+__pycache__/
+*.pyc
+
+# OS/editor
+.DS_Store
+*.swp
+*.swo
+
+# Local env + creds
+.env
+.env.*
+.env.d/
+tools/env/load_env.sh
+*.pgpass
+pgpass
+.pgpass
+
+# Logs & scratch
+logs/
+*.log
+/tmp/
+*.bak
+*.bak.*
+
+# Data mounts / outputs (not source)
+mnt/
+mnt_*/
+data/
+reports/
+*.tsv
+*.csv
+*.parquet
+*.sqlite
+*.db
+
+# Large reference paths – keep out of repo
+# (Your NAS paths are external anyway)
+ref/
+reference/
+vep/
+cache/

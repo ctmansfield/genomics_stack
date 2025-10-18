@@ -44,10 +44,6 @@ help:
 	@echo "  make import-verify          # COPY → staging + row/shape checks"
 	@echo "  make promote                # promote staging → main"
 	@echo "  make verify-all             # annotate → manifest → import-verify (end-to-end)"
-	@echo "  make db-refresh             # refresh rollups + summary + search MV"
-	@echo "  make db-verify              # verify edges/summary/pathways"
-	@echo "  make gene-card g=TP53       # pretty JSON card for a gene"
-	@echo "  make gene-search q=brca n=8 # JSON search (prefix/full-text)"
 	@echo ""
 	@echo "Common overrides:"
 	@echo "  ASSEMBLY=$(ASSEMBLY)  VEP_IMAGE=$(VEP_IMAGE)"
@@ -56,5 +52,43 @@ help:
 	@echo "  PGURL=$(PGURL)"
 	@echo ""
 
-# --- gene db targets ---
-include mk/gene_db.mk
+# --- VEP env lifecycle --------------------------------------------------------
+precommit-install:
+	pre-commit install
+
+lint:
+	ruff check --config .ruff.toml --fix . && ruff format --config .ruff.toml .
+
+format:
+	ruff format --config .ruff.toml .
+	# <<< lint-hotfix-v1
+	# # ---- ClinPGx (PharmGKB) ------------------------------------------------------
+
+PGHOST ?= 192.168.1.225
+PGPORT ?= 5432
+PGDATABASE ?= genome_db
+PGUSER ?= genouser
+PHARMGKB_LABELS ?= /mnt/nas_storage/ref/pharmgkb/drugLabels.tsv
+PHARMGKB_LICENSE ?= CC BY-SA 4.0
+PHARMGKB_VERSION ?= $(shell date +%Y-%m)
+
+
+include mk/clinpgx.mk
+
+# --- CTD Report v2 targets ---
+include mk/ctd_report.mk
+
+# --- fixed by makefile-dedupe ---
+
+# --- fixed by makefile-repair (promote) ---
+promote:
+	@echo "[make] promote staging → main"
+	psql "$(PGURL)" -v ON_ERROR_STOP=1 <<-'SQL'
+	BEGIN;
+	TRUNCATE public.annotated_variants;
+	INSERT INTO public.annotated_variants
+	SELECT * FROM public.annotated_variants_staging;
+	TRUNCATE public.annotated_variants_staging;
+	COMMIT;
+SQL
+# --- end fix ---
