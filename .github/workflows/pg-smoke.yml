@@ -1,0 +1,61 @@
+name: PG Smoke
+
+on:
+  push:
+    branches: [ main, feat/**, fix/**, chore/** ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_DB: ci
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd="pg_isready -U postgres -d ci"
+          --health-interval=5s
+          --health-timeout=5s
+          --health-retries=20
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install clients
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install -y postgresql-client jq
+
+      - name: Load fixture schema/data
+        env:
+          PGHOST: localhost
+          PGPORT: 5432
+          PGUSER: postgres
+          PGPASSWORD: postgres
+          PGDATABASE: ci
+        run: |
+          psql "postgresql://$PGUSER:$PGPASSWORD@$PGHOST:$PGPORT/$PGDATABASE" \
+            -v ON_ERROR_STOP=1 -f sql/ci/fixture_gene_card.sql
+
+      - name: Smoke query
+        env:
+          PGHOST: localhost
+          PGPORT: 5432
+          PGUSER: postgres
+          PGPASSWORD: postgres
+          PGDATABASE: ci
+        run: |
+          json=$(psql -XAt -c "SELECT public.gene_card_json('TP53');")
+          echo "$json" | jq .
+          # assert required keys/values exist
+          test "$(echo "$json" | jq -r '.gene_symbol')" = "TP53"
+          test "$(echo "$json" | jq -r '.counts.n_pathways')" = "127"
+          # arrays exist
+          test "$(echo "$json" | jq -r 'has("top_hpo")')" = "true"
+          test "$(echo "$json" | jq -r 'has("top_drugs")')" = "true"
+          test "$(echo "$json" | jq -r 'has("top_pathways")')" = "true"

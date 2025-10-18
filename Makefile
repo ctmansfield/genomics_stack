@@ -220,3 +220,10 @@ PHARMGKB_VERSION ?= $(shell date +%Y-%m)
 
 
 include mk/clinpgx.mk
+
+# --- CI smoke test (local) ----------------------------------------------------
+.PHONY: ci-smoke
+ci-smoke:
+	@[ -n "$(PGURL)" ] || { echo "[ERR] set PGURL=postgres://user:pass@host:5432/db"; exit 1; }
+	psql "$(PGURL)" -v ON_ERROR_STOP=1 -f sql/ci/fixture_gene_card.sql
+	psql -XAt "$(PGURL)" -c "SELECT public.gene_card_json('TP53');" | jq .
