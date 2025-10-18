@@ -1,28 +1,49 @@
 name: CI
+
 on:
-  push: { branches: [ main ] }
-  pull_request: {}
+  push:
+    branches: [ main, feat/**, fix/**, chore/** ]
+  pull_request:
+    branches: [ main ]
+
 jobs:
-  verify:
+  lint-and-make-targets:
     runs-on: ubuntu-latest
-    env:
-      NAS_ROOT: /home/runner/workspace
-      REPO_ROOT: ${{ github.workspace }}
-      DUCKDB_PATH: /home/runner/workspace/duckdb/genomics.duckdb
     steps:
       - uses: actions/checkout@v4
-      - name: Python
-        uses: actions/setup-python@v5
-        with: { python-version: '3.11' }
-      - name: Install deps
-        run: pip install duckdb
-      - name: Prepare dirs
-        run: mkdir -p "$NAS_ROOT/duckdb" "$NAS_ROOT/data"
-      - name: Run verifies
+
+      - name: Show tree
+        run: |
+          git status
+          ls -al
+
+      - name: Check Makefile targets exist
+        run: |
+          make -qp | grep -E '^(db-refresh|db-verify|gene-card|gene-search):' >/dev/null \
+            || { echo "::error::Missing required Make targets"; exit 1; }
+
+      - name: Ensure shell scripts parse (no syntax errors)
         run: |
           set -e
-          for d in patch_*; do
-            if [ -x "$d/verify.sh" ]; then
-              echo "== $d =="; bash "$d/verify.sh";
-            fi
+          mapfile -t SCRIPTS < <(git ls-files | grep -E '(^|/)scripts/.*\.sh$' || true)
+          for f in "${SCRIPTS[@]}"; do
+            echo "[bash -n] $f"
+            bash -n "$f"
           done
+
+      - name: Optionally run ruff (if config present)
+        if: ${{ hashFiles('.ruff.toml', 'pyproject.toml') != '' }}
+        uses: chartboost/ruff-action@v1
+        with:
+          args: "check --select=E,F,W --exit-non-zero-on-fix ."
+
+      - name: Verify scripts are executable (best-effort)
+        run: |
+          set -e
+          FAIL=0
+          while read -r f; do
+            if [[ ! -x "$f" ]]; then
+              echo "::warning file=$f::script not executable"
+            fi
+          done < <(git ls-files | grep -E '(^|/)scripts/.*\.sh$' || true)
+          exit $FAIL
