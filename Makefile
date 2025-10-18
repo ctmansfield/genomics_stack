@@ -220,3 +220,6 @@ PHARMGKB_VERSION ?= $(shell date +%Y-%m)
 
 
 include mk/clinpgx.mk
+
+# --- CTD Report v2 targets ---
+include mk/ctd_report.mk
