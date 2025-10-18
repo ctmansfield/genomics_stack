@@ -41,3 +41,9 @@ ref/
 reference/
 vep/
 cache/
+
+# local backups / temps
+Makefile.bak-*
+Makefile.tmp-*
+*.bak
+*.tmp
